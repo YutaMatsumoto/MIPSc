@@ -1,23 +1,89 @@
-%token IDENTIFIER 
-%token INTEGER_CONSTANT FLOATING_CONSTANT CHARACTER_CONSTANT ENUMERATION_CONSTANT 
-%token STRING_LITERAL 
-%token SIZEOF
-%token PTR_OP 
-%token INC_OP DEC_OP 
-%token LEFT_OP RIGHT_OP 
-%token LE_OP GE_OP EQ_OP NE_OP
-%token AND_OP OR_OP 
-%token MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN SUB_ASSIGN 
-%token LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN XOR_ASSIGN OR_ASSIGN 
+%token <STRING> IDENTIFIER
+%token <INT> I_CONSTANT
+%token <FLOAT> F_CONSTANT
+%token <STRING> STRING_LITERAL
+%token FUNC_NAME
 %token TYPEDEF_NAME
+%token ENUMERATION_CONSTANT
 
-%token TYPEDEF EXTERN STATIC AUTO REGISTER
-%token CHAR SHORT INT LONG SIGNED UNSIGNED FLOAT DOUBLE CONST VOLATILE VOID
-%token STRUCT UNION ENUM ELIPSIS RANGE
+%token SIZEOF
 
-%token CASE DEFAULT IF ELSE SWITCH WHILE DO FOR GOTO CONTINUE BREAK RETURN
+%token PTR_OP
+%token INC_OP
+%token DEC_OP
+%token LEFT_OP
+%token RIGHT_OP
+%token LE_OP
+%token GE_OP
+%token EQ_OP
+%token NE_OP
+%token AND_OP
+%token OR_OP
 
-%start translation_unit
+%token MUL_ASSIGN
+%token DIV_ASSIGN
+%token MOD_ASSIGN
+%token ADD_ASSIGN
+%token SUB_ASSIGN
+%token LEFT_ASSIGN
+%token RIGHT_ASSIGN
+%token AND_ASSIGN
+%token XOR_ASSIGN
+%token OR_ASSIGN
+
+%token TYPEDEF
+%token EXTERN
+%token STATIC
+%token AUTO
+%token REGISTER
+%token INLINE
+%token CONST
+%token RESTRICT
+%token VOLATILE
+%token BOOL
+%token CHAR
+%token SHORT
+%token INT
+%token LONG
+%token SIGNED
+%token UNSIGNED
+%token FLOAT
+%token DOUBLE
+%token VOID
+%token COMPLEX
+%token IMAGINARY 
+%token STRUCT
+%token UNION
+%token ENUM
+
+%token ELLIPSIS
+
+%token CASE
+%token DEFAULT
+%token IF
+%token ELSE
+%token SWITCH
+%token WHILE
+%token DO
+%token FOR
+%token GOTO
+%token CONTINUE
+%token BREAK
+%token RETURN
+
+%token ALIGNAS
+%token ALIGNOF
+%token ATOMIC
+%token GENERIC
+%token NORETURN
+%token STATIC_ASSERT
+%token THREAD_LOCAL
+
+%polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string;
+
+%type <STRING> identifier
+%type <STRING> string
+
 %%
 
 translation_unit
@@ -177,7 +243,7 @@ type_qualifier_list
 
 parameter_type_list
 	: parameter_list
-	| parameter_list ',' ELIPSIS
+	| parameter_list ',' ELLIPSIS
 	;
 
 parameter_list
@@ -427,10 +493,13 @@ argument_expression_list
 	;
 
 constant
-	: INTEGER_CONSTANT
-	| CHARACTER_CONSTANT
-	| FLOATING_CONSTANT
-	| ENUMERATION_CONSTANT
+	: I_CONSTANT		/* includes character_constant */
+	| F_CONSTANT
+	| ENUMERATION_CONSTANT	/* after it has been defined as such */
+	;
+
+enumeration_constant		/* before it has been defined as such */
+	: IDENTIFIER
 	;
 
 string
@@ -439,18 +508,8 @@ string
 
 identifier
 	: IDENTIFIER
+	{
+	$$ = d_scanner.matched();
+	}
 	;
-%%
-
-#include <stdio.h>
-
-extern char yytext[];
-extern int column;
-
-yyerror(s)
-char *s;
-{
-	fflush(stdout);
-	printf("\n%*s\n%*s\n", column, "^", column, s);
-}
 

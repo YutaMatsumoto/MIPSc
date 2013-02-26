@@ -7,12 +7,13 @@
 //============================================================================
 
 #include <iostream>
-
-using namespace std;
+#include "Parser.h"
 
 int main() {
 
+	Parser p;
 
+	p.parse();
 
 	return 0;
 }
