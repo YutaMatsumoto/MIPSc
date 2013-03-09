@@ -84,6 +84,8 @@
 %type <STRING> identifier
 %type <STRING> string
 
+%lsp-needed
+
 %%
 
 translation_unit
