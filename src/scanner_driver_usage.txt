@@ -1,0 +1,38 @@
+Syntax
+
+    $ scanner_driver input_file [-d[l|s|ls]] [-o output_file]
+
+Description
+
+    This program tokenizes input_file and writes to a file. If -d (debug)
+    option is specified, debug files are also created according to the
+    argument to -d.
+
+    The token file is written to output_file specified after -o option. If -o
+    option is not supplied, the token file is written to input_file.token. 
+
+    Additionally, -d option with zero or more debug mode argument(s) can be
+    specified.
+
+       | mode  | description             | output file          |
+       | ----- | ----------------------- |                      |
+       | l     | lexer debug mode        | inputfile.debug_lex  |
+       | s     | symbol table debug mode | inputfile.debug_stab |
+       | ls    | both of above           | both of above        |
+       | empty | same as ls              | same as ls           |
+
+
+Examples
+
+    creates a.c.token
+
+        $ scanner_driver a.c
+
+    creates a.c.token, a.c.debug_lex, a.c.debug_stab
+
+        $ scanner_driver a.c -d
+
+    creates tokenfile and a.c.debug_lex
+
+        $ scanner_driver a.c -dl -o tokenfile
+
