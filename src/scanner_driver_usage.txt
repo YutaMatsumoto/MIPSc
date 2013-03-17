@@ -9,15 +9,15 @@ Description
     argument to -d.
 
     The token file is written to output_file specified after -o option. If -o
-    option is not supplied, the token file is written to input_file.token. 
+    option is not supplied, the token file is written to input_file.tokens. 
 
     Additionally, -d option with zero or more debug mode argument(s) can be
     specified.
 
        | mode  | description             | output file          |
-       | ----- | ----------------------- |                      |
-       | l     | lexer debug mode        | inputfile.debug_lex  |
-       | s     | symbol table debug mode | inputfile.debug_stab |
+       | ----- | ----------------------- | -------------------- |
+       | l     | lexer debug mode        | inputfile.ldebug     |
+       | s     | symbol table debug mode | inputfile.sdebug     |
        | ls    | both of above           | both of above        |
        | empty | same as ls              | same as ls           |
 

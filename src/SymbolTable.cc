@@ -1,4 +1,6 @@
 #include "SymbolTable.h"
+#include <ostream>
+#include <fstream>
 
 SymbolInfo SymbolTable::insertSymbol( SymbolKey skey, SymbolLoc loc )
 {
@@ -101,4 +103,5 @@ void SymbolTable::dumpTable( std::string filename )
 		f << "----------------------------------------------------" << std::endl;
 	}
 
+	f.close();
 }
