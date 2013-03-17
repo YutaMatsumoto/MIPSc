@@ -65,7 +65,7 @@ WS  [ \t\v\n\f]
 "_Thread_local"                         { return Parser::THREAD_LOCAL; }
 "__func__"                              { return Parser::FUNC_NAME; }
 
-{L}{A}*					{  }
+{L}{A}*					{ return Parser::IDENTIFIER; }
 
 {HP}{H}+{IS}?				{ return Parser::I_CONSTANT; }
 {NZ}{D}*{IS}?				{ return Parser::I_CONSTANT; }
@@ -129,5 +129,5 @@ WS  [ \t\v\n\f]
 "?"					{ return '?'; }
 
 {WS}					{ /* whitespace separates tokens */ }
-.					{ /* discard bad characters */ }
+.					{ return Parser::ERROR; }
 

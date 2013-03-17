@@ -79,6 +79,8 @@
 %token STATIC_ASSERT
 %token THREAD_LOCAL
 
+%token ERROR
+
 %polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string;
 
 %type <STRING> identifier
