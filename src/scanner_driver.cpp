@@ -6,13 +6,20 @@
 
 #include "Scanner.h"
 
-void debug_symboltable()
-{
-}
+//	TODO
+//		
+//		Add symbol table to scanner
+//	
+//		Replace system("cat...") in usage
+//
+//		check if file is openable on open
+//
 
-void debug_tokens()
-{
-}
+// Globals
+const int endOfFile=0;
+const std::string tokens_extension = ".tokens";
+const std::string ldebug_extension = ".ldebug";
+const std::string sdebug_extension = ".sdebug";
 
 void usage()
 {
@@ -22,11 +29,11 @@ void usage()
 struct CommandFlags {
 
 	CommandFlags()
-		: error(false), lex_debug(false), symboltable_debug(false)
+		: error(false), lex_debug(false), stab_debug(false)
 	{}
 
 	void print() {
-		std::cout << "symboltable_debug  : " << symboltable_debug << std::endl;
+		std::cout << "stab_debug  : " << stab_debug << std::endl;
 		std::cout << "lex_debug          : " << lex_debug << std::endl;
 		std::cout << "output file       : " <<  ofile << std::endl;
 		std::cout << "input  file       : " <<  ifile << std::endl;
@@ -34,13 +41,13 @@ struct CommandFlags {
 
 	bool error;
 	bool lex_debug;
-	bool symboltable_debug;
-	std::string ofile;	
+	bool stab_debug;
 	std::string ifile;
+	std::string ofile;	
 
 };
 
-CommandFlags parse_command2(int argc, char* argv[])
+CommandFlags parse_command(int argc, char* argv[])
 {
 	CommandFlags f;
 	int c;
@@ -56,7 +63,7 @@ CommandFlags parse_command2(int argc, char* argv[])
 				// Debug Mode Not Specified : Debug both l and s
 				if ( optarg == 0 ) {
 					f.lex_debug = true;
-					f.symboltable_debug = true;
+					f.stab_debug = true;
 				}
 
 				// Debug Mode Specified : Debug l or s
@@ -68,7 +75,7 @@ CommandFlags parse_command2(int argc, char* argv[])
 						}
 						// Symbol Table Debug
 						else if ( optarg[i] == 's' )
-							f.symboltable_debug = true;
+							f.stab_debug = true;
 						// Error
 						else { 
 							f.error = true;
@@ -84,7 +91,7 @@ CommandFlags parse_command2(int argc, char* argv[])
 				break;
 			}
 
-			// Output File
+			// Output File Option
 			case 'o' : {
 				f.ofile = std::string( optarg );
 				break;
@@ -115,25 +122,56 @@ CommandFlags parse_command2(int argc, char* argv[])
 	return f;
 }
 
-const int endOfFile=0;
+void tryOpenForWrite(std::ofstream& os, std::string fname)
+{
+	os.open(fname);
+}
 
 int main(int argc, char* argv[])
 {
 	// CommandFlags f = parse_command(argc-1, &argv[1]);
-	CommandFlags f = parse_command2(argc, argv);
+	CommandFlags f = parse_command(argc, argv);
 	if (f.error) {
 		usage();
 		return 1;
 	}
-	return 1;
 
-	Scanner s;
+	std::ifstream i(f.ifile); 
+	std::ofstream t;
+	std::ofstream l;
+	// std::ofstream s;
+
+	if (f.ofile.size()==0) {
+		f.ofile=f.ifile + tokens_extension;
+		t.open(f.ofile);
+	}
+	if (f.lex_debug) {
+		std::string debug_file_lex = f.ifile + ldebug_extension;
+		l.open(debug_file_lex);
+	}
+	// if (f.stab_debug) {
+	// 	std::string debug_file_stab = f.ifile + sdebug_extension;
+	// 	s.open( debug_file_stab );
+	// }
+
+	Scanner s(i);
+
 	int val = s.lex();
 	std::string matched = s.matched();
 	while (val!=endOfFile) {
 		std::cout << matched << " : " << val << std::endl;
+		// token file
+		t << matched << std::endl;
+		// lex debug file
+		if (f.lex_debug) 
+			l << matched << " : " << val << std::endl;
+		// stab debug should be done within scanner
+
+		// update
 		val = s.lex();
 		matched = s.matched();
 	}
+	t.close();
+	l.close();
 	
 }
