@@ -12,9 +12,17 @@ int main(int argc, char** argv)
 		std::cout << argv[i] << std::endl;
 	}
 
+	// insertSymbol
 	stab.insertSymbol("hello", SymbolLoc() );
 	stab.insertSymbol("World", SymbolLoc() );
 
-	stab.dumpTable( "stab" );
+	// searchSymbol
+	SymbolDetail sd = stab.searchSymbol("hello", stab.currentScope());
+	SymbolScope sscope = sd.sscope; // Iteracotr
+	SymbolData data = sd.sdata;
+	std::cout << ( sscope[0] )["hello"] << std::cout ;
+
+	// dumpTable
+	stab.dumpTable( "stab.debug" );
 
 }
