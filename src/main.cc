@@ -12,6 +12,8 @@
 int main() {
 
 	Parser p;
+	
+	p.setDebug( true );
 
 	p.parse();
 
