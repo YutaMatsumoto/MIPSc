@@ -2,9 +2,10 @@
 %token <INT> I_CONSTANT
 %token <FLOAT> F_CONSTANT
 %token <STRING> STRING_LITERAL
-%token FUNC_NAME
 %token TYPEDEF_NAME
 %token ENUMERATION_CONSTANT
+
+%token ENDOFFILE
 
 %token SIZEOF
 
@@ -36,11 +37,8 @@
 %token STATIC
 %token AUTO
 %token REGISTER
-%token INLINE
 %token CONST
-%token RESTRICT
 %token VOLATILE
-%token BOOL
 %token CHAR
 %token SHORT
 %token INT
@@ -50,8 +48,6 @@
 %token FLOAT
 %token DOUBLE
 %token VOID
-%token COMPLEX
-%token IMAGINARY 
 %token STRUCT
 %token UNION
 %token ENUM
@@ -71,22 +67,13 @@
 %token BREAK
 %token RETURN
 
-%token ALIGNAS
-%token ALIGNOF
-%token ATOMIC
-%token GENERIC
-%token NORETURN
-%token STATIC_ASSERT
-%token THREAD_LOCAL
-
-%token ERROR
-
 %polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string;
 
 %type <STRING> identifier
 %type <STRING> string
 
 %lsp-needed
+%debug
 
 %%
 
@@ -500,10 +487,6 @@ constant
 	: I_CONSTANT		/* includes character_constant */
 	| F_CONSTANT
 	| ENUMERATION_CONSTANT	/* after it has been defined as such */
-	;
-
-enumeration_constant		/* before it has been defined as such */
-	: IDENTIFIER
 	;
 
 string

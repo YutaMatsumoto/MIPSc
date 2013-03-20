@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "Scanner.h"
+#include "Parser.h"
 
 //	TODO
 //		
@@ -158,7 +159,7 @@ int main(int argc, char* argv[])
 
 	int val = s.lex();
 	std::string matched = s.matched();
-	while (val!=endOfFile) {
+	while ( val != Parser::ENDOFFILE ) {
 		std::cout << matched << " : " << val << std::endl;
 		// token file
 		t << matched << std::endl;

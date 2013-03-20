@@ -14,7 +14,16 @@ inline void Parser::error(char const *msg)
 // $insert lex
 inline int Parser::lex()
 {
-    return d_scanner.lex();
+	int token = d_scanner.lex();
+    
+    if( token == Parser::ENDOFFILE )
+    
+    	return 0;
+    
+    else
+    
+    	return token;
+    
 }
 
 inline void Parser::print()         

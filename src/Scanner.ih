@@ -3,3 +3,12 @@
 // $insert class_h
 #include "Scanner.h"
 #include "Parser.h"
+
+void Scanner::scannerError()
+{
+
+	std::cerr << "Invalid Token Line " << lineNr() << ":" << length() << std::endl;
+	
+	exit(0);
+
+}
