@@ -4,9 +4,10 @@ FLEX=flexc++
 CC=g++ -std=c++0x
 CCOPTION=-g
 
-COMPILER_NAME=compiler
+COMPILER_NAME=MIPSc
+EXECUTABLES=$(COMPILER_NAME) scan
 
-scanner_driver : scanner_driver.cpp lex.o
+scan : scanner_driver.cpp lex.o
 	$(CC) $(CCOPTION) $^ -o $@ 
 
 % : %.cpp
@@ -24,15 +25,11 @@ lex.o : lex.cc Scannerbase.h Scanner.h Scanner.ih
 parse.o : parse.cc Parserbase.h Parser.h Parser.ih 
 	$(CC) -c $(CCOPTION) $< -o $@
 
-# This produces Scannerbase.h Scanner.h Scanner.ih lex.cc
-.PHONY : scanner_src
-scanner_src : scanner.lex
+lex.cc : scanner.lex
 	$(FLEX) $< 
 
-# This produces Parserbase.h Parser.h Parser.ih parse.cc
-.PHONY : parser_src
-parser_src : parser.y
+parse.cc : parser.y
 	$(BISON) $(BISONFLAG) $<
-	
+
 clean : 
-	rm *.o $(COMPILER_NAME)
+	rm *.o $(EXECUTABLES)
