@@ -496,7 +496,7 @@ string
 identifier
 	: IDENTIFIER
 	{
-	$$ = d_scanner.matched();
+	$$ = scanner.matched();
 	}
 	;
 

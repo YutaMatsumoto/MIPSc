@@ -14,8 +14,12 @@ inline void Parser::error(char const *msg)
 // $insert lex
 inline int Parser::lex()
 {
-	int token = d_scanner.lex();
+    int token = scanner->lex();
     
+    if( token == Parser::SYMBOL_DUMP )
+    	
+	symbolTable->dumpTable( "symboltable.txt" );
+
     if( token == Parser::ENDOFFILE )
     
     	return 0;

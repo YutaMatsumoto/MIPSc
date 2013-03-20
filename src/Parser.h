@@ -6,6 +6,7 @@
 // $insert baseclass
 #include "Parserbase.h"
 #include "Scanner.h"
+#include "SymbolTable.h"
 
 #undef Parser
 class Parser: public ParserBase
@@ -14,13 +15,23 @@ class Parser: public ParserBase
     public:
         int parse();
 
+	Parser( std::istream& stream, SymbolTable* table )
+	{
+
+		scanner = new Scanner( stream );
+
+		symbolTable = table;
+
+	}
+
     private:
         void error(char const *msg);    // called on (syntax) errors
         int lex();                      // returns the next token from the
                                         // lexical scanner. 
         void print();                   // use, e.g., d_token, d_loc
 	
-	Scanner d_scanner;
+	Scanner* scanner;
+	SymbolTable* symbolTable;
 
     // support functions for parse():
         void executeAction(int ruleNr);
