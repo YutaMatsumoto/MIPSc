@@ -9,6 +9,8 @@ IS			(u|U|l|L)*
 
 %locations
 
+"!!S"					{ return Parser::SYMBOL_DUMP; }
+
 <<EOF>>					{ return( Parser::ENDOFFILE ); }
 
 "/*"                    {  }

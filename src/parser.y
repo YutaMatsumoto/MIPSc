@@ -1,3 +1,5 @@
+%token SYMBOL_DUMP
+
 %token <STRING> IDENTIFIER
 %token <INT> I_CONSTANT
 %token <FLOAT> F_CONSTANT
