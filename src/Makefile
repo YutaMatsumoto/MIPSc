@@ -7,13 +7,13 @@ CCOPTION=-g
 COMPILER_NAME=MIPSc
 EXECUTABLES=$(COMPILER_NAME) scan
 
-scan : scanner_driver.cpp lex.o parse.cc
+scan : scanner_driver.cpp lex.o parse.cc SymbolTable.o
 	$(CC) $(CCOPTION) $^ -o $@ 
 
 % : %.cpp
 	$(CC) $(CCOPTION) $< -o $@ 
 
-$(COMPILER_NAME) : parse.o lex.o
+$(COMPILER_NAME) : parse.o lex.o SymbolTable.o
 	$(CC) $(CCOPTION) $^ main.cc -o $@
 
 %.o : %.cc 
