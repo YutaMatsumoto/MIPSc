@@ -1,3 +1,3 @@
 #!/bin/bash
-bisonc++ parser.y
-flexc++ scanner.lex
+bisonc++ --debug parser.y
+flexc++ --debug scanner.lex
