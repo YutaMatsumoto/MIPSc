@@ -37,5 +37,5 @@ clean :
 SymbolTable.o : SymbolTable.cc SymbolTable.h
 	$(CC) -c $(CCOPTION) $< -o $@
 
-stab.out : SymbolTableDriver.cpp
-	$(CC) $(CCOPTION) $< -o $@
+SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o parse.o lex.o
+	$(CC) $(CCOPTION) parse.o lex.o SymbolTable.o $< -o $@
