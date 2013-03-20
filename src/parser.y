@@ -490,6 +490,7 @@ argument_expression_list
 constant
 	: I_CONSTANT		/* includes character_constant */
 	| F_CONSTANT
+	| CHAR_LITERAL
 	| ENUMERATION_CONSTANT	/* after it has been defined as such */
 	;
 

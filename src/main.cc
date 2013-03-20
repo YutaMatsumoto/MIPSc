@@ -16,7 +16,7 @@ int main() {
 
 	Parser p( std::cin , table );
 	
-	p.setDebug( true );
+	p.setDebug( false );
 
 	p.parse();
 
