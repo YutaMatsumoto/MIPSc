@@ -7,7 +7,7 @@ CCOPTION=-g
 COMPILER_NAME=MIPSc
 EXECUTABLES=$(COMPILER_NAME) scan
 
-scan : scanner_driver.cpp lex.o
+scan : scanner_driver.cpp lex.o parse.cc
 	$(CC) $(CCOPTION) $^ -o $@ 
 
 % : %.cpp
@@ -33,3 +33,9 @@ parse.cc : parser.y
 
 clean : 
 	rm *.o $(EXECUTABLES)
+
+SymbolTable.o : SymbolTable.cc SymbolTable.h
+	$(CC) -c $(CCOPTION) $< -o $@
+
+stab.out : SymbolTableDriver.cpp
+	$(CC) $(CCOPTION) $< -o $@
