@@ -4,6 +4,7 @@ H			[a-fA-F0-9]
 E			[Ee][+-]?{D}+
 FS			(f|F|l|L)
 IS			(u|U|l|L)*
+CHAR		"'"."'"
 
 %%
 
@@ -58,6 +59,7 @@ IS			(u|U|l|L)*
 {D}+(f|l)?	            { return Parser::F_CONSTANT; }
 {D}*"."{D}(f|l)?	    { return Parser::F_CONSTANT; }
 
+
 \"(\\.|[^\\"])*\"       { return Parser::STRING_LITERAL; }
 
 "..."			        { return(Parser::ELLIPSIS); }
@@ -108,6 +110,10 @@ IS			(u|U|l|L)*
 "|"			            { return('|'); }
 "?"			            { return('?'); }
 
+
 [ \t\v\n\f]		        { }
+
+{CHAR}						{ return Parser::CHAR_LITERAL; }
+
 .			            { scannerError(); }
 
