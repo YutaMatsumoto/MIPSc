@@ -1,3 +1,4 @@
+%token <CHAR> CHAR_LITERAL
 %token SYMBOL_DUMP
 
 %token <STRING> IDENTIFIER
@@ -71,7 +72,7 @@
 
 %token SQUOTE
 
-%polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string;
+%polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string; CHAR: char;
 
 %type <STRING> identifier
 %type <STRING> string
