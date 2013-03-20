@@ -24,15 +24,15 @@ Description
 
 Examples
 
-    creates a.c.token
+    create a.c.token
 
         $ scanner_driver a.c
 
-    creates a.c.token, a.c.debug_lex, a.c.debug_stab
+    create a.c.tokens, a.c.ldebug, a.c.sdebug
 
         $ scanner_driver a.c -d
 
-    creates tokenfile and a.c.debug_lex
+    create tokenfile and a.c.ldebug
 
         $ scanner_driver a.c -dl -o tokenfile
 

@@ -1,3 +1,4 @@
+BISONFLAG=--debug
 BISON=bisonc++
 FLEX=flexc++
 CC=g++ -std=c++0x
@@ -31,7 +32,7 @@ scanner_src : scanner.lex
 # This produces Parserbase.h Parser.h Parser.ih parse.cc
 .PHONY : parser_src
 parser_src : parser.y
-	$(BISON) $<
+	$(BISON) $(BISONFLAG) $<
 	
 clean : 
 	rm *.o $(COMPILER_NAME)
