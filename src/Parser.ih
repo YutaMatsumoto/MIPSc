@@ -4,7 +4,7 @@
 
 // $insert class.h
 #include "Parser.h"
-
+#include <string>
 
 inline void Parser::error(char const *msg)
 {
@@ -14,11 +14,13 @@ inline void Parser::error(char const *msg)
 // $insert lex
 inline int Parser::lex()
 {
+    std::string symboltable_filename( "symboltable.txt" );
+
     int token = scanner->lex();
     
     if( token == Parser::SYMBOL_DUMP )
     	
-	symbolTable->dumpTable( "symboltable.txt" );
+	symbolTable->dumpTable( symboltable_filename );
 
     if( token == Parser::ENDOFFILE )
     

@@ -8,10 +8,13 @@
 
 #include <iostream>
 #include "Parser.h"
+#include "SymbolTable.h"
 
 int main() {
+	
+	SymbolTable* table = new SymbolTable();
 
-	Parser p;
+	Parser p( std::cin , table );
 	
 	p.setDebug( true );
 
