@@ -69,6 +69,8 @@
 %token BREAK
 %token RETURN
 
+%token SQUOTE
+
 %polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string;
 
 %type <STRING> identifier

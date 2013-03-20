@@ -85,6 +85,7 @@ IS			(u|U|l|L)*
 ";"			            { return(';'); }
 ("{"|"<%")		        { return('{'); }
 ("}"|"%>")		        { return('}'); }
+"'"						{ return(Parser::SQUOTE); }
 ","			            { return(','); }
 ":"			            { return(':'); }
 "="			            { return('='); }

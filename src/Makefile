@@ -25,7 +25,7 @@ lex.o : lex.cc Scannerbase.h Scanner.h Scanner.ih
 parse.o : parse.cc Parserbase.h Parser.h Parser.ih 
 	$(CC) -c $(CCOPTION) $< -o $@
 
-lex.cc : scanner.lex
+lex.cc : scanner.lex parse.cc
 	$(FLEX) $< 
 
 parse.cc : parser.y
