@@ -16,10 +16,6 @@ void Scanner::scannerError()
 	
 	char c;
 	
-	ref_istream->putback( c );
-	
-	lineValue += c;
-	
 	ref_istream->get(c);
 	
 	while( c != '\n' && c != EOF )
