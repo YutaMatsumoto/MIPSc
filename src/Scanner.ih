@@ -15,32 +15,22 @@ void Scanner::scannerError()
 
 void Scanner::updateLocation()
 {
-	
-	parser->getLocationStruct()->first_column = parser->getLocationStruct()->last_column;
-	
-	parser->getLocationStruct()->last_column = parser->getLocationStruct()->first_column + matched().size();
-	
+    std::cout << "\t\t\t\t" << "(lnum,cnum)=(" << location.lnum << "," << location.cnum << ")" << std::endl;
+
+    std::string mstr(matched());
+    if ( mstr == "\n" ) {
+        location.lnum++; 
+    }
+    else if ( mstr == "\t" ) {
+        location.cnum += tabWidth;
+    }
+    else {
+        location.cnum += mstr.size();
+    }
+
+   	
 }
 
-void Scanner::newLine()
-{
-	parser->getLocationStruct()->first_line += 1;
-	parser->getLocationStruct()->last_line = parser->getLocationStruct()->first_line;
-	
-	parser->getLocationStruct()->first_column = 0;
-	parser->getLocationStruct()->last_column = 0;
-	
-	parser->getLocationStruct()->text = (char*) "";
-	
-}
-
-void Scanner::tab()
-{
-	
-	parser->getLocationStruct()->first_column = parser->getLocationStruct()->last_column;
-	
-	parser->getLocationStruct()->last_column = parser->getLocationStruct()->first_column + Scanner::tabWidth;
-}
 
 void Scanner::dumpSymbolTable()
 {

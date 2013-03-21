@@ -10,6 +10,14 @@
 
 class Parser;
 
+struct Loc {
+    Loc() 
+        : lnum(1), cnum(1)
+    {} 
+    int lnum; // line number
+    int cnum; // column number
+};
+
 // $insert classHead
 class Scanner: public ScannerBase
 {
@@ -31,10 +39,6 @@ class Scanner: public ScannerBase
 
         void updateLocation();
 
-        void newLine();
-
-        void tab();
-
         void dumpSymbolTable();
 
         static const int tabWidth = 4;
@@ -42,7 +46,12 @@ class Scanner: public ScannerBase
         // $insert lexFunctionDecl
         int lex();
 
+
+        Loc& getLoc() { return location; }
+
     private:
+
+        Loc location; // current location
 
         int lex__();
 
@@ -65,10 +74,11 @@ inline Scanner::Scanner(std::istream &in, std::ostream &out)
 {}
 
 
-Scanner::Scanner(SymbolTable* tab, std::istream &in, std::ostream &out)
+inline Scanner::Scanner(SymbolTable* tab, std::istream &in, std::ostream &out)
 :
     ScannerBase(in, out), stab(tab) 
 {}
+
 
 // $insert scannerConstructors
 inline Scanner::Scanner(std::istream &in, std::ostream &out, Parser* parser )
@@ -79,6 +89,8 @@ inline Scanner::Scanner(std::istream &in, std::ostream &out, Parser* parser )
 	this->parser = parser;
 
 }
+
+
 
 inline Scanner::Scanner(std::string const &infile, std::string const &outfile)
 :
