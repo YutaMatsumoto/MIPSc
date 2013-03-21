@@ -7,7 +7,7 @@
 void Scanner::scannerError()
 {
 
-	std::cerr << "Invalid Token Line " << lineNr()  << std::endl;
+	std::cerr << "Lexical Error @ " << location.lnum << ":" << location.cnum << std::endl;
 	
 	exit(0);
 
