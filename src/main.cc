@@ -7,11 +7,34 @@
 //============================================================================
 
 #include <iostream>
+#include <fstream>
 #include "Parser.h"
 #include "SymbolTable.h"
 
-int main() {
+int main( int argc , char** argv ) {
 	
+	if( argc < 2 )
+	{
+
+		std::cerr << "specify file" << std::endl;
+
+		exit(1);
+
+	}
+
+	std::fstream inf;
+
+	inf.open( argv[1] , std::fstream::in );
+
+	if( !inf.good() )
+	{
+	
+		std::cerr << "cannot open file" << std::endl;
+
+		exit(2);
+	
+	}
+
 	SymbolTable* table = new SymbolTable();
 
 	Parser p( std::cin , table );

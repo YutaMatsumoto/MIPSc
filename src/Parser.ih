@@ -19,10 +19,13 @@ inline int Parser::lex()
     int token = scanner->lex();
     
     if( token == Parser::SYMBOL_DUMP )
-    	
+    { 	
 	symbolTable->dumpTable( symboltable_filename );
+    
+    	return lex();
 
-    if( token == Parser::ENDOFFILE )
+    }
+    else if( token == Parser::ENDOFFILE )
     
     	return 0;
     
