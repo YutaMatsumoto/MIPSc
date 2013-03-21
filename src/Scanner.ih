@@ -14,23 +14,22 @@ void Scanner::scannerError()
 	
 	// int i = lex();
 	
+	char c;
 	
+	ref_istream->putback( c );
 	
-	while( ref_istream. )
+	lineValue += c;
+	
+	ref_istream->get(c);
+	
+	while( c != '\n' && c != EOF )
 	{
 	
-		lineValue += matched();
+		lineValue += c;
 		
-		
-		std::cout << matched() << "**";
-		
-		s = matched();
-		
-		lex();
+		ref_istream->get(c);
 	
 	}
-	
-	std::cout << "fdsfds";
 	
 	std::cout << std::endl << lineValue << std::endl; 
 	
