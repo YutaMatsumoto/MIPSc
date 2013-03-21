@@ -89,9 +89,7 @@ inline Scanner::Scanner(std::istream &in, std::ostream &out, Parser* parser )
 :
     ScannerBase(in, out), ref_istream(in)
 {
-
 	this->parser = parser;
-
 }
 
 
