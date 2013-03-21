@@ -6,6 +6,9 @@
 // $insert baseclass_h
 #include "Scannerbase.h"
 
+
+class Parser;
+
 // $insert classHead
 class Scanner: public ScannerBase
 {
@@ -16,15 +19,36 @@ class Scanner: public ScannerBase
 	Scanner(SymbolTable*, std::istream &in = std::cin, std::ostream &out = std::cout);
 
         Scanner(std::string const &infile, std::string const &outfile);
-	void scannerError();        
+
+        Scanner(std::istream &in, std::ostream &out, Parser* parser );
+
+        void scannerError();
+
+        void commentHandler();
+
+        void updateLocation();
+
+        void newLine();
+
+        void tab();
+
+        void dumpSymbolTable();
+
+        static const int tabWidth = 4;
+
         // $insert lexFunctionDecl
         int lex();
 
     private:
+
         int lex__();
+
         int executeAction__(size_t ruleNr);
 
+        Parser* parser;
+
         void print();
+
         void preCode();     // re-implement this function for code that must 
                             // be exec'ed before the patternmatching starts
 
@@ -41,6 +65,16 @@ Scanner(SymbolTable* tab, std::istream &in = std::cin, std::ostream &out = std::
 :
     ScannerBase(in, out), stab(tab) 
 {}
+
+// $insert scannerConstructors
+inline Scanner::Scanner(std::istream &in, std::ostream &out, Parser* parser )
+:
+    ScannerBase(in, out)
+{
+
+	this->parser = parser;
+
+}
 
 inline Scanner::Scanner(std::string const &infile, std::string const &outfile)
 :
