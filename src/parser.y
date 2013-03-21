@@ -313,7 +313,7 @@ expression_statement
 
 compound_statement
 	: '{' '}'
-	| '{' statement_list '}'
+	| '{' { /* declaration mode*/ } statement_list '}'
 	| '{' declaration_list '}'
 	| '{' declaration_list statement_list '}'
 	;
