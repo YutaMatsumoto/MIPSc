@@ -5,6 +5,7 @@
 
 // $insert baseclass_h
 #include "Scannerbase.h"
+#include "SymbolTable.h"
 
 
 class Parser;
@@ -17,6 +18,8 @@ class Scanner: public ScannerBase
                                 std::ostream &out = std::cout);
 
 	Scanner(SymbolTable*, std::istream &in = std::cin, std::ostream &out = std::cout);
+
+    explicit Scanner(SymbolTable*);
 
         Scanner(std::string const &infile, std::string const &outfile);
 
@@ -61,7 +64,8 @@ inline Scanner::Scanner(std::istream &in, std::ostream &out)
     ScannerBase(in, out)
 {}
 
-Scanner(SymbolTable* tab, std::istream &in = std::cin, std::ostream &out = std::cout);
+
+Scanner::Scanner(SymbolTable* tab, std::istream &in, std::ostream &out)
 :
     ScannerBase(in, out), stab(tab) 
 {}
