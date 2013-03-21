@@ -3,11 +3,47 @@
 // $insert class_h
 #include "Scanner.h"
 #include "Parser.h"
+#include <fstream>
 
 void Scanner::scannerError()
 {
 
-	std::cerr << "Invalid Token Line " << lineNr()  << std::endl;
+	//std::cerr << "Lexical Error @ " << location.lnum << ":" << location.cnum << std::endl;
+	
+	// std::string s = lex();
+	
+	// int i = lex();
+	
+	
+	
+	while( ref_istream. )
+	{
+	
+		lineValue += matched();
+		
+		
+		std::cout << matched() << "**";
+		
+		s = matched();
+		
+		lex();
+	
+	}
+	
+	std::cout << "fdsfds";
+	
+	std::cout << std::endl << lineValue << std::endl; 
+	
+	for( int i = 0; i < location.cnum ; i++ )
+	{
+		
+		std::cout << " ";
+	
+	}
+	
+	std::cout << "^";
+	
+	std::cout << "Lexical Error @ Line: " << location.lnum << ":" << location.cnum << std::endl;
 	
 	exit(0);
 
@@ -15,22 +51,29 @@ void Scanner::scannerError()
 
 void Scanner::updateLocation()
 {
-    std::cout << "\t\t\t\t" << "(lnum,cnum)=(" << location.lnum << "," << location.cnum << ")" << std::endl;
+    //std::cout << "\t\t\t\t" << "(lnum,cnum)=(" << location.lnum << "," << location.cnum << ")" << std::endl;
 
     std::string mstr(matched());
     if ( mstr == "\n" ) {
         location.lnum++; 
         location.cnum = 0;
+        lineValue = "";
     }
     else if ( mstr == "\t" ) {
         location.cnum += tabWidth;
+        for( int i = 0 ; i < tabWidth ; i++ )
+        {
+        	lineValue += " ";
+        }
     }
     else {
         location.cnum += mstr.size();
+        lineValue += mstr;
     }
 
    	
 }
+
 
 
 void Scanner::dumpSymbolTable()
