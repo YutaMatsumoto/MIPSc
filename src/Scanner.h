@@ -13,6 +13,8 @@ class Scanner: public ScannerBase
         explicit Scanner(std::istream &in = std::cin,
                                 std::ostream &out = std::cout);
 
+	Scanner(SymbolTable*, std::istream &in = std::cin, std::ostream &out = std::cout);
+
         Scanner(std::string const &infile, std::string const &outfile);
 	void scannerError();        
         // $insert lexFunctionDecl
@@ -25,12 +27,19 @@ class Scanner: public ScannerBase
         void print();
         void preCode();     // re-implement this function for code that must 
                             // be exec'ed before the patternmatching starts
+
+	SymbolTable* stab;
 };
 
 // $insert scannerConstructors
 inline Scanner::Scanner(std::istream &in, std::ostream &out)
 :
     ScannerBase(in, out)
+{}
+
+Scanner(SymbolTable* tab, std::istream &in = std::cin, std::ostream &out = std::cout);
+:
+    ScannerBase(in, out), stab(tab) 
 {}
 
 inline Scanner::Scanner(std::string const &infile, std::string const &outfile)
