@@ -7,8 +7,19 @@ CCOPTION=-g
 COMPILER_NAME=MIPSc
 EXECUTABLES=$(COMPILER_NAME) scan
 
+# ---------------------------------------------------------------------
+# Drivers
+
+default : $(EXECUTABLES)
+
 scan : scanner_driver.cpp lex.o parse.cc SymbolTable.o
 	$(CC) $(CCOPTION) $^ -o $@ 
+
+SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o parse.o lex.o
+	$(CC) $(CCOPTION) parse.o lex.o SymbolTable.o $< -o $@
+
+# ---------------------------------------------------------------------
+# Objects
 
 % : %.cpp
 	$(CC) $(CCOPTION) $< -o $@ 
@@ -25,7 +36,7 @@ lex.o : lex.cc Scannerbase.h Scanner.h Scanner.ih
 parse.o : parse.cc Parserbase.h Parser.h Parser.ih 
 	$(CC) -c $(CCOPTION) $< -o $@
 
-lex.cc : scanner.lex parse.cc
+lex.cc Scannerbase.h Scanner.h Scanner.ih : scanner.lex parse.cc
 	$(FLEX) $< 
 
 parse.cc : parser.y
@@ -34,9 +45,14 @@ parse.cc : parser.y
 SymbolTable.o : SymbolTable.cc SymbolTable.h
 	$(CC) -c $(CCOPTION) $< -o $@
 
-SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o parse.o lex.o
-	$(CC) $(CCOPTION) parse.o lex.o SymbolTable.o $< -o $@
+# ---------------------------------------------------------------------
+# Test
 
+.PHONY : test_scan
+test_scan : scan
+	bash test_scan.sh ts*.c
+
+# ---------------------------------------------------------------------
 clean : 
-	rm *.o $(EXECUTABLES) *debug *tokens
+	rm *.o $(EXECUTABLES) *debug *tokens *.out
 

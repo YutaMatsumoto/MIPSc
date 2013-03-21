@@ -7,65 +7,66 @@
 
 void Scanner::scannerError()
 {
+	// case : empty file : TODO
 
-	//std::cerr << "Lexical Error @ " << location.lnum << ":" << location.cnum << std::endl;
-	
-	// std::string s = lex();
-	
-	// int i = lex();
-	
-	char c;
-	
-	ref_istream->get(c);
-	
-	while( c != '\n' && c != EOF )
-	{
-	
-		lineValue += c;
-		
-		ref_istream->get(c);
-	
+	// Get the line the bad lexeme is on
+	std::string t;
+	// case : bad lexeme is on the first line (before the first newline)
+	if (lastNewlinePos<0) {
+		ref_istream->seekg(0, ref_istream->beg);
 	}
-	
-	std::cout << std::endl << lineValue << std::endl; 
-	
-	for( int i = 0; i < location.cnum ; i++ )
-	{
-		
-		std::cout << " ";
-	
+	// case : bad lexeme is on the second line or after (after the first newline)
+	else if (lastNewlinePos>=0) {
+		ref_istream->seekg(lastNewlinePos+1, ref_istream->beg);
 	}
+	std::getline(*ref_istream, t);
+
+	// Output the line with the bad lexeme
+	size_t number_of_tabs = 0;
+	for(auto c : t ) {
+		// print the character as it is unless it's a tab
+		if (c!='\t') {
+			std::cerr << c;
+		}
+		// print the tab by spaces
+		else {
+			number_of_tabs++;
+			for(size_t i=0;i<tabWidth;i++) {
+				std::cerr << " ";
+			}
+		}
+	}
+	std::cerr << std::endl;
+
+	// Point to the bad lexeme with ^ on the following line
+	size_t number_of_spaces = number_of_tabs*(tabWidth-1)+location.cnum-1;
+	for(size_t i=0;i<number_of_spaces;i++) {
+		std::cerr << " ";
+	}
+	std::cerr << "^";
 	
-	std::cout << "^";
+	std::cerr << "Lexical Error @ Line: " << location.lnum << ":" << location.cnum << std::endl;
 	
-	std::cout << "Lexical Error @ Line: " << location.lnum << ":" << location.cnum << std::endl;
-	
+	// terminate the program
 	exit(0);
 
 }
 
 void Scanner::updateLocation()
 {
-    //std::cout << "\t\t\t\t" << "(lnum,cnum)=(" << location.lnum << "," << location.cnum << ")" << std::endl;
-
     std::string mstr(matched());
     if ( mstr == "\n" ) {
+
+		lastNewlinePos = numBytesRead;
+
         location.lnum++; 
-        location.cnum = 0;
-        lineValue = "";
-    }
-    else if ( mstr == "\t" ) {
-        location.cnum += tabWidth;
-        for( int i = 0 ; i < tabWidth ; i++ )
-        {
-        	lineValue += " ";
-        }
+        location.cnum = 1;
+
     }
     else {
         location.cnum += mstr.size();
-        lineValue += mstr;
     }
-
+	numBytesRead += mstr.size();
    	
 }
 

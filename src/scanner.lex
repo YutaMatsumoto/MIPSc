@@ -117,5 +117,5 @@ CHAR		"'"."'"
 
 {CHAR}				    { updateLocation(); return Parser::CHAR_LITERAL; }
 
-.			            { updateLocation(); scannerError(); }
+.			            { scannerError(); }
 
