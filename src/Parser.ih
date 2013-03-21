@@ -28,10 +28,10 @@ inline int Parser::lex()
     
 }
 
-LTYPE__& getLocationStruct()
+Parser::LTYPE__* Parser::getLocationStruct()
 {
 
-	return d_loc__;
+	return &d_loc__;
 	
 }
 
