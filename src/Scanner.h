@@ -68,13 +68,13 @@ class Scanner: public ScannerBase
                             // be exec'ed before the patternmatching starts
 
 	SymbolTable* stab;
-    std::istream& ref_istream;
+    std::istream* ref_istream;
 };
 
 // $insert scannerConstructors
 inline Scanner::Scanner(std::istream &in, std::ostream &out)
 :
-    ScannerBase(in, out), ref_istream(in)
+    ScannerBase(in, out), ref_istream(&in)
 {}
 
 
