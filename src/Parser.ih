@@ -28,13 +28,6 @@ inline int Parser::lex()
     
 }
 
-Parser::LTYPE__* Parser::getLocationStruct()
-{
-
-	return &d_loc__;
-	
-}
-
 inline void Parser::print()         
 {
     print__();           // displays tokens if --print was specified

@@ -24,7 +24,12 @@ class Parser: public ParserBase
 
 	}
 
-	LTYPE__* getLocationStruct();
+	LTYPE__* getLocationStruct()
+	{
+
+		return &d_loc__;
+
+	}
 
     private:
         void error(char const *msg);    // called on (syntax) errors

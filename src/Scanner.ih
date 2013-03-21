@@ -45,6 +45,6 @@ void Scanner::tab()
 void Scanner::dumpSymbolTable()
 {
 
-	stab->dumpTable();
+	stab->dumpTable( "symboltable.txt" );
 
 }
