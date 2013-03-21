@@ -24,6 +24,10 @@ class Parser: public ParserBase
 
 	}
 
+    Parser( Scanner& s, SymbolTable* table ) 
+        : scanner(&s), symbolTable(table)
+    {}
+
 	LTYPE__* getLocationStruct()
 	{
 

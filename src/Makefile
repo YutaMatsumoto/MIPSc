@@ -31,11 +31,12 @@ lex.cc : scanner.lex parse.cc
 parse.cc : parser.y
 	$(BISON) $(BISONFLAG) $<
 
-clean : 
-	rm *.o $(EXECUTABLES)
-
 SymbolTable.o : SymbolTable.cc SymbolTable.h
 	$(CC) -c $(CCOPTION) $< -o $@
 
 SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o parse.o lex.o
 	$(CC) $(CCOPTION) parse.o lex.o SymbolTable.o $< -o $@
+
+clean : 
+	rm *.o $(EXECUTABLES) *debug *tokens
+
