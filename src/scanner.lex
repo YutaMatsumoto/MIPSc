@@ -113,10 +113,10 @@ CHAR		"'"."'"
 
 [\v\f]		        	{ /* Eat useless whitespace */ }
 [ ]				        { updateLocation(); }
-[\t]				    { tab(); }
-[\n]				    { newLine(); }
+[\t]				    { updateLocation(); }
+[\n]				    { updateLocation(); }
 
 {CHAR}				    { updateLocation(); return Parser::CHAR_LITERAL; }
 
-.			            { scannerError(); }
+.			            { updateLocation(); scannerError(); }
 

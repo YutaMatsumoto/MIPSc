@@ -8,7 +8,9 @@
 
 inline void Parser::error(char const *msg)
 {
-    std::cerr << msg << '\n';
+	Loc& location = scanner->getLoc();
+	
+    std::cerr << "Syntax Error @: " << location.lnum << ":" << location.cnum << std::endl;
 }
 
 // $insert lex

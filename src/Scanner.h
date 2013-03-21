@@ -6,6 +6,7 @@
 // $insert baseclass_h
 #include "Scannerbase.h"
 #include "SymbolTable.h"
+#include <string>
 
 
 class Parser;
@@ -52,6 +53,8 @@ class Scanner: public ScannerBase
     private:
 
         Loc location; // current location
+
+        std::string lineValue;
 
         int lex__();
 
