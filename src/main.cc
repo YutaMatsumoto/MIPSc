@@ -38,7 +38,7 @@ int main( int argc , char** argv ) {
 
 	SymbolTable* table = new SymbolTable();
 
-	Parser p( std::cin , table );
+	Parser p( inf , table );
 	
 	p.setDebug( false );
 

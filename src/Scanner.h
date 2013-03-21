@@ -80,14 +80,14 @@ inline Scanner::Scanner(std::istream &in, std::ostream &out)
 
 inline Scanner::Scanner(SymbolTable* tab, std::istream &in, std::ostream &out)
 :
-    ScannerBase(in, out), stab(tab), ref_istream(in)
+    ScannerBase(in, out), stab(tab), ref_istream(&in)
 {}
 
 
 // $insert scannerConstructors
 inline Scanner::Scanner(std::istream &in, std::ostream &out, Parser* parser )
 :
-    ScannerBase(in, out), ref_istream(in)
+    ScannerBase(in, out), ref_istream(&in)
 {
 	this->parser = parser;
 }
