@@ -16,30 +16,30 @@ void Scanner::scannerError()
 void Scanner::updateLocation()
 {
 	
-	parser->d_loc__.first_column = parser->d_loc__.last_column;
+	parser->getLocationStruct()->first_column = parser->getLocationStruct()->last_column;
 	
-	parser->d_loc__.last_column = parser->d_loc__.first_column + matched().size();
+	parser->getLocationStruct()->last_column = parser->getLocationStruct()->first_column + matched().size();
 	
 }
 
 void Scanner::newLine()
 {
-	parser->d_loc__.first_line += 1;
-	parser->d_loc__.last_line = parser->d_loc__.first_line;
+	parser->getLocationStruct()->first_line += 1;
+	parser->getLocationStruct()->last_line = parser->getLocationStruct()->first_line;
 	
-	parser->d_loc__.first_column = 0;
-	parser->d_loc__.last_column = 0;
+	parser->getLocationStruct()->first_column = 0;
+	parser->getLocationStruct()->last_column = 0;
 	
-	parser->d_loc__.text = "";
+	parser->getLocationStruct()->text = (char*) "";
 	
 }
 
 void Scanner::tab()
 {
 	
-	parser->d_loc__.first_column = parser->d_loc__.last_column;
+	parser->getLocationStruct()->first_column = parser->getLocationStruct()->last_column;
 	
-	parser->d_loc__.last_column = parser->d_loc__.first_column + Scanner::tabWidth;
+	parser->getLocationStruct()->last_column = parser->getLocationStruct()->first_column + Scanner::tabWidth;
 }
 
 void Scanner::dumpSymbolTable()
