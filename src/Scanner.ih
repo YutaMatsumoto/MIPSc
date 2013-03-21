@@ -20,6 +20,7 @@ void Scanner::updateLocation()
     std::string mstr(matched());
     if ( mstr == "\n" ) {
         location.lnum++; 
+        location.cnum = 0;
     }
     else if ( mstr == "\t" ) {
         location.cnum += tabWidth;
