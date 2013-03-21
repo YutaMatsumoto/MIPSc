@@ -1,5 +1,4 @@
 %token <CHAR> CHAR_LITERAL
-%token SYMBOL_DUMP
 
 %token <STRING> IDENTIFIER
 %token <INT> I_CONSTANT

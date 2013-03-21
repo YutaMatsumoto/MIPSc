@@ -18,14 +18,7 @@ inline int Parser::lex()
 
     int token = scanner->lex();
     
-    if( token == Parser::SYMBOL_DUMP )
-    { 	
-	symbolTable->dumpTable( symboltable_filename );
-    
-    	return lex();
-
-    }
-    else if( token == Parser::ENDOFFILE )
+    if( token == Parser::ENDOFFILE )
     
     	return 0;
     
@@ -33,6 +26,13 @@ inline int Parser::lex()
     
     	return token;
     
+}
+
+LTYPE__& getLocationStruct()
+{
+
+	return d_loc__;
+	
 }
 
 inline void Parser::print()         

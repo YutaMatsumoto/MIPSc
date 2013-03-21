@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 #include "Parser.h"
 #include "SymbolTable.h"
 

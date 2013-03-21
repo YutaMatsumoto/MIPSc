@@ -10,110 +10,113 @@ CHAR		"'"."'"
 
 %locations
 
-"!!S"					{ return( Parser::SYMBOL_DUMP ); }
+"!!S"					{ updateLocation(); dumpSymbolTable(); }
 
-<<EOF>>					{ return( Parser::ENDOFFILE ); }
+<<EOF>>					{ updateLocation(); return( Parser::ENDOFFILE ); }
 
 "/*"                    {  }
 "//".*                  {  }
 
-"auto"					{ return(Parser::AUTO); }
-"break"					{ return(Parser::BREAK); }
-"case"					{ return(Parser::CASE); }
-"char"					{ return(Parser::CHAR); }
-"const"					{ return(Parser::CONST); }
-"continue"				{ return(Parser::CONTINUE); }
-"default"				{ return(Parser::DEFAULT); }
-"do"					{ return(Parser::DO); }
-"double"				{ return(Parser::DOUBLE); }
-"else"					{ return(Parser::ELSE); }
-"enum"					{ return(Parser::ENUM); }
-"extern"				{ return(Parser::EXTERN); }
-"float"					{ return(Parser::FLOAT); }
-"for"					{ return(Parser::FOR); }
-"goto"					{ return(Parser::GOTO); }
-"if"					{ return(Parser::IF); }
+"auto"					{ updateLocation(); return(Parser::AUTO); }
+"break"					{ updateLocation(); return(Parser::BREAK); }
+"case"					{ updateLocation(); return(Parser::CASE); }
+"char"					{ updateLocation(); return(Parser::CHAR); }
+"const"					{ updateLocation(); return(Parser::CONST); }
+"continue"				{ updateLocation(); return(Parser::CONTINUE); }
+"default"				{ updateLocation(); return(Parser::DEFAULT); }
+"do"					{ updateLocation(); return(Parser::DO); }
+"double"				{ updateLocation(); return(Parser::DOUBLE); }
+"else"					{ updateLocation(); return(Parser::ELSE); }
+"enum"					{ updateLocation(); return(Parser::ENUM); }
+"extern"				{ updateLocation(); return(Parser::EXTERN); }
+"float"					{ updateLocation(); return(Parser::FLOAT); }
+"for"					{ updateLocation(); return(Parser::FOR); }
+"goto"					{ updateLocation(); return(Parser::GOTO); }
+"if"					{ updateLocation(); return(Parser::IF); }
 "inline"				{  }
-"int"					{ return(Parser::INT); }
-"long"					{ return(Parser::LONG); }
-"register"				{ return(Parser::REGISTER); }
+"int"					{ updateLocation(); return(Parser::INT); }
+"long"					{ updateLocation(); return(Parser::LONG); }
+"register"				{ updateLocation(); return(Parser::REGISTER); }
 "restrict"				{  }
-"return"				{ return(Parser::RETURN); }
-"short"					{ return(Parser::SHORT); }
-"signed"				{ return(Parser::SIGNED); }
-"sizeof"				{ return(Parser::SIZEOF); }
-"static"				{ return(Parser::STATIC); }
-"struct"				{ return(Parser::STRUCT); }
-"switch"				{ return(Parser::SWITCH); }
-"typedef"				{ return(Parser::TYPEDEF); }
-"union"					{ return(Parser::UNION); }
-"unsigned"				{ return(Parser::UNSIGNED); }
-"void"					{ return(Parser::VOID); }
-"volatile"				{ return(Parser::VOLATILE); }
-"while"					{ return(Parser::WHILE); }
+"return"				{ updateLocation(); return(Parser::RETURN); }
+"short"					{ updateLocation(); return(Parser::SHORT); }
+"signed"				{ updateLocation(); return(Parser::SIGNED); }
+"sizeof"				{ updateLocation(); return(Parser::SIZEOF); }
+"static"				{ updateLocation(); return(Parser::STATIC); }
+"struct"				{ updateLocation(); return(Parser::STRUCT); }
+"switch"				{ updateLocation(); return(Parser::SWITCH); }
+"typedef"				{ updateLocation(); return(Parser::TYPEDEF); }
+"union"					{ updateLocation(); return(Parser::UNION); }
+"unsigned"				{ updateLocation(); return(Parser::UNSIGNED); }
+"void"					{ updateLocation(); return(Parser::VOID); }
+"volatile"				{ updateLocation(); return(Parser::VOLATILE); }
+"while"					{ updateLocation(); return(Parser::WHILE); }
 
-{L}({L}|{D})*	        { return(Parser::IDENTIFIER); }
-0(x|X){H}+(u|l)?	    { return Parser::I_CONSTANT; }
-{D}+(u|l)?	            { return Parser::I_CONSTANT; }
+{L}({L}|{D})*	        { updateLocation(); return(Parser::IDENTIFIER); }
+0(x|X){H}+(u|l)?	    { updateLocation(); return Parser::I_CONSTANT; }
+{D}+(u|l)?	            { updateLocation(); return Parser::I_CONSTANT; }
 
-{D}+(f|l)?	            { return Parser::F_CONSTANT; }
-{D}*"."{D}(f|l)?	    { return Parser::F_CONSTANT; }
-
-
-\"(\\.|[^\\"])*\"       { return Parser::STRING_LITERAL; }
-
-"..."			        { return(Parser::ELLIPSIS); }
-">>="			        { return(Parser::RIGHT_ASSIGN); }
-"<<="			        { return(Parser::LEFT_ASSIGN); }
-"+="			        { return(Parser::ADD_ASSIGN); }
-"-="			        { return(Parser::SUB_ASSIGN); }
-"*="			        { return(Parser::MUL_ASSIGN); }
-"/="			        { return(Parser::DIV_ASSIGN); }
-"%="			        { return(Parser::MOD_ASSIGN); }
-"&="			        { return(Parser::AND_ASSIGN); }
-"^="			        { return(Parser::XOR_ASSIGN); }
-"|="			        { return(Parser::OR_ASSIGN); }
-">>"			        { return(Parser::RIGHT_OP); }
-"<<"			        { return(Parser::LEFT_OP); }
-"++"			        { return(Parser::INC_OP); }
-"--"			        { return(Parser::DEC_OP); }
-"->"			        { return(Parser::PTR_OP); }
-"&&"			        { return(Parser::AND_OP); }
-"||"			        { return(Parser::OR_OP); }
-"<="			        { return(Parser::LE_OP); }
-">="			        { return(Parser::GE_OP); }
-"=="			        { return(Parser::EQ_OP); }
-"!="			        { return(Parser::NE_OP); }
-";"			            { return(';'); }
-("{"|"<%")		        { return('{'); }
-("}"|"%>")		        { return('}'); }
-"'"						{ return(Parser::SQUOTE); }
-","			            { return(','); }
-":"			            { return(':'); }
-"="			            { return('='); }
-"("			            { return('('); }
-")"			            { return(')'); }
-("["|"<:")		        { return('['); }
-("]"|":>")		        { return(']'); }
-"."			            { return('.'); }
-"&"			            { return('&'); }
-"!"			            { return('!'); }
-"~"			            { return('~'); }
-"-"			            { return('-'); }
-"+"			            { return('+'); }
-"*"			            { return('*'); }
-"/"			            { return('/'); }
-"%"			            { return('%'); }
-"<"			            { return('<'); }
-">"			            { return('>'); }
-"^"			            { return('^'); }
-"|"			            { return('|'); }
-"?"			            { return('?'); }
+{D}+(f|l)?	            { updateLocation(); return Parser::F_CONSTANT; }
+{D}*"."{D}(f|l)?	    { updateLocation(); return Parser::F_CONSTANT; }
 
 
-[ \t\v\n\f]		        { }
+\"(\\.|[^\\"])*\"       { updateLocation(); return Parser::STRING_LITERAL; }
 
-{CHAR}						{ return Parser::CHAR_LITERAL; }
+"..."			        { updateLocation(); return(Parser::ELLIPSIS); }
+">>="			        { updateLocation(); return(Parser::RIGHT_ASSIGN); }
+"<<="			        { updateLocation(); return(Parser::LEFT_ASSIGN); }
+"+="			        { updateLocation(); return(Parser::ADD_ASSIGN); }
+"-="			        { updateLocation(); return(Parser::SUB_ASSIGN); }
+"*="			        { updateLocation(); return(Parser::MUL_ASSIGN); }
+"/="			        { updateLocation(); return(Parser::DIV_ASSIGN); }
+"%="			        { updateLocation(); return(Parser::MOD_ASSIGN); }
+"&="			        { updateLocation(); return(Parser::AND_ASSIGN); }
+"^="			        { updateLocation(); return(Parser::XOR_ASSIGN); }
+"|="			        { updateLocation(); return(Parser::OR_ASSIGN); }
+">>"			        { updateLocation(); return(Parser::RIGHT_OP); }
+"<<"			        { updateLocation(); return(Parser::LEFT_OP); }
+"++"			        { updateLocation(); return(Parser::INC_OP); }
+"--"			        { updateLocation(); return(Parser::DEC_OP); }
+"->"			        { updateLocation(); return(Parser::PTR_OP); }
+"&&"			        { updateLocation(); return(Parser::AND_OP); }
+"||"			        { updateLocation(); return(Parser::OR_OP); }
+"<="			        { updateLocation(); return(Parser::LE_OP); }
+">="			        { updateLocation(); return(Parser::GE_OP); }
+"=="			        { updateLocation(); return(Parser::EQ_OP); }
+"!="			        { updateLocation(); return(Parser::NE_OP); }
+";"			            { updateLocation(); return(';'); }
+("{"|"<%")		        { updateLocation(); return('{'); }
+("}"|"%>")		        { updateLocation(); return('}'); }
+//"'"						{ updateLocation(); return(Parser::SQUOTE); }
+","			            { updateLocation(); return(','); }
+":"			            { updateLocation(); return(':'); }
+"="			            { updateLocation(); return('='); }
+"("			            { updateLocation(); return('('); }
+")"			            { updateLocation(); return(')'); }
+("["|"<:")		        { updateLocation(); return('['); }
+("]"|":>")		        { updateLocation(); return(']'); }
+"."			            { updateLocation(); return('.'); }
+"&"			            { updateLocation(); return('&'); }
+"!"			            { updateLocation(); return('!'); }
+"~"			            { updateLocation(); return('~'); }
+"-"			            { updateLocation(); return('-'); }
+"+"			            { updateLocation(); return('+'); }
+"*"			            { updateLocation(); return('*'); }
+"/"			            { updateLocation(); return('/'); }
+"%"			            { updateLocation(); return('%'); }
+"<"			            { updateLocation(); return('<'); }
+">"			            { updateLocation(); return('>'); }
+"^"			            { updateLocation(); return('^'); }
+"|"			            { updateLocation(); return('|'); }
+"?"			            { updateLocation(); return('?'); }
+
+
+[\v\f]		        	{ /* Eat useless whitespace */ }
+[ ]				        { updateLocation(); }
+[\t]				    { tab(); }
+[\n]				    { newLine(); }
+
+{CHAR}				    { updateLocation(); return Parser::CHAR_LITERAL; }
 
 .			            { scannerError(); }
 

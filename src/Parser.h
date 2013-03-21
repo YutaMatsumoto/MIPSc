@@ -24,6 +24,8 @@ class Parser: public ParserBase
 
 	}
 
+	LTYPE__ getLocationStruct();
+
     private:
         void error(char const *msg);    // called on (syntax) errors
         int lex();                      // returns the next token from the
