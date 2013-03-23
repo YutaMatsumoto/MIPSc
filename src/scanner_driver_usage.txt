@@ -1,6 +1,6 @@
 Syntax
 
-    $ scanner_driver input_file [-d[l|s|ls]] [-o output_file]
+    $ scan input_file [-d[l|s|ls]] [-o output_file]
 
 Description
 
@@ -26,13 +26,13 @@ Examples
 
     create a.c.token
 
-        $ scanner_driver a.c
+        $ scan a.c
 
     create a.c.tokens, a.c.ldebug, a.c.sdebug
 
-        $ scanner_driver a.c -d
+        $ scan a.c -d
 
     create tokenfile and a.c.ldebug
 
-        $ scanner_driver a.c -dl -o tokenfile
+        $ scan a.c -dl -o tokenfile
 

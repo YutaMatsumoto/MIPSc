@@ -11,9 +11,9 @@
 #undef Parser
 class Parser: public ParserBase
 {
-        
-    public:
-        int parse();
+		
+	public:
+		int parse();
 
 	Parser( std::istream& stream, SymbolTable* table )
 	{
@@ -24,9 +24,9 @@ class Parser: public ParserBase
 
 	}
 
-    Parser( Scanner& s, SymbolTable* table ) 
-        : scanner(&s), symbolTable(table)
-    {}
+	Parser( Scanner& s, SymbolTable* table ) 
+		: scanner(&s), symbolTable(table)
+	{}
 
 	LTYPE__* getLocationStruct()
 	{
@@ -35,21 +35,21 @@ class Parser: public ParserBase
 
 	}
 
-    private:
-        void error(char const *msg);    // called on (syntax) errors
-        int lex();                      // returns the next token from the
-                                        // lexical scanner. 
-        void print();                   // use, e.g., d_token, d_loc
+	private:
+		void error(char const *msg);	// called on (syntax) errors
+		int lex();						// returns the next token from the
+										// lexical scanner. 
+		void print();					// use, e.g., d_token, d_loc
 	
 	Scanner* scanner;
 	SymbolTable* symbolTable;
 
-    // support functions for parse():
-        void executeAction(int ruleNr);
-        void errorRecovery();
-        int lookup(bool recovery);
-        void nextToken();
-        void print__();
+	// support functions for parse():
+		void executeAction(int ruleNr);
+		void errorRecovery();
+		int lookup(bool recovery);
+		void nextToken();
+		void print__();
 };
 
 

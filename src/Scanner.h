@@ -12,8 +12,9 @@
 class Parser;
 
 struct Loc {
-    Loc() 
-        : lnum(1), cnum(1), lastNewlinePos(-1), currNewLinePos(-1), numBytesRead(0) {} 
+
+	Loc() : lnum(1), cnum(1), lastNewlinePos(-1), currNewLinePos(-1), numBytesRead(0) {} 
+
 	void print()
 	{
 		std::cout << "( lnum, cnum, lastNewlinePos, currNewLinePos, numBytesRead " << std::endl;
@@ -27,9 +28,8 @@ struct Loc {
 			<< std::endl;
 	}
 
-
-    int lnum; // line number
-    int cnum; // column number
+	int lnum; // line number
+	int cnum; // column number
 	int lastNewlinePos;
 	int currNewLinePos;
 	int numBytesRead;
@@ -40,63 +40,87 @@ class Scanner: public ScannerBase
 {
     public:
 
+		//
+		//      Base Constructor 
+		//
+		//      for constructors of the form : Scanner(istream, ostream, ...)
+		//
+		// This is the constructor that takes the largest number of arguments.
+		// This can be used as a base constructor by all the other
+		// constructors for member initialization. I.e., all the other
+		// constructors delegate to this base constructor for consistency.
 		Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p);
 
-        explicit Scanner(std::istream &in = std::cin, std::ostream &out = std::cout);
+		explicit Scanner(std::istream &in = std::cin, std::ostream &out = std::cout);
 
 		Scanner(SymbolTable* tab, std::istream &in = std::cin, std::ostream &out = std::cout);
 
-        Scanner(Parser* p, std::istream &in, std::ostream &out);
+		Scanner(Parser* p, std::istream &in, std::ostream &out);
 
-    	// explicit Scanner(SymbolTable*);
+		// explicit Scanner(SymbolTable*);
 
-        Scanner(std::string const &infile, std::string const &outfile);
+		Scanner(std::string const &infile, std::string const &outfile);
 
 
-	// Prints the line the bad lexeme is on and points to to the bad lexeme.
-	//  
-	// Call this function when a bad lexeme is found.
-	// This function assumes updateLocation() keeps track of
-	// lnum,cnum,lastNewlinePos. Don't call updateLocation() when bad
-	// lexeme is found since that updates the location to the next lexeme.
+		// Prints the line the bad lexeme is on and points to to the bad lexeme.
+		//  
+		// Call this function when a bad lexeme is found.
+		// This function assumes updateLocation() keeps track of
+		// lnum,cnum,lastNewlinePos. Don't call updateLocation() when bad
+		// lexeme is found since that updates the location to the next lexeme.
         void scannerError();
 
         void commentHandler();
 
-	// This function keeps track of the location of lexeme.
-	//
-	// After callling this function, location (member variable) refers to
-	// the location of the next lexeme to be consumed by line number and
-	// column number :
-	//
-	//	locatoin.lnum  and location.cnum
-	//
-	// lastNewlinePos is the zero-indexed offset of the last newline
-	// character from the beginning of the file.
-	//
-	//	lastNewlinePos and numBytesRead
-	// 
-	void updateLocation();
+		// This function keeps track of the location of lexeme.
+		//
+		// After callling this function, location (member variable) refers to
+		// the location of the next lexeme to be consumed by line number and
+		// column number :
+		//
+		//	locatoin.lnum  and location.cnum
+		//
+		// lastNewlinePos is the zero-indexed offset of the last newline
+		// character from the beginning of the file.
+		//
+		//	lastNewlinePos and numBytesRead
+		// 
+		void updateLocation();
 
-	void update();
+		// This is a wrapper function that handles all the updates on each
+		// token extraction. 
+		void update();
 
-	std::string nextLine();
+		std::string nextLine();
 
-	std::string lastLine();
+		std::string lastLine();
 
-        Loc& getLoc() { return location; }
+		Loc& getLoc() { return location; }
 
-        void dumpSymbolTable();
+		void dumpSymbolTable();
 
-        static const int tabWidth = 4;
+		static const int tabWidth = 4;
 
-        // $insert lexFunctionDecl
-        int lex();
+		// $insert lexFunctionDecl
+		int lex();
 
-	void setDebugLineByLine(std::ostream& lineOutputTo);
+		void setDebugLineByLine(std::ostream& lineOutputTo);
 
 
-    private:
+    private: // member functions
+
+		int lex__();
+
+		int executeAction__(size_t ruleNr);
+
+		void print();
+
+		void preCode();     // re-implement this function for code that must 
+							// be exec'ed before the patternmatching starts
+		Loc location; // current location
+		Parser* parser;
+
+	private: // member variables
 
 		struct ScannerDebug {
 			ScannerDebug() 
@@ -107,37 +131,12 @@ class Scanner: public ScannerBase
 		};
 		ScannerDebug debug;
 
-	// int lastNewlinePos; // 0-indexed
+		SymbolTable* stab;
 
-	// int numBytesRead;
-
-        Loc location; // current location
-
-        // std::string lineValue;
-
-        int lex__();
-
-        int executeAction__(size_t ruleNr);
-
-        Parser* parser;
-
-        void print();
-
-        void preCode();     // re-implement this function for code that must 
-                            // be exec'ed before the patternmatching starts
-
-	SymbolTable* stab;
-    std::istream* ref_istream;
+		std::istream* ref_istream;
 };
 
-//
-//      Base Constructor 
-//      for the ones that have istream and ostream as their arguments
-//
-// This is the constructor that takes the largest number of arguments. 
-// This can be used as a base constructor by all the other constructors for
-// member initialization. I.e., all the other constructors delegate to this
-// base constructor for consistency.
+
 inline Scanner::Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p)
 : ScannerBase(in, out), ref_istream(&in), stab(tab), parser(p)
 {}
@@ -170,6 +169,7 @@ inline int Scanner::lex()
 inline void Scanner::preCode() 
 {
     // optionally replace by your own code
+	// std::cout << "preCode() " << std::endl;
 }
 
 inline void Scanner::print() 

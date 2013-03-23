@@ -150,10 +150,6 @@ int main(int argc, char* argv[])
 		std::string debug_file_lex = f.ifile + ldebug_extension;
 		l.open(debug_file_lex);
 	}
-	// if (f.stab_debug) {
-	// 	std::string debug_file_stab = f.ifile + sdebug_extension;
-	// 	s.open( debug_file_stab );
-	// }
 
 	Scanner s(i);
 

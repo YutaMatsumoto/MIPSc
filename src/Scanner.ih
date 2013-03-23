@@ -10,7 +10,7 @@ void Scanner::scannerError()
 	// case : empty file : TODO
 
 	//
-	//      Get The Line The Bad Lexeme Is On
+	//		Get The Line The Bad Lexeme Is On
 	//
 	std::string t;
 	// case : bad lexeme is on the first line (before the first newline)
@@ -24,7 +24,7 @@ void Scanner::scannerError()
 	std::getline(*ref_istream, t);
 
 	//
-	//      Output The Line With The Bad Lexeme Is On
+	//		Output The Line With The Bad Lexeme Is On
 	//
 	size_t number_of_tabs = 0;
 	for(auto c : t ) {
@@ -43,7 +43,7 @@ void Scanner::scannerError()
 	std::cerr << std::endl;
 
 	//
-	//      Point To The Bad Lexeme With ^ On The Following Line
+	//		Point To The Bad Lexeme With ^ On The Following Line
 	//
 	size_t number_of_spaces = number_of_tabs*(tabWidth-1)+location.cnum-1;
 	for(size_t i=0;i<number_of_spaces;i++) {
@@ -65,7 +65,7 @@ std::string Scanner::lastLine()
 	std::streampos savepos = ref_istream->tellg();
 
 	//
-	//      Get The Last Line
+	//		Get The Last Line
 	//
 	std::string lastLine;
 	if (location.lastNewlinePos<0) {
@@ -89,7 +89,7 @@ std::string Scanner::nextLine()
 	std::streampos savepos = ref_istream->tellg();
 
 	//
-	//      Get The Next Line
+	//		Get The Next Line
 	//
 	std::string lastLine;
 	if (location.currNewLinePos<0) {
@@ -125,21 +125,21 @@ void Scanner::update()
 
 void Scanner::updateLocation()
 {
-    std::string mstr(matched());
-    if ( mstr == "\n" ) {
+	std::string mstr(matched());
+	if ( mstr == "\n" ) {
 
 		location.lastNewlinePos = location.currNewLinePos;
 		location.currNewLinePos = location.numBytesRead;
 
-        location.lnum++; 
-        location.cnum = 1;
+		location.lnum++; 
+		location.cnum = 1;
 
-    }
-    else {
-        location.cnum += mstr.size();
-    }
+	}
+	else {
+		location.cnum += mstr.size();
+	}
 	location.numBytesRead += mstr.size();
-   	
+	
 }
 
 void Scanner::dumpSymbolTable()

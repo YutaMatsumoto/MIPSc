@@ -1,9 +1,9 @@
 //============================================================================
-// Name        : c_compiler.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : C Compiler
+// Name			: c_compiler.cpp
+// Author		: 
+// Version		:
+// Copyright	: Your copyright notice
+// Description	: C Compiler
 //============================================================================
 
 #include <iostream>
@@ -42,7 +42,7 @@ int main( int argc , char** argv ) {
 	SymbolTable* table = new SymbolTable();
 
 	Scanner scanner(table, inf, std::cout); 
-	scanner.setDebugLines(std::cout);
+	scanner.setDebugLineByLine(std::cout);
 
 	Parser p(scanner, table);
 
