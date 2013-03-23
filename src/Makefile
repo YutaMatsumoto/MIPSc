@@ -24,8 +24,8 @@ SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o parse.o lex.o
 % : %.cpp
 	$(CC) $(CCOPTION) $< -o $@ 
 
-$(COMPILER_NAME) : parse.o lex.o SymbolTable.o
-	$(CC) $(CCOPTION) $^ main.cc -o $@
+$(COMPILER_NAME) : main.cc parse.o lex.o SymbolTable.o
+	$(CC) $(CCOPTION) $^ -o $@
 
 %.o : %.cc 
 	$(CC) -c $(CCOPTION) $< -o $@
@@ -53,6 +53,10 @@ test_scan : scan
 	bash test_scan.sh ts*.c
 
 # ---------------------------------------------------------------------
-clean : 
-	rm *.o $(EXECUTABLES) *debug *tokens *.out
+#  misc
 
+clean : 
+	rm *.o $(EXECUTABLES) *debug *tokens *.out tags
+
+tags : $(shell find -name "*.ih" -or -name "*.h" -or -name "*.cc" -or -name "*.cpp")
+	ctags -R .

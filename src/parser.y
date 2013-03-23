@@ -8,6 +8,7 @@
 %token ENUMERATION_CONSTANT
 
 %token ENDOFFILE
+%token COMMENT
 
 %token SIZEOF
 

@@ -9,19 +9,23 @@ void Scanner::scannerError()
 {
 	// case : empty file : TODO
 
-	// Get the line the bad lexeme is on
+	//
+	//      Get The Line The Bad Lexeme Is On
+	//
 	std::string t;
 	// case : bad lexeme is on the first line (before the first newline)
-	if (lastNewlinePos<0) {
+	if (location.lastNewlinePos<0) {
 		ref_istream->seekg(0, ref_istream->beg);
 	}
 	// case : bad lexeme is on the second line or after (after the first newline)
-	else if (lastNewlinePos>=0) {
-		ref_istream->seekg(lastNewlinePos+1, ref_istream->beg);
+	else if (location.lastNewlinePos>=0) {
+		ref_istream->seekg(location.lastNewlinePos+1, ref_istream->beg);
 	}
 	std::getline(*ref_istream, t);
 
-	// Output the line with the bad lexeme
+	//
+	//      Output The Line With The Bad Lexeme Is On
+	//
 	size_t number_of_tabs = 0;
 	for(auto c : t ) {
 		// print the character as it is unless it's a tab
@@ -38,7 +42,9 @@ void Scanner::scannerError()
 	}
 	std::cerr << std::endl;
 
-	// Point to the bad lexeme with ^ on the following line
+	//
+	//      Point To The Bad Lexeme With ^ On The Following Line
+	//
 	size_t number_of_spaces = number_of_tabs*(tabWidth-1)+location.cnum-1;
 	for(size_t i=0;i<number_of_spaces;i++) {
 		std::cerr << " ";
@@ -52,12 +58,78 @@ void Scanner::scannerError()
 
 }
 
+
+std::string Scanner::lastLine()
+{
+	// save stream position
+	std::streampos savepos = ref_istream->tellg();
+
+	//
+	//      Get The Last Line
+	//
+	std::string lastLine;
+	if (location.lastNewlinePos<0) {
+		ref_istream->seekg(0, ref_istream->beg);
+	}
+	else { // if (location.lastNewlinePos>=0) {
+		ref_istream->seekg(location.lastNewlinePos+1, ref_istream->beg);
+	}
+	std::getline(*ref_istream, lastLine);
+
+	// restore stream position
+	ref_istream->seekg(savepos);
+
+	// return
+	return lastLine;
+}
+
+std::string Scanner::nextLine()
+{
+	// save stream position
+	std::streampos savepos = ref_istream->tellg();
+
+	//
+	//      Get The Next Line
+	//
+	std::string lastLine;
+	if (location.currNewLinePos<0) {
+		ref_istream->seekg(0, ref_istream->beg);
+	}
+	else if (location.currNewLinePos>=0) {
+		ref_istream->seekg(location.currNewLinePos+1, ref_istream->beg);
+	}
+	std::getline(*ref_istream, lastLine);
+
+	// restore stream position
+	ref_istream->seekg(savepos);
+
+	// return
+	return lastLine;
+}
+
+void Scanner::update()
+{
+	updateLocation();
+
+	// output line by line if the debug option is true
+	//
+	// If the parser is running as well, the line is output AFTER the 
+	// reduction is done as much as possible on that line
+	if (debug.output_line_by_line) {
+		if (matched() == "\n") {
+			*(debug.lineOutputTo) << lastLine() << std::endl << std::endl;
+		}
+	}
+
+}
+
 void Scanner::updateLocation()
 {
     std::string mstr(matched());
     if ( mstr == "\n" ) {
 
-		lastNewlinePos = numBytesRead;
+		location.lastNewlinePos = location.currNewLinePos;
+		location.currNewLinePos = location.numBytesRead;
 
         location.lnum++; 
         location.cnum = 1;
@@ -66,15 +138,25 @@ void Scanner::updateLocation()
     else {
         location.cnum += mstr.size();
     }
-	numBytesRead += mstr.size();
+	location.numBytesRead += mstr.size();
    	
 }
-
-
 
 void Scanner::dumpSymbolTable()
 {
 
 	stab->dumpTable( "symboltable.txt" );
 
+}
+
+void Scanner::setDebugLineByLine(std::ostream& lineOutputTo)
+{
+	if ( lineOutputTo.good() ) {
+		debug.output_line_by_line = true;
+		debug.lineOutputTo = &lineOutputTo;
+	}
+	else {
+		std::cerr << "setDebugLineByLine() : ostream not good" << std::endl;
+		// throw something here
+	}
 }

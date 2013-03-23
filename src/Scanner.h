@@ -13,26 +13,45 @@ class Parser;
 
 struct Loc {
     Loc() 
-        : lnum(1), cnum(1)
-    {} 
+        : lnum(1), cnum(1), lastNewlinePos(-1), currNewLinePos(-1), numBytesRead(0) {} 
+	void print()
+	{
+		std::cout << "( lnum, cnum, lastNewlinePos, currNewLinePos, numBytesRead " << std::endl;
+		std::cout << "("
+			<< lnum << ", "
+			<< cnum << ", "
+			<< lastNewlinePos << ", "
+			<< currNewLinePos << ", "
+			<< numBytesRead
+			<< ")" 
+			<< std::endl;
+	}
+
+
     int lnum; // line number
     int cnum; // column number
+	int lastNewlinePos;
+	int currNewLinePos;
+	int numBytesRead;
 };
 
 // $insert classHead
 class Scanner: public ScannerBase
 {
     public:
-        explicit Scanner(std::istream &in = std::cin,
-                                std::ostream &out = std::cout);
 
-	Scanner(SymbolTable*, std::istream &in = std::cin, std::ostream &out = std::cout);
+		Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p);
 
-    	explicit Scanner(SymbolTable*);
+        explicit Scanner(std::istream &in = std::cin, std::ostream &out = std::cout);
+
+		Scanner(SymbolTable* tab, std::istream &in = std::cin, std::ostream &out = std::cout);
+
+        Scanner(Parser* p, std::istream &in, std::ostream &out);
+
+    	// explicit Scanner(SymbolTable*);
 
         Scanner(std::string const &infile, std::string const &outfile);
 
-        Scanner(std::istream &in, std::ostream &out, Parser* parser );
 
 	// Prints the line the bad lexeme is on and points to to the bad lexeme.
 	//  
@@ -59,6 +78,12 @@ class Scanner: public ScannerBase
 	// 
 	void updateLocation();
 
+	void update();
+
+	std::string nextLine();
+
+	std::string lastLine();
+
         Loc& getLoc() { return location; }
 
         void dumpSymbolTable();
@@ -68,12 +93,23 @@ class Scanner: public ScannerBase
         // $insert lexFunctionDecl
         int lex();
 
+	void setDebugLineByLine(std::ostream& lineOutputTo);
+
 
     private:
 
-	int lastNewlinePos; // 0-indexed
+		struct ScannerDebug {
+			ScannerDebug() 
+				: output_line_by_line(false) {}
 
-	int numBytesRead;
+			bool output_line_by_line;
+			std::ostream* lineOutputTo;
+		};
+		ScannerDebug debug;
+
+	// int lastNewlinePos; // 0-indexed
+
+	// int numBytesRead;
 
         Loc location; // current location
 
@@ -94,30 +130,35 @@ class Scanner: public ScannerBase
     std::istream* ref_istream;
 };
 
+//
+//      Base Constructor 
+//      for the ones that have istream and ostream as their arguments
+//
+// This is the constructor that takes the largest number of arguments. 
+// This can be used as a base constructor by all the other constructors for
+// member initialization. I.e., all the other constructors delegate to this
+// base constructor for consistency.
+inline Scanner::Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p)
+: ScannerBase(in, out), ref_istream(&in), stab(tab), parser(p)
+{}
+
 // $insert scannerConstructors
 inline Scanner::Scanner(std::istream &in, std::ostream &out)
-: numBytesRead(0), lastNewlinePos(-1), ScannerBase(in, out), ref_istream(&in)
+: Scanner(in, out, NULL, NULL)
 {}
 
-
-inline Scanner::Scanner(SymbolTable* tab, std::istream &in, std::ostream &out)
-: numBytesRead(0), lastNewlinePos(-1), ScannerBase(in, out), stab(tab), ref_istream(&in)
+inline Scanner::Scanner(SymbolTable* tab, std::istream &in, std::ostream &out )
+: Scanner(in, out, tab, NULL)
+// : numBytesRead(0), lastNewlinePos(-1), ScannerBase(in, out), stab(tab), ref_istream(&in)
 {}
-
 
 // $insert scannerConstructors
-inline Scanner::Scanner(std::istream &in, std::ostream &out, Parser* parser )
-: numBytesRead(0),
-    lastNewlinePos(-1), ScannerBase(in, out), ref_istream(&in)
-{
-	this->parser = parser;
-}
-
-
+inline Scanner::Scanner(Parser* p, std::istream &in, std::ostream &out)
+: Scanner(in, out, NULL, p)
+{}
 
 inline Scanner::Scanner(std::string const &infile, std::string const &outfile)
-: numBytesRead(0),
-    lastNewlinePos(-1), ScannerBase(infile, outfile)
+: ScannerBase(infile, outfile)
 {}
 
 // $insert inlineLexFunction

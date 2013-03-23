@@ -14,6 +14,7 @@
 
 int main( int argc , char** argv ) {
 	
+	// erro handling
 	if( argc < 2 )
 	{
 
@@ -23,6 +24,7 @@ int main( int argc , char** argv ) {
 
 	}
 
+	// Try open file
 	std::fstream inf;
 
 	inf.open( argv[1] , std::fstream::in );
@@ -36,9 +38,15 @@ int main( int argc , char** argv ) {
 	
 	}
 
+
 	SymbolTable* table = new SymbolTable();
 
-	Parser p( inf , table );
+	Scanner scanner(table, inf, std::cout); 
+	scanner.setDebugLines(std::cout);
+
+	Parser p(scanner, table);
+
+	// Parser p( inf , table );
 	
 	p.setDebug( false );
 
