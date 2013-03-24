@@ -10,21 +10,11 @@ void Scanner::scannerError()
 {
 	// case : empty file : TODO
 
-	location.print();
+	// location.print();
 
 	//
 	//		Get The Line The Bad Lexeme Is On
 	//
-	// std::string t;
-	// // case : bad lexeme is on the first line (before the first newline)
-	// if (location.lastNewlinePos<0) {
-	// 	ref_istream->seekg(0, ref_istream->beg);
-	// }
-	// // case : bad lexeme is on the second line or after (after the first newline)
-	// else if (location.lastNewlinePos>=0) {
-	// 	ref_istream->seekg(location.lastNewlinePos+1, ref_istream->beg);
-	// }
-	// std::getline(*ref_istream, t);
 	std::string t = nextLine();
 
 	//
@@ -110,6 +100,24 @@ std::string Scanner::nextLine()
 	return lastLine;
 }
 
+void Scanner::run()
+{
+	int val = lex();
+	while ( val != Parser::ENDOFFILE ) {
+
+		if (debug.lexer_dump)
+			(*debug.lexerDumpTo) << matched() << " : " << val << std::endl;
+
+		if (debug.token_dump) {
+			debug.token_file_stream	<<  matched() << std::endl;
+		}
+
+		// update
+		val = lex();
+	}
+
+}
+
 void Scanner::update()
 {
 	updateLocation();
@@ -120,7 +128,12 @@ void Scanner::update()
 	// reduction is done as much as possible on that line
 	if (debug.output_line_by_line) {
 		if (matched() == "\n") {
-			*(debug.lineOutputTo) << lastLine() << std::endl << std::endl;
+			*(debug.lineOutputTo) 
+				<< "---------------------------------------------------------- " << std::endl
+				<< "l" << location.lnum << " : " 
+				<< lastLine() << std::endl
+				<< "---------------------------------------------------------- " << std::endl
+				<< std::endl; 
 		}
 	}
 
@@ -164,11 +177,29 @@ void Scanner::setDebugLineByLine(std::ostream& lineOutputTo)
 	}
 }
 
-void Scanner::setDebugSymbolTableDump(std::ostream& symbolTableDumpTo)
+void Scanner::setDebugSymbolTableDump(const std::string& filename)
 {
-	if ( symbolTableDumpTo.good() ) {
-		debug.symbol_table_dump = true;
-		debug.symbolTableDumpTo = &symbolTableDumpTo;
+	debug.symbol_table_dump = true;
+	debug.symbol_table_dump_file = filename;
+}
+
+// void Scanner::setDebugSymbolTableDump(std::ostream& symbolTableDumpTo)
+// {
+// 	if ( symbolTableDumpTo.good() ) {
+// 		debug.symbol_table_dump = true;
+// 		debug.symbolTableDumpTo = &symbolTableDumpTo;
+// 	}
+// 	else {
+// 		std::cerr << "setDebugSymbolTableDump() : the stream supplied is not good." << std::endl;
+// 		// throw or exit here
+// 	}
+// }
+
+void Scanner::setDebugLexer(std::ostream& lexerDumpTo)
+{
+	if ( lexerDumpTo.good() ) {
+		debug.lexer_dump = true;
+		debug.lexerDumpTo = &lexerDumpTo;
 	}
 	else {
 		std::cerr << "setDebugSymbolTableDump() : the stream supplied is not good." << std::endl;
@@ -176,11 +207,21 @@ void Scanner::setDebugSymbolTableDump(std::ostream& symbolTableDumpTo)
 	}
 }
 
+void Scanner::setDebugToken(const std::string& filename)
+{
+	debug.token_dump = true;	
+	debug.token_dump_file = filename;
+	debug.token_file_stream.open(filename);
+	if(!debug.token_file_stream.good()) {
+		std::cerr << filename 
+			<< "scannersetDebugToken() : Could not have been opend for token file " 
+			<< std::endl;
+	}
+}
+
 void Scanner::insertSymbol()
 {
-	std::cout << "InsertSymbol" << std::endl;
 	if (stab) { 
-		std::cout << "tab address in Scanner::insertSymbol: " << stab << std::endl;
 		stab->insertSymbol(matched(), location); // TODO
 	}
 }

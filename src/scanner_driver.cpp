@@ -142,64 +142,60 @@ int main(int argc, char* argv[])
 		usage();
 		return 1;
 	}
+	// f.print();
 
 	//
-	//      Parepare Output
+	//      
 	//
-	std::ifstream i(f.ifile); 
-	std::ofstream t;
-	std::ofstream l;
-	// std::ofstream s;
+	std::ifstream i(f.ifile); // input file
+	SymbolTable stab;
+	Scanner scanner(&stab, i);
+
+	//
+	//      Parepare Output Streams
+	//
+	
+	// token file stream
+	std::ofstream t; 
 	if (f.ofile.size()==0) {
 		f.ofile=f.ifile + tokens_extension;
 		t.open(f.ofile);
+		scanner.setDebugToken(f.ofile);
 	}
+
+	// lex debug stream
+	std::ofstream l; 
 	if (f.lex_debug) {
 		std::string debug_file_lex = f.ifile + ldebug_extension;
 		l.open(debug_file_lex);
+		scanner.setDebugLexer(l);
 	}
 
-	//
-	//      Symbol Table InsertSymbol() Works By It Is Without Scanner
-	//
-	SymbolTable stab;
-	SymbolTable* stabp = &stab;
-	stab.insertSymbol("aiueo", Loc());
-	stabp->insertSymbol("i", Loc());
-	stab.insertSymbol("1", Loc());
-	stab.insertSymbol("2", Loc());
-	stab.insertSymbol("3", Loc());
-	stab.insertSymbol("4", Loc());
-	stab.dumpTable("stable_from_scanner_driver");
-	// cout << "aiueo" << endl;
-	// cout << "i" << endl;
-	// cout << "tab addr in driver : " << stabp << endl;
+	// symbol table debug stream
+	std::ofstream s; 
+	if (f.stab_debug) {
+		std::string debug_file_stab = f.ifile + sdebug_extension;
+		// s.open(debug_file_stab);
+		scanner.setDebugSymbolTableDump(debug_file_stab);
+	}
 
+	scanner.run();	
 
 	//
 	//      Create Token File With Scanner
 	//
-	Scanner s(&stab, i);
-	s.setDebugSymbolTableDump(std::cout);
-	// exit(1);
-	int val = s.lex();
-	val = s.lex();
-	std::string matched = s.matched();
-	while ( val != Parser::ENDOFFILE ) {
-		std::cout << matched << " : " << val << std::endl;
-		// token file
-		t << matched << std::endl;
+	// int val = scanner.lex();
+	// val = scanner.lex();
+	// std::string matched = scanner.matched();
+	// while ( val != Parser::ENDOFFILE ) {
+	// 	// write each token to token file
+	// 	t << matched << std::endl;
+	// 	// update
+	// 	val = scanner.lex();
+	// 	matched = scanner.matched();
+	// }
 
-		// lex debug file
-		// TODO in scanner
-		// if (f.lex_debug) l << matched << " : " << val << std::endl;
-		// stab debug should be done within scanner
-
-		// update
-		val = s.lex();
-		matched = s.matched();
-	}
 	t.close();
-	// l.close();
-	
+	l.close();
+	s.close();	
 }

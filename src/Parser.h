@@ -15,32 +15,49 @@ class Parser: public ParserBase
 	public:
 		int parse();
 
-	Parser( std::istream& stream, SymbolTable* table )
-	{
+		Parser( std::istream& stream, SymbolTable* table )
+		{
 
-		scanner = new Scanner( stream );
+			scanner = new Scanner( stream );
 
-		symbolTable = table;
+			symbolTable = table;
 
-	}
+		}
 
-	Parser( Scanner& s, SymbolTable* table ) 
-		: scanner(&s), symbolTable(table)
-	{}
+		Parser( Scanner& s, SymbolTable* table ) 
+			: scanner(&s), symbolTable(table)
+		{}
 
-	LTYPE__* getLocationStruct()
-	{
+		LTYPE__* getLocationStruct()
+		{
 
-		return &d_loc__;
+			return &d_loc__;
 
-	}
+		}
+
+		void configDebugPrint(
+			std::ostream& os, std::string prefix="", std::string postfix="");
+
 
 	private:
 		void error(char const *msg);	// called on (syntax) errors
 		int lex();						// returns the next token from the
 										// lexical scanner. 
 		void print();					// use, e.g., d_token, d_loc
-	
+		void debugPrint(std::string);
+
+	struct ParserDebug {
+		ParserDebug() 
+			: debugOutput(false), debugOutputStream(std::cout.rdbuf())
+		{}
+
+		bool debugOutput;
+		std::string debugOutputPrefix;
+		std::string debugOutputPostfix;
+		std::ostream debugOutputStream;
+	};
+
+	ParserDebug debug;
 	Scanner* scanner;
 	SymbolTable* symbolTable;
 

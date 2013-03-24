@@ -10,7 +10,9 @@ inline void Parser::error(char const *msg)
 {
 	Loc& location = scanner->getLoc();
 	
-	std::cerr << "Syntax Error @: " << location.lnum << ":" << location.cnum << std::endl;
+	std::cerr << "Syntax Error Found around " << location.lnum << ":" << location.cnum << std::endl;
+
+	// std::cerr << "Syntax Error @: " << location.lnum << ":" << location.cnum << std::endl;
 }
 
 // $insert lex
@@ -35,6 +37,35 @@ inline void Parser::print()
 	print__();			 // displays tokens if --print was specified
 }
 
+
+// void Parser::configDebugPrint(std::ostream& os, std::string prefix="", std::string postfix="")
+void Parser::configDebugPrint(std::ostream& os, std::string prefix, std::string postfix)
+{
+	if (os.good()) {
+		// std::cout << "Setting output stream" << std::endl;
+		debug.debugOutput = true;
+		debug.debugOutputStream.rdbuf(os.rdbuf());
+	}
+	else {
+		std::cerr << "Parser::setDebugPrintTo() : the supplied stream is not good";
+		std::cerr << "Setting output stream to stdout" << std::endl;
+		debug.debugOutputStream.rdbuf(std::cout.rdbuf());
+	}
+	debug.debugOutputPrefix  = prefix;
+	debug.debugOutputPostfix = postfix;
+}
+
+void Parser::debugPrint(std::string msg)
+{
+	if (debug.debugOutputStream) {
+		debug.debugOutputStream 
+			<< debug.debugOutputPrefix
+			<< msg 
+			<< debug.debugOutputPostfix
+			<< std::endl; 
+
+	}
+}
 
 	// Add here includes that are only required for the compilation 
 	// of Parser's sources.

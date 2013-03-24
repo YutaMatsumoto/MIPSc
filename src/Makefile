@@ -39,8 +39,8 @@ parse.o : parse.cc Parserbase.h Parser.h Parser.ih
 lex.cc : scanner.lex parse.cc Scanner.ih Scanner.h
 	$(FLEX) $< 
 
-Scannerbase.h : scanner.lex
-	$(FLEX) $< 
+# Scannerbase.h : scanner.lex
+	# $(FLEX) $< 
 
 parse.cc : parser.y
 	$(BISON) $(BISONFLAG) $<
@@ -59,7 +59,10 @@ test_scan : scan
 #  misc
 
 clean : 
-	rm *.o $(EXECUTABLES) *debug *tokens *.out tags
+	rm *.o *debug *tokens *.out tags *.list lex.cc parse.cc
+
+cleanAll :
+	rm $(EXECUTABLES)  ; make clean
 
 tags : $(shell find -name "*.ih" -or -name "*.h" -or -name "*.cc" -or -name "*.cpp")
 	ctags -R .
