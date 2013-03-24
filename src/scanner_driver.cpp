@@ -6,6 +6,9 @@
 
 #include "Scanner.h"
 #include "Parser.h"
+#include "SymbolTable.h"
+
+using namespace std;
 
 //	TODO
 //		
@@ -130,6 +133,9 @@ void tryOpenForWrite(std::ofstream& os, std::string fname)
 
 int main(int argc, char* argv[])
 {
+	//
+	//      Parser Command Line
+	//
 	// CommandFlags f = parse_command(argc-1, &argv[1]);
 	CommandFlags f = parse_command(argc, argv);
 	if (f.error) {
@@ -137,11 +143,13 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+	//
+	//      Parepare Output
+	//
 	std::ifstream i(f.ifile); 
 	std::ofstream t;
 	std::ofstream l;
 	// std::ofstream s;
-
 	if (f.ofile.size()==0) {
 		f.ofile=f.ifile + tokens_extension;
 		t.open(f.ofile);
@@ -151,17 +159,40 @@ int main(int argc, char* argv[])
 		l.open(debug_file_lex);
 	}
 
-	Scanner s(i);
+	//
+	//      Symbol Table InsertSymbol() Works By It Is Without Scanner
+	//
+	SymbolTable stab;
+	SymbolTable* stabp = &stab;
+	stab.insertSymbol("aiueo", Loc());
+	stabp->insertSymbol("i", Loc());
+	stab.insertSymbol("1", Loc());
+	stab.insertSymbol("2", Loc());
+	stab.insertSymbol("3", Loc());
+	stab.insertSymbol("4", Loc());
+	stab.dumpTable("stable_from_scanner_driver");
+	// cout << "aiueo" << endl;
+	// cout << "i" << endl;
+	// cout << "tab addr in driver : " << stabp << endl;
 
+
+	//
+	//      Create Token File With Scanner
+	//
+	Scanner s(&stab, i);
+	s.setDebugSymbolTableDump(std::cout);
+	// exit(1);
 	int val = s.lex();
+	val = s.lex();
 	std::string matched = s.matched();
 	while ( val != Parser::ENDOFFILE ) {
 		std::cout << matched << " : " << val << std::endl;
 		// token file
 		t << matched << std::endl;
+
 		// lex debug file
-		if (f.lex_debug) 
-			l << matched << " : " << val << std::endl;
+		// TODO in scanner
+		// if (f.lex_debug) l << matched << " : " << val << std::endl;
 		// stab debug should be done within scanner
 
 		// update
@@ -169,6 +200,6 @@ int main(int argc, char* argv[])
 		matched = s.matched();
 	}
 	t.close();
-	l.close();
+	// l.close();
 	
 }

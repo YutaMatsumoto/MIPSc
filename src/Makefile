@@ -12,7 +12,7 @@ EXECUTABLES=$(COMPILER_NAME) scan
 
 default : $(EXECUTABLES)
 
-scan : scanner_driver.cpp lex.o parse.cc SymbolTable.o
+scan : scanner_driver.cpp lex.o SymbolTable.o
 	$(CC) $(CCOPTION) $^ -o $@ 
 
 SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o parse.o lex.o
@@ -36,7 +36,10 @@ lex.o : lex.cc Scannerbase.h Scanner.h Scanner.ih
 parse.o : parse.cc Parserbase.h Parser.h Parser.ih 
 	$(CC) -c $(CCOPTION) $< -o $@
 
-lex.cc Scannerbase.h Scanner.h Scanner.ih : scanner.lex parse.cc
+lex.cc : scanner.lex parse.cc Scanner.ih Scanner.h
+	$(FLEX) $< 
+
+Scannerbase.h : scanner.lex
 	$(FLEX) $< 
 
 parse.cc : parser.y

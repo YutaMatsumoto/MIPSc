@@ -6,34 +6,10 @@
 // $insert baseclass_h
 #include "Scannerbase.h"
 #include "SymbolTable.h"
+#include "SymbolLocation.h"
 #include <string>
 
-
 class Parser;
-
-struct Loc {
-
-	Loc() : lnum(1), cnum(1), lastNewlinePos(-1), currNewLinePos(-1), numBytesRead(0) {} 
-
-	void print()
-	{
-		std::cout << "( lnum, cnum, lastNewlinePos, currNewLinePos, numBytesRead " << std::endl;
-		std::cout << "("
-			<< lnum << ", "
-			<< cnum << ", "
-			<< lastNewlinePos << ", "
-			<< currNewLinePos << ", "
-			<< numBytesRead
-			<< ")" 
-			<< std::endl;
-	}
-
-	int lnum; // line number
-	int cnum; // column number
-	int lastNewlinePos;
-	int currNewLinePos;
-	int numBytesRead;
-};
 
 // $insert classHead
 class Scanner: public ScannerBase
@@ -61,6 +37,19 @@ class Scanner: public ScannerBase
 
 		Scanner(std::string const &infile, std::string const &outfile);
 
+		// ~Scanner if defined outside of the braces of this class here, it
+		// causes a compiler error : multiple definition ...
+		~Scanner() {
+			std::cout << "cleanup 1" << std::endl;
+			if (debug.symbol_table_dump) {
+				std::cout << "cleanup 2" << std::endl;
+				if (stab) {
+					std::cout << "cleanup 3" << std::endl;
+					stab->dumpTable("stab");
+					// dumpTable( *(debug.symbolTableDumpTo) );
+				}
+			}
+		}
 
 		// Prints the line the bad lexeme is on and points to to the bad lexeme.
 		//  
@@ -106,6 +95,12 @@ class Scanner: public ScannerBase
 
 		void setDebugLineByLine(std::ostream& lineOutputTo);
 
+		void setDebugSymbolTableDump(std::ostream& symbolTableDumpTo);
+		
+		// any cleanup after the scanner is done with eof.
+		void cleanup();
+
+		void insertSymbol();
 
     private: // member functions
 
@@ -124,10 +119,15 @@ class Scanner: public ScannerBase
 
 		struct ScannerDebug {
 			ScannerDebug() 
-				: output_line_by_line(false) {}
+				: output_line_by_line(false), lineOutputTo(NULL),
+					symbol_table_dump(false), symbolTableDumpTo(NULL)
+			{}
 
 			bool output_line_by_line;
 			std::ostream* lineOutputTo;
+			bool symbol_table_dump;
+			std::ostream* symbolTableDumpTo;
+
 		};
 		ScannerDebug debug;
 
@@ -136,10 +136,12 @@ class Scanner: public ScannerBase
 		std::istream* ref_istream;
 };
 
-
 inline Scanner::Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p)
 : ScannerBase(in, out), ref_istream(&in), stab(tab), parser(p)
-{}
+{
+	std::cout << "tab address: " << stab << std::endl;
+	// stab->insertSymbol("hello", Loc());
+}
 
 // $insert scannerConstructors
 inline Scanner::Scanner(std::istream &in, std::ostream &out)
@@ -148,7 +150,6 @@ inline Scanner::Scanner(std::istream &in, std::ostream &out)
 
 inline Scanner::Scanner(SymbolTable* tab, std::istream &in, std::ostream &out )
 : Scanner(in, out, tab, NULL)
-// : numBytesRead(0), lastNewlinePos(-1), ScannerBase(in, out), stab(tab), ref_istream(&in)
 {}
 
 // $insert scannerConstructors

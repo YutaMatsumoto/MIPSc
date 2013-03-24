@@ -52,7 +52,7 @@ CHAR		"'"."'"
 "volatile"				{ update(); return(Parser::VOLATILE); }
 "while"					{ update(); return(Parser::WHILE); }
 
-{L}({L}|{D})*	        { update(); return(Parser::IDENTIFIER); }
+{L}({L}|{D})*	        { update(); insertSymbol(); return(Parser::IDENTIFIER); }
 0(x|X){H}+(u|l)?	    { update(); return Parser::I_CONSTANT; }
 {D}+(u|l)?	            { update(); return Parser::I_CONSTANT; }
 

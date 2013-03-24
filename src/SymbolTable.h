@@ -1,9 +1,16 @@
 #include <map>
 #include <list>
 #include "Parserbase.h"
+#include "SymbolLocation.h"
 
 #ifndef SYMBOLTABLE_H_
 #define SYMBOLTABLE_H_
+
+// ---------------------------------------------------------------------------
+// BUGS
+//
+//	If same symbol is inserted twice, seg fault happens
+
 
 // > -------------------------------------------------------------------------
 // References
@@ -31,7 +38,7 @@
 
 typedef std::string         SymbolKey;      // lexeme
 struct                      SymbolData {};  // data for the symbol
-typedef ParserBase::LTYPE__ SymbolLoc;
+typedef Loc                 SymbolLoc;
 
 struct SymbolVal { 
     SymbolVal() 
@@ -75,6 +82,7 @@ struct SymbolInfo {
 
 // SymbolData with Scope
 typedef ScopeStack::iterator SymbolScope;
+
 struct SymbolDetail {
     SymbolDetail(SymbolScope s, SymbolData d)
         : sscope(s), sdata(d)
