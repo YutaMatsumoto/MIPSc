@@ -5,10 +5,11 @@
  *      Author: njordan
  */
 
-#include <string>
-
 #ifndef SYMBOL_H_
 #define SYMBOL_H_
+
+#include <string>
+#include "Type.h"
 
 class Symbol
 {
@@ -29,6 +30,8 @@ protected:
 	int lineNumber;
 
 	int columnNumber;
+	
+	Type* symbolType;
 
 };
 
