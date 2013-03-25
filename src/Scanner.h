@@ -8,6 +8,7 @@
 #include "SymbolTable.h"
 #include "SymbolLocation.h"
 #include <string>
+#include <fstream>
 
 class Parser;
 

@@ -1,28 +1,46 @@
 #include <iostream>
 
 #include "SymbolTable.h"
+#include "Symbol.h"
 #include "Parser.h"
 
 int main(int argc, char** argv)
 {
 
+	std::string foo = "foo";
+
+	std::string bar = "bar";
+
+	std::string abc = "abc";
+
+	std::string def = "def";
+
 	SymbolTable stab;
-	
-	for(int i=0;i<argc;i++) {
-		std::cout << argv[i] << std::endl;
-	}
 
-	// insertSymbol
-	stab.insertSymbol("hello", SymbolLoc() );
-	stab.insertSymbol("World", SymbolLoc() );
+	Symbol* i = new Symbol( foo, 1 , 1 );
 
-	// searchSymbol
-	SymbolDetail sd = stab.searchSymbol("hello", stab.currentScope());
-	SymbolScope sscope = sd.sscope; // Iteracotr
-	SymbolData data = sd.sdata;
-	std::cout << ( sscope[0] )["hello"] << std::cout ;
+	stab.insertSymbol( i );
 
-	// dumpTable
-	stab.dumpTable( "stab.debug" );
+	Symbol* j = new Symbol( bar, 1 , 1 );
+
+	stab.insertSymbol( j );
+
+	stab.beginScope();
+
+	Symbol* k = new Symbol( foo, 1 , 1 );
+
+	stab.insertSymbol( k );
+
+	Symbol* l = new Symbol( abc, 1 , 1 );
+
+	stab.insertSymbol( l );
+
+	Symbol* m = new Symbol( def, 1 , 1 );
+
+	stab.insertSymbol( m );
+
+	stab.insertSymbol( m );
+
+	stab.dumpTable( "symboltabledebug.txt" );
 
 }

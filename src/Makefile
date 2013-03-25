@@ -15,8 +15,8 @@ default : $(EXECUTABLES)
 scan : scanner_driver.cpp lex.o SymbolTable.o
 	$(CC) $(CCOPTION) $^ -o $@ 
 
-SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o parse.o lex.o
-	$(CC) $(CCOPTION) parse.o lex.o SymbolTable.o $< -o $@
+SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o Symbol.o Scope.o SymbolTableInfo.o Type.o parse.o lex.o
+	$(CC) $(CCOPTION) parse.o lex.o SymbolTable.o Symbol.o Scope.o SymbolTableInfo.o Type.o $< -o $@
 
 # ---------------------------------------------------------------------
 # Objects
@@ -45,7 +45,19 @@ lex.cc : scanner.lex parse.cc Scanner.ih Scanner.h
 parse.cc : parser.y
 	$(BISON) $(BISONFLAG) $<
 
-SymbolTable.o : SymbolTable.cc SymbolTable.h
+SymbolTable.o : SymbolTable.cpp SymbolTable.h
+	$(CC) -c $(CCOPTION) $< -o $@
+	
+Symbol.o : Symbol.cpp Symbol.h
+	$(CC) -c $(CCOPTION) $< -o $@
+	
+Type.o : Type.cpp Type.h
+	$(CC) -c $(CCOPTION) $< -o $@
+	
+SymbolTableInfo.o : SymbolTableInfo.cpp SymbolTableInfo.h
+	$(CC) -c $(CCOPTION) $< -o $@
+	
+Scope.o : Scope.cpp Scope.h
 	$(CC) -c $(CCOPTION) $< -o $@
 
 # ---------------------------------------------------------------------
