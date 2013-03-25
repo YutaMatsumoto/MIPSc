@@ -195,17 +195,18 @@ void Scanner::setDebugSymbolTableDump(const std::string& filename)
 // 	}
 // }
 
-void Scanner::setDebugLexer(std::ostream& lexerDumpTo)
-{
-	if ( lexerDumpTo.good() ) {
-		debug.lexer_dump = true;
-		debug.lexerDumpTo = &lexerDumpTo;
-	}
-	else {
-		std::cerr << "setDebugSymbolTableDump() : the stream supplied is not good." << std::endl;
-		// throw or exit here
-	}
-}
+// void Scanner::setDebugLexer(std::ostream& lexerDumpTo)
+// {
+// 	if ( lexerDumpTo.good() ) {
+// 		std::cout << "Setting up lexer dump" << std::endl;
+// 		debug.lexer_dump = true;
+// 		debug.lexerDumpTo = &lexerDumpTo;
+// 	}
+// 	else {
+// 		std::cerr << "setDebugSymbolTableDump() : the stream supplied is not good." << std::endl;
+// 		// throw or exit here
+// 	}
+// }
 
 void Scanner::setDebugToken(const std::string& filename)
 {

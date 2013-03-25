@@ -1,6 +1,6 @@
 Syntax
 
-    $ scan input_file [-d[l|s|ls]] [-o output_file]
+    $ scan input_file [-d[l|s|p]] [-o output_file]
 
 Description
 
@@ -18,17 +18,21 @@ Description
        | ----- | ----------------------- | -------------------- |
        | l     | lexer debug mode        | inputfile.ldebug     |
        | s     | symbol table debug mode | inputfile.sdebug     |
-       | ls    | both of above           | both of above        |
-       | empty | same as ls              | same as ls           |
+       | p     | parser debug            | inputfile.pebugA     |
+       | empty | same as ls              | same as -dlsp        |
+
+    You can specify combinaions of l, s, and p.
+    If you specify l an p options, then the debug output for those go to the
+    file with extension .list instead of the two files with .ldebug and pebug
 
 
 Examples
 
-    create a.c.token
+    create a.c.token only
 
         $ scan a.c
 
-    create a.c.tokens, a.c.ldebug, a.c.sdebug
+    create a.c.tokens, a.c.list a.c.sebug
 
         $ scan a.c -d
 

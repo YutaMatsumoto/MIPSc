@@ -38,7 +38,6 @@ inline void Parser::print()
 }
 
 
-// void Parser::configDebugPrint(std::ostream& os, std::string prefix="", std::string postfix="")
 void Parser::configDebugPrint(std::ostream& os, std::string prefix, std::string postfix)
 {
 	if (os.good()) {
@@ -57,13 +56,15 @@ void Parser::configDebugPrint(std::ostream& os, std::string prefix, std::string 
 
 void Parser::debugPrint(std::string msg)
 {
-	if (debug.debugOutputStream) {
-		debug.debugOutputStream 
-			<< debug.debugOutputPrefix
-			<< msg 
-			<< debug.debugOutputPostfix
-			<< std::endl; 
+	if (debug.debugOutput) {
+		if (debug.debugOutputStream) {
+			debug.debugOutputStream 
+				<< debug.debugOutputPrefix
+				<< msg 
+				<< debug.debugOutputPostfix
+				<< std::endl; 
 
+		}
 	}
 }
 
