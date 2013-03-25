@@ -15,8 +15,8 @@ default : $(EXECUTABLES)
 scan : scanner_driver.cpp lex.o SymbolTable.o
 	$(CC) $(CCOPTION) $^ -o $@ 
 
-SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o Symbol.o Scope.o SymbolTableInfo.o Type.o parse.o lex.o
-	$(CC) $(CCOPTION) parse.o lex.o SymbolTable.o Symbol.o Scope.o SymbolTableInfo.o Type.o $< -o $@
+SymbolTableDriver.out : SymbolTableDriver.cpp SymbolTable.o Symbol.o Scope.o SymbolTableInfo.o Type.o
+	$(CC) $(CCOPTION) SymbolTable.o Symbol.o Scope.o SymbolTableInfo.o Type.o $< -o $@
 
 # ---------------------------------------------------------------------
 # Objects

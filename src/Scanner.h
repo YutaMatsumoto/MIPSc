@@ -4,7 +4,7 @@
 #define Scanner_H_INCLUDED_
 
 // $insert baseclass_h
-#include "Scannerbase.h"
+// #include "Scannerbase.h"
 #include "SymbolTable.h"
 #include "SymbolLocation.h"
 #include <string>
@@ -155,7 +155,7 @@ class Scanner: public ScannerBase
 		std::istream* ref_istream;
 };
 
-inline Scanner::Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p)
+Scanner::Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p)
 : ScannerBase(in, out), ref_istream(&in), stab(tab), parser(p)
 {}
 
