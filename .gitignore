@@ -5,7 +5,6 @@
 *parse.cc
 
 MIPSc*
-scan*
 
 *.o
 *.out

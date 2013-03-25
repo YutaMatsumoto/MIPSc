@@ -1,3 +1,19 @@
+//
+//	This is a lexer definition file that will be fed into flexc++. Then,
+//	flexc++ produces skelton files for C++ Scanner class :
+//
+//		Scannerbase.h : base class that Scanner class is supposed to extend from
+//		Scanner.h     : interface for Scanner class
+//		Scanner.ih    : implementation of Scanner class
+//		lex.cc        : lex implementation which includes Scanner.h and Scanner.ih
+//
+//	In this lex definition file, we can use precedures defined in Scanner class
+//
+//	On each token extraction, Scanner::update() function is called unless
+//	error happends to do bookkeeping such as keeping track of current location
+//	of the source file the scanner is at. 
+//
+
 D			[0-9]
 L			[a-zA-Z_]
 H			[a-fA-F0-9]

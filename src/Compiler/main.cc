@@ -27,7 +27,7 @@ int main( int argc , char** argv ) {
 	//
 	string input_filename( argv[1] );
 	fstream inf;
-	inf.open( input_filename, fstream::in );
+	inf.open( input_filename.c_str() , fstream::in );
 	if( !inf.good() )
 	{
 		cerr << "cannot open file" << endl;

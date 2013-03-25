@@ -10,15 +10,6 @@
 
 using namespace std;
 
-//	TODO
-//		
-//		Add symbol table to scanner
-//	
-//		Replace system("cat...") in usage
-//
-//		check if file is openable on open
-//
-
 // Globals
 const int endOfFile=0;
 const std::string tokens_extension = ".tokens";
@@ -134,10 +125,11 @@ void tryOpenForWrite(std::ofstream& os, std::string fname)
 int main(int argc, char* argv[])
 {
 	//
-	//      Parser Command Line
+	//      Parse Command Line
 	//
 	// CommandFlags f = parse_command(argc-1, &argv[1]);
 	CommandFlags f = parse_command(argc, argv);
+
 	if (f.error) {
 		usage();
 		return 1;
@@ -145,7 +137,9 @@ int main(int argc, char* argv[])
 	// f.print();
 
 	//
-	//      
+	//
+	//      Set UptScanner 
+	//
 	//
 	std::ifstream i(f.ifile); // input file
 	SymbolTable stab;
@@ -161,39 +155,33 @@ int main(int argc, char* argv[])
 		f.ofile=f.ifile + tokens_extension;
 		t.open(f.ofile);
 		scanner.setDebugToken(f.ofile);
+		cout << "Producing token file : " << f.ofile << endl;
 	}
 
-	// lex debug stream
+	//
+	//      Open Lex Debug Stream If Lex Debug Specified
+	//
 	std::ofstream l; 
 	if (f.lex_debug) {
 		std::string debug_file_lex = f.ifile + ldebug_extension;
 		l.open(debug_file_lex);
 		scanner.setDebugLexer(l);
+		cout << "Producing lexer debug file : " << debug_file_lex << endl;
 	}
 
-	// symbol table debug stream
+	//
+	//      Open Symbol Table Debug Stream If Symbl Table Debug Specified
+	//
 	std::ofstream s; 
 	if (f.stab_debug) {
 		std::string debug_file_stab = f.ifile + sdebug_extension;
 		// s.open(debug_file_stab);
 		scanner.setDebugSymbolTableDump(debug_file_stab);
+		cout << "Producing symbol table debug file: " << debug_file_stab << endl;
 	}
 
+	// Run scanner
 	scanner.run();	
-
-	//
-	//      Create Token File With Scanner
-	//
-	// int val = scanner.lex();
-	// val = scanner.lex();
-	// std::string matched = scanner.matched();
-	// while ( val != Parser::ENDOFFILE ) {
-	// 	// write each token to token file
-	// 	t << matched << std::endl;
-	// 	// update
-	// 	val = scanner.lex();
-	// 	matched = scanner.matched();
-	// }
 
 	t.close();
 	l.close();

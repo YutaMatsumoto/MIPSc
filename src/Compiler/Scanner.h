@@ -4,7 +4,7 @@
 #define Scanner_H_INCLUDED_
 
 // $insert baseclass_h
-// #include "Scannerbase.h"
+#include "Scannerbase.h"
 #include "SymbolTable.h"
 #include "SymbolLocation.h"
 #include <string>
@@ -27,6 +27,7 @@ class Scanner: public ScannerBase
 		// constructors for member initialization. I.e., all the other
 		// constructors delegate to this base constructor for consistency.
 		Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p);
+
 
 		explicit Scanner(std::istream &in = std::cin, std::ostream &out = std::cout);
 
@@ -155,9 +156,9 @@ class Scanner: public ScannerBase
 		std::istream* ref_istream;
 };
 
-Scanner::Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p)
-: ScannerBase(in, out), ref_istream(&in), stab(tab), parser(p)
-{}
+inline Scanner::Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p)
+	: ScannerBase(in, out), ref_istream(&in), stab(tab), parser(p)
+	{}
 
 // $insert scannerConstructors
 inline Scanner::Scanner(std::istream &in, std::ostream &out)
