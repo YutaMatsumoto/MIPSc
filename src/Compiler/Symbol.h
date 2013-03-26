@@ -9,7 +9,7 @@
 #define SYMBOL_H_
 
 #include <string>
-#include "Type.h"
+#include "../Types/Type.h"
 
 class Symbol
 {

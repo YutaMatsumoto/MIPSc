@@ -1,3 +1,4 @@
+
 Syntax
 
     $ scan input_file [-d[l|s|p]] [-o output_file]
@@ -18,13 +19,10 @@ Description
        | ----- | ----------------------- | -------------------- |
        | l     | lexer debug mode        | inputfile.ldebug     |
        | s     | symbol table debug mode | inputfile.sdebug     |
-       | p     | parser debug            | inputfile.pebugA     |
-       | empty | same as ls              | same as -dlsp        |
+       | p     | parser debug            | inputfile.pdebug OR .list ??? |
+       | empty | same as lsp             | same as -dlsp        |
 
-    You can specify combinaions of l, s, and p.
-    If you specify l an p options, then the debug output for those go to the
-    file with extension .list instead of the two files with .ldebug and pebug
-
+    You can specify combinaion of l, s, and p.
 
 Examples
 
@@ -32,7 +30,7 @@ Examples
 
         $ scan a.c
 
-    create a.c.tokens, a.c.list a.c.sebug
+    create all debug files
 
         $ scan a.c -d
 

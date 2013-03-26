@@ -71,7 +71,7 @@ CommandFlags parse_command(int argc, char* argv[])
 
 				// Debug Mode Specified : Debug l or s
 				else {
-					for( int i = 0; i < strlen( optarg ) ; i++ ) {
+					for( size_t i = 0; i < strlen( optarg ) ; i++ ) {
 						// Lexer Debug
 						if ( optarg[i] == 'l' ) {
 							f.lex_debug = true;
@@ -189,7 +189,7 @@ int main(int argc, char** argv)
 	//
 	//      Parser and Lexer Debug at the same time
 	//
-	if (f.lex_debug && f.parser_debug) {
+	if (f.lex_debug) {
 		std::string debug_file_lex_and_parser = f.ifile + suffix;
 		l.open(debug_file_lex_and_parser);
 		// scanner.setDebugLexer(l);
@@ -200,20 +200,20 @@ int main(int argc, char** argv)
 	//
 	//      Open Lex Debug Stream If Lex Debug Specified
 	//
-	else if (f.lex_debug) {
+	if (f.lex_debug) {
 		std::string debug_file_lex = f.ifile + ldebug_extension;
 		l.open(debug_file_lex);
-		scanner.setDebugLineByLine(l);
 		// scanner.setDebugLexer(l);
 		cout << "Producing lexer debug file        : " << debug_file_lex << endl;
 	}
 	// 
 	//      Parser debug
 	// 
-	else if (f.parser_debug) {
+	if (f.parser_debug) {
 		std::string debug_file_parser = f.ifile + pdebug_extension;	
 		pd.open(debug_file_parser);
 		p.configDebugPrint(pd, "Reducing From ", "");
+		scanner.setDebugLineByLine(l);
 		p.setDebug( false );
 		cout << "Producing Reduction Debug : " << debug_file_parser << endl;
 	}

@@ -1,3 +1,32 @@
+Reducing From CHAR -> type_specifier
+Reducing From type_specifier -> declaration_specifiers
+Reducing From IDENTIFIER -> identifier
+Reducing From identifier -> direct_declarator
+Reducing From direct_declarator '[' ']' -> direct_declarator
+Reducing From direct_declarator -> declarator
+Reducing From STRING_LITERAL -> string
+Reducing From string -> primary_expression
+Reducing From primary_expression -> postfix_expression
+Reducing From postfix_expression -> unary_expression
+Reducing From unary_expression -> cast_expression
+Reducing From cast_expression -> multiplicative_expression
+Reducing From multiplicative_expression -> additive_expression
+Reducing From additive_expression -> shift_expression
+Reducing From shift_expression -> relational_expression
+Reducing From relational_expression -> equality_expression
+Reducing From equality_expression -> and_expression
+Reducing From and_expression -> exclusive_or_expression
+Reducing From exclusive_or_expression -> inclusive_or_expression
+Reducing From inclusive_or_expression -> logical_and_expression
+Reducing From logical_and_expression -> logical_or_expression
+Reducing From logical_or_expression -> conditional_expression
+Reducing From conditional_expression -> assignment_expression
+Reducing From assignment_expression -> initializer
+Reducing From declarator '=' initializer -> init_declarator
+Reducing From init_declarator -> init_declarator_list
+Reducing From declaration_specifiers init_declarator_list ';' -> declaration
+Reducing From declaration -> external_declaration
+Reducing From external_declaration -> translation_unit
 ---------------------------------------------------------- 
 l2 : char greeting[] = "hello world";
 ---------------------------------------------------------- 
@@ -6,10 +35,16 @@ l2 : char greeting[] = "hello world";
 l3 : 
 ---------------------------------------------------------- 
 
+Reducing From INT -> type_specifier
+Reducing From type_specifier -> declaration_specifiers
+Reducing From IDENTIFIER -> identifier
+Reducing From identifier -> direct_declarator
+Reducing From direct_declarator '(' ')' -> direct_declarator
 ---------------------------------------------------------- 
 l4 : int main()
 ---------------------------------------------------------- 
 
+Reducing From direct_declarator -> declarator
 ---------------------------------------------------------- 
 l5 : {
 ---------------------------------------------------------- 
@@ -22,10 +57,22 @@ l6 :
 l7 :     {
 ---------------------------------------------------------- 
 
+Reducing From INT -> type_specifier
+Reducing From type_specifier -> declaration_specifiers
+Reducing From IDENTIFIER -> identifier
+Reducing From identifier -> direct_declarator
+Reducing From direct_declarator -> declarator
+Reducing From declarator -> init_declarator
+Reducing From init_declarator -> init_declarator_list
+Reducing From declaration_specifiers init_declarator_list ';' -> declaration
+Reducing From declaration -> declaration_list
 ---------------------------------------------------------- 
 l8 :         int foo;
 ---------------------------------------------------------- 
 
+Reducing From '{' declaration_list '}' -> compound_statement
+Reducing From compound_statement -> statement
+Reducing From statement -> statement_list
 ---------------------------------------------------------- 
 l9 :     }
 ---------------------------------------------------------- 
@@ -38,10 +85,22 @@ l10 :
 l11 :     {
 ---------------------------------------------------------- 
 
+Reducing From INT -> type_specifier
+Reducing From type_specifier -> declaration_specifiers
+Reducing From IDENTIFIER -> identifier
+Reducing From identifier -> direct_declarator
+Reducing From direct_declarator -> declarator
+Reducing From declarator -> init_declarator
+Reducing From init_declarator -> init_declarator_list
+Reducing From declaration_specifiers init_declarator_list ';' -> declaration
+Reducing From declaration -> declaration_list
 ---------------------------------------------------------- 
 l12 :         int bar;
 ---------------------------------------------------------- 
 
+Reducing From '{' declaration_list '}' -> compound_statement
+Reducing From compound_statement -> statement
+Reducing From statement_list statement -> statement_list
 ---------------------------------------------------------- 
 l13 :     }
 ---------------------------------------------------------- 
@@ -50,6 +109,64 @@ l13 :     }
 l14 : 
 ---------------------------------------------------------- 
 
+Reducing From IDENTIFIER -> identifier
+Reducing From identifier -> primary_expression
+Reducing From primary_expression -> postfix_expression
+Reducing From STRING_LITERAL -> string
+Reducing From string -> primary_expression
+Reducing From primary_expression -> postfix_expression
+Reducing From postfix_expression -> unary_expression
+Reducing From unary_expression -> cast_expression
+Reducing From cast_expression -> multiplicative_expression
+Reducing From multiplicative_expression -> additive_expression
+Reducing From additive_expression -> shift_expression
+Reducing From shift_expression -> relational_expression
+Reducing From relational_expression -> equality_expression
+Reducing From equality_expression -> and_expression
+Reducing From and_expression -> exclusive_or_expression
+Reducing From exclusive_or_expression -> inclusive_or_expression
+Reducing From inclusive_or_expression -> logical_and_expression
+Reducing From logical_and_expression -> logical_or_expression
+Reducing From logical_or_expression -> conditional_expression
+Reducing From conditional_expression -> assignment_expression
+Reducing From assignment_expression -> argument_expression_list
+Reducing From IDENTIFIER -> identifier
+Reducing From identifier -> primary_expression
+Reducing From primary_expression -> postfix_expression
+Reducing From postfix_expression -> unary_expression
+Reducing From unary_expression -> cast_expression
+Reducing From cast_expression -> multiplicative_expression
+Reducing From multiplicative_expression -> additive_expression
+Reducing From additive_expression -> shift_expression
+Reducing From shift_expression -> relational_expression
+Reducing From relational_expression -> equality_expression
+Reducing From equality_expression -> and_expression
+Reducing From and_expression -> exclusive_or_expression
+Reducing From exclusive_or_expression -> inclusive_or_expression
+Reducing From inclusive_or_expression -> logical_and_expression
+Reducing From logical_and_expression -> logical_or_expression
+Reducing From logical_or_expression -> conditional_expression
+Reducing From conditional_expression -> assignment_expression
+Reducing From argument_expression_list ',' assignment_expression -> argument_expression_list
+Reducing From postfix_expression '(' argument_expression_list ')' -> postfix_expression
+Reducing From postfix_expression -> unary_expression
+Reducing From unary_expression -> cast_expression
+Reducing From cast_expression -> multiplicative_expression
+Reducing From multiplicative_expression -> additive_expression
+Reducing From additive_expression -> shift_expression
+Reducing From shift_expression -> relational_expression
+Reducing From relational_expression -> equality_expression
+Reducing From equality_expression -> and_expression
+Reducing From and_expression -> exclusive_or_expression
+Reducing From exclusive_or_expression -> inclusive_or_expression
+Reducing From inclusive_or_expression -> logical_and_expression
+Reducing From logical_and_expression -> logical_or_expression
+Reducing From logical_or_expression -> conditional_expression
+Reducing From conditional_expression -> assignment_expression
+Reducing From assignment_expression -> expression
+Reducing From expression ';' -> expression_statement
+Reducing From expression_statement -> statement
+Reducing From statement_list statement -> statement_list
 ---------------------------------------------------------- 
 l15 :     printf("%s", greeting);  
 ---------------------------------------------------------- 
@@ -58,6 +175,10 @@ l15 :     printf("%s", greeting);
 l16 : 
 ---------------------------------------------------------- 
 
+Reducing From '{' statement_list '}' -> compound_statement
+Reducing From declaration_specifiers declarator compound_statement -> function_definition
+Reducing From function_definition -> external_declaration
+Reducing From translation_unit external_declaration -> translation_unit
 ---------------------------------------------------------- 
 l17 : }
 ---------------------------------------------------------- 

@@ -29,7 +29,7 @@ void Scanner::scannerError()
 		// print the tab by spaces
 		else {
 			number_of_tabs++;
-			for(size_t i=0;i<tabWidth;i++) {
+			for(int i=0;i<tabWidth;i++) {
 				std::cerr << " ";
 			}
 		}
@@ -100,14 +100,17 @@ std::string Scanner::nextLine()
 	return lastLine;
 }
 
+// Obsolete. Parser should run scanner.
 void Scanner::run()
 {
 	int val = lex();
 	while ( val != Parser::ENDOFFILE ) {
 
+		// Lexer Debug
 		if (debug.lexer_dump)
 			(*debug.lexerDumpTo) << matched() << " : " << val << std::endl;
 
+		// Token File
 		if (debug.token_dump) {
 			debug.token_file_stream	<<  matched() << std::endl;
 		}
@@ -126,7 +129,7 @@ void Scanner::update()
 	//
 	// If the parser is running as well, the line is output AFTER the 
 	// reduction is done as much as possible on that line
-	if (debug.output_line_by_line) {
+	if (debug.output_line_by_line && debug.lineOutputTo) {
 		if (matched() == "\n") {
 			*(debug.lineOutputTo) 
 				<< "---------------------------------------------------------- " << std::endl
@@ -136,6 +139,16 @@ void Scanner::update()
 				<< std::endl; 
 		}
 	}
+
+	// TODO 
+	// If parser runs `int Scanner::lex()`, then this Scanner does not have
+	// access to the int return value (val variable below).
+	// 
+	//      Lexer Debug
+	//
+	// if (debug.lexer_dump && debug.lexerDumpTo) {
+	// 	(*debug.lexerDumpTo) << matched() << " : " << val << std::endl;
+	// }
 
 }
 
@@ -195,18 +208,18 @@ void Scanner::setDebugSymbolTableDump(const std::string& filename)
 // 	}
 // }
 
-// void Scanner::setDebugLexer(std::ostream& lexerDumpTo)
-// {
-// 	if ( lexerDumpTo.good() ) {
-// 		std::cout << "Setting up lexer dump" << std::endl;
-// 		debug.lexer_dump = true;
-// 		debug.lexerDumpTo = &lexerDumpTo;
-// 	}
-// 	else {
-// 		std::cerr << "setDebugSymbolTableDump() : the stream supplied is not good." << std::endl;
-// 		// throw or exit here
-// 	}
-// }
+void Scanner::setDebugLexer(std::ostream& lexerDumpTo)
+{
+	if ( lexerDumpTo.good() ) {
+		// std::cout << "Setting up lexer dump" << std::endl;
+		debug.lexer_dump = true;
+		debug.lexerDumpTo = &lexerDumpTo;
+	}
+	else {
+		std::cerr << "setDebugSymbolTableDump() : the stream supplied is not good." << std::endl;
+		// throw or exit here
+	}
+}
 
 void Scanner::setDebugToken(const std::string& filename)
 {

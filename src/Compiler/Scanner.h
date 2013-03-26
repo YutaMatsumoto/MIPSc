@@ -126,8 +126,6 @@ class Scanner: public ScannerBase
 
 		void preCode();     // re-implement this function for code that must 
 							// be exec'ed before the patternmatching starts
-		Loc location; // current location
-		Parser* parser;
 
 	private: // member variables
 
@@ -149,11 +147,13 @@ class Scanner: public ScannerBase
 			// std::ostream* symbolTableDumpTo;
 		};
 
-		ScannerDebug debug;
-
-		SymbolTable* stab;
-
 		std::istream* ref_istream;
+		SymbolTable* stab;
+		Parser* parser;
+
+		ScannerDebug debug;
+		Loc location; // current location
+
 };
 
 inline Scanner::Scanner(std::istream &in, std::ostream &out, SymbolTable* tab, Parser* p)
