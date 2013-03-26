@@ -54,6 +54,13 @@ void Parser::configDebugPrint(std::ostream& os, std::string prefix, std::string 
 	debug.debugOutputPostfix = postfix;
 }
 
+void setDeclarationLocation()
+{
+
+	currentDeclaration->location = scanner->getLoc();
+
+}
+
 void Parser::debugPrint(std::string msg)
 {
 	if (debug.debugOutput) {

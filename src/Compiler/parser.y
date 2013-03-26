@@ -147,7 +147,8 @@ storage_class_specifier
 	;
 
 type_specifier
-	: VOID { debugPrint("VOID -> type_specifier"); }
+	: VOID { debugPrint("VOID -> type_specifier");}
+	{ currentDeclaration }
 	| CHAR { debugPrint("CHAR -> type_specifier"); }
 	| SHORT { debugPrint("SHORT -> type_specifier"); }
 	| INT { debugPrint("INT -> type_specifier"); }
@@ -522,7 +523,8 @@ string
 identifier
 	: IDENTIFIER { debugPrint("IDENTIFIER -> identifier"); }
 	{
-	$$ = scanner->matched();
+	setDeclarationLocation();
+	currentDeclaration->id = matched();
 	}
 	;
 

@@ -61,6 +61,10 @@ class Parser: public ParserBase
 	Scanner* scanner;
 	SymbolTable* symbolTable;
 
+	Symbol* currentDeclaration;
+
+	void setDeclarationLocation();
+
 	// support functions for parse():
 		void executeAction(int ruleNr);
 		void errorRecovery();

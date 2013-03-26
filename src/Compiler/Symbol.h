@@ -13,23 +13,11 @@
 
 class Symbol
 {
-
 public:
-
-	//symbol constructor
-	Symbol( std::string , int , int );
-
-	std::string getId();
-
-	virtual ~Symbol();
-
-protected:
 
 	std::string id;
 
-	int lineNumber;
-
-	int columnNumber;
+	SymbolLocation location;
 	
 	Type* symbolType;
 
