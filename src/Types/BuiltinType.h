@@ -10,10 +10,35 @@
 
 #include "Type.h"
 
-class BuiltinType: public Type {
+class BuiltinType: public Type
+{
 public:
+
 	BuiltinType();
+
 	virtual ~BuiltinType();
+
+	enum Builtins
+	{
+
+		uChar,
+		uShort,
+		uInt,
+		uLong,
+		uLongLong,
+		Char,
+		Short,
+		Int,
+		Long,
+		LongLong,
+		Float,
+		Double,
+		Void
+
+	};
+
+
+
 };
 
 #endif /* BUILTINTYPE_H_ */

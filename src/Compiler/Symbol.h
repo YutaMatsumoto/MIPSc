@@ -10,6 +10,7 @@
 
 #include <string>
 #include "../Types/Type.h"
+#include "SymbolLocation.h"
 
 class Symbol
 {

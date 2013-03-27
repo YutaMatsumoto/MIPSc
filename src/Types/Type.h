@@ -5,32 +5,30 @@
  *      Author: njordan
  */
 
-#include <string>
-
 #ifndef TYPE_H_
 #define TYPE_H_
 
+#include <string>
+#include <vector>
+#include "../Compiler/Symbol.h"
 
+enum StorageSpeficier
+{
+	Extern,
+	Static,
+	Register,
+	Auto
+};
+
+enum TypeQualifier
+{
+	Const,
+	Volatile
+};
 
 class Type
 {
 public:
-
-	enum StorageSpeficier
-	{
-		Extern,
-		Static,
-		Register,
-		Auto
-	};
-
-	enum TypeQualifier
-	{
-		Const,
-		Volatile
-	};
-
-	virtual Type();
 
 	virtual ~Type();
 
@@ -56,9 +54,13 @@ public:
 
 	Symbol* typeSymbol;
 
-	std::vector<Type::StorageSpecifier> storageSpecifiers;
+	std::vector< std::string > storageSpecifiers;
 
-	std::vector<Type::TypeQualifier> typeQualifiers;
+	std::vector< std::string > typeQualifiers;
+
+protected:
+
+	Type();
 
 };
 
