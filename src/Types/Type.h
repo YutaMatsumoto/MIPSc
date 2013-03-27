@@ -10,23 +10,56 @@
 #ifndef TYPE_H_
 #define TYPE_H_
 
+
+
 class Type
 {
-	public:
+public:
 
-	Type( std::string , int , int );
+	enum StorageSpeficier
+	{
+		Extern,
+		Static,
+		Register,
+		Auto
+	};
 
-	std::string getId();
+	enum TypeQualifier
+	{
+		Const,
+		Volatile
+	};
+
+	virtual Type();
 
 	virtual ~Type();
 
-	protected:
+	virtual bool isBuiltinType();
+
+	virtual bool isEnumType();
+
+	virtual bool isUnionType();
+
+	virtual bool isStructType();
+
+	virtual bool isPointerType();
+
+	virtual bool isTypedefType();
+
+	virtual bool isArrayType();
+
+	virtual bool isFunctionType();
+
+	int sizeInBytes();
 
 	std::string id;
 
-	int lineNumber;
+	Symbol* typeSymbol;
 
-	int columnNumber;
+	std::vector<Type::StorageSpecifier> storageSpecifiers;
+
+	std::vector<Type::TypeQualifier> typeQualifiers;
+
 };
 
 #endif /* TYPE_H_ */
