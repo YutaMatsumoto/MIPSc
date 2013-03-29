@@ -9,8 +9,9 @@
 #define SYMBOL_H_
 
 #include <string>
-#include "../Types/Type.h"
 #include "SymbolLocation.h"
+
+class Type;
 
 class Symbol
 {
@@ -21,6 +22,15 @@ public:
 	SymbolLocation location;
 	
 	Type* symbolType;
+
+	Symbol(std::string s, int l, int c)
+		: id(s), location(l,c)
+	{}
+
+	std::string getId()
+	{
+		return id;
+	}
 
 };
 

@@ -12,6 +12,7 @@
 class Parser: public ParserBase
 {
 		
+	
 	public:
 		int parse();
 

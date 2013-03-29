@@ -11,7 +11,7 @@
 #include <map>
 #include <string>
 #include "Symbol.h"
-#include "../Types/Type.h"
+#include "Type.h"
 
 typedef std::string SymbolName;
 
