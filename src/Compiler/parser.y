@@ -148,39 +148,39 @@ storage_class_specifier
 
 type_specifier
 	: VOID { debugPrint("VOID -> type_specifier");
-		 currentTypeSpecifiers.push_back( matched() );
+		 currentTypeSpecifiers.push_back( scanner->matched() );
 	
 			} 
 	| CHAR { debugPrint("CHAR -> type_specifier");
-			 currentTypeSpecifiers.push_back( matched() );
+			 currentTypeSpecifiers.push_back( scanner->matched() );
 	
 			}
 	| SHORT { debugPrint("SHORT -> type_specifier");
-			  currentTypeSpecifiers.push_back( matched() );
+			  currentTypeSpecifiers.push_back( scanner->matched() );
 			  
 			}
 	| INT { debugPrint("INT -> type_specifier");
-			currentTypeSpecifiers.push_back( matched() );
+			currentTypeSpecifiers.push_back( scanner->matched() );
 	
 	}
 	| LONG { debugPrint("LONG -> type_specifier");
-			 currentTypeSpecifiers.push_back( matched() );
+			 currentTypeSpecifiers.push_back( scanner->matched() );
 		}
 	| FLOAT  { debugPrint("FLOAT  -> type_specifier");
-			   currentTypeSpecifiers.push_back( matched() );
+			   currentTypeSpecifiers.push_back( scanner->matched() );
 	
 		}
 	| DOUBLE { debugPrint("DOUBLE -> type_specifier");
-			   currentTypeSpecifiers.push_back( matched() );
+			   currentTypeSpecifiers.push_back( scanner->matched() );
 	
 	}
 	| SIGNED { debugPrint("SIGNED -> type_specifier");
-			   currentTypeSpecifiers.push_back( matched() );
+			   currentTypeSpecifiers.push_back( scanner->matched() );
 	
 	
 		}
 	| UNSIGNED { debugPrint("UNSIGNED -> type_specifier");
-				 currentTypeSpecifiers.push_back( matched() );
+				 currentTypeSpecifiers.push_back( scanner->matched() );
 				
 				}
 	| struct_or_union_specifier { debugPrint("struct_or_union_specifier -> type_specifier");
@@ -192,7 +192,7 @@ type_specifier
 	}
 	| TYPEDEF_NAME { debugPrint("TYPEDEF_NAME -> type_specifier");
 	
-	currentDeclaration->isTypedef = true;
+	
 	
 	}
 	;

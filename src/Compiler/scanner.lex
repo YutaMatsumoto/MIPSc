@@ -14,12 +14,20 @@
 //	of the source file the scanner is at. 
 //
 
-D			[0-9]
-L			[a-zA-Z_]
-H			[a-fA-F0-9]
-E			[Ee][+-]?{D}+
-FS			(f|F|l|L)
-IS			(u|U|l|L)*
+O   [0-7]
+D   [0-9]
+NZ  [1-9]
+L   [a-zA-Z_]
+A   [a-zA-Z_0-9]
+H   [a-fA-F0-9]
+HP  (0[xX])
+E   ([Ee][+-]?{D}+)
+P   ([Pp][+-]?{D}+)
+FS  (f|F|l|L)
+IS  (((u|U)(l|L|ll|LL)?)|((l|L|ll|LL)(u|U)?))
+CP  (u|U|L)
+SP  (u8|u|U|L)
+ES  (\\(['"\?\\abfnrtv]|[0-7]{1,3}|x[a-fA-F0-9]+))
 CHAR		"'"."'"
 
 %%
@@ -68,15 +76,21 @@ CHAR		"'"."'"
 "volatile"				{ update(); return(Parser::VOLATILE); }
 "while"					{ update(); return(Parser::WHILE); }
 
-{L}({L}|{D})*	        { update(); insertSymbol(); return(Parser::IDENTIFIER); }
-0(x|X){H}+(u|l)?	    { update(); return Parser::I_CONSTANT; }
-{D}+(u|l)?	            { update(); return Parser::I_CONSTANT; }
+{L}{A}*	                { update(); return(Parser::IDENTIFIER); }
 
-{D}+(f|l)?	            { update(); return Parser::F_CONSTANT; }
-{D}*"."{D}(f|l)?	    { update(); return Parser::F_CONSTANT; }
+{HP}{H}+{IS}?				    { return Parser::I_CONSTANT; }
+{NZ}{D}*{IS}?				    { return Parser::I_CONSTANT; }
+"0"{O}*{IS}?				    { return Parser::I_CONSTANT; }
+{CP}?"'"([^'\\\n]|{ES})+"'"		{ return Parser::I_CONSTANT; }
 
+{D}+{E}{FS}?				    { return Parser::F_CONSTANT; }
+{D}*"."{D}+{E}?{FS}?			{ return Parser::F_CONSTANT; }
+{D}+"."{E}?{FS}?			    { return Parser::F_CONSTANT; }
+{HP}{H}+{P}{FS}?			    { return Parser::F_CONSTANT; }
+{HP}{H}*"."{H}+{P}{FS}?			{ return Parser::F_CONSTANT; }
+{HP}{H}+"."{P}{FS}?			    { return Parser::F_CONSTANT; }
 
-\"(\\.|[^\\"])*\"       { update(); return Parser::STRING_LITERAL; }
+L?\"(\\.|[^\\"])*\"  	{ return Parser::STRING_LITERAL; }
 
 "..."			        { update(); return(Parser::ELLIPSIS); }
 ">>="			        { update(); return(Parser::RIGHT_ASSIGN); }
