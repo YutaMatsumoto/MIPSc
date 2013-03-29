@@ -5,7 +5,6 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/Compiler/Scope.cpp \
-../src/Compiler/Symbol.cpp \
 ../src/Compiler/SymbolTable.cpp \
 ../src/Compiler/SymbolTableInfo.cpp 
 
@@ -16,7 +15,6 @@ CC_SRCS += \
 
 OBJS += \
 ./src/Compiler/Scope.o \
-./src/Compiler/Symbol.o \
 ./src/Compiler/SymbolTable.o \
 ./src/Compiler/SymbolTableInfo.o \
 ./src/Compiler/lex.o \
@@ -30,7 +28,6 @@ CC_DEPS += \
 
 CPP_DEPS += \
 ./src/Compiler/Scope.d \
-./src/Compiler/Symbol.d \
 ./src/Compiler/SymbolTable.d \
 ./src/Compiler/SymbolTableInfo.d 
 
@@ -39,14 +36,14 @@ CPP_DEPS += \
 src/Compiler/%.o: ../src/Compiler/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++-4.7 -O0 -g3 -Wall -c -fmessage-length=0 -std=c++0x -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++-4.7 -I"/home/yuta/workspace/MIPSc/src/Compiler" -I"/home/yuta/workspace/MIPSc/src/Types" -O0 -g3 -Wall -c -fmessage-length=0 -std=c++0x -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/Compiler/%.o: ../src/Compiler/%.cc
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++-4.7 -O0 -g3 -Wall -c -fmessage-length=0 -std=c++0x -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++-4.7 -I"/home/yuta/workspace/MIPSc/src/Compiler" -I"/home/yuta/workspace/MIPSc/src/Types" -O0 -g3 -Wall -c -fmessage-length=0 -std=c++0x -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
