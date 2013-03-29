@@ -8,7 +8,7 @@
 
 inline void Parser::error(char const *msg)
 {
-	Loc& location = scanner->getLoc();
+	SymbolLocation& location = scanner->getLoc();
 	
 	std::cerr << "Syntax Error Found around " << location.lnum << ":" << location.cnum << std::endl;
 
@@ -54,7 +54,7 @@ void Parser::configDebugPrint(std::ostream& os, std::string prefix, std::string 
 	debug.debugOutputPostfix = postfix;
 }
 
-void setDeclarationLocation()
+void Parser::setDeclarationLocation()
 {
 
 	currentDeclaration->location = scanner->getLoc();

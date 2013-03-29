@@ -7,21 +7,24 @@
 
 #include "Type.h"
 
-Type::Type( std::string id , int lineNumber , int columnNumber ) {
+// Type::Type( std::string id , int lineNumber , int columnNumber ) {
 
-	this->id = id;
+	// this->id = id;
 
-	this->lineNumber = lineNumber;
+	// this->lineNumber = lineNumber;
 
-	this->columnNumber = columnNumber;
+	// this->columnNumber = columnNumber;
 
-}
+// }
 
 std::string Type::getId()
 {
 
 	return id;
 
+}
+
+Type::Type() {
 }
 
 Type::~Type() {
