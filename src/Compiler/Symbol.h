@@ -25,7 +25,9 @@ public:
 
 	Symbol(std::string s, int l, int c)
 		: id(s), location(l,c)
-	{}
+	{
+
+	}
 
 	std::string getId()
 	{

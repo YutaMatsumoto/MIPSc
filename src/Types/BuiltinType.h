@@ -37,7 +37,34 @@ public:
 
 	};
 
+	struct value
+	{
 
+		unsigned char ucharVal;
+
+		unsigned short ushortVal;
+
+		unsigned int uintVal;
+
+		unsigned long ulongVal;
+
+		unsigned long long ulonglongVal;
+
+		char charVal;
+
+		short shortVal;
+
+		int intVal;
+
+		long longVal;
+
+		long long longlongVal;
+
+		float floatVal;
+
+		double doubleVal;
+
+	};
 
 };
 

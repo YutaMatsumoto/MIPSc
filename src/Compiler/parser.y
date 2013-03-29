@@ -147,18 +147,54 @@ storage_class_specifier
 	;
 
 type_specifier
-	: VOID { debugPrint("VOID -> type_specifier");} // { /*currentDeclaration*/ }
-	| CHAR { debugPrint("CHAR -> type_specifier"); }
-	| SHORT { debugPrint("SHORT -> type_specifier"); }
-	| INT { debugPrint("INT -> type_specifier"); }
-	| LONG { debugPrint("LONG -> type_specifier"); }
-	| FLOAT  { debugPrint("FLOAT  -> type_specifier"); }
-	| DOUBLE { debugPrint("DOUBLE -> type_specifier"); }
-	| SIGNED { debugPrint("SIGNED -> type_specifier"); }
-	| UNSIGNED { debugPrint("UNSIGNED -> type_specifier"); }
-	| struct_or_union_specifier { debugPrint("struct_or_union_specifier -> type_specifier"); }
-	| enum_specifier { debugPrint("enum_specifier -> type_specifier"); }
-	| TYPEDEF_NAME { debugPrint("TYPEDEF_NAME -> type_specifier"); }
+	: VOID { debugPrint("VOID -> type_specifier");
+		 currentTypeSpecifiers.push_back( matched() );
+	
+			} 
+	| CHAR { debugPrint("CHAR -> type_specifier");
+			 currentTypeSpecifiers.push_back( matched() );
+	
+			}
+	| SHORT { debugPrint("SHORT -> type_specifier");
+			  currentTypeSpecifiers.push_back( matched() );
+			  
+			}
+	| INT { debugPrint("INT -> type_specifier");
+			currentTypeSpecifiers.push_back( matched() );
+	
+	}
+	| LONG { debugPrint("LONG -> type_specifier");
+			 currentTypeSpecifiers.push_back( matched() );
+		}
+	| FLOAT  { debugPrint("FLOAT  -> type_specifier");
+			   currentTypeSpecifiers.push_back( matched() );
+	
+		}
+	| DOUBLE { debugPrint("DOUBLE -> type_specifier");
+			   currentTypeSpecifiers.push_back( matched() );
+	
+	}
+	| SIGNED { debugPrint("SIGNED -> type_specifier");
+			   currentTypeSpecifiers.push_back( matched() );
+	
+	
+		}
+	| UNSIGNED { debugPrint("UNSIGNED -> type_specifier");
+				 currentTypeSpecifiers.push_back( matched() );
+				
+				}
+	| struct_or_union_specifier { debugPrint("struct_or_union_specifier -> type_specifier");
+	
+	}
+	| enum_specifier { debugPrint("enum_specifier -> type_specifier");
+	
+	
+	}
+	| TYPEDEF_NAME { debugPrint("TYPEDEF_NAME -> type_specifier");
+	
+	currentDeclaration->isTypedef = true;
+	
+	}
 	;
 
 type_qualifier
