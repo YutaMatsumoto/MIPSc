@@ -104,6 +104,7 @@ class Parser: public ParserBase
 		void addTypeSpecifier()      
 		{
 			std::cout << "implement addTypeSpecifier()" << std::endl;
+			currentTypeSpecifiers.push_back( scanner->matched() ); 
 		}
 
 		void setConst()              
