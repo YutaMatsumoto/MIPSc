@@ -10,8 +10,8 @@
 
 #include <string>
 #include <vector>
-// #include "../Compiler/Symbol.h"
-#include "Symbol.h"
+#include "../Compiler/Symbol.h"
+// #include "Symbol.h"
 
 enum StorageSpeficier
 {
@@ -84,6 +84,8 @@ public:
 protected:
 
 	Type();
+
+	Type(TypeEnum);
 
 };
 

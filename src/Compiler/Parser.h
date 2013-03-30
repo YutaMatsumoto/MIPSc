@@ -64,7 +64,86 @@ class Parser: public ParserBase
 
 		Symbol currentDeclaration;
 
+		//
+		//      Declaration Related
+		//
+		// 	TODO : create another class for this?
+		//		
+
+		void beginDeclarationSection()
+		{
+			std::cout << "implement beginDeclarationSection() " << std::endl;	
+		}
+		void endDeclarationSection()      
+		{ 
+			std::cout << "implement endDeclarationSection() " << std::endl;	
+		}
+		void declare()                    
+		{
+			std::cout << "implement declare()" << std::endl;
+		}
+		void determineType()              
+		{
+			std::cout << "implement determineType()" << std::endl;
+		}
+		void initializeArray()            
+		{
+			std::cout << "implement initializeArray()" << std::endl;
+		}
+		void addValueToArray()            
+		{
+			std::cout << "implement addValueToArray()" << std::endl;
+		}
+		void declareIdentifier()          
+		{
+			std::cout << "implement declareIdentifier()" << std::endl;
+		}
 		void setDeclarationLocation();
+		void addTypeSpecifier()      
+		{
+			std::cout << "implement addTypeSpecifier()" << std::endl;
+		}
+
+		void setConst()              
+		{
+			std::cout << "implement setConst()" << std::endl;
+		}
+
+		void setVolitle()            
+		{
+			std::cout << "implement setVolitle()" << std::endl;
+		}
+		void specifyArray()          
+		{
+			std::cout << "implement specifyArray()" << std::endl;
+		}
+		void specifyFunction()       
+		{
+			std::cout << "implement specifyFunction()" << std::endl;
+		}
+		void specifyFunctionCall()   
+		{
+			std::cout << "implement specifyFunctionCall()" << std::endl;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		bool isUseless(int token);	
 

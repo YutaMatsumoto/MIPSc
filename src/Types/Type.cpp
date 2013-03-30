@@ -27,6 +27,10 @@ std::string Type::getId()
 Type::Type() {
 }
 
+Type::Type(TypeEnum type)
+	: type(type)
+{}
+
 Type::~Type() {
 	// TODO Auto-generated destructor stub
 }

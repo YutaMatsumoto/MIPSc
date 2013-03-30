@@ -228,7 +228,7 @@ void Scanner::setDebugToken(const std::string& filename)
 	debug.token_file_stream.open(filename);
 	if(!debug.token_file_stream.good()) {
 		std::cerr << filename 
-			<< "scannersetDebugToken() : Could not have been opend for token file " 
+			<< "scannersetDebugToken() : Could not open file"  << filename
 			<< std::endl;
 	}
 }

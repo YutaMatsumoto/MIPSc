@@ -30,7 +30,7 @@ CHAR		"'"."'"
 
 <<EOF>>					{ update(); return( Parser::ENDOFFILE ); }
 
-"/*"                    { update(); return Parser::COMMENT; } // TODO make matchher for multiline comment
+"/*".*                  { update(); return Parser::COMMENT; } // TODO make matchher for multiline comment
 "//".*                  { update(); return Parser::COMMENT; }
 
 "auto"					{ update(); return(Parser::AUTO); }

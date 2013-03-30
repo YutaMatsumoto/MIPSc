@@ -17,10 +17,44 @@
 //	See also Parser.h and Parser.ih for Parser class
 //
 // 
-// Important Constructs
-// 
-//		declaration_list ... start declaration mode before this, and end declration mode after this
+// Declarations
 //
+//      Function called on reduction : reduction ( right-hand-side reduces to left-hand-side )
+//      ---------------------------------------------------------------------------------------
+//
+//      beginDeclarationSection() : compound_statement -> { declaration_list ...
+//
+//      endDeclarationSection() : declaration_list       -> declaration ... start declaration mode before this, and end declration mode after this
+//
+//      declare()               : declaration            -> declaration_specifiers init_declarator_list ';'
+//
+//      determineType()         : declaration_specifiers -> storage_class_specifier | type_specifier | type_qualifier
+//
+//                              : init_declarator        -> declarator | declarator '=' initializer
+//
+//      initializeArray()       : initializer            -> '{' initializer_list '}'  |  '{' initializer_list ',' '}'
+//
+//      addValueToArray()       : initializer_list       -> initializer | initializer_list, initializer
+//
+//                              : declarator             -> direct_declarator
+//
+//      ???                     : identifier             -> IDENTIFIER
+//
+//      addTypeSpecifier()      : type_specifier         -> VOID | INT | LONG | ...
+//
+//      setConst()              : type_qualifier         -> CONST
+//
+//      setVolitle()            : type_qualifier         -> VOLATILE
+//
+//      declareIdentifier()     : direct_declarator      -> identifier
+//
+//      specifyArray()          : direct_declarator      -> direct_declarator '[' ']'
+//
+//      specifyArray()          : direct_declarator      -> direct_declarator '[' constant_expression ']'
+//
+//      specifyFunction()       : direct_declarator      -> '(' parameter_type_list ')'
+//
+//      specifyFunctionCall()   : direct_declarator      -> '(' identifier_list ')'
 
 
 %token <CHAR> CHAR_LITERAL
@@ -122,7 +156,10 @@ external_declaration
 	;
 
 function_definition
-	: declarator compound_statement { debugPrint("declarator compound_statement -> function_definition"); }
+	: declarator compound_statement { 
+		debugPrint("----to function_definition by production 1----"); 
+		debugPrint("declarator compound_statement -> function_definition"); 
+	  }
 	| declarator { 
 	  	// declaration mdoe start 
 	  }
@@ -131,9 +168,13 @@ function_definition
 	  }
 	  compound_statement { 
 		// declaration mode end
+		debugPrint("----to function definition Production 2----"); 
 		debugPrint("declarator declaration_list compound_statement -> function_definition"); 
 	  }
-	| declaration_specifiers declarator compound_statement { debugPrint("declaration_specifiers declarator compound_statement -> function_definition"); }
+	| declaration_specifiers declarator compound_statement { 
+		debugPrint("----to function_definition by production 3----"); 
+	  	debugPrint("declaration_specifiers declarator compound_statement -> function_definition"); 
+	  }
 	| declaration_specifiers declarator {
 		// declaration mode start
 	  } 
@@ -141,26 +182,47 @@ function_definition
 		// declaration mode end
 	  }
 	  compound_statement { 
+		debugPrint("----to function definition production 4----"); 
 	    debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
 	  }
 	;
 
 declaration
-	: declaration_specifiers ';' { debugPrint("declaration_specifiers ';' -> declaration"); }
-	| declaration_specifiers init_declarator_list ';' { debugPrint("declaration_specifiers init_declarator_list ';' -> declaration"); }
+	: declaration_specifiers ';' { 
+		// TODO : Is this legal???
+		debugPrint("declaration_specifiers ';' -> declaration"); 
+	  }
+	| declaration_specifiers init_declarator_list ';' { 
+		declare();
+		debugPrint("declaration_specifiers init_declarator_list ';' -> declaration"); 
+	  }
 	;
 
 declaration_list
-	: declaration { debugPrint("declaration -> declaration_list"); }
+	: declaration { 
+		endDeclarationSection();
+		debugPrint("declaration -> declaration_list"); 
+	  }
 	| declaration_list declaration { debugPrint("declaration_list declaration -> declaration_list"); }
 	;
 
 declaration_specifiers
-	: storage_class_specifier { debugPrint("storage_class_specifier -> declaration_specifiers"); }
+	: storage_class_specifier { 
+		// TODO : is this legal???
+		determineType();
+		debugPrint("storage_class_specifier -> declaration_specifiers"); 
+	  }
 	| storage_class_specifier declaration_specifiers { debugPrint("storage_class_specifier declaration_specifiers -> declaration_specifiers"); }
-	| type_specifier { debugPrint("type_specifier -> declaration_specifiers"); }
+	| type_specifier { 
+		determineType();
+		debugPrint("type_specifier -> declaration_specifiers"); 
+	  }
 	| type_specifier declaration_specifiers { debugPrint("type_specifier declaration_specifiers -> declaration_specifiers"); }
-	| type_qualifier  { debugPrint("type_qualifier  -> declaration_specifiers"); }
+	| type_qualifier  { 
+		// TODO : is this legal???
+		determineType();
+		debugPrint("type_qualifier  -> declaration_specifiers"); 
+	  }
 	| type_qualifier declaration_specifiers { debugPrint("type_qualifier declaration_specifiers -> declaration_specifiers"); }
 	;
 
@@ -173,23 +235,67 @@ storage_class_specifier
 	;
 
 type_specifier
-	: VOID { debugPrint("VOID -> type_specifier");} // { /*currentDeclaration*/ }
-	| CHAR { debugPrint("CHAR -> type_specifier"); }
-	| SHORT { debugPrint("SHORT -> type_specifier"); }
-	| INT { debugPrint("INT -> type_specifier"); }
-	| LONG { debugPrint("LONG -> type_specifier"); }
-	| FLOAT  { debugPrint("FLOAT  -> type_specifier"); }
-	| DOUBLE { debugPrint("DOUBLE -> type_specifier"); }
-	| SIGNED { debugPrint("SIGNED -> type_specifier"); }
-	| UNSIGNED { debugPrint("UNSIGNED -> type_specifier"); }
-	| struct_or_union_specifier { debugPrint("struct_or_union_specifier -> type_specifier"); }
-	| enum_specifier { debugPrint("enum_specifier -> type_specifier"); }
-	| TYPEDEF_NAME { debugPrint("TYPEDEF_NAME -> type_specifier"); }
+	: VOID { 
+		debugPrint("VOID -> type_specifier");
+		addTypeSpecifier();
+	  } // { /*currentDeclaration*/ }
+	| CHAR { 
+		addTypeSpecifier();
+		debugPrint("CHAR -> type_specifier"); 
+	  }
+	| SHORT { debugPrint("SHORT -> type_specifier"); 
+		addTypeSpecifier();
+	  }
+	| INT { 
+		addTypeSpecifier();
+		debugPrint("INT -> type_specifier"); 
+	  }
+	| LONG {
+		addTypeSpecifier();
+		 debugPrint("LONG -> type_specifier"); 
+	  }
+	| FLOAT  {
+		addTypeSpecifier();
+		 debugPrint("FLOAT  -> type_specifier"); 
+	  }
+	| DOUBLE {
+		addTypeSpecifier();
+		 debugPrint("DOUBLE -> type_specifier"); 
+	  }
+	| SIGNED {
+		addTypeSpecifier();
+		 debugPrint("SIGNED -> type_specifier"); 
+	  }
+	| UNSIGNED {
+		addTypeSpecifier();
+		 debugPrint("UNSIGNED -> type_specifier"); 
+	  }
+	| struct_or_union_specifier {
+		// TODO 
+		// addTypeSpecifier();
+		 debugPrint("struct_or_union_specifier -> type_specifier"); 
+	  }
+	| enum_specifier {
+		// TODO 
+		// addTypeSpecifier();
+		 debugPrint("enum_specifier -> type_specifier"); 
+	  }
+	| TYPEDEF_NAME {
+		// TODO 
+		// addTypeSpecifier();
+		 debugPrint("TYPEDEF_NAME -> type_specifier"); 
+	  }
 	;
 
 type_qualifier
-	: CONST { debugPrint("CONST -> type_qualifier"); }
-	| VOLATILE { debugPrint("VOLATILE -> type_qualifier"); }
+	: CONST { 
+		setConst();
+		debugPrint("CONST -> type_qualifier"); 
+	  }
+	| VOLATILE { 
+		setVolitle();
+		debugPrint("VOLATILE -> type_qualifier"); 
+	  }
 	;
 
 struct_or_union_specifier
@@ -215,7 +321,11 @@ init_declarator_list
 
 init_declarator
 	: declarator { debugPrint("declarator -> init_declarator"); }
-	| declarator '=' initializer { debugPrint("declarator '=' initializer -> init_declarator"); }
+	| declarator '=' initializer { 
+		// TODO : initialize here or even before when something reduces to initializer ?
+		/* initializeValue(); */
+		debugPrint("declarator '=' initializer -> init_declarator"); 
+	  }
 	;
 
 struct_declaration
@@ -262,13 +372,35 @@ declarator
 	;
 
 direct_declarator
-	: identifier { debugPrint("identifier -> direct_declarator"); }
-	| '(' declarator ')' { debugPrint("'(' declarator ')' -> direct_declarator"); }
-	| direct_declarator '[' ']' { debugPrint("direct_declarator '[' ']' -> direct_declarator"); }
-	| direct_declarator '[' constant_expression ']' { debugPrint("direct_declarator '[' constant_expression ']' -> direct_declarator"); }
-	| direct_declarator '(' ')' { debugPrint("direct_declarator '(' ')' -> direct_declarator"); }
-	| direct_declarator '(' parameter_type_list ')' { debugPrint("direct_declarator '(' parameter_type_list ')' -> direct_declarator"); }
-	| direct_declarator '(' identifier_list ')' { debugPrint("direct_declarator '(' identifier_list ')' -> direct_declarator"); }
+	: identifier { 
+			declareIdentifier();
+			debugPrint("identifier -> direct_declarator"); 
+		}
+	| '(' declarator ')' { 
+			// TODO : what's this guy???
+			debugPrint("'(' declarator ')' -> direct_declarator"); 
+		}
+	| direct_declarator '[' ']' { 
+			specifyArray();
+			debugPrint("direct_declarator '[' ']' -> direct_declarator"); 
+		}
+	| direct_declarator '[' constant_expression ']' { 
+			// TODO : harness constant_expression
+			specifyArray();
+			debugPrint("direct_declarator '[' constant_expression ']' -> direct_declarator"); 
+		}
+	| direct_declarator '(' ')' { 
+			// TODO : function call or structure instantiation ?
+			debugPrint("direct_declarator '(' ')' -> direct_declarator"); 
+		}
+	| direct_declarator '(' parameter_type_list ')' { 
+			specifyFunction();
+			debugPrint("direct_declarator '(' parameter_type_list ')' -> direct_declarator"); 
+		}
+	| direct_declarator '(' identifier_list ')' { 
+			specifyFunctionCall();	// TODO : or structure instantiation ?
+			debugPrint("direct_declarator '(' identifier_list ')' -> direct_declarator"); 
+		}
 	;
 
 pointer
@@ -306,13 +438,25 @@ identifier_list
 
 initializer
 	: assignment_expression { debugPrint("assignment_expression -> initializer"); }
-	| '{' initializer_list '}' { debugPrint("'{' initializer_list '}' -> initializer"); }
-	| '{' initializer_list ',' '}' { debugPrint("'{' initializer_list ',' '}' -> initializer"); }
+	| '{' initializer_list '}' { 
+			initializeArray();
+			debugPrint("'{' initializer_list ' }' -> initializer"); 
+		}
+	| '{' initializer_list ',' '}' { 
+			initializeArray();
+			debugPrint("'{' initializer_list ',' '}' -> initializer"); 
+		}
 	;
 
 initializer_list
-	: initializer { debugPrint("initializer -> initializer_list"); }
-	| initializer_list ',' initializer { debugPrint("initializer_list ',' initializer -> initializer_list"); }
+	: initializer { 
+			addValueToArray();
+			debugPrint("initializer -> initializer_list"); 
+		}
+	| initializer_list ',' initializer { 
+			addValueToArray();
+			debugPrint("initializer_list ',' initializer -> initializer_list"); 
+		}
 	;
 
 type_name
@@ -367,6 +511,7 @@ compound_statement
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 	  }
 	| '{' {
+		beginDeclarationSection();
 		debugPrint("---- Declaration Mode Start ----");
 	  } 
 	  declaration_list '}' { 
@@ -374,6 +519,7 @@ compound_statement
 		debugPrint("'{' declaration_list '}' -> compound_statement"); 
 	  }
 	| '{' {
+		beginDeclarationSection();
 		debugPrint("Declaration Mode Start");
 	  }
 	  declaration_list {
