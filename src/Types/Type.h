@@ -43,7 +43,7 @@ public:
 		Pointer,
 		Typedef,
 		Array,
-		Function
+		Function 
 	};
 
 	TypeEnum getType() 

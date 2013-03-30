@@ -103,7 +103,7 @@ CHAR		"'"."'"
 ";"			            { update(); return(';'); }
 ("{"|"<%")		        { update(); return('{'); }
 ("}"|"%>")		        { update(); return('}'); }
-//"'"					{ update(); return(Parser::SQUOTE); }
+//"'"					{ update(); return(Parser::SQUOTE); } // TODO : what is // in front here
 ","			            { update(); return(','); }
 ":"			            { update(); return(':'); }
 "="			            { update(); return('='); }

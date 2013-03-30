@@ -18,18 +18,36 @@ inline void Parser::error(char const *msg)
 // $insert lex
 inline int Parser::lex()
 {
-	std::string symboltable_filename( "symboltable.txt" );
-
-	int token = scanner->lex();
 	
-	if( token == Parser::ENDOFFILE )
+	int token;
+	
+	// Skip useless tokens such as whitespace and comment
+	do {
+		token = scanner->lex();
+	} while ( isUseless(token) );
+	
+
+	// Return token value
+	if( token == Parser::ENDOFFILE ) {
+
+		std::cout << "END OF FILE" << std::endl;
 	
 		return 0;
+	}
 	
 	else
 	
 		return token;
 	
+}
+
+bool Parser::isUseless(int token)
+{
+	bool useless = (
+		token == Parser::COMMENT ||
+		token == Parser::WHITESPACE
+	);
+	return useless;
 }
 
 inline void Parser::print()			
@@ -57,7 +75,9 @@ void Parser::configDebugPrint(std::ostream& os, std::string prefix, std::string 
 void Parser::setDeclarationLocation()
 {
 
-	currentDeclaration->location = scanner->getLoc();
+	SymbolLocation loc( scanner->getLoc() );
+	currentDeclaration.location = loc;
+	currentDeclaration.id = scanner->matched();
 
 }
 
@@ -70,7 +90,6 @@ void Parser::debugPrint(std::string msg)
 				<< msg 
 				<< debug.debugOutputPostfix
 				<< std::endl; 
-
 		}
 	}
 }

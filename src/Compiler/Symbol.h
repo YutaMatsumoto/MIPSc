@@ -23,6 +23,9 @@ public:
 	
 	Type* symbolType;
 
+	Symbol() 
+	{}
+
 	Symbol(std::string s, int l, int c)
 		: id(s), location(l,c)
 	{}

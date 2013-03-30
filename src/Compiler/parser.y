@@ -16,6 +16,12 @@
 //
 //	See also Parser.h and Parser.ih for Parser class
 //
+// 
+// Important Constructs
+// 
+//		declaration_list ... start declaration mode before this, and end declration mode after this
+//
+
 
 %token <CHAR> CHAR_LITERAL
 
@@ -26,6 +32,7 @@
 %token TYPEDEF_NAME
 %token ENUMERATION_CONSTANT
 
+%token WHITESPACE
 %token COMMENT
 
 %token ENDOFFILE
@@ -109,14 +116,33 @@ translation_unit
 
 external_declaration
 	: function_definition { debugPrint("function_definition -> external_declaration"); }
-	| declaration { debugPrint("declaration -> external_declaration"); }
+	| declaration { 
+		debugPrint("declaration -> external_declaration"); 
+	  }
 	;
 
 function_definition
 	: declarator compound_statement { debugPrint("declarator compound_statement -> function_definition"); }
-	| declarator declaration_list compound_statement { debugPrint("declarator declaration_list compound_statement -> function_definition"); }
+	| declarator { 
+	  	// declaration mdoe start 
+	  }
+	  declaration_list {
+		// declaration mode	end
+	  }
+	  compound_statement { 
+		// declaration mode end
+		debugPrint("declarator declaration_list compound_statement -> function_definition"); 
+	  }
 	| declaration_specifiers declarator compound_statement { debugPrint("declaration_specifiers declarator compound_statement -> function_definition"); }
-	| declaration_specifiers declarator declaration_list compound_statement { debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); }
+	| declaration_specifiers declarator {
+		// declaration mode start
+	  } 
+	  declaration_list {
+		// declaration mode end
+	  }
+	  compound_statement { 
+	    debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
+	  }
 	;
 
 declaration
@@ -333,10 +359,29 @@ expression_statement
 	;
 
 compound_statement
-	: '{' '}' { debugPrint("'{' '}' -> compound_statement"); }
-	| '{' { /* declaration mode*/ } statement_list '}' { debugPrint("'{' statement_list '}' -> compound_statement"); }
-	| '{' declaration_list '}' { debugPrint("'{' declaration_list '}' -> compound_statement"); }
-	| '{' declaration_list statement_list '}' { debugPrint("'{' declaration_list statement_list '}' -> compound_statement"); }
+	: '{' '}' { 
+		debugPrint("'{' '}' -> compound_statement"); 
+	  }
+	/* declaration mode*/ 
+	| '{' statement_list '}' { 
+		debugPrint("'{' statement_list '}' -> compound_statement"); 
+	  }
+	| '{' {
+		debugPrint("---- Declaration Mode Start ----");
+	  } 
+	  declaration_list '}' { 
+		debugPrint("---- Declaration Mode Done  ----");
+		debugPrint("'{' declaration_list '}' -> compound_statement"); 
+	  }
+	| '{' {
+		debugPrint("Declaration Mode Start");
+	  }
+	  declaration_list {
+		debugPrint("Declaration Mode Done");
+	  }
+	  statement_list '}' { 
+		debugPrint("'{' declaration_list statement_list '}' -> compound_statement"); 
+	  }
 	;
 
 statement_list
@@ -523,7 +568,7 @@ identifier
 	: IDENTIFIER { debugPrint("IDENTIFIER -> identifier"); }
 	{
 	setDeclarationLocation();
-	currentDeclaration->id = scanner->matched();
+	// currentDeclaration->id = scanner->matched();
 	}
 	;
 

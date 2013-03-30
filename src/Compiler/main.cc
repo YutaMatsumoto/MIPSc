@@ -189,14 +189,14 @@ int main(int argc, char** argv)
 	//
 	//      Parser and Lexer Debug at the same time
 	//
-	if (f.lex_debug) {
-		std::string debug_file_lex_and_parser = f.ifile + suffix;
-		l.open(debug_file_lex_and_parser);
-		// scanner.setDebugLexer(l);
-		scanner.setDebugLineByLine(l);
-		p.configDebugPrint(l, "Reducing From ", "");
-		cout << "Producing debug list              : " << debug_file_lex_and_parser << " (lex and parse debug to the same file)" << endl;
-	}
+	// if (f.lex_debug) {
+	// 	std::string debug_file_lex_and_parser = f.ifile + suffix;
+	// 	l.open(debug_file_lex_and_parser);
+	// 	// scanner.setDebugLexer(l);
+	// 	scanner.setDebugLineByLine(l);
+	// 	p.configDebugPrint(l, "Reducing From ", "");
+	// 	cout << "Producing debug list              : " << debug_file_lex_and_parser << " (lex and parse debug to the same file)" << endl;
+	// }
 	//
 	//      Open Lex Debug Stream If Lex Debug Specified
 	//
@@ -212,8 +212,9 @@ int main(int argc, char** argv)
 	if (f.parser_debug) {
 		std::string debug_file_parser = f.ifile + pdebug_extension;	
 		pd.open(debug_file_parser);
-		p.configDebugPrint(pd, "Reducing From ", "");
-		scanner.setDebugLineByLine(l);
+		// p.configDebugPrint(pd, "Reducing From ", "");
+		p.configDebugPrint(pd, "", "");
+		scanner.setDebugLineByLine(pd);
 		p.setDebug( false );
 		cout << "Producing Reduction Debug : " << debug_file_parser << endl;
 	}

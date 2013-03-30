@@ -47,31 +47,33 @@ class Parser: public ParserBase
 		void print();					// use, e.g., d_token, d_loc
 		void debugPrint(std::string);
 
-	struct ParserDebug {
-		ParserDebug() 
-			: debugOutput(false), debugOutputStream(std::cout.rdbuf())
-		{}
+		struct ParserDebug {
+			ParserDebug() 
+				: debugOutput(false), debugOutputStream(std::cout.rdbuf())
+			{}
 
-		bool debugOutput;
-		std::string debugOutputPrefix;
-		std::string debugOutputPostfix;
-		std::ostream debugOutputStream;
-	};
+			bool debugOutput;
+			std::string debugOutputPrefix;
+			std::string debugOutputPostfix;
+			std::ostream debugOutputStream;
+		};
 
-	ParserDebug debug;
-	Scanner* scanner;
-	SymbolTable* symbolTable;
+		ParserDebug debug;
+		Scanner* scanner;
+		SymbolTable* symbolTable;
 
-	Symbol* currentDeclaration;
+		Symbol currentDeclaration;
 
-	void setDeclarationLocation();
+		void setDeclarationLocation();
 
-	// support functions for parse():
-		void executeAction(int ruleNr);
-		void errorRecovery();
-		int lookup(bool recovery);
-		void nextToken();
-		void print__();
+		bool isUseless(int token);	
+
+		// support functions for parse():
+			void executeAction(int ruleNr);
+			void errorRecovery();
+			int lookup(bool recovery);
+			void nextToken();
+			void print__();
 };
 
 
