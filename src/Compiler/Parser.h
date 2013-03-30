@@ -36,6 +36,8 @@ class Parser: public ParserBase
 
 		}
 
+		std::vector< std::string > currentTypeSpecifiers;
+
 		void configDebugPrint(
 			std::ostream& os, std::string prefix="", std::string postfix="");
 

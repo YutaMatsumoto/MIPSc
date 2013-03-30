@@ -10,8 +10,7 @@
 
 #include <string>
 #include <vector>
-#include "../Compiler/Symbol.h"
-// #include "Symbol.h"
+#include "Symbol.h"
 
 enum StorageSpeficier
 {
@@ -50,24 +49,6 @@ public:
 	{
 		return type;
 	}
-
-	/*
-	virtual bool isBuiltinType();
-
-	virtual bool isEnumType();
-
-	virtual bool isUnionType();
-
-	virtual bool isStructType();
-
-	virtual bool isPointerType();
-
-	virtual bool isTypedefType();
-
-	virtual bool isArrayType();
-
-	virtual bool isFunctionType();
-	*/
 
 	int sizeInBytes();
 

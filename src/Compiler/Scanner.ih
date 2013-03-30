@@ -232,13 +232,3 @@ void Scanner::setDebugToken(const std::string& filename)
 			<< std::endl;
 	}
 }
-
-void Scanner::insertSymbol()
-{
-
-	Symbol* s = new Symbol( matched() , location.lnum , location.cnum );
-	
-	if (stab) { 
-		stab->insertSymbol( s ); // TODO
-	}
-}

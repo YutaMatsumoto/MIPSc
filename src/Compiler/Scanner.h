@@ -114,8 +114,6 @@ class Scanner: public ScannerBase
 		// any cleanup after the scanner is done with eof.
 		void cleanup();
 
-		void insertSymbol();
-
     private: // member functions
 
 		int lex__();

@@ -235,6 +235,7 @@ storage_class_specifier
 	;
 
 type_specifier
+<<<<<<< HEAD
 	: VOID { 
 		debugPrint("VOID -> type_specifier");
 		addTypeSpecifier();
