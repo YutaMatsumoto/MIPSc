@@ -85,68 +85,21 @@ class Parser: public ParserBase
 		//
 		// 	TODO : create another class for this?
 		//		
-
-		void beginDeclarationSection()
-		{
-			std::cout << "implement beginDeclarationSection() " << std::endl;	
-		}
-		void endDeclarationSection()      
-		{ 
-			std::cout << "implement endDeclarationSection() " << std::endl;	
-		}
-		void declare()                    
-		{
-			std::cout << "implement declare()" << std::endl;
-		}
-		void determineType()              
-		{
-			std::cout << "implement determineType()" << std::endl;
-		}
-		void initializeArray()            
-		{
-			std::cout << "implement initializeArray()" << std::endl;
-		}
-		void addValueToArray()            
-		{
-			std::cout << "implement addValueToArray()" << std::endl;
-		}
-		void declareIdentifier()          
-		{
-			std::cout << "implement declareIdentifier()" << std::endl;
-		}
-		void setDeclarationLocation();
-		void addStorageSpecifier()
-		{
-			std::cout << "implement addStorageSpeficier()" << std::endl;
-			decl.addTypeSpecifier(scanner->matched());
-		}
-		void addTypeSpecifier()      
-		{
-			std::cout << "implement addTypeSpecifier()" << std::endl;
-			decl.addTypeSpecifier(scanner->matched());
-		}
-
-		void setConst()              
-		{
-			std::cout << "implement setConst()" << std::endl;
-		}
-
-		void setVolitle()            
-		{
-			std::cout << "implement setVolitle()" << std::endl;
-		}
-		void specifyArray()          
-		{
-			std::cout << "implement specifyArray()" << std::endl;
-		}
-		void specifyFunction()       
-		{
-			std::cout << "implement specifyFunction()" << std::endl;
-		}
-		void specifyFunctionCall()   
-		{
-			std::cout << "implement specifyFunctionCall()" << std::endl;
-		}
+		void beginDeclarationSection();
+		void endDeclarationSection();
+		void declare();
+		void determineType();
+		void initializeArray();
+		void addValueToArray();
+		void pushIdentifier();
+		void setDeclarationLocation();;
+		void addStorageSpecifier();
+		void addTypeSpecifier();
+		void setConst();
+		void setVolitle();
+		void specifyArray();
+		void specifyFunction();
+		void specifyFunctionCall();
 
 
 

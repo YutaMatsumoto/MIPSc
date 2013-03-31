@@ -94,6 +94,71 @@ void Parser::debugPrint(std::string msg)
 	}
 }
 
+
+// ---------------------------------------------------------------------------
+// Declaration Related
+
+void Parser::beginDeclarationSection()
+{
+	std::cout << "implement beginDeclarationSection() " << std::endl;	
+}
+void Parser::endDeclarationSection()      
+{ 
+	std::cout << "implement endDeclarationSection() " << std::endl;	
+}
+void Parser::declare()                    
+{
+	std::cout << "implement declare()" << std::endl;
+}
+void Parser::determineType()              
+{
+	std::cout << "implement determineType()" << std::endl;
+}
+void Parser::initializeArray()            
+{
+	std::cout << "implement initializeArray()" << std::endl;
+}
+void Parser::addValueToArray()            
+{
+	std::cout << "implement addValueToArray()" << std::endl;
+}
+void Parser::pushIdentifier()          
+{
+	std::cout << "implement pushIdentifier()" << std::endl;
+	decl.pushIdentifier(scanner->matched());
+}
+void Parser::setDeclarationLocation();
+void Parser::addStorageSpecifier()
+{
+	std::cout << "implement addStorageSpeficier()" << std::endl;
+	decl.addTypeSpecifier(scanner->matched());
+}
+void Parser::addTypeSpecifier()      
+{
+	std::cout << "implement addTypeSpecifier()" << std::endl;
+	decl.addTypeSpecifier(scanner->matched());
+}
+void Parser::setConst()              
+{
+	std::cout << "implement setConst()" << std::endl;
+}
+void Parser::setVolitle()            
+{
+	std::cout << "implement setVolitle()" << std::endl;
+}
+void Parser::specifyArray()          
+{
+	std::cout << "implement specifyArray()" << std::endl;
+}
+void Parser::specifyFunction()       
+{
+	std::cout << "implement specifyFunction()" << std::endl;
+}
+void Parser::specifyFunctionCall()   
+{
+	std::cout << "implement specifyFunctionCall()" << std::endl;
+}
+
 	// Add here includes that are only required for the compilation 
 	// of Parser's sources.
 
