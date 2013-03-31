@@ -26,11 +26,13 @@ public:
 	Symbol() 
 	{}
 
+	Symbol(std::string id, SymbolLocation location, Type* symbolType )
+		: id(id), location(location), symbolType(symbolType)
+	{}
+
 	Symbol(std::string s, int l, int c)
 		: id(s), location(l,c)
-	{
-
-	}
+	{}
 
 	std::string getId()
 	{

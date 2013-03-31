@@ -24,8 +24,8 @@ std::string Type::getId()
 
 }
 
-Type::Type() {
-}
+// Type::Type() {
+// }
 
 Type::Type(TypeEnum type)
 	: type(type)

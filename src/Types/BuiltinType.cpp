@@ -5,14 +5,14 @@
  *      Author: jordan
  */
 
-#include "BuiltinType.h"
+// #include "BuiltinType.h"
 
-BuiltinType::BuiltinType() {
+// BuiltinType::BuiltinType() {
 	// TODO Auto-generated constructor stub
 
-}
+// }
 
-BuiltinType::~BuiltinType() {
+// BuiltinType::~BuiltinType() {
 	// TODO Auto-generated destructor stub
-}
+// }
 

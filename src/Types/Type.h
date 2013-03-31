@@ -10,9 +10,27 @@
 
 #include <string>
 #include <vector>
-#include "Symbol.h"
+// #include "Symbol.h"
+class Symbol;
 
-enum StorageSpeficier
+enum TypeSpecifier {
+	Void,
+	Char, // Integral Start
+	Short,
+	Int,
+	Long,
+	Float,
+	Double, // Double + 1 = Integral End
+	Signed, 
+	Unsigned,
+	Struct,
+	Union,
+	Enum,
+	Typedef,
+	TypeSpecifierEnd
+};
+
+enum StorageSpecifier
 {
 	Extern,
 	Static,
@@ -35,7 +53,20 @@ public:
 	virtual ~Type();
 
 	enum TypeEnum {
-		Builtin,
+		// Builtin,
+		uChar,
+		uShort,
+		uInt,
+		uLong,
+		uLongLong,
+		Char,
+		Short,
+		Int,
+		Long,
+		LongLong,
+		Float,
+		Double,
+		Void, // Builtin End
 		Enum,
 		Union,
 		Struct,
@@ -64,7 +95,7 @@ public:
 
 protected:
 
-	Type();
+	// Type(); // need this?
 
 	Type(TypeEnum);
 

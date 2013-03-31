@@ -66,8 +66,8 @@
 %token TYPEDEF_NAME
 %token ENUMERATION_CONSTANT
 
-%token WHITESPACE
-%token COMMENT
+%token <STRING> WHITESPACE
+%token <STRING> COMMENT
 
 %token ENDOFFILE
 
@@ -700,7 +700,15 @@ argument_expression_list
 	;
 
 constant
-	: I_CONSTANT		/* includes character_constant */ { debugPrint("I_CONSTANT -> constant"); }
+	: I_CONSTANT /* includes character_constant */ { 
+			std::cout << "aiueo" << std::endl;
+			//  std::cout << "$1 " << $1 << std::endl;
+			std::cout << "d_val__: " << d_val__ << std::endl;
+			// std::cout << "$1 + $1" << $1 + $1 << std::endl;
+			std::cout << "matched: " << scanner->matched() << std::endl;
+			debugPrint("I_CONSTANT -> constant"); 
+			
+		}
 	| F_CONSTANT { debugPrint("F_CONSTANT -> constant"); }
 	| CHAR_LITERAL { debugPrint("CHAR_LITERAL -> constant"); }
 	| ENUMERATION_CONSTANT	/* after it has been defined as such */ { debugPrint("ENUMERATION_CONSTANT -> constant"); }

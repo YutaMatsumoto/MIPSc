@@ -8,6 +8,16 @@
 #include "Scanner.h"
 #include "SymbolTable.h"
 
+// #include "BuiltinType.h"
+#include "ArrayType.h"
+#include "EnumType.h"
+#include "PointerType.h"
+#include "StructType.h"
+#include "TypedefType.h"
+#include "UnionType.h"
+
+#include "Declaration.h"
+
 #undef Parser
 class Parser: public ParserBase
 {
@@ -66,6 +76,10 @@ class Parser: public ParserBase
 
 		Symbol currentDeclaration;
 
+		Declaration decl;
+
+		int token;
+
 		//
 		//      Declaration Related
 		//
@@ -101,10 +115,15 @@ class Parser: public ParserBase
 			std::cout << "implement declareIdentifier()" << std::endl;
 		}
 		void setDeclarationLocation();
+		void addStorageSpecifier()
+		{
+			std::cout << "implement addStorageSpeficier()" << std::endl;
+			decl.addTypeSpecifier(scanner->matched());
+		}
 		void addTypeSpecifier()      
 		{
 			std::cout << "implement addTypeSpecifier()" << std::endl;
-			currentTypeSpecifiers.push_back( scanner->matched() ); 
+			decl.addTypeSpecifier(scanner->matched());
 		}
 
 		void setConst()              
@@ -128,23 +147,6 @@ class Parser: public ParserBase
 		{
 			std::cout << "implement specifyFunctionCall()" << std::endl;
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

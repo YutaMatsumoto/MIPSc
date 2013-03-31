@@ -10,33 +10,46 @@
 
 #include "Type.h"
 
-class BuiltinType: public Type
+/*
+enum BuiltinTag
+{
+
+	uChar,
+	uShort,
+	uInt,
+	uLong,
+	uLongLong,
+	Char,
+	Short,
+	Int,
+	Long,
+	LongLong,
+	Float,
+	Double,
+	Void
+
+};
+*/
+
+template <class Data> class BuiltinType : public Type
 {
 public:
 
-	BuiltinType();
+	// BuiltinType(int/*Builtins enum*/ tag)
+	BuiltinType(Type::TypeEnum type)
+		: Type(type), data(Data())
+	{}
 
-	virtual ~BuiltinType();
+	// BuiltinType(int/*Builtins enum*/ tag, Data initData)
+	// 
+	// }
 
-	enum Builtins
-	{
+	// virtual ~BuiltinType();
 
-		uChar,
-		uShort,
-		uInt,
-		uLong,
-		uLongLong,
-		Char,
-		Short,
-		Int,
-		Long,
-		LongLong,
-		Float,
-		Double,
-		Void
 
-	};
 
+	/* template might save time if we could do it.
+	 *
 	struct value
 	{
 
@@ -65,6 +78,9 @@ public:
 		double doubleVal;
 
 	};
+	*/
+
+	Data data;
 
 };
 

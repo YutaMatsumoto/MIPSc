@@ -19,14 +19,12 @@ inline void Parser::error(char const *msg)
 inline int Parser::lex()
 {
 	
-	int token;
-	
 	// Skip useless tokens such as whitespace and comment
 	do {
 		token = scanner->lex();
 	} while ( isUseless(token) );
 
-	// std::cout << "lex() : " << scanner->matched() << " : " << token << std::endl;
+	std::cout << "lex() : " << scanner->matched() << " : " << token << std::endl;
 	
 
 	// Return token value
