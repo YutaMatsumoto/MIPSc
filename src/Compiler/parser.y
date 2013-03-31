@@ -46,7 +46,7 @@
 //
 //      setVolitle()            : type_qualifier         -> VOLATILE
 //
-//      declareIdentifier()     : direct_declarator      -> identifier
+//      pushIdentifier()     : direct_declarator      -> identifier
 //
 //      specifyArray()          : direct_declarator      -> direct_declarator '[' ']'
 //
@@ -227,11 +227,26 @@ declaration_specifiers
 	;
 
 storage_class_specifier
-	: AUTO { debugPrint("AUTO -> storage_class_specifier"); }
-	| REGISTER { debugPrint("REGISTER -> storage_class_specifier"); }
-	| STATIC { debugPrint("STATIC -> storage_class_specifier"); }
-	| EXTERN { debugPrint("EXTERN -> storage_class_specifier"); }
-	| TYPEDEF { debugPrint("TYPEDEF -> storage_class_specifier"); }
+	: AUTO { 
+		debugPrint("AUTO -> storage_class_specifier"); 
+		addStorageSpecifier();
+		}
+	| REGISTER { 
+		debugPrint("REGISTER -> storage_class_specifier"); 
+		addStorageSpecifier();
+		}
+	| STATIC { 
+		debugPrint("STATIC -> storage_class_specifier"); 
+		addStorageSpecifier();
+		}
+	| EXTERN { 
+		debugPrint("EXTERN -> storage_class_specifier"); 
+		addStorageSpecifier();
+		}
+	| TYPEDEF { 
+		debugPrint("TYPEDEF -> storage_class_specifier"); 
+		addStorageSpecifier();
+		}
 	;
 
 type_specifier
@@ -373,7 +388,7 @@ declarator
 
 direct_declarator
 	: identifier { 
-			declareIdentifier();
+			pushIdentifier();
 			debugPrint("identifier -> direct_declarator"); 
 		}
 	| '(' declarator ')' { 
@@ -701,10 +716,8 @@ argument_expression_list
 
 constant
 	: I_CONSTANT /* includes character_constant */ { 
-			std::cout << "aiueo" << std::endl;
-			//  std::cout << "$1 " << $1 << std::endl;
-			std::cout << "d_val__: " << d_val__ << std::endl;
-			// std::cout << "$1 + $1" << $1 + $1 << std::endl;
+			std::cout << "$1 " << $1 << std::endl; // => seg fault
+			std::cout << "d_val__: " << d_val__ << std::endl; // => 0
 			std::cout << "matched: " << scanner->matched() << std::endl;
 			debugPrint("I_CONSTANT -> constant"); 
 			

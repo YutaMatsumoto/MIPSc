@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "../Compiler/Symbol.h"
-#include "nodes.h"
+#include "Nodes.h"
 
 #ifndef TREE_H_GUARD
 #define TREE_H_GUARD

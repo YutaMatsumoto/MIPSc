@@ -80,6 +80,8 @@ class Parser: public ParserBase
 
 		int token;
 
+	private : // functions
+
 		//
 		//      Declaration Related
 		//

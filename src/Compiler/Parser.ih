@@ -72,14 +72,7 @@ void Parser::configDebugPrint(std::ostream& os, std::string prefix, std::string 
 	debug.debugOutputPostfix = postfix;
 }
 
-void Parser::setDeclarationLocation()
-{
 
-	SymbolLocation loc( scanner->getLoc() );
-	currentDeclaration.location = loc;
-	currentDeclaration.id = scanner->matched();
-
-}
 
 void Parser::debugPrint(std::string msg)
 {
@@ -97,7 +90,14 @@ void Parser::debugPrint(std::string msg)
 
 // ---------------------------------------------------------------------------
 // Declaration Related
+void Parser::setDeclarationLocation()
+{
 
+	SymbolLocation loc( scanner->getLoc() );
+	currentDeclaration.location = loc;
+	currentDeclaration.id = scanner->matched();
+
+}
 void Parser::beginDeclarationSection()
 {
 	std::cout << "implement beginDeclarationSection() " << std::endl;	
@@ -109,6 +109,13 @@ void Parser::endDeclarationSection()
 void Parser::declare()                    
 {
 	std::cout << "implement declare()" << std::endl;
+	auto symbolList = decl.createSymbols();
+	for ( auto symbol : symbolList ) {
+		symbolTable->insertSymbol( symbol );
+	}
+
+	decl.clear();
+	
 }
 void Parser::determineType()              
 {
@@ -127,7 +134,6 @@ void Parser::pushIdentifier()
 	std::cout << "implement pushIdentifier()" << std::endl;
 	decl.pushIdentifier(scanner->matched());
 }
-void Parser::setDeclarationLocation();
 void Parser::addStorageSpecifier()
 {
 	std::cout << "implement addStorageSpeficier()" << std::endl;

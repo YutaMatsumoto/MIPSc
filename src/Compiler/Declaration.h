@@ -20,9 +20,12 @@ private: // data members
 	typedef int StorageSpecifier;
 	std::vector<StorageSpecifier> storageSpecifiers;
 
+	std::vector<std::string> identifiers;
+
 public:
 
-	Symbol* createSymbol()
+	typedef std::vector<Symbol*> SymbolList;
+	SymbolList createSymbols()
 	{
 	//
 	// TODO
@@ -33,7 +36,7 @@ public:
 	//	initilizer
 	//
 
-		std::cout << "implement createSymbol()" << std::endl;
+		std::cout << "implement createSymbols()" << std::endl;
 
 		TypeSpecifier integral = TypeSpecifierEnd;
 
@@ -133,9 +136,14 @@ public:
 		//	
 		//	Initialize SymbolLocation and id
 		//
-		Symbol* sym = new Symbol( "TODO",  SymbolLocation(), type);
+		std::vector<Symbol*> symbolList;
+		Symbol* sym;
+		for (auto identifier : identifiers) {
+			sym = new Symbol( identifier,  SymbolLocation(), type);
+			symbolList.push_back(sym);
+		}
 
-		return sym;
+		return symbolList;
 	}
 
 	void error(std::string msg)
@@ -158,6 +166,36 @@ public:
 	void addTypeSpecifier(std::string type)
 	{
 		std::cerr << "addTypeSpecifier(string): TODO" << std::endl;
+		if (type=="void") 
+			addTypeSpecifier(Void);
+		else if (type=="void")
+			addTypeSpecifier(Void);
+		else if (type=="char")
+			addTypeSpecifier(Char);
+		else if (type=="short")
+			addTypeSpecifier(Short);
+		else if (type=="int")
+			addTypeSpecifier(Int);
+		else if (type=="long")
+			addTypeSpecifier(Long);
+		else if (type=="float")
+			addTypeSpecifier(Float);
+		else if (type=="double")
+			addTypeSpecifier(Double);
+		else if (type=="signed")
+			addTypeSpecifier(Signed);
+		else if (type=="unsigned")
+			addTypeSpecifier(Unsigned);
+		else if (type=="struct")
+			addTypeSpecifier(Struct);
+		else if (type=="union")
+			addTypeSpecifier(Union);
+		else if (type=="enum")
+			addTypeSpecifier(Enum);
+		else if (type=="typedef")
+			addTypeSpecifier(Typedef);
+		else
+			error("");
 	}
 
 	void addTypeSpecifier(TypeSpecifier spec)
@@ -170,28 +208,36 @@ public:
 		storageSpecifiers.push_back(spec);
 	}
 
+	void pushIdentifier(std::string identifier)
+	{
+		identifiers.push_back(identifier);
+	}
+
 	void clear()
 	{
-		
+		// TODO : add clear if any data member added
+		typeSpecifiers.clear();
+		storageSpecifiers.clear();
+		identifiers.clear();
 	}
 
 private: // methods
 
-	bool isTypeSpecifier(TypeSpecifier spec)
-	{
-		// const static std::vector<std::string> specifiers = {
-		// 	"char", 
-		// 	"short",
-		// 	"
-		// };
-		// for (auto s : specifiers) {
-		// 	if ( s == spec ) {
-		// 		return true;
-		// 	}
-		// }
+	// bool isTypeSpecifier(TypeSpecifier spec)
+	// {
+	// 	// const static std::vector<std::string> specifiers = {
+	// 	// 	"char", 
+	// 	// 	"short",
+	// 	// 	"
+	// 	// };
+	// 	// for (auto s : specifiers) {
+	// 	// 	if ( s == spec ) {
+	// 	// 		return true;
+	// 	// 	}
+	// 	// }
 
-		// return false;
-	}
+	// 	// return false;
+	// }
 
 
 

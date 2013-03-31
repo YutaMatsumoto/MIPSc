@@ -39,6 +39,11 @@ public:
 		return id;
 	}
 
+	std::string getValueAsString()
+	{
+		return "implement getValueAsString";
+	}
+
 };
 
 #endif /* SYMBOL_H_ */
