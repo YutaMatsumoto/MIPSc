@@ -76,21 +76,21 @@ CHAR		"'"."'"
 "volatile"				{ update(); return(Parser::VOLATILE); }
 "while"					{ update(); return(Parser::WHILE); }
 
-{L}{A}*	                { update(); return(Parser::IDENTIFIER); }
+{L}{A}*	                		{ update(); return(Parser::IDENTIFIER); }
 
-{HP}{H}+{IS}?				    { return Parser::I_CONSTANT; }
-{NZ}{D}*{IS}?				    { return Parser::I_CONSTANT; }
-"0"{O}*{IS}?				    { return Parser::I_CONSTANT; }
-{CP}?"'"([^'\\\n]|{ES})+"'"		{ return Parser::I_CONSTANT; }
+{HP}{H}+{IS}?				{ update(); return Parser::I_CONSTANT; }
+{NZ}{D}*{IS}?				{ update(); return Parser::I_CONSTANT; }
+"0"{O}*{IS}?				{ update(); return Parser::I_CONSTANT; }
+{CP}?"'"([^'\\\n]|{ES})+"'"		{ update(); return Parser::I_CONSTANT; }
 
-{D}+{E}{FS}?				    { return Parser::F_CONSTANT; }
-{D}*"."{D}+{E}?{FS}?			{ return Parser::F_CONSTANT; }
-{D}+"."{E}?{FS}?			    { return Parser::F_CONSTANT; }
-{HP}{H}+{P}{FS}?			    { return Parser::F_CONSTANT; }
-{HP}{H}*"."{H}+{P}{FS}?			{ return Parser::F_CONSTANT; }
-{HP}{H}+"."{P}{FS}?			    { return Parser::F_CONSTANT; }
+{D}+{E}{FS}?				{ update(); return Parser::F_CONSTANT; }
+{D}*"."{D}+{E}?{FS}?			{ update(); return Parser::F_CONSTANT; }
+{D}+"."{E}?{FS}?			{ update(); return Parser::F_CONSTANT; }
+{HP}{H}+{P}{FS}?			{ update(); return Parser::F_CONSTANT; }
+{HP}{H}*"."{H}+{P}{FS}?			{ update(); return Parser::F_CONSTANT; }
+{HP}{H}+"."{P}{FS}?			{ update(); return Parser::F_CONSTANT; }
 
-L?\"(\\.|[^\\"])*\"  	{ return Parser::STRING_LITERAL; }
+L?\"(\\.|[^\\"])*\"  			{ update(); return Parser::STRING_LITERAL; }
 
 "..."			        { update(); return(Parser::ELLIPSIS); }
 ">>="			        { update(); return(Parser::RIGHT_ASSIGN); }

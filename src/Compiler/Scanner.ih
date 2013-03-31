@@ -133,7 +133,7 @@ void Scanner::update()
 		if (matched() == "\n") {
 			*(debug.lineOutputTo) 
 				<< "---------------------------------------------------------- " << std::endl
-				<< "l" << location.lnum << " : " 
+				<< "l" << location.lnum - 1 << " : " 
 				<< lastLine() << std::endl
 				<< "---------------------------------------------------------- " << std::endl
 				<< std::endl; 
