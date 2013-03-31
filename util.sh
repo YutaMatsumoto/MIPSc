@@ -41,8 +41,8 @@ test_dir=$(find_dir_in_src Tests)
 function compile()
 {
 	backto=$(pwd)
-	cd $compiler_dir	
-	$compiler_dir/regen.bash && cd $debug_dir && make 
+	cd $compiler_dir	 
+	$compiler_dir/regen.bash $@ && cd $debug_dir && make 
 	cd $backto
 }
 
@@ -62,7 +62,7 @@ function clean()
 #
 function run_test() 
 {
-	$debug_dir/MIPSc -d $test_dir/$1
+	$debug_dir/MIPSc -d $test_dir/$1 2>&1
 	return $?
 }
 
@@ -83,3 +83,4 @@ function regen()
 	flexc++ scanner.lex
 	cd -
 }
+export -f compile

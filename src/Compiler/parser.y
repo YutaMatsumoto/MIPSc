@@ -56,7 +56,6 @@
 //
 //      specifyFunctionCall()   : direct_declarator      -> '(' identifier_list ')'
 
-
 %token <CHAR> CHAR_LITERAL
 
 %token <STRING> IDENTIFIER
@@ -133,10 +132,12 @@
 
 %token SQUOTE
 
-%polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string; CHAR: char;
+// %polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string; CHAR: char; EXPRESSION: Expression;
 
 %type <STRING> identifier
 %type <STRING> string
+// %type <EXPRESSION> constant;
+%stype Expression
 
 %lsp-needed
 %debug
@@ -704,7 +705,12 @@ postfix_expression
 
 primary_expression
 	: identifier { debugPrint("identifier -> primary_expression"); }
-	| constant { debugPrint("constant -> primary_expression"); }
+	| constant { 
+		$$ = $1;
+		std::cout << "in primary_expression" << std::endl;
+		std::cout << "Now the primary expression is <" << $$ << ">" << std::endl;
+		debugPrint("constant -> primary_expression"); 
+		}
 	| string { debugPrint("string -> primary_expression"); }
 	| '(' expression ')' { debugPrint("'(' expression ')' -> primary_expression"); }
 	;
@@ -716,11 +722,16 @@ argument_expression_list
 
 constant
 	: I_CONSTANT /* includes character_constant */ { 
-			std::cout << "$1 " << $1 << std::endl; // => seg fault
-			std::cout << "d_val__: " << d_val__ << std::endl; // => 0
-			std::cout << "matched: " << scanner->matched() << std::endl;
+			// Create expression which will propagate up the grammar
+			// Type should not be made here but data of a symbol is held within type currently...
+			Type* type = new BuiltinType<int>(Type::Char);
+			Symbol* sym = new Symbol(scanner->matched(), SymbolLocation(), type);
+			$$ = Expression(sym);
+
+			// convert I_CONSTANT as a string to integer and insert it to symbol
+			// std::cout << "matched: " << scanner->matched() << std::endl;
+
 			debugPrint("I_CONSTANT -> constant"); 
-			
 		}
 	| F_CONSTANT { debugPrint("F_CONSTANT -> constant"); }
 	| CHAR_LITERAL { debugPrint("CHAR_LITERAL -> constant"); }

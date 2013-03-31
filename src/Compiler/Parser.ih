@@ -24,8 +24,9 @@ inline int Parser::lex()
 		token = scanner->lex();
 	} while ( isUseless(token) );
 
-	std::cout << "lex() : " << scanner->matched() << " : " << token << std::endl;
-	
+	// Lex Debug and Token File can be created here
+	//
+	// std::cout << "lex() : " << scanner->matched() << " : " << token << std::endl;
 
 	// Return token value
 	if( token == Parser::ENDOFFILE ) {

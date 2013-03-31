@@ -1,2 +1,2 @@
 #!/bin/bash
-bisonc++ --debug parser.y && flexc++ scanner.lex
+bisonc++ --debug $@ parser.y && flexc++ scanner.lex
