@@ -22,7 +22,7 @@ const std::string pdebug_extension = ".pdebug";
 
 void usage()
 {
-	system("cat ../Doc/scanner_driver_usage.txt");
+	system("cat ../src/Doc/scanner_driver_usage.txt");
 }
 
 struct CommandFlags {
