@@ -7,10 +7,6 @@
 
 #include "UnionType.h"
 
-UnionType::UnionType() {
-	// TODO Auto-generated constructor stub
-
-}
 
 UnionType::~UnionType() {
 	// TODO Auto-generated destructor stub

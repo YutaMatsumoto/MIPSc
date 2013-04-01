@@ -13,7 +13,10 @@
 class PointerType: public Type {
 public:
 
-	PointerType();
+	PointerType() : Type( Pointer )
+	{
+
+	}
 
 	virtual ~PointerType();
 

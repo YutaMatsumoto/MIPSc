@@ -14,7 +14,10 @@ class ArrayType: public Type {
 
 public:
 
-	ArrayType();
+	ArrayType() : Type( Array )
+	{
+
+	}
 
 	virtual ~ArrayType();
 

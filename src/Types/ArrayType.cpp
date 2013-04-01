@@ -7,10 +7,6 @@
 
 #include "ArrayType.h"
 
-ArrayType::ArrayType() {
-	// TODO Auto-generated constructor stub
-
-}
 
 ArrayType::~ArrayType() {
 	// TODO Auto-generated destructor stub

@@ -15,7 +15,10 @@
 class StructType: public Type {
 public:
 
-	StructType();
+	StructType() : Type( Struct )
+	{
+
+	}
 
 	virtual ~StructType();
 

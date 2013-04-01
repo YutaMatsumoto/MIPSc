@@ -13,7 +13,10 @@
 class UnionType: public Type {
 public:
 
-	UnionType();
+	UnionType() : Type( Union )
+	{
+
+	}
 
 	virtual ~UnionType();
 

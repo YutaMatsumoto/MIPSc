@@ -7,11 +7,6 @@
 
 #include "TypedefType.h"
 
-TypedefType::TypedefType() {
-	// TODO Auto-generated constructor stub
-
-}
-
 TypedefType::~TypedefType() {
 	// TODO Auto-generated destructor stub
 }

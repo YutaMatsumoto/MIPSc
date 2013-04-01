@@ -7,11 +7,6 @@
 
 #include "EnumType.h"
 
-EnumType::EnumType() {
-	// TODO Auto-generated constructor stub
-
-}
-
 EnumType::~EnumType() {
 	// TODO Auto-generated destructor stub
 }

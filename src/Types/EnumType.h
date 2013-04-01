@@ -13,7 +13,10 @@
 class EnumType: public Type {
 public:
 
-	EnumType();
+	EnumType() : Type( Enum )
+	{
+
+	}
 
 	virtual ~EnumType();
 

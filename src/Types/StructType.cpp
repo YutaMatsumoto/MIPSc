@@ -7,11 +7,6 @@
 
 #include "StructType.h"
 
-StructType::StructType() {
-	// TODO Auto-generated constructor stub
-
-}
-
 StructType::~StructType() {
 	// TODO Auto-generated destructor stub
 }

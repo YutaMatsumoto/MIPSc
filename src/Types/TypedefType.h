@@ -13,7 +13,10 @@
 class TypedefType: public Type {
 public:
 
-	TypedefType();
+	TypedefType() : Type( Typedef )
+	{
+
+	}
 
 	virtual ~TypedefType();
 

@@ -97,7 +97,7 @@ protected:
 
 	// Type(); // need this?
 
-	Type(TypeEnum);
+	Type( TypeEnum );
 
 };
 

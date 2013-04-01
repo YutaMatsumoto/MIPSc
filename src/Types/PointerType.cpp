@@ -7,11 +7,6 @@
 
 #include "PointerType.h"
 
-PointerType::PointerType() {
-	// TODO Auto-generated constructor stub
-
-}
-
 PointerType::~PointerType() {
 	// TODO Auto-generated destructor stub
 }
