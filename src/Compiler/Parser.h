@@ -86,6 +86,8 @@ class Parser: public ParserBase
 
 		int token;
 
+		bool declarationMode;
+
 	private : // functions
 
 		//

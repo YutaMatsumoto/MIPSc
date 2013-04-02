@@ -524,18 +524,22 @@ compound_statement
 		debugPrint("'{' '}' -> compound_statement"); 
 	  }
 	/* declaration mode*/ 
-	| '{' statement_list '}' { 
+	| '{' { symbolTable->beginScope(); } statement_list '}' { 
+		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 	  }
 	| '{' {
+		symbolTable->beginScope();
 		beginDeclarationSection();
 		debugPrint("---- Declaration Mode Start ----");
 	  } 
 	  declaration_list '}' { 
+	  	symbolTable->endScope();
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement"); 
 	  }
 	| '{' {
+		symbolTable->beginScope();
 		beginDeclarationSection();
 		debugPrint("Declaration Mode Start");
 	  }

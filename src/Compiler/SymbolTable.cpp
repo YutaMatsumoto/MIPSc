@@ -140,11 +140,13 @@ void SymbolTable::dumpTable( std::string filename )
 		for( auto& j : i.symbolMap )
 		{
 
-			o << j.second->getId() << " : " << j.second->getValueAsString() << std::endl;
+			o << j.second->getId() << " : " << j.second->getTypeAsString() << std::endl;
 
 		}
 
 	}
+
+	o << "---------------------------------------------------------------" << std::endl;
 
 }
 
