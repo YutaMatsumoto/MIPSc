@@ -389,7 +389,8 @@ declarator
 
 direct_declarator
 	: identifier { 
-			pushIdentifier();
+			//^^ Can the scanner match on a non-terminal?
+			//pushIdentifier();
 			debugPrint("identifier -> direct_declarator"); 
 		}
 	| '(' declarator ')' { 
@@ -746,6 +747,7 @@ identifier
 	: IDENTIFIER { debugPrint("IDENTIFIER -> identifier"); }
 	{
 	setDeclarationLocation();
+	pushIdentifier();
 	// currentDeclaration->id = scanner->matched();
 	}
 	;

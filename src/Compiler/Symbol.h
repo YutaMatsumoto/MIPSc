@@ -43,7 +43,8 @@ public:
 
 	std::string getValueAsString()
 	{
-		return "implement getValueAsString";
+		return symbolType->getType()
+		//return "implement getValueAsString";
 	}
 
 };

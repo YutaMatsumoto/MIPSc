@@ -81,6 +81,8 @@ public:
 		return type;
 	}
 
+	std::string getTypeAsString();
+
 	int sizeInBytes();
 
 	std::string id;

@@ -51,6 +51,7 @@ class Parser: public ParserBase
 
 		}
 
+		//As the parser encounters things like 'void' 'float' 'char' they accumulate here
 		std::vector< std::string > currentTypeSpecifiers;
 
 		void configDebugPrint(
