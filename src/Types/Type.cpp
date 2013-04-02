@@ -7,6 +7,7 @@
 
 #include "Type.h"
 #include "Symbol.h"
+#include "ArrayType.h"
 #include "PointerType.h"
 #include "TypedefType.h"
 #include "FunctionType.h"
@@ -27,122 +28,125 @@ std::string Type::getTypeAsString()
 	{
 
 		case uChar:
-
+		{
 			return "unsigned char";
 
 			break;
-
+		}
 		case uShort:
-
+		{
 			return "unsigned short";
 
 			break;
-
+		}
 		case uInt:
-
+		{
 			return "unsigned int";
 
 			break;
-
+		}
 		case uLong:
-
+		{
 			return "unsigned long";
 
 			break;
-
+		}
 		case uLongLong:
-
+		{
 			return "unsigned long long";
 
 			break;
-
+		}
 		case Char:
-
+		{
 			return "char";
 
 			break;
-
+		}
 		case Short:
-
+		{
 			return "short";
 
 			break;
-
+		}
 		case Int:
-
+		{
 			return "int";
 
 			break;
-
+		}
 		case Long:
-
+		{
 			return "long";
 
 			break;
-
+		}
 		case LongLong:
-
+		{
 			return "long long";
 
 			break;
-
+		}
 		case Float:
-
+		{
 			return "float";
 
 			break;
-
+		}
 		case Double:
-
+		{
 			return "double";
 
 			break;
+		}
 		case Enum:
-
+		{
 			return "enum";
 
 			break;
-
+		}
 		case Union:
-
+		{
 			return "union";
 
 			break;
-
+		}
 		case Struct:
-
+		{
 			return "struct";
 
 			break;
-
+		}
 		case Pointer:
-
+		{
 			return ( (PointerType*) this )->symbol->symbolType->getTypeAsString() + "*";
 
 			break;
-
+		}
 		case Typedef:
-
+		{
 			return ( (TypedefType*) this )->redefinedType->id;
 
 			break;
-
+		}
 		case Array:
+		{
+			std::string s;
 
-			std::string arrayType = "";
+			s = "";
 
-			arrayType += ( (ArrayType*) this )->getElementType()->getTypeAsString();
+			s += ( (ArrayType*) this )->getElementType()->getTypeAsString();
 
-			for( int i = 0 ; i < ( (ArrayType*) this )->dimension && ( (ArrayType*) this )->dimension > 1 ; i++ )
+			for( unsigned int i = 0 ; i < ( (ArrayType*) this )->dimension && ( (ArrayType*) this )->dimension > 1 ; i++ )
 
-				arrayType += std::string( "[" + ( (ArrayType*) this )->offsets.at(i) ) + "]";
+				s += std::string( "[" + ( (ArrayType*) this )->offsets.at(i) ) + "]";
 
-			return arrayType;
+			return s;
 
 			break;
-
+		}
 		case Function:
-
+		{
 			std::string functionType = "";
 
 			functionType += ( (FunctionType*) this )->returnType->getTypeAsString();
@@ -161,20 +165,24 @@ std::string Type::getTypeAsString()
 			return functionType;
 
 			break;
-
+		}
 		case Void:
-
+		{
 			return "void";
 
 			break;
-
+		}
 		default:
-
+		{
 			return "ERROR";
 
 			break;
+		}
 
 	}
+
+	return "";
+
 }
 
 std::string Type::getId()

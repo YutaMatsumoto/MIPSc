@@ -23,6 +23,8 @@ public:
 	//The possible types that can be stored in this union
 	std::vector< Type* > possibleTypes;
 
+	virtual int sizeInBytes();
+
 };
 
 #endif /* UNIONTYPE_H_ */

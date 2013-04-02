@@ -12,3 +12,10 @@ UnionType::~UnionType() {
 	// TODO Auto-generated destructor stub
 }
 
+int UnionType::sizeInBytes()
+{
+
+	//TODO Implement this
+	return 1;
+
+}

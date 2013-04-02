@@ -10,8 +10,9 @@
 
 #include <string>
 #include <vector>
-// #include "Symbol.h"
-class Symbol;
+#include "Symbol.h"
+
+//class Symbol;
 
 enum TypeSpecifier {
 	Void,
@@ -83,7 +84,7 @@ public:
 
 	std::string getTypeAsString();
 
-	int sizeInBytes();
+	virtual int sizeInBytes() = 0;
 
 	std::string id;
 

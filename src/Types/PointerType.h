@@ -23,6 +23,8 @@ public:
 	//The symbol being pointed to
 	Symbol* symbol;
 
+	virtual int sizeInBytes();
+
 };
 
 #endif /* POINTERTYPE_H_ */

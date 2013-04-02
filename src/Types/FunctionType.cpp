@@ -6,13 +6,18 @@
  */
 
 #include "FunctionType.h"
-
-FunctionType::FunctionType() {
-	// TODO Auto-generated constructor stub
-
-}
+#include <iostream>
 
 FunctionType::~FunctionType() {
 	// TODO Auto-generated destructor stub
+}
+
+int FunctionType::sizeInBytes()
+{
+
+	std::cerr << "Trying to get size of function..." << std::endl;
+
+	exit(1);
+
 }
 

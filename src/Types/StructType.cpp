@@ -11,3 +11,10 @@ StructType::~StructType() {
 	// TODO Auto-generated destructor stub
 }
 
+int StructType::sizeInBytes()
+{
+
+	//TODO Implement this
+	return 1;
+
+}

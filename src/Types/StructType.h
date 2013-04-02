@@ -25,6 +25,8 @@ public:
 	//string is symbol name, Symbol* is info/data about the struct member
 	std::map< std::string , Symbol* > members;
 
+	virtual int sizeInBytes();
+
 };
 
 #endif /* STRUCTTYPE_H_ */

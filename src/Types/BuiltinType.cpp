@@ -5,7 +5,7 @@
  *      Author: jordan
  */
 
-// #include "BuiltinType.h"
+//#include "BuiltinType.h"
 
 // BuiltinType::BuiltinType() {
 	// TODO Auto-generated constructor stub
@@ -16,3 +16,10 @@
 	// TODO Auto-generated destructor stub
 // }
 
+/*template<class Data>
+int BuiltinType<Data>::sizeInBytes()
+{
+
+	return sizeof(Data);
+
+}*/

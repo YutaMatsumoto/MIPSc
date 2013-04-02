@@ -11,3 +11,10 @@ TypedefType::~TypedefType() {
 	// TODO Auto-generated destructor stub
 }
 
+int TypedefType::sizeInBytes()
+{
+
+	//TODO Implement this
+	return 1;
+
+}

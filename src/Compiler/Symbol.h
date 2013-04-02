@@ -7,6 +7,8 @@
 
 #include <string>
 #include "SymbolLocation.h"
+//#include "Type.h"
+
 
 #ifndef SYMBOL_H_
 #define SYMBOL_H_
@@ -43,8 +45,17 @@ public:
 
 	std::string getValueAsString()
 	{
-		return symbolType->getType()
+		//return symbolType->getType()->
 		//return "implement getValueAsString";
+		return "[a value]";
+	}
+
+	std::string getTypeAsString()
+	{
+
+		return "";
+		//return symbolType->getTypeAsString();
+
 	}
 
 };

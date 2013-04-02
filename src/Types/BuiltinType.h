@@ -82,6 +82,13 @@ public:
 
 	Data data;
 
+	virtual int sizeInBytes()
+	{
+
+		return sizeof(Data);
+
+	}
+
 };
 
 #endif /* BUILTINTYPE_H_ */

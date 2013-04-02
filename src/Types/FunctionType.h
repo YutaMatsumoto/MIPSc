@@ -13,13 +13,19 @@
 class FunctionType: public Type {
 public:
 
-	FunctionType();
+	FunctionType() : Type(Function)
+	{
+
+	}
 
 	virtual ~FunctionType();
 
 	std::vector< Type* > operands;
 
 	Type* returnType;
+
+	virtual int sizeInBytes();
+
 };
 
 #endif /* FUNCTIONTYPE_H_ */

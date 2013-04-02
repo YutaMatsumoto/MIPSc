@@ -8,6 +8,16 @@
 #include "EnumType.h"
 
 EnumType::~EnumType() {
-	// TODO Auto-generated destructor stub
+
+
+
 }
 
+int EnumType::sizeInBytes()
+{
+
+	std::cerr << "Trying to get size of enumerated type..." << std::endl;
+
+	exit(1);
+
+}

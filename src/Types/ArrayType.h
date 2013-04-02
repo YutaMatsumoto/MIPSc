@@ -28,6 +28,8 @@ public:
 
 	}
 
+	virtual int sizeInBytes();
+
 	//whether its 1D, 2D, 3d, 4d...
 	unsigned int dimension;
 

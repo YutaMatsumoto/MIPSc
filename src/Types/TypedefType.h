@@ -23,6 +23,8 @@ public:
 	//The type referenced by this typedef
 	Type* redefinedType;
 
+	virtual int sizeInBytes();
+
 };
 
 #endif /* TYPEDEFTYPE_H_ */

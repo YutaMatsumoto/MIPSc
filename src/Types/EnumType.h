@@ -22,6 +22,8 @@ public:
 
 	std::vector< std::string > enumValues;
 
+	virtual int sizeInBytes();
+
 };
 
 #endif /* ENUMTYPE_H_ */

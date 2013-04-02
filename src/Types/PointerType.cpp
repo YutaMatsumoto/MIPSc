@@ -11,3 +11,10 @@ PointerType::~PointerType() {
 	// TODO Auto-generated destructor stub
 }
 
+int PointerType::sizeInBytes()
+{
+
+	//Pointer size on MIPS should be 32 bits
+	return 4;
+
+}
