@@ -35,6 +35,22 @@ public:
 	//	identifier
 	//	initilizer
 	//
+	
+		std::cout << "TypeSpecifiers: " ;
+		for (auto typeS : typeSpecifiers ) 
+			std::cout << typeS;
+		std::cout << std::endl;
+
+		std::cout << "storageSpecifiers: " ;
+		for (auto storageS : storageSpecifiers ) 
+			std::cout << storageS;
+		std::cout << std::endl;
+
+		std::cout << "identifiers: " ;
+		for (auto id : identifiers ) 
+			std::cout << id;
+		std::cout << std::endl;
+
 
 		std::cout << "implement createSymbols()" << std::endl;
 
@@ -52,12 +68,12 @@ public:
 				if (integral == TypeSpecifierEnd) 
 					integral = type;
 				else 
-					error(""); // TODO error message and all the errors below
+					error("a"); // TODO error message and all the errors below
 				continue;
 			}
 			else if (type==Long) {
 				if (longLongSpecified)
-					error("");
+					error("b");
 				if (longSpecified) {
 					longLongSpecified = true;
 					longSpecified = false;
@@ -67,7 +83,7 @@ public:
 			}
 			else if (type==Unsigned) {
 				if (unsignedSpecified)
-					error("");
+					error("c");
 				else
 					unsignedSpecified = true;
 			}

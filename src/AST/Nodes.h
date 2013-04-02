@@ -86,6 +86,7 @@ protected:
 	Expression condition;
 };
 
+
 class For : public While {
 public:
 	// For(Statement* init, Expression cond,  Node* update, Statement* body, Node* parent) 
@@ -128,9 +129,9 @@ public:
 	// void addElse(statement);
 
 private:
-	Statement* stmt;
-	Statement* stmt2;
-	Expression& cond;
+	Node* stmt;
+	Node* stmt2;
+	Expression* cond;
 
 };
 
