@@ -712,7 +712,9 @@ postfix_expression
 	;
 
 primary_expression
-	: identifier { debugPrint("identifier -> primary_expression"); }
+	: identifier { 
+			debugPrint("identifier -> primary_expression"); 
+		}
 	| constant { 
 		$$ = $1;
 		std::cout << "in primary_expression" << std::endl;
@@ -732,18 +734,45 @@ constant
 	: I_CONSTANT /* includes character_constant */ { 
 			// Create expression which will propagate up the grammar
 			// Type should not be made here but data of a symbol is held within type currently...
-			Type* type = new BuiltinType<int>(Type::Char);
-			Symbol* sym = new Symbol(scanner->matched(), SymbolLocation(), type);
-			$$ = Expression(sym);
 
-			// convert I_CONSTANT as a string to integer and insert it to symbol
-			// std::cout << "matched: " << scanner->matched() << std::endl;
+			// Convert the string integer constant to integer
+			std::string match = scanner->matched();
+			int i = atoi(match.c_str());
+
+			// Create Expresssion (Node) that will propagate the grammar
+			Type* type = new BuiltinType<int>(Type::Char, i);
+			Symbol* sym = new Symbol(match, SymbolLocation(), type);
+			$$ = Expression(sym);
 
 			debugPrint("I_CONSTANT -> constant"); 
 		}
-	| F_CONSTANT { debugPrint("F_CONSTANT -> constant"); }
-	| CHAR_LITERAL { debugPrint("CHAR_LITERAL -> constant"); }
-	| ENUMERATION_CONSTANT	/* after it has been defined as such */ { debugPrint("ENUMERATION_CONSTANT -> constant"); }
+	| F_CONSTANT { 
+			// TODO should this be float or double ? atof returns double
+			std::string match = scanner->matched();
+			float f = atof(match.c_str());
+
+			// Create Expresssion (Node) that will propagate the grammar
+			Type* type = new BuiltinType<double>(Type::Char, f);
+			Symbol* sym = new Symbol(match, SymbolLocation(), type);
+			$$ = Expression(sym);
+
+			debugPrint("F_CONSTANT -> constant"); 
+		}
+	| CHAR_LITERAL { 
+			std::string match = scanner->matched();
+			char c = ( match.c_str() )[0];
+
+			// Create Expresssion (Node) that will propagate the grammar
+			Type* type = new BuiltinType<char>(Type::Char, c);
+			Symbol* sym = new Symbol(match, SymbolLocation(), type);
+			$$ = Expression(sym);
+		
+			debugPrint("CHAR_LITERAL -> constant"); 
+		}
+	| ENUMERATION_CONSTANT	/* after it has been defined as such */ { 
+		// MAYBE
+		debugPrint("ENUMERATION_CONSTANT -> constant"); 
+		}
 	;
 
 string

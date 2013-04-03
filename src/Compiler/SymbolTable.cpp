@@ -153,6 +153,8 @@ void SymbolTable::dumpTable( std::string filename )
 void SymbolTable::beginScope()
 {
 
+	std::cout << "---- Beginning Scope ----" << std::endl;
+
 	Scope s;
 
 	scopeStack.push_front( s );
@@ -161,6 +163,7 @@ void SymbolTable::beginScope()
 
 void SymbolTable::endScope()
 {
+	std::cout << "---- Ending Scope ----" << std::endl;
 
 	Scope s;
 

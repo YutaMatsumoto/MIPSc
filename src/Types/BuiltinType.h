@@ -40,9 +40,9 @@ public:
 		: Type(type), data(Data())
 	{}
 
-	// BuiltinType(int/*Builtins enum*/ tag, Data initData)
-	// 
-	// }
+	BuiltinType(Type::TypeEnum type, Data data)
+		: Type(type), data(data)
+	{}
 
 	// virtual ~BuiltinType();
 
