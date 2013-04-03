@@ -137,7 +137,7 @@
 %type <STRING> identifier
 %type <STRING> string
 // %type <EXPRESSION> constant;
-%stype Expression
+%stype Node*
 
 %lsp-needed
 %debug
@@ -742,7 +742,7 @@ constant
 			// Create Expresssion (Node) that will propagate the grammar
 			Type* type = new BuiltinType<int>(Type::Char, i);
 			Symbol* sym = new Symbol(match, SymbolLocation(), type);
-			$$ = Expression(sym);
+			//$$ = Expression(sym);
 
 			debugPrint("I_CONSTANT -> constant"); 
 		}
@@ -754,7 +754,7 @@ constant
 			// Create Expresssion (Node) that will propagate the grammar
 			Type* type = new BuiltinType<double>(Type::Char, f);
 			Symbol* sym = new Symbol(match, SymbolLocation(), type);
-			$$ = Expression(sym);
+			//$$ = Expression(sym);
 
 			debugPrint("F_CONSTANT -> constant"); 
 		}
@@ -765,7 +765,7 @@ constant
 			// Create Expresssion (Node) that will propagate the grammar
 			Type* type = new BuiltinType<char>(Type::Char, c);
 			Symbol* sym = new Symbol(match, SymbolLocation(), type);
-			$$ = Expression(sym);
+			//$$ = Expression(sym);
 		
 			debugPrint("CHAR_LITERAL -> constant"); 
 		}

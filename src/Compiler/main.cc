@@ -7,14 +7,10 @@
 #include <cstring>
 #include "Parser.h"
 #include "SymbolTable.h"
-using namespace std;
-
-
-using namespace std;
 
 // Globals
 const int endOfFile=0;
-const string suffix = ".list";
+const std::string suffix = ".list";
 const std::string tokens_extension = ".tokens";
 const std::string ldebug_extension = ".ldebug";
 const std::string sdebug_extension = ".sdebug";
@@ -22,7 +18,7 @@ const std::string pdebug_extension = ".pdebug";
 
 void usage()
 {
-	system("cat ../src/Doc/scanner_driver_usage.txt");
+	system("cat ../src/Doc/usage.txt");
 }
 
 struct CommandFlags {
@@ -180,7 +176,7 @@ int main(int argc, char** argv)
 		f.ofile=f.ifile + tokens_extension;
 		t.open(f.ofile);
 		scanner.setDebugToken(f.ofile);
-		cout << "Producing token file              : " << f.ofile << endl;
+		std::cout << "Producing token file              : " << f.ofile << std::endl;
 	}
 
 	// --------------------------------------------------------------------
@@ -204,7 +200,7 @@ int main(int argc, char** argv)
 		std::string debug_file_lex = f.ifile + ldebug_extension;
 		l.open(debug_file_lex);
 		// scanner.setDebugLexer(l);
-		cout << "Producing lexer debug file        : " << debug_file_lex << endl;
+		std::cout << "Producing lexer debug file        : " << debug_file_lex << std::endl;
 	}
 	// 
 	//      Parser debug
@@ -216,7 +212,7 @@ int main(int argc, char** argv)
 		p.configDebugPrint(pd, "", "");
 		scanner.setDebugLineByLine(pd);
 		p.setDebug( false );
-		cout << "Producing Reduction Debug : " << debug_file_parser << endl;
+		std::cout << "Producing Reduction Debug : " << debug_file_parser << std::endl;
 	}
 
 	//
@@ -226,7 +222,7 @@ int main(int argc, char** argv)
 		std::string debug_file_stab = f.ifile + sdebug_extension;
 		// s.open(debug_file_stab);
 		scanner.setDebugSymbolTableDump(debug_file_stab);
-		cout << "Producing symbol table debug file : " << debug_file_stab << endl;
+		std::cout << "Producing symbol table debug file : " << debug_file_stab << std::endl;
 	}
 
 
