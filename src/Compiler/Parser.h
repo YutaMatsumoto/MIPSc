@@ -31,18 +31,13 @@ class Parser: public ParserBase
 	public:
 		int parse();
 
-		Parser( std::istream& stream, SymbolTable* table )
-		{
-
-			scanner = new Scanner( stream );
-
-			symbolTable = table;
-
-		}
-
 		Parser( Scanner& s, SymbolTable* table ) 
 			: scanner(&s), symbolTable(table)
-		{}
+		{
+
+			declarationMode = true;
+
+		}
 
 		LTYPE__* getLocationStruct()
 		{
@@ -80,7 +75,7 @@ class Parser: public ParserBase
 		Scanner* scanner;
 		SymbolTable* symbolTable;
 
-		Symbol currentDeclaration;
+		Symbol* currentIdentifier;
 
 		Declaration decl;
 
@@ -96,7 +91,7 @@ class Parser: public ParserBase
 		// 	TODO : create another class for this?
 		//		
 		void beginDeclarationSection();
-		void endDeclarationSection();
+		void beginLookupSection();
 		void declare();
 		void determineType();
 		void initializeArray();
@@ -110,6 +105,7 @@ class Parser: public ParserBase
 		void specifyArray();
 		void specifyFunction();
 		void specifyFunctionCall();
+		bool isDeclarationMode();
 
 
 

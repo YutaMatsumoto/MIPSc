@@ -191,6 +191,7 @@ function_definition
 declaration
 	: declaration_specifiers ';' { 
 		// TODO : Is this legal???
+		
 		debugPrint("declaration_specifiers ';' -> declaration"); 
 	  }
 	| declaration_specifiers init_declarator_list ';' { 
@@ -524,7 +525,8 @@ compound_statement
 		debugPrint("'{' '}' -> compound_statement"); 
 	  }
 	/* declaration mode*/ 
-	| '{' { symbolTable->beginScope(); } statement_list '}' { 
+	| '{' { beginLookupMode();
+		symbolTable->beginScope(); } statement_list '}' { 
 		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 	  }
@@ -545,6 +547,7 @@ compound_statement
 	  }
 	  declaration_list {
 		debugPrint("Declaration Mode Done");
+		beginLookupMode();
 	  }
 	  statement_list '}' { 
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement"); 
@@ -750,9 +753,19 @@ string
 identifier
 	: IDENTIFIER { debugPrint("IDENTIFIER -> identifier"); }
 	{
-	setDeclarationLocation();
-	pushIdentifier();
-	// currentDeclaration->id = scanner->matched();
+
+	if( isDeclarationMode() )
+	{
+		setDeclarationLocation();
+		pushIdentifier();
+	}
+	else
+	{
+	
+		return new IdentifierNode( scanner->matched() );
+	
+	}
+
 	}
 	;
 

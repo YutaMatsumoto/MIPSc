@@ -101,11 +101,11 @@ void Parser::setDeclarationLocation()
 }
 void Parser::beginDeclarationSection()
 {
-	std::cout << "implement beginDeclarationSection() " << std::endl;	
+	declarationMode = true;
 }
-void Parser::endDeclarationSection()      
+void Parser::beginLookupSection()      
 { 
-	std::cout << "implement endDeclarationSection() " << std::endl;	
+	declarationMode = false;
 }
 void Parser::declare()                    
 {
@@ -164,6 +164,13 @@ void Parser::specifyFunction()
 void Parser::specifyFunctionCall()   
 {
 	std::cout << "implement specifyFunctionCall()" << std::endl;
+}
+
+bool Parser::isDeclarationMode()
+{
+	
+	return declarationMode;
+	
 }
 
 	// Add here includes that are only required for the compilation 
