@@ -94,9 +94,9 @@ void Parser::debugPrint(std::string msg)
 void Parser::setDeclarationLocation()
 {
 
-	SymbolLocation loc( scanner->getLoc() );
-	currentDeclaration.location = loc;
-	currentDeclaration.id = scanner->matched();
+	//SymbolLocation loc( scanner->getLoc() );
+	//currentDeclaration.location = loc;
+	//currentDeclaration.id = scanner->matched();
 
 }
 void Parser::beginDeclarationSection()

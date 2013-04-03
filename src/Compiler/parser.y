@@ -202,7 +202,7 @@ declaration
 
 declaration_list
 	: declaration { 
-		endDeclarationSection();
+		//endDeclarationSection();
 		debugPrint("declaration -> declaration_list"); 
 	  }
 	| declaration_list declaration { debugPrint("declaration_list declaration -> declaration_list"); }
@@ -525,7 +525,7 @@ compound_statement
 		debugPrint("'{' '}' -> compound_statement"); 
 	  }
 	/* declaration mode*/ 
-	| '{' { beginLookupMode();
+	| '{' { beginLookupSection();
 		symbolTable->beginScope(); } statement_list '}' { 
 		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
@@ -547,7 +547,7 @@ compound_statement
 	  }
 	  declaration_list {
 		debugPrint("Declaration Mode Done");
-		beginLookupMode();
+		beginLookupSection();
 	  }
 	  statement_list '}' { 
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement"); 
@@ -785,13 +785,13 @@ identifier
 
 	if( isDeclarationMode() )
 	{
-		setDeclarationLocation();
+		//setDeclarationLocation();
 		pushIdentifier();
 	}
 	else
 	{
 	
-		return new IdentifierNode( scanner->matched() );
+		//return new IdentifierNode( scanner->matched() );
 	
 	}
 
