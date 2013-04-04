@@ -791,7 +791,7 @@ identifier
 	else
 	{
 	
-		//return new IdentifierNode( scanner->matched() );
+		return new IdentifierNode( scanner->matched() );
 	
 	}
 

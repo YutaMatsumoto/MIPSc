@@ -27,11 +27,18 @@ public:
 
 	}
 
+	inline void setParent( Node* _parent )
+	{
+
+		parent = _parent;
+
+	}
+
 protected:
 
 	Node* parent;
 
-	inline Node( Node* _parent ) : parent( _parent )
+	inline Node( )
 	{
 
 	}
