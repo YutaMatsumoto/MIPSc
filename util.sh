@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# set dir env var
+# set variables
 
 #
 #       Set Root Dir
@@ -31,6 +31,7 @@ function find_file_from_top
 debug_dir=$(find_dir_from_top Debug)
 compiler_dir=$(find_dir_in_src Compiler)
 test_dir=$(find_dir_in_src Tests)
+mipsc=$debug_dir/MIPSc
 
 # ----------------------------------------------------------------------------
 # 
@@ -43,7 +44,9 @@ function compile()
 	backto=$(pwd)
 	cd $compiler_dir	 
 	$compiler_dir/regen.bash $@ && cd $debug_dir && make 
+	retval=$?
 	cd $backto
+	return retval
 }
 
 function clean()
@@ -83,4 +86,33 @@ function regen()
 	flexc++ scanner.lex
 	cd -
 }
-export -f compile
+
+# 
+# test 
+#
+
+# test 
+function t()
+{
+	for c in $( find $test_dir -name "*.c"); do
+		$mipsc $c >/dev/null 2>&1
+		if [ $? -ne 0 ]; then
+			echo "$c does not compile"
+		fi
+	done
+}
+
+# test verbose
+function tv()
+{
+	for c in $( find $test_dir -name "*.c"); do
+		$mipsc $c >/dev/null 2>&1
+		if [ $? -ne 0 ]; then
+			echo "$c does not compile"
+		else
+			echo "$c compiles"
+		fi
+	done
+
+}
+

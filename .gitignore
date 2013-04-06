@@ -8,3 +8,8 @@ MIPSc*
 
 *.o
 *.out
+*\.d
+
+*debug
+*tokens
+
