@@ -10,6 +10,7 @@
 // ---------------------------------------------------------------------------
 // Abstract Symtax Tree
 
+/*
 struct RootNode : public Node {
 	RootNode() 
 		: Node(NULL)
@@ -34,5 +35,6 @@ private:
 	RootNode root;
 
 };
+*/
 
 #endif

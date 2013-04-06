@@ -21,15 +21,19 @@ class Statement {
 // ---------------------------------------------------------------------------
 // Node of Abstract Syntax Tree
 
-class Node : public Statement {
+class Node { // : public Statement {
 
 public:
+
+	Node() : parent(NULL) {}
 
 	Node(Node* parentNode) 
 		: parent(parentNode) 
 	{}
 
-	virtual ~Node();
+	virtual std::string toString() { return "Base Node"; } ;
+
+	// virtual ~Node();
 
 	bool isLeaf() 
 	{
@@ -68,7 +72,7 @@ private:
 // --------------------------------------------------------------------------
 // Loop
 
-
+/*
 class While : public Node {
 public:
 	// While(Statement* body, Expression condition, Node* parent)
@@ -85,8 +89,9 @@ protected:
 	Node* body;
 	Expression condition;
 };
+*/
 
-
+/*
 class For : public While {
 public:
 	// For(Statement* init, Expression cond,  Node* update, Statement* body, Node* parent) 
@@ -111,11 +116,13 @@ public:
 		: While(body, condition, parent)
 	{}
 };
+*/
 
 // --------------------------------------------------------------------------
 // Selection
 
 
+/*
 class If : public Node {
 public:
 	// if without else
@@ -134,5 +141,6 @@ private:
 	Expression* cond;
 
 };
+*/
 
 #endif
