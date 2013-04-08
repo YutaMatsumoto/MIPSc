@@ -134,8 +134,8 @@
 
 // %polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string; CHAR: char; EXPRESSION: Expression;
 
-%type <STRING> identifier
-%type <STRING> string
+//%type <STRING> identifier
+//%type <STRING> string
 // %type <EXPRESSION> constant;
 %stype Node*
 
@@ -713,21 +713,39 @@ postfix_expression
 
 primary_expression
 	: identifier { 
-			debugPrint("identifier -> primary_expression"); 
+		$$ = $1;
 		}
 	| constant { 
 		$$ = $1;
-		std::cout << "in primary_expression" << std::endl;
-		std::cout << "Now the primary expression is <" << $$ << ">" << std::endl;
+		
 		debugPrint("constant -> primary_expression"); 
 		}
 	| string { debugPrint("string -> primary_expression"); }
-	| '(' expression ')' { debugPrint("'(' expression ')' -> primary_expression"); }
+	{
+	
+	$$ = $1;
+	
+	}
+	| '(' expression ')' { debugPrint("'(' expression ')' -> primary_expression"); } 
+	{
+	
+	$$ = $2;
+	
+	}
 	;
 
 argument_expression_list
 	: assignment_expression { debugPrint("assignment_expression -> argument_expression_list"); }
+	{
+	
+	
+	
+	}
 	| argument_expression_list ',' assignment_expression { debugPrint("argument_expression_list ',' assignment_expression -> argument_expression_list"); }
+	{
+	
+	
+	}
 	;
 
 constant
@@ -737,24 +755,18 @@ constant
 
 			// Convert the string integer constant to integer
 			std::string match = scanner->matched();
-			int i = atoi(match.c_str());
-
-			// Create Expresssion (Node) that will propagate the grammar
-			Type* type = new BuiltinType<int>(Type::Char, i);
-			Symbol* sym = new Symbol(match, SymbolLocation(), type);
-			//$$ = Expression(sym);
+			long long i = atoi( match.c_str() );
+			
+			$$ = new IntegerConstantNode( i );
 
 			debugPrint("I_CONSTANT -> constant"); 
 		}
 	| F_CONSTANT { 
 			// TODO should this be float or double ? atof returns double
 			std::string match = scanner->matched();
-			float f = atof(match.c_str());
-
-			// Create Expresssion (Node) that will propagate the grammar
-			Type* type = new BuiltinType<double>(Type::Char, f);
-			Symbol* sym = new Symbol(match, SymbolLocation(), type);
-			//$$ = Expression(sym);
+			double f = atof( match.c_str() );
+			
+			$$ = new FloatConstantNode( f );
 
 			debugPrint("F_CONSTANT -> constant"); 
 		}
@@ -777,6 +789,11 @@ constant
 
 string
 	: STRING_LITERAL { debugPrint("STRING_LITERAL -> string"); }
+	{
+	
+	$$ = new StringNode( scanner->matched() );
+	
+	}
 	;
 
 identifier
@@ -791,7 +808,7 @@ identifier
 	else
 	{
 	
-		return new IdentifierNode( scanner->matched() );
+		$$ = (Node*) new IdentifierNode( scanner->matched() );
 	
 	}
 

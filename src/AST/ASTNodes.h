@@ -17,7 +17,7 @@ class IdentifierNode : public Node
 
 public:
 
-	inline IdentifierNode( Node* _parent, std::string _id ) : id( _id )
+	inline IdentifierNode( std::string _id ) : id( _id )
 	{
 
 	}
@@ -26,6 +26,15 @@ public:
 	{
 		return id;
 	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~IdentifierNode(){}
 
 protected:
 
@@ -39,7 +48,7 @@ class StringNode : public Node
 
 public:
 
-	inline IdentifierNode( std::string _value ) : value( _value )
+	inline StringNode( std::string _value ) : value( _value )
 	{
 
 	}
@@ -48,6 +57,15 @@ public:
 	{
 		return value;
 	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~StringNode(){}
 
 protected:
 
@@ -71,6 +89,12 @@ public:
 		return value;
 	}
 
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
 	//These handle the issue of overflow when casting
 	// or performing operations
 	bool canBeShort() { return ( value < 128 ) ? true : false; }
@@ -83,6 +107,8 @@ public:
 	bool canBeUnsignedInt() { return ( value < 4294967296 ) ? true : false; }
 	bool canBeUnsignedLong() { return ( value < 4294967296 ) ? true : false; }
 	bool canBeUnsignedLongLong() { return ( value < 4294967296 ) ? true : false; }
+
+	//~IntegerConstantNode(){}
 
 protected:
 
@@ -111,6 +137,15 @@ public:
 
 	bool canBeFloat() { return ( value < FLT_MAX ) ? true : false; }
 
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~FloatConstantNode(){}
+
 protected:
 
 	double value;
@@ -133,6 +168,14 @@ public:
 		return value;
 	}
 
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~CharConstantNode(){}
 
 protected:
 
@@ -153,7 +196,15 @@ public:
 
 	Node* assignmentExpression;
 	Node* argumentExpressionList;
-	Node* assignmentExpression;
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~ArgExpressionListNode(){}
 
 };
 
@@ -167,6 +218,15 @@ public:
 	{
 
 	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
 
 	Node* identifier;
 	Node* constant;

@@ -2,6 +2,7 @@
 
 //AST Stuff
 #include "Node.h"
+#include "ASTNodes.h"
 
 // $insert baseclass
 #include "Parserbase.h"

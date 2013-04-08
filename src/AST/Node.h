@@ -16,9 +16,9 @@ class Node {
 
 public:
 
-	virtual ~Node();
+	//virtual ~Node();
 
-	virtual std::vector< Operation > toOperations();
+	virtual std::vector< Operation > toOperations() = 0;
 
 	inline Node* getParent()
 	{
@@ -38,7 +38,7 @@ protected:
 
 	Node* parent;
 
-	inline Node( )
+	Node( )
 	{
 
 	}
