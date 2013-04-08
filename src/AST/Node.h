@@ -20,6 +20,8 @@ public:
 
 	virtual std::vector< Operation > toOperations() = 0;
 
+	virtual std::string getNodeTypeAsString() = 0;
+
 	inline Node* getParent()
 	{
 
