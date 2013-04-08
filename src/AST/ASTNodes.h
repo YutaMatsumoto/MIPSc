@@ -13,6 +13,8 @@
 
 //Forward Declarations
 class ExpressionNode;
+class CastExpressionNode;
+class TypeNameNode;
 
 //Definitions
 
@@ -355,6 +357,21 @@ public:
 
 	}
 
+	inline PrimaryExpressionNode( ConstantNode* _constant ) : constant( _constant )
+	{
+
+	}
+
+	inline PrimaryExpressionNode( StringNode* _string ) : string( _string )
+	{
+
+	}
+
+	inline PrimaryExpressionNode( ExpressionNode* _expression ) : expression( _expression )
+	{
+
+	}
+
 	inline std::vector< Operation > toOperations()
 	{
 		std::vector< Operation > operations;
@@ -514,12 +531,25 @@ public:
 
 	inline UnaryExpressionNode( PostfixExpressionNode* _postfixExpression ) : postfixExpression( _postfixExpression )
 	{
+		type = Postfix;
+	}
+
+	inline UnaryExpressionNode( UnaryExpressionNode* _unaryExpression , UnaryExpressionType _type )
+		: unaryExpression( _unaryExpression ), type(_type)
+	{
 
 	}
 
-	inline UnaryExpressionNode( PostfixExpressionNode* _postfixExpression ) : postfixExpression( _postfixExpression )
+	inline UnaryExpressionNode( UnaryOperatorNode* _unaryOperator , CastExpressionNode* _castExpression )
+				: unaryOperator( _unaryOperator ), castExpression(_castExpression)
 	{
+		type = Cast;
+	}
 
+	inline UnaryExpressionNode( TypeNameNode* _typeName )
+					: typeName( _typeName )
+	{
+		type = SizeofType;
 	}
 
 	inline std::vector< Operation > toOperations()
@@ -544,11 +574,106 @@ public:
 	CastExpressionNode* castExpression;
 	TypeNameNode* typeName;
 
+	UnaryExpressionType type;
+
 };
 
+class CastExpressionNode : public Node
+{
+
+public:
+
+	inline CastExpressionNode( UnaryExpressionNode* _unaryExpression ) : unaryExpression( _unaryExpression )
+	{
+
+	}
+
+	inline CastExpressionNode( TypeNameNode* _typeName , CastExpressionNode* _castExpression )
+		: typeName( _typeName ), castExpression(_castExpression)
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	UnaryExpressionNode* unaryExpression;
+
+	TypeNameNode* typeName;
+	CastExpressionNode* castExpression;
+
+};
+
+class MultiplicativeExpressionNode : public Node
+{
+
+public:
+
+	enum MultiplicativeExpressionType
+	{
+		Multiply,
+		Divide,
+		Modulo
+	};
+
+	inline MultiplicativeExpressionNode( CastExpressionNode* _castExpression ) : castExpression( _castExpression )
+	{
+
+	}
+
+	inline MultiplicativeExpressionNode( MultiplicativeExpressionNode* _multiplicativeExpression ,
+			CastExpressionNode* _castExpression ,
+			MultiplicativeExpressionType _type
+			)
+		: multiplicativeExpression( _multiplicativeExpression ), castExpression(_castExpression), type( _type )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	CastExpressionNode* castExpression;
+	MultiplicativeExpressionNode* multiplicativeExpression;
+	MultiplicativeExpressionType type;
+
+
+};
 
 // TODO: This is temporary
 class ExpressionNode : public Node
+{
+
+};
+
+// TODO: This is temporary
+class TypeNameNode : public Node
 {
 
 };

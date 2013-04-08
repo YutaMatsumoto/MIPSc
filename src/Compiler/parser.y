@@ -672,28 +672,83 @@ additive_expression
 
 multiplicative_expression
 	: cast_expression { debugPrint("cast_expression -> multiplicative_expression"); }
+	{
+
+		$$ = new MultiplicativeExpressionNode( (CastExpression*) $1 );
+
+	}
 	| multiplicative_expression '*' cast_expression { debugPrint("multiplicative_expression '*' cast_expression -> multiplicative_expression"); }
+	{
+
+		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Multiply );
+
+	}
 	| multiplicative_expression '/' cast_expression { debugPrint("multiplicative_expression '/' cast_expression -> multiplicative_expression"); }
+	{
+
+		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Divide );
+
+	}
 	| multiplicative_expression '%' cast_expression { debugPrint("multiplicative_expression '%' cast_expression -> multiplicative_expression"); }
+	{
+
+		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Modulo );
+
+	}
 	;
 
 cast_expression
 	: unary_expression { debugPrint("unary_expression -> cast_expression"); }
+	{
+
+		$$ = new CastExpressionNode( (UnaryExpressionNode*) $1 );
+
+	}
 	| '(' type_name ')' cast_expression { debugPrint("'(' type_name ')' cast_expression -> cast_expression"); }
+	{
+
+		$$ = new CastExpressionNode( (TypeNameNode*) $2 , (CastExpression*) $4 );
+
+	}
 	;
 
 unary_expression
 	: postfix_expression { debugPrint("postfix_expression -> unary_expression"); }
 	{
 
-		
+		$$ = new UnaryExpressionNode( (PostfixExpression*) $1 );	
 
 	}
 	| INC_OP unary_expression { debugPrint("INC_OP unary_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (UnaryExpressionNode*) $2 , UnaryExpressionNode::Increment );
+
+	}
 	| DEC_OP unary_expression { debugPrint("DEC_OP unary_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (UnaryExpressionNode*) $2 , UnaryExpressionNode::Decrement );
+
+	}
 	| unary_operator cast_expression { debugPrint("unary_operator cast_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (UnaryOperatorNode*) $1 , (CastExpressionNode*) $2 );
+
+	}
 	| SIZEOF unary_expression { debugPrint("SIZEOF unary_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (UnaryOperatorNode*) $1 , UnaryExpressionNode::SizeofExpression );
+
+	}
 	| SIZEOF '(' type_name ')' { debugPrint("SIZEOF '(' type_name ')' -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (TypeNameNode*) $1 , UnaryExpressionNode::SizeofType );
+
+	}
 	;
 
 unary_operator
@@ -739,72 +794,72 @@ postfix_expression
 	: primary_expression { debugPrint("primary_expression -> postfix_expression"); }
 	{
 	
-		$$ = new PostfixExpressionNode( $1 );
+		$$ = new PostfixExpressionNode( (PrimaryExpressionNode*) $1 );
 
 	}
 	| postfix_expression '[' expression ']' { debugPrint("postfix_expression '[' expression ']' -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( $1 , $3 );
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (ExpressionNode*) $3 );
 
 	}
 	| postfix_expression '(' ')' { debugPrint("postfix_expression '(' ')' -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( $1 , PostfixExpressionNode::FunctionCall );
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::FunctionCall );
 
 	}
 	| postfix_expression '(' argument_expression_list ')' { debugPrint("postfix_expression '(' argument_expression_list ')' -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( $1 , $3 );
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (ArgExpressionListNode*) $3 );
 
 	}
 	| postfix_expression '.' identifier { debugPrint("postfix_expression '.' identifier -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( $1 , $3 , PostfixExpressionNode::DirectMemberAccess );
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (IdentifierNode*) $3 , PostfixExpressionNode::DirectMemberAccess );
 
 	}
 	| postfix_expression PTR_OP identifier { debugPrint("postfix_expression PTR_OP identifier -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( $1 , $3 , PostfixExpressionNode::PointerMemberAccess );
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (IdentifierNode*) $3 , PostfixExpressionNode::PointerMemberAccess );
 
 	}
 	| postfix_expression INC_OP { debugPrint("postfix_expression INC_OP -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( $1 , PostfixExpressionNode::Increment );
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::Increment );
 
 	}
 	| postfix_expression DEC_OP { debugPrint("postfix_expression DEC_OP -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( $1 , PostfixExpressionNode::Decrement );
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::Decrement );
 
 	}
 	;
 
 primary_expression
 	: identifier { 
-		$$ = new PrimaryExpressionNode( $1 );
+		$$ = new PrimaryExpressionNode( (IdentifierNode*) $1 );
 		}
 	| constant { 
-		$$ = new PrimaryExpressionNode( $1 );
+		$$ = new PrimaryExpressionNode( (ConstantNode*) $1 );
 		
 		debugPrint("constant -> primary_expression"); 
 		}
 	| string { debugPrint("string -> primary_expression"); }
 	{
 	
-	$$ = new PrimaryExpressionNode( $1 );
+		$$ = new PrimaryExpressionNode( (StringNode*) $1 );
 	
 	}
 	| '(' expression ')' { debugPrint("'(' expression ')' -> primary_expression"); } 
 	{
 	
-	$$ = new PrimaryExpressionNode( $2 );
+		$$ = new PrimaryExpressionNode( (ExpressionNode*) $2 );
 	
 	}
 	;
@@ -813,13 +868,13 @@ argument_expression_list
 	: assignment_expression { debugPrint("assignment_expression -> argument_expression_list"); }
 	{
 	
-	$$ = new ArgumentExpressionListNode( $1 );
+		$$ = new ArgExpressionListNode( (AssignmentExpressionNode*) $1 );
 	
 	}
 	| argument_expression_list ',' assignment_expression { debugPrint("argument_expression_list ',' assignment_expression -> argument_expression_list"); }
 	{
 	
-	$$ = new ArgumentExpressionListNode( $3 , $1 );
+		$$ = new ArgExpressionListNode( (ArgExpressionListNode*) $3 , (AssignmentExpressionNode*) $1 );
 	
 	}
 	;
