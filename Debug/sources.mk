@@ -25,4 +25,7 @@ C_UPPER_DEPS :=
 SUBDIRS := \
 src/Types \
 src/Compiler \
+src/AST \
+src/ASM \
+src/3AC \
 

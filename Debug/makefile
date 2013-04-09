@@ -10,6 +10,9 @@ RM := rm -rf
 -include sources.mk
 -include src/Types/subdir.mk
 -include src/Compiler/subdir.mk
+-include src/AST/subdir.mk
+-include src/ASM/subdir.mk
+-include src/3AC/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -39,19 +42,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: MIPSc
+all: mipsc
 
 # Tool invocations
-MIPSc: $(OBJS) $(USER_OBJS)
+mipsc: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++  -o "MIPSc" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++  -o "mipsc" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) MIPSc
+	-$(RM) $(OBJS)$(C++_DEPS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) mipsc
 	-@echo ' '
 
 .PHONY: all clean dependents
