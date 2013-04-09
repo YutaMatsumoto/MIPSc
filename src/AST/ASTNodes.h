@@ -666,6 +666,236 @@ public:
 
 };
 
+class AdditiveExpressionNode : public Node
+{
+
+public:
+
+	enum AdditiveExpressionType
+	{
+		Add,
+		Subtract
+	};
+
+	inline AdditiveExpressionNode( MultiplicativeExpressionNode* _multiplicativeExpression ) : multiplicativeExpression( _multiplicativeExpression )
+	{
+
+	}
+
+	inline AdditiveExpressionNode( AdditiveExpressionNode* _additiveExpression ,
+			MultiplicativeExpressionNode* _multiplicativeExpression ,
+			AdditiveExpressionType _type
+			)
+		: multiplicativeExpression( _multiplicativeExpression ), additiveExpression( _additiveExpression ), type( _type )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	AdditiveExpressionNode* additiveExpression;
+	MultiplicativeExpressionNode* multiplicativeExpression;
+	AdditiveExpressionType type;
+
+
+};
+
+class ShiftExpressionNode : public Node
+{
+
+public:
+
+	enum ShiftExpressionType
+	{
+		Left,
+		Right
+	};
+
+	inline ShiftExpressionNode( AdditiveExpressionNode* _additiveExpression ) : additiveExpression( _additiveExpression )
+	{
+
+	}
+
+	inline ShiftExpressionNode( ShiftExpressionNode* _shiftExpression ,
+			AdditiveExpressionNode* _additiveExpression ,
+			ShiftExpressionType _type
+			)
+		: shiftExpression( _shiftExpression ), additiveExpression( _additiveExpression ), type( _type )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	AdditiveExpressionNode* additiveExpression;
+	ShiftExpressionNode* shiftExpression;
+	ShiftExpressionType type;
+
+};
+
+class RelationalExpressionNode : public Node
+{
+
+public:
+
+	enum RelationalExpressionType
+	{
+		Less,
+		Greater,
+		LessEqual,
+		GreaterEqual
+	};
+
+	inline RelationalExpressionNode( ShiftExpressionNode* _shiftExpression ) : shiftExpression( _shiftExpression )
+	{
+
+	}
+
+	inline RelationalExpressionNode( RelationalExpressionNode* _relationalExpression ,
+			ShiftExpressionNode* _shiftExpression ,
+			RelationalExpressionType _type
+			)
+		: shiftExpression( _shiftExpression ), relationalExpression( _relationalExpression ), type( _type )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	RelationalExpressionNode* relationalExpression;
+	ShiftExpressionNode* shiftExpression;
+	RelationalExpressionType type;
+
+};
+
+class EqualityExpressionNode : public Node
+{
+
+public:
+
+	enum EqualityExpressionType
+	{
+		Equal,
+		NotEqual
+	};
+
+	inline EqualityExpressionNode( RelationalExpressionNode* _relationalExpression ) : relationalExpression( _relationalExpression )
+	{
+
+	}
+
+	inline EqualityExpressionNode( EqualityExpressionNode* _equalityExpression ,
+			RelationalExpressionNode* _relationalExpression ,
+			EqualityExpressionType _type
+			)
+		: equalityExpression( _equalityExpression ), relationalExpression( _relationalExpression ), type( _type )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	EqualityExpressionNode* equalityExpression;
+	RelationalExpressionNode* relationalExpression;
+	EqualityExpressionType type;
+
+};
+
+class AndExpressionNode : public Node
+{
+
+public:
+
+	inline AndExpressionNode( EqualityExpressionNode* _equalityExpression ) : equalityExpression( _equalityExpression )
+	{
+
+	}
+
+	inline AndExpressionNode( AndExpressionNode* _andExpression ,
+			EqualityExpressionNode* _equalityExpression
+			)
+		: equalityExpression( _equalityExpression ), andExpression( _andExpression )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	AndExpressionNode* andExpression;
+	EqualityExpressionNode* equalityExpression;
+
+};
+
 // TODO: This is temporary
 class ExpressionNode : public Node
 {
