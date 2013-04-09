@@ -134,10 +134,10 @@
 
 // %polymorphic INT: int; FLOAT: float; DOUBLE: double; STRING: std::string; CHAR: char; EXPRESSION: Expression;
 
-%type <STRING> identifier
-%type <STRING> string
+//%type <STRING> identifier
+//%type <STRING> string
 // %type <EXPRESSION> constant;
-%stype Expression
+%stype Node*
 
 %lsp-needed
 %debug
@@ -672,62 +672,211 @@ additive_expression
 
 multiplicative_expression
 	: cast_expression { debugPrint("cast_expression -> multiplicative_expression"); }
+	{
+
+		$$ = new MultiplicativeExpressionNode( (CastExpressionNode*) $1 );
+
+	}
 	| multiplicative_expression '*' cast_expression { debugPrint("multiplicative_expression '*' cast_expression -> multiplicative_expression"); }
+	{
+
+		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Multiply );
+
+	}
 	| multiplicative_expression '/' cast_expression { debugPrint("multiplicative_expression '/' cast_expression -> multiplicative_expression"); }
+	{
+
+		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Divide );
+
+	}
 	| multiplicative_expression '%' cast_expression { debugPrint("multiplicative_expression '%' cast_expression -> multiplicative_expression"); }
+	{
+
+		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Modulo );
+
+	}
 	;
 
 cast_expression
 	: unary_expression { debugPrint("unary_expression -> cast_expression"); }
+	{
+
+		$$ = new CastExpressionNode( (UnaryExpressionNode*) $1 );
+
+	}
 	| '(' type_name ')' cast_expression { debugPrint("'(' type_name ')' cast_expression -> cast_expression"); }
+	{
+
+		$$ = new CastExpressionNode( (TypeNameNode*) $2 , (CastExpressionNode*) $4 );
+
+	}
 	;
 
 unary_expression
 	: postfix_expression { debugPrint("postfix_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (PostfixExpressionNode*) $1 );	
+
+	}
 	| INC_OP unary_expression { debugPrint("INC_OP unary_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (UnaryExpressionNode*) $2 , UnaryExpressionNode::Increment );
+
+	}
 	| DEC_OP unary_expression { debugPrint("DEC_OP unary_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (UnaryExpressionNode*) $2 , UnaryExpressionNode::Decrement );
+
+	}
 	| unary_operator cast_expression { debugPrint("unary_operator cast_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (UnaryOperatorNode*) $1 , (CastExpressionNode*) $2 );
+
+	}
 	| SIZEOF unary_expression { debugPrint("SIZEOF unary_expression -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (UnaryExpressionNode*) $1 , UnaryExpressionNode::SizeofExpression );
+
+	}
 	| SIZEOF '(' type_name ')' { debugPrint("SIZEOF '(' type_name ')' -> unary_expression"); }
+	{
+
+		$$ = new UnaryExpressionNode( (TypeNameNode*) $1  );
+
+	}
 	;
 
 unary_operator
 	: '&' { debugPrint("'&' -> unary_operator"); }
+	{
+
+		$$ = new UnaryOperatorNode( UnaryOperatorNode::Address );
+
+	}
 	| '*' { debugPrint("'*' -> unary_operator"); }
+	{
+
+		$$ = new UnaryOperatorNode( UnaryOperatorNode::Indirection );
+
+	}
 	| '+' { debugPrint("'+' -> unary_operator"); }
+	{
+
+		$$ = new UnaryOperatorNode( UnaryOperatorNode::Positive );
+
+	}
 	| '-' { debugPrint("'-' -> unary_operator"); }
+	{
+
+		$$ = new UnaryOperatorNode( UnaryOperatorNode::Negative );
+
+	}
 	| '~' { debugPrint("'~' -> unary_operator"); }
+	{
+
+		$$ = new UnaryOperatorNode( UnaryOperatorNode::BitwiseNot );
+
+	}
 	| '!' { debugPrint("'!' -> unary_operator"); }
+	{
+
+		$$ = new UnaryOperatorNode( UnaryOperatorNode::Address );
+
+	}
 	;
 
 postfix_expression
 	: primary_expression { debugPrint("primary_expression -> postfix_expression"); }
+	{
+	
+		$$ = new PostfixExpressionNode( (PrimaryExpressionNode*) $1 );
+
+	}
 	| postfix_expression '[' expression ']' { debugPrint("postfix_expression '[' expression ']' -> postfix_expression"); }
+	{
+
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (ExpressionNode*) $3 );
+
+	}
 	| postfix_expression '(' ')' { debugPrint("postfix_expression '(' ')' -> postfix_expression"); }
+	{
+
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::FunctionCall );
+
+	}
 	| postfix_expression '(' argument_expression_list ')' { debugPrint("postfix_expression '(' argument_expression_list ')' -> postfix_expression"); }
+	{
+
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (ArgExpressionListNode*) $3 );
+
+	}
 	| postfix_expression '.' identifier { debugPrint("postfix_expression '.' identifier -> postfix_expression"); }
+	{
+
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (IdentifierNode*) $3 , PostfixExpressionNode::DirectMemberAccess );
+
+	}
 	| postfix_expression PTR_OP identifier { debugPrint("postfix_expression PTR_OP identifier -> postfix_expression"); }
+	{
+
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (IdentifierNode*) $3 , PostfixExpressionNode::PointerMemberAccess );
+
+	}
 	| postfix_expression INC_OP { debugPrint("postfix_expression INC_OP -> postfix_expression"); }
+	{
+
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::Increment );
+
+	}
 	| postfix_expression DEC_OP { debugPrint("postfix_expression DEC_OP -> postfix_expression"); }
+	{
+
+		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::Decrement );
+
+	}
 	;
 
 primary_expression
 	: identifier { 
-			debugPrint("identifier -> primary_expression"); 
+		$$ = new PrimaryExpressionNode( (IdentifierNode*) $1 );
 		}
 	| constant { 
-		$$ = $1;
-		std::cout << "in primary_expression" << std::endl;
-		std::cout << "Now the primary expression is <" << $$ << ">" << std::endl;
+		$$ = new PrimaryExpressionNode( (ConstantNode*) $1 );
+		
 		debugPrint("constant -> primary_expression"); 
 		}
 	| string { debugPrint("string -> primary_expression"); }
-	| '(' expression ')' { debugPrint("'(' expression ')' -> primary_expression"); }
+	{
+	
+		$$ = new PrimaryExpressionNode( (StringNode*) $1 );
+	
+	}
+	| '(' expression ')' { debugPrint("'(' expression ')' -> primary_expression"); } 
+	{
+	
+		$$ = new PrimaryExpressionNode( (ExpressionNode*) $2 );
+	
+	}
 	;
 
 argument_expression_list
 	: assignment_expression { debugPrint("assignment_expression -> argument_expression_list"); }
+	{
+	
+		$$ = new ArgExpressionListNode( (AssignmentExpressionNode*) $1 );
+	
+	}
 	| argument_expression_list ',' assignment_expression { debugPrint("argument_expression_list ',' assignment_expression -> argument_expression_list"); }
+	{
+	
+		$$ = new ArgExpressionListNode( (ArgExpressionListNode*) $3 , (AssignmentExpressionNode*) $1 );
+	
+	}
 	;
 
 constant
@@ -737,24 +886,18 @@ constant
 
 			// Convert the string integer constant to integer
 			std::string match = scanner->matched();
-			int i = atoi(match.c_str());
-
-			// Create Expresssion (Node) that will propagate the grammar
-			Type* type = new BuiltinType<int>(Type::Char, i);
-			Symbol* sym = new Symbol(match, SymbolLocation(), type);
-			$$ = Expression(sym);
+			long long i = atoi( match.c_str() );
+			
+			$$ = new ConstantNode( new IntegerConstantNode( i ) );
 
 			debugPrint("I_CONSTANT -> constant"); 
 		}
 	| F_CONSTANT { 
 			// TODO should this be float or double ? atof returns double
 			std::string match = scanner->matched();
-			float f = atof(match.c_str());
-
-			// Create Expresssion (Node) that will propagate the grammar
-			Type* type = new BuiltinType<double>(Type::Char, f);
-			Symbol* sym = new Symbol(match, SymbolLocation(), type);
-			$$ = Expression(sym);
+			double f = atof( match.c_str() );
+			
+			$$ = new ConstantNode( new FloatConstantNode( f ) );
 
 			debugPrint("F_CONSTANT -> constant"); 
 		}
@@ -762,10 +905,7 @@ constant
 			std::string match = scanner->matched();
 			char c = ( match.c_str() )[0];
 
-			// Create Expresssion (Node) that will propagate the grammar
-			Type* type = new BuiltinType<char>(Type::Char, c);
-			Symbol* sym = new Symbol(match, SymbolLocation(), type);
-			$$ = Expression(sym);
+			$$ = new ConstantNode( new CharConstantNode( c ) );
 		
 			debugPrint("CHAR_LITERAL -> constant"); 
 		}
@@ -777,6 +917,11 @@ constant
 
 string
 	: STRING_LITERAL { debugPrint("STRING_LITERAL -> string"); }
+	{
+	
+	$$ = new StringNode( scanner->matched() );
+	
+	}
 	;
 
 identifier
@@ -791,7 +936,7 @@ identifier
 	else
 	{
 	
-		//return new IdentifierNode( scanner->matched() );
+		$$ =  new IdentifierNode( scanner->matched() );
 	
 	}
 
