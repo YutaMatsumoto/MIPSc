@@ -652,33 +652,113 @@ exclusive_or_expression
 
 and_expression
 	: equality_expression { debugPrint("equality_expression -> and_expression"); }
+	{
+
+		$$ = new AndExpressionNode( (EqualityExpressionNode*) $1 );
+
+	}
 	| and_expression '&' equality_expression { debugPrint("and_expression '&' equality_expression -> and_expression"); }
+	{
+
+		$$ = new AndExpressionNode( (AndExpressionNode*) $1 , (EqualityExpressionNode*) $3 );
+
+	}
 	;
 
 equality_expression
 	: relational_expression { debugPrint("relational_expression -> equality_expression"); }
+	{
+
+		$$ = new EqualityExpressionNode( (RelationalExpressionNode*) $1 );
+
+	}
 	| equality_expression EQ_OP relational_expression { debugPrint("equality_expression EQ_OP relational_expression -> equality_expression"); }
+	{
+
+		$$ = new EqualityExpressionNode( (EqualityExpressionNode*) $1 , (RelationalExpressionNode*) $3 , EqualityExpressionNode::Equal );
+
+	}
 	| equality_expression NE_OP relational_expression { debugPrint("equality_expression NE_OP relational_expression -> equality_expression"); }
+	{
+
+		$$ = new EqualityExpressionNode( (EqualityExpressionNode*) $1 , (RelationalExpressionNode*) $3 , EqualityExpressionNode::NotEqual );
+
+	}
 	;
 
 relational_expression
 	: shift_expression { debugPrint("shift_expression -> relational_expression"); }
+	{
+
+		$$ = new RelationalExpressionNode( (ShiftExpressionNode*) $1 );
+
+	}
 	| relational_expression '<' shift_expression { debugPrint("relational_expression '<' shift_expression -> relational_expression"); }
+	{
+
+		$$ = new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::Less );
+
+	}
 	| relational_expression '>' shift_expression { debugPrint("relational_expression '>' shift_expression -> relational_expression"); }
+	{
+
+		$$ = new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::Greater );
+
+	}
 	| relational_expression LE_OP shift_expression { debugPrint("relational_expression LE_OP shift_expression -> relational_expression"); }
+	{
+
+		$$ = new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::LessEqual );
+
+	}
 	| relational_expression GE_OP shift_expression { debugPrint("relational_expression GE_OP shift_expression -> relational_expression"); }
+	{
+
+		$$ = new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::GreaterEqual );
+
+	}
 	;
 
 shift_expression
 	: additive_expression { debugPrint("additive_expression -> shift_expression"); }
+	{
+
+		$$ = new ShiftExpressionNode( (AdditiveExpressionNode*) $1 );
+
+	}
 	| shift_expression LEFT_OP additive_expression { debugPrint("shift_expression LEFT_OP additive_expression -> shift_expression"); }
+	{
+
+		$$ = new ShiftExpressionNode( (ShiftExpressionNode*) $1 , (AdditiveExpressionNode*) $3 , ShiftExpressionNode::Left );
+
+	}
 	| shift_expression RIGHT_OP additive_expression { debugPrint("shift_expression RIGHT_OP additive_expression -> shift_expression"); }
+	{
+
+		$$ = new ShiftExpressionNode( (ShiftExpressionNode*) $1 , (AdditiveExpressionNode*) $3 , ShiftExpressionNode::Left );
+
+	}
 	;
 
 additive_expression
 	: multiplicative_expression { debugPrint("multiplicative_expression -> additive_expression"); }
+	{
+
+		$$ = new AdditiveExpressionNode( (MultiplicativeExpressionNode*) $1 );
+
+	}
 	| additive_expression '+' multiplicative_expression { debugPrint("additive_expression '+' multiplicative_expression -> additive_expression"); }
+	{
+
+		$$ = new AdditiveExpressionNode( (AdditiveExpressionNode*) $1 , (MultiplicativeExpressionNode*) $3 , AdditiveExpressionNode::Add );
+
+	}
 	| additive_expression '-' multiplicative_expression { debugPrint("additive_expression '-' multiplicative_expression -> additive_expression"); }
+	{
+
+		$$ = new AdditiveExpressionNode( (AdditiveExpressionNode*) $1 , (MultiplicativeExpressionNode*) $3 , AdditiveExpressionNode::Subtract );
+
+	}
 	;
 
 multiplicative_expression
