@@ -31,7 +31,7 @@ function find_file_from_top
 debug_dir=$(find_dir_from_top Debug)
 compiler_dir=$(find_dir_in_src Compiler)
 test_dir=$(find_dir_in_src Tests)
-mipsc=$debug_dir/MIPSc
+mipsc=$debug_dir/mipsc
 
 # ----------------------------------------------------------------------------
 # 
@@ -65,7 +65,7 @@ function clean()
 #
 function run_test() 
 {
-	$debug_dir/MIPSc -d $test_dir/$1 2>&1
+	$mipsc -d $test_dir/$1 2>&1
 	return $?
 }
 

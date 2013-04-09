@@ -216,6 +216,7 @@ declaration_specifiers
 	  }
 	| storage_class_specifier declaration_specifiers { debugPrint("storage_class_specifier declaration_specifiers -> declaration_specifiers"); }
 	| type_specifier { 
+		TypeSpecifierNode* ts = static_cast<TypeSpecifierNode*>( $1 );
 		determineType();
 		debugPrint("type_specifier -> declaration_specifiers"); 
 	  }
@@ -230,77 +231,87 @@ declaration_specifiers
 
 storage_class_specifier
 	: AUTO { 
+		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Auto);
 		debugPrint("AUTO -> storage_class_specifier"); 
-		addStorageSpecifier();
 		}
 	| REGISTER { 
+		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Register);
 		debugPrint("REGISTER -> storage_class_specifier"); 
-		addStorageSpecifier();
 		}
 	| STATIC { 
+		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Static);
 		debugPrint("STATIC -> storage_class_specifier"); 
-		addStorageSpecifier();
 		}
 	| EXTERN { 
+		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Extern);
 		debugPrint("EXTERN -> storage_class_specifier"); 
-		addStorageSpecifier();
 		}
 	| TYPEDEF { 
+		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Typedef);
 		debugPrint("TYPEDEF -> storage_class_specifier"); 
-		addStorageSpecifier();
 		}
 	;
 
 type_specifier
 	: VOID { 
 		debugPrint("VOID -> type_specifier");
-		addTypeSpecifier();
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Void );
+		/* addTypeSpecifier(); */
 	  } // { /*currentDeclaration*/ }
 	| CHAR { 
-		addTypeSpecifier();
+		/* addTypeSpecifier(); */
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Char );
 		debugPrint("CHAR -> type_specifier"); 
 	  }
 	| SHORT { debugPrint("SHORT -> type_specifier"); 
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Short );
 		addTypeSpecifier();
 	  }
 	| INT { 
-		addTypeSpecifier();
+		/* addTypeSpecifier(); */
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Int );
 		debugPrint("INT -> type_specifier"); 
 	  }
 	| LONG {
-		addTypeSpecifier();
-		 debugPrint("LONG -> type_specifier"); 
+		/* addTypeSpecifier(); */
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Long );
+		debugPrint("LONG -> type_specifier"); 
 	  }
 	| FLOAT  {
-		addTypeSpecifier();
+		/* addTypeSpecifier(); */
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Float );
 		 debugPrint("FLOAT  -> type_specifier"); 
 	  }
 	| DOUBLE {
-		addTypeSpecifier();
-		 debugPrint("DOUBLE -> type_specifier"); 
+		/* addTypeSpecifier(); */
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Double );
+		debugPrint("DOUBLE -> type_specifier"); 
 	  }
 	| SIGNED {
 		addTypeSpecifier();
-		 debugPrint("SIGNED -> type_specifier"); 
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Signed );
+		debugPrint("SIGNED -> type_specifier"); 
 	  }
 	| UNSIGNED {
 		addTypeSpecifier();
-		 debugPrint("UNSIGNED -> type_specifier"); 
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Unsigned );
+		debugPrint("UNSIGNED -> type_specifier"); 
 	  }
 	| struct_or_union_specifier {
 		// TODO 
 		// addTypeSpecifier();
-		 debugPrint("struct_or_union_specifier -> type_specifier"); 
+		throw ParserError(ParserError::NotImplemented, "Sturuct/Union is not implemented");
+		debugPrint("struct_or_union_specifier -> type_specifier"); 
 	  }
 	| enum_specifier {
 		// TODO 
 		// addTypeSpecifier();
-		 debugPrint("enum_specifier -> type_specifier"); 
+		throw ParserError(ParserError::NotImplemented, "enum is not implemented");
+		debugPrint("enum_specifier -> type_specifier"); 
 	  }
 	| TYPEDEF_NAME {
-		// TODO 
-		// addTypeSpecifier();
-		 debugPrint("TYPEDEF_NAME -> type_specifier"); 
+		$$ = new TypeSpecifierNode( TypeSpecifierNode::Typedef );
+		debugPrint("TYPEDEF_NAME -> type_specifier"); 
 	  }
 	;
 

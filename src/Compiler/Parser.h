@@ -4,6 +4,8 @@
 #include "Node.h"
 #include "ASTNodes.h"
 
+#include "ParserError.h"
+
 // $insert baseclass
 #include "Parserbase.h"
 #include "Scanner.h"
