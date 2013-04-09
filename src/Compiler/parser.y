@@ -300,13 +300,13 @@ type_specifier
 	| struct_or_union_specifier {
 		// TODO 
 		// addTypeSpecifier();
-		throw ParserError(ParserError::NotImplemented, "Sturuct/Union is not implemented");
+		//throw ParserError(ParserError::NotImplemented, "Sturuct/Union is not implemented");
 		debugPrint("struct_or_union_specifier -> type_specifier"); 
 	  }
 	| enum_specifier {
 		// TODO 
 		// addTypeSpecifier();
-		throw ParserError(ParserError::NotImplemented, "enum is not implemented");
+		//throw ParserError(ParserError::NotImplemented, "enum is not implemented");
 		debugPrint("enum_specifier -> type_specifier"); 
 	  }
 	| TYPEDEF_NAME {
@@ -632,22 +632,62 @@ constant_expression
 
 logical_or_expression
 	: logical_and_expression { debugPrint("logical_and_expression -> logical_or_expression"); }
+	{
+	
+		$$ = new LogicalOrExpressionNode( (LogicalAndExpressionNode*) $1 );
+	
+	}
 	| logical_or_expression OR_OP logical_and_expression { debugPrint("logical_or_expression OR_OP logical_and_expression -> logical_or_expression"); }
+	{
+	
+		$$ = new LogicalOrExpressionNode( (InclusiveOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
+	
+	}
 	;
 
 logical_and_expression
 	: inclusive_or_expression { debugPrint("inclusive_or_expression -> logical_and_expression"); }
+	{
+	
+		$$ = new LogicalAndExpressionNode( (InclusiveOrExpressionNode*) $1 );
+	
+	}
 	| logical_and_expression AND_OP inclusive_or_expression { debugPrint("logical_and_expression AND_OP inclusive_or_expression -> logical_and_expression"); }
+	{
+	
+		$$ = new LogicalAndExpressionNode( (InclusiveOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
+	
+	}
 	;
 
 inclusive_or_expression
 	: exclusive_or_expression { debugPrint("exclusive_or_expression -> inclusive_or_expression"); }
+	{
+
+		$$ = new InclusiveOrExpressionNode( (ExclusiveOrExpressionNode*) $1 );
+
+	}
 	| inclusive_or_expression '|' exclusive_or_expression { debugPrint("inclusive_or_expression '|' exclusive_or_expression -> inclusive_or_expression"); }
+	{
+
+		$$ = new InclusiveOrExpressionNode( (InclusiveOrExpressionNode*) $1 , (ExclusiveOrExpressionNode*) $3 );
+
+	}
 	;
 
 exclusive_or_expression
 	: and_expression { debugPrint("and_expression -> exclusive_or_expression"); }
+	{
+
+		$$ = new ExclusiveOrExpressionNode( (AndExpressionNode*) $1 );
+
+	}
 	| exclusive_or_expression '^' and_expression { debugPrint("exclusive_or_expression '^' and_expression -> exclusive_or_expression"); }
+	{
+
+		$$ = new ExclusiveOrExpressionNode( (ExclusiveOrExpressionNode*) $1 , (AndExpressionNode*) $3 );
+
+	}
 	;
 
 and_expression

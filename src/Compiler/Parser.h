@@ -4,7 +4,7 @@
 #include "Node.h"
 #include "ASTNodes.h"
 
-#include "ParserError.h"
+//#include "ParserError.h"
 
 // $insert baseclass
 #include "Parserbase.h"
