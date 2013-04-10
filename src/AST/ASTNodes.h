@@ -8,7 +8,7 @@
 #ifndef ASTNODES_H_
 #define ASTNODES_H_
 
-#include "ParserError.h"
+//#include "ParserError.h"
 #include "Node.h"
 #include <cfloat>
 #include "SymbolTable.h"
@@ -898,6 +898,162 @@ public:
 
 };
 
+class ExclusiveOrExpressionNode : public Node
+{
+
+public:
+
+	inline ExclusiveOrExpressionNode( AndExpressionNode* _andExpression ) : andExpression( _andExpression )
+	{
+
+	}
+
+	inline ExclusiveOrExpressionNode( ExclusiveOrExpressionNode* _exclusiveOrExpression ,
+			AndExpressionNode* _andExpression
+			)
+		: exclusiveOrExpression( _exclusiveOrExpression ), andExpression( _andExpression )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	AndExpressionNode* andExpression;
+	ExclusiveOrExpressionNode* exclusiveOrExpression;
+
+};
+
+class InclusiveOrExpressionNode : public Node
+{
+
+public:
+
+	inline InclusiveOrExpressionNode( ExclusiveOrExpressionNode* _exclusiveOrExpression ) : exclusiveOrExpression( _exclusiveOrExpression )
+	{
+
+	}
+
+	inline InclusiveOrExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
+			ExclusiveOrExpressionNode* _exclusiveOrExpression
+			)
+		: exclusiveOrExpression( _exclusiveOrExpression ), inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	InclusiveOrExpressionNode* inclusiveOrExpressionNode;
+	ExclusiveOrExpressionNode* exclusiveOrExpression;
+
+};
+
+class LogicalAndExpressionNode : public Node
+{
+
+public:
+
+	inline LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ) : inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
+	{
+
+	}
+
+	inline LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
+			LogicalAndExpression* _logicalAndExpression
+			)
+		: logicalAndExpression( _logicalAndExpression ), inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	InclusiveOrExpressionNode* inclusiveOrExpressionNode;
+	LogicalAndExpression* logicalAndExpression;
+
+};
+
+class LogicalOrExpressionNode : public Node
+{
+
+public:
+
+	inline LogicalOrExpressionNode( LogicalAndExpression* _logicalAndExpression ) : logicalAndExpression( _logicalAndExpression )
+	{
+
+	}
+
+	inline LogicalOrExpressionNode( LogicalAndExpression* _logicalAndExpression ,
+			LogicalOrExpression* _logicalOrExpression
+			)
+		: logicalAndExpression( _logicalAndExpression ), logicalOrExpression( _logicalOrExpression )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "unary operator" );
+
+	}
+
+	LogicalOrExpression* logicalOrExpression;
+	LogicalAndExpression* logicalAndExpression;
+
+};
+
 // TODO: This is temporary
 class ExpressionNode : public Node
 {
@@ -1229,6 +1385,12 @@ public:
 	void add(InitDeclaratorNode* initDecl) 
 	{
 		declaratorList.push_back(initDecl);	
+		if ( StorageSpecifierKindStart  <= storageSpecKind && storageSpecKind <= StorageSpecifierKindEnd ) {
+			specifier = storageSpecKind;
+		}
+		else {
+			//throw ParserError(ParserError::Whatever, "StorageSpecifierNode");
+		}
 	}
 
 private:
