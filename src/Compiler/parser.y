@@ -231,23 +231,23 @@ declaration_specifiers
 
 storage_class_specifier
 	: AUTO { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Auto);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Auto);
 		debugPrint("AUTO -> storage_class_specifier"); 
 		}
 	| REGISTER { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Register);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Register);
 		debugPrint("REGISTER -> storage_class_specifier"); 
 		}
 	| STATIC { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Static);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Static);
 		debugPrint("STATIC -> storage_class_specifier"); 
 		}
 	| EXTERN { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Extern);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Extern);
 		debugPrint("EXTERN -> storage_class_specifier"); 
 		}
 	| TYPEDEF { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Typedef);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Typedef);
 		debugPrint("TYPEDEF -> storage_class_specifier"); 
 		}
 	;

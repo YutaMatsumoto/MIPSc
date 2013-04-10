@@ -11,6 +11,7 @@
 #include "ParserError.h"
 #include "Node.h"
 #include <cfloat>
+#include "SymbolTable.h"
 
 //Forward Declarations
 class ExpressionNode;
@@ -903,17 +904,180 @@ class ExpressionNode : public Node
 
 };
 
-// TODO: This is temporary
-class TypeNameNode : public Node
-{
-
-};
-
 
 // ---------------------------------------------------------------------------
 //
+// DeclarationNode ... DirectAbstractDeclaratorNode
+//
 
-// TODO
+class DeclarationNode;
+class DeclarationListNode;
+class DeclarationSpecifiersNode;
+class StorageClassSpecifierNode;
+class TypeSpecifierNode;
+class TypeQualifierNode;
+class StructOrUnionSpecifierNode;
+class StructOrUnionNode;
+class StructDeclarationListNode;
+class InitDeclaratorListNode;
+class InitDeclaratorNode;
+class StructDeclarationNode;
+class SpecifierQualifierListNode;
+class StructDeclaratorListNode;
+class StructDeclaratorNode;
+class EnumSpecifierNode;
+class EnumeratorListNode;
+class EnumeratorNode;
+class DeclaratorNode;
+class DirectDeclaratorNode;
+class PointerNode;
+class TypeQualifierListNode;
+class ParameterTypeListNode;
+class ParameterListNode;
+class ParameterDeclarationNode;
+class IdentifierListNode;
+class InitializerNode;
+class InitializerListNode;
+class TypeNameNode;
+class AbstractDeclaratorNode;
+class DirectAbstractDeclaratorNode;
+
+class DeclarationNode : public Node {
+public:
+	DeclarationNode() {}	
+
+	// -----------------------------------------------------------------------
+	
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
+		: declSpecifier(declSpecifier)
+	{}
+
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
+		: declSpecifier(declSpecifier), initDeclList(initDeclList)
+	{}
+
+	// -----------------------------------------------------------------------
+
+	void declare(SymbolTable* stab) 
+	{
+		std::cout << "DeclarationNode::declare() TODO" << std::endl;
+	}
+
+private:
+	InitDeclaratorListNode* initDeclList;		
+	DeclarationSpecifiersNode* declSpecifier;
+};
+
+class DeclarationSpecifiersNode : public Node {
+
+	typedef std::string TypeQualifierNode;
+
+	std::vector<TypeSpecifierNode*> tSpecs;
+	std::vector<StorageClassSpecifierNode*> sSpecs;
+	std::vector<TypeQualifierNode*> qSpecs;
+	
+public:
+
+	DeclarationSpecifiersNode( StorageClassSpecifierNode* s )
+	{
+		sSpecs.push_back(s);
+	}
+
+	DeclarationSpecifiersNode( StorageClassSpecifierNode* s, DeclarationSpecifiersNode* ds )
+	{
+		*this = *ds;		
+		sSpecs.push_back(s);	
+	}
+
+	DeclarationSpecifiersNode( TypeSpecifierNode* ts  )
+	{
+		tSpecs.push_back( ts );
+	}
+
+	DeclarationSpecifiersNode( TypeSpecifierNode* ts, DeclarationSpecifiersNode* ds )
+	{
+		*this = *ds;
+		tSpecs.push_back(ts);
+	}
+
+	DeclarationSpecifiersNode( TypeQualifierNode* ts )
+	{
+		qSpecs.push_back(ts);	
+	}
+
+	DeclarationSpecifiersNode( TypeQualifierNode*tq, DeclarationSpecifiersNode* ds)
+	{
+		*this = *ds;
+		qSpecs.push_back(tq);
+	}
+
+
+// 	DeclarationSpecifiersNode() {}
+
+// 	void addTypeSpecifier(TypeSpecifierNode t)
+// 	{
+// 		tSpecs.push_back(t);
+// 	}
+
+// 	void addStorageSpecifier(StorageClassSpecifierNode s)
+// 	{
+// 		sSpecs.push_back(s);
+// 	}
+
+// 	void addTypeQualifier(std::string s)
+// 	{
+// 		qSpecs.push_back(s);
+// 	}
+
+// 	bool determineType()
+// 	{
+// 		// TODO
+// 		return true;
+// 	}
+
+	
+};
+
+class StorageClassSpecifierNode : public Node {
+private:
+	int specifier;
+
+const char specs[5][10] = {
+	"auto",
+	"register",
+	"static",
+	"extern",
+	"typedef"
+};
+
+public:
+
+	virtual std::vector< Operation > toOperations() { } 
+
+	virtual std::string getNodeTypeAsString() {}
+
+	enum StorageSpecifierKind {
+		Auto = 0,  StorageSpecifierKindStart = 0,
+		Register,
+		Static,
+		Extern,
+		Typedef, StorageSpecifierKindEnd = Typedef,
+	};
+
+	StorageClassSpecifierNode() {}
+	// StorageClassSpecifierNode(const std::string& s) : s(s) {}
+	StorageClassSpecifierNode(int storageSpecKind ) 
+	{
+		if ( StorageSpecifierKindStart  <= storageSpecKind && storageSpecKind <= StorageSpecifierKindEnd ) {
+			specifier = storageSpecKind;
+		}
+		else {
+			throw ParserError(ParserError::Whatever, "StorageClassSpecifierNode");
+		}
+	}
+
+};
+
 static const size_t specs_size = 13;
 const std::string specs[specs_size] = {
 "void",
@@ -930,8 +1094,6 @@ const std::string specs[specs_size] = {
 "enum",
 "typedef"
 };
-
-// Should be a singleton?
 class TypeSpecifierNode : public Node {
 
 private:
@@ -1047,119 +1209,181 @@ private:
 
 };
 
-// ---------------------------------------------------------------------------
-
-// typedef std::string StorageSpecifierNode;
-class StorageSpecifierNode {
-private:
-	int specifier;
-
-const char specs[5][10] = {
-	"auto",
-	"register",
-	"static",
-	"extern",
-	"typedef"
-};
-
-public:
-
-	enum StorageSpecifierKind {
-		Auto = 0,  StorageSpecifierKindStart = 0,
-		Register,
-		Static,
-		Extern,
-		Typedef, StorageSpecifierKindEnd = Typedef,
-	};
-
-
-	StorageSpecifierNode() {}
-	// StorageSpecifierNode(const std::string& s) : s(s) {}
-	StorageSpecifierNode(int storageSpecKind ) 
-	{
-		if ( StorageSpecifierKindStart  <= storageSpecKind && storageSpecKind <= StorageSpecifierKindEnd ) {
-			specifier = storageSpecKind;
-		}
-		else {
-			throw ParserError(ParserError::Whatever, "StorageSpecifierNode");
-		}
-	}
-
-};
-
 class TypeQualifierNode : public Node {
 };
 
-// ---------------------------------------------------------------------------
+class StructOrUnionSpecifierNode : public Node {
+};
 
-class DeclarationSpecifiersNode {
+class StructOrUnionNode : public Node {
+};
 
-	typedef std::string TypeQualifierSymbol;
+class StructDeclarationListNode : public Node {
+};
 
-	std::vector<TypeSpecifierNode*> tSpecs;
-	std::vector<StorageSpecifierNode*> sSpecs;
-	std::vector<TypeQualifierNode*> qSpecs;
-	
+class InitDeclaratorListNode : public Node {
 public:
 
-	DeclarationSpecifiersNode( StorageSpecifierNode* s )
+	InitDeclaratorListNode() {}
+
+	void add(InitDeclaratorNode* initDecl) 
 	{
-		sSpecs.push_back(s);
+		declaratorList.push_back(initDecl);	
 	}
 
-	DeclarationSpecifiersNode( StorageSpecifierNode* s, DeclarationSpecifiersNode* ds )
+private:
+	std::vector<InitDeclaratorNode*> declaratorList;
+};
+
+class InitDeclaratorNode : public Node {
+public:
+
+	InitDeclaratorNode() {}
+
+	InitDeclaratorNode(DeclaratorNode* declNode) 
+		: declNode(declNode)
+	{}
+
+	InitDeclaratorNode(DeclaratorNode* declNode, InitializerNode* initNode) 
+		: declNode(declNode), initNode(initNode)
+	{}
+
+private:
+	DeclaratorNode* declNode;
+	InitializerNode* initNode;
+};
+
+class StructDeclarationNode : public Node {
+};
+
+class SpecifierQualifierListNode : public Node {
+};
+
+class StructDeclaratorListNode : public Node {
+};
+
+class StructDeclaratorNode : public Node {
+};
+
+class EnumSpecifierNode : public Node {
+};
+
+class EnumeratorListNode : public Node {
+};
+
+class EnumeratorNode : public Node {
+};
+
+class DeclaratorNode : public Node {
+public:
+
+	DeclaratorNode() {}
+
+	DeclaratorNode(DirectDeclaratorNode* dirDeclNode) 
+		: dirDeclNode(dirDeclNode)
+	{}
+
+	DeclaratorNode(PointerNode* ptrNode, DirectDeclaratorNode* dirDeclNode) 
+		: ptrNode(ptrNode), dirDeclNode(dirDeclNode)
+	{}
+
+private:	
+	DirectDeclaratorNode* dirDeclNode;
+	PointerNode* ptrNode;
+};
+
+class DirectDeclaratorNode : Node {
+public:
+
+	DirectDeclaratorNode() {initData();}
+
+	DirectDeclaratorNode( IdentifierNode* id )
+		: id(id)
+	{initData();}
+
+	void initData()
 	{
-		*this = *ds;		
-		sSpecs.push_back(s);	
+		array = false;
+		functionCall = false;
+		functionDefinition = false;
 	}
-
-	DeclarationSpecifiersNode( TypeSpecifierNode* ts  )
-	{
-		tSpecs.push_back( ts );
-	}
-
-	DeclarationSpecifiersNode( TypeSpecifierNode* ts, DeclarationSpecifiersNode* ds )
-	{
-		*this = *ds;
-		tSpecs.push_back(ts);
-	}
-
-	DeclarationSpecifiersNode( TypeQualifierNode* ts )
-	{
-		qSpecs.push_back(ts);	
-	}
-
-	DeclarationSpecifiersNode( TypeQualifierNode*tq, DeclarationSpecifiersNode* ds)
-	{
-		*this = *ds;
-		qSpecs.push_back(tq);
-	}
-
-
-// 	DeclarationSpecifiersNode() {}
-
-// 	void addTypeSpecifier(TypeSpecifierNode t)
-// 	{
-// 		tSpecs.push_back(t);
-// 	}
-
-// 	void addStorageSpecifier(StorageSpecifierNode s)
-// 	{
-// 		sSpecs.push_back(s);
-// 	}
-
-// 	void addTypeQualifier(std::string s)
-// 	{
-// 		qSpecs.push_back(s);
-// 	}
-
-// 	bool determineType()
-// 	{
-// 		// TODO
-// 		return true;
-// 	}
-
 	
+private:
+	IdentifierNode* id;
+	DirectDeclaratorNode* dirDeclNode;
+	DeclaratorNode* declNode;		
+	IdentifierListNode* idListNode;
+
+	bool array;
+	bool functionCall;
+	bool functionDefinition; // declaration?
+};
+
+class PointerNode : public Node {
+};
+
+class TypeQualifierListNode : public Node {
+};
+
+class ParameterTypeListNode : public Node {
+};
+
+class ParameterListNode : public Node {
+};
+
+class ParameterDeclarationNode : public Node {
+};
+
+class IdentifierListNode : public Node {
+};
+
+class InitializerNode {
+public:
+
+	InitializerNode() {}
+
+	InitializerNode(AssignmentExpressionNode* assignExprNode) 
+		: assignExprNode(assignExprNode)
+	{}
+
+	InitializerNode(InitializerListNode* initListNode)
+		: initListNode( initListNode )
+	{}
+			
+
+private:
+	AssignmentExpressionNode* assignExprNode;
+	InitializerListNode* initListNode;
+};
+
+class InitializerListNode {
+public:
+
+	InitializerListNode(InitializerNode* initNode)
+	{
+		initializerList.push_back(initNode);
+	}
+
+	InitializerListNode(InitializerNode* initNode, InitializerListNode* initListNode)
+	{
+		initializerList.push_back(initNode);
+		for (size_t i = 0; i <initListNode->initializerList.size(); i++ )	{
+			initializerList.push_back( initListNode->initializerList[i] );
+		}
+	}
+
+	size_t size() { return initializerList.size(); };
+
+	std::vector<InitializerNode*> initializerList;
+};
+
+class TypeNameNode : public Node {
+};
+
+class AbstractDeclaratorNode : public Node {
+};
+
+class DirectAbstractDeclaratorNode : public Node {
 };
 
 #endif /* ASTNODES_H_ */
