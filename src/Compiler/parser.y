@@ -591,43 +591,158 @@ iteration_statement
 
 jump_statement
 	: GOTO identifier ';' { debugPrint("GOTO identifier ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( (IdentifierNode*) $2 );
+
+	}
 	| CONTINUE ';' { debugPrint("CONTINUE ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( JumpStatementNode::Continue );
+
+	}
 	| BREAK ';' { debugPrint("BREAK ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( JumpStatementNode::Break );
+
+	}
 	| RETURN ';' { debugPrint("RETURN ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( JumpStatementNode::Return );
+
+	}
 	| RETURN expression ';' { debugPrint("RETURN expression ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( (ExpressionNode*) $2 );
+
+	}
 	;
 
 expression
 	: assignment_expression { debugPrint("assignment_expression -> expression"); }
+	{
+
+		$$ = new ExpressionNode( (AssignmentExpressionNode*) $1 );
+
+	}
 	| expression ',' assignment_expression { debugPrint("expression ',' assignment_expression -> expression"); }
+	{
+
+		$$ = new ExpressionNode( (ExpressionNode*) $1 , (AssignmentExpressionNode*) $3 );
+
+	}
 	;
 
 assignment_expression
 	: conditional_expression { debugPrint("conditional_expression -> assignment_expression"); }
+	{
+
+		$$ = new AssignmentExpressionNode( (ConditionalExpressionNode*) $1 );
+
+	}
 	| unary_expression assignment_operator assignment_expression { debugPrint("unary_expression assignment_operator assignment_expression -> assignment_expression"); }
+	{
+
+		$$ = new AssignmentExpressionNode( (UnaryExpressionNode*) $1 , (AssignmentOperatorNode*) $2 , (AssignmentExpressionNode*) $3 );
+
+	}
 	;
 
 assignment_operator
 	: '=' { debugPrint("'=' -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::Assign );
+
+	}
 	| MUL_ASSIGN { debugPrint("MUL_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::MulAssign );
+
+	}
 	| DIV_ASSIGN { debugPrint("DIV_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::DivAssign );
+
+	}
 	| MOD_ASSIGN { debugPrint("MOD_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::ModAssign );
+
+	}
 	| ADD_ASSIGN { debugPrint("ADD_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::AddAssign );
+
+	}
 	| SUB_ASSIGN { debugPrint("SUB_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::SubAssign );
+
+	}
 	| LEFT_ASSIGN { debugPrint("LEFT_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::LeftAssign );
+
+	}
 	| RIGHT_ASSIGN { debugPrint("RIGHT_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::RightAssign );
+
+	}
 	| AND_ASSIGN { debugPrint("AND_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::AndAssign );
+
+	}
 	| XOR_ASSIGN { debugPrint("XOR_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::XORAssign );
+
+	}
 	| OR_ASSIGN { debugPrint("OR_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::OrAssign );
+
+	}
 	;
 
 conditional_expression
 	: logical_or_expression { debugPrint("logical_or_expression -> conditional_expression"); }
+	{
+
+		$$ = new ConditionalExpressionNode( (LogicalOrExpressionNode*) $1 );
+
+	}
 	| logical_or_expression '?' expression ':' conditional_expression { debugPrint("logical_or_expression '?' expression ':' conditional_expression -> conditional_expression"); }
+	{
+
+		$$ = new ConditionalExpressionNode( (LogicalOrExpressionNode*) $1 , (ExpressionNode*) $3 , (ConditionalExpressionNode*) $5 );
+
+	}
 	;
 
 constant_expression
 	: conditional_expression { debugPrint("conditional_expression -> constant_expression"); }
+	{
+
+		$$ = new ConstantExpressionNode( (ConditionalExpressionNode*) $1 );
+
+	}
 	;
 
 logical_or_expression
@@ -640,7 +755,7 @@ logical_or_expression
 	| logical_or_expression OR_OP logical_and_expression { debugPrint("logical_or_expression OR_OP logical_and_expression -> logical_or_expression"); }
 	{
 	
-		$$ = new LogicalOrExpressionNode( (InclusiveOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
+		$$ = new LogicalOrExpressionNode( (LogicalOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
 	
 	}
 	;
@@ -655,7 +770,7 @@ logical_and_expression
 	| logical_and_expression AND_OP inclusive_or_expression { debugPrint("logical_and_expression AND_OP inclusive_or_expression -> logical_and_expression"); }
 	{
 	
-		$$ = new LogicalAndExpressionNode( (InclusiveOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
+		$$ = new LogicalAndExpressionNode( (LogicalAndExpressionNode*) $1 , (InclusiveOrExpressionNode*) $3 );
 	
 	}
 	;
