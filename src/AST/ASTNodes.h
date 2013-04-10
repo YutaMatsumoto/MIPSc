@@ -975,17 +975,17 @@ public:
 
 };
 
-class LogicalAndExpression : public Node
+class LogicalAndExpressionNode : public Node
 {
 
 public:
 
-	inline LogicalAndExpression( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ) : inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
+	inline LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ) : inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
 	{
 
 	}
 
-	inline LogicalAndExpression( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
+	inline LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
 			LogicalAndExpression* _logicalAndExpression
 			)
 		: logicalAndExpression( _logicalAndExpression ), inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
@@ -1014,17 +1014,17 @@ public:
 
 };
 
-class LogicalOrExpression : public Node
+class LogicalOrExpressionNode : public Node
 {
 
 public:
 
-	inline LogicalOrExpression( LogicalAndExpression* _logicalAndExpression ) : logicalAndExpression( _logicalAndExpression )
+	inline LogicalOrExpressionNode( LogicalAndExpression* _logicalAndExpression ) : logicalAndExpression( _logicalAndExpression )
 	{
 
 	}
 
-	inline LogicalOrExpression( LogicalAndExpression* _logicalAndExpression ,
+	inline LogicalOrExpressionNode( LogicalAndExpression* _logicalAndExpression ,
 			LogicalOrExpression* _logicalOrExpression
 			)
 		: logicalAndExpression( _logicalAndExpression ), logicalOrExpression( _logicalOrExpression )
