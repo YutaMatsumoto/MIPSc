@@ -8,7 +8,7 @@
 #ifndef ASTNODES_H_
 #define ASTNODES_H_
 
-//#include "ParserError.h"
+#include "ParserError.h"
 #include "Node.h"
 #include <cfloat>
 #include "SymbolTable.h"
@@ -987,7 +987,7 @@ public:
 	}
 
 	inline LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
-			LogicalAndExpression* _logicalAndExpression
+			LogicalAndExpressionNode* _logicalAndExpression
 			)
 		: logicalAndExpression( _logicalAndExpression ), inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
 	{
@@ -1011,7 +1011,7 @@ public:
 	}
 
 	InclusiveOrExpressionNode* inclusiveOrExpressionNode;
-	LogicalAndExpression* logicalAndExpression;
+	LogicalAndExpressionNode* logicalAndExpression;
 
 };
 
@@ -1020,13 +1020,17 @@ class LogicalOrExpressionNode : public Node
 
 public:
 
-	inline LogicalOrExpressionNode( LogicalAndExpression* _logicalAndExpression ) : logicalAndExpression( _logicalAndExpression )
+	LogicalOrExpressionNode( LogicalOrExpressionNode* logicalOrExpression, LogicalAndExpressionNode* logicalAndExpression)
+		: logicalOrExpression(logicalOrExpression), logicalAndExpression(logicalAndExpression)
+	{}
+
+	inline LogicalOrExpressionNode( LogicalAndExpressionNode* _logicalAndExpression ) : logicalAndExpression( _logicalAndExpression )
 	{
 
 	}
 
-	inline LogicalOrExpressionNode( LogicalAndExpression* _logicalAndExpression ,
-			LogicalOrExpression* _logicalOrExpression
+	inline LogicalOrExpressionNode( LogicalAndExpressionNode* _logicalAndExpression ,
+			LogicalOrExpressionNode* _logicalOrExpression
 			)
 		: logicalAndExpression( _logicalAndExpression ), logicalOrExpression( _logicalOrExpression )
 	{
@@ -1049,8 +1053,8 @@ public:
 
 	}
 
-	LogicalOrExpression* logicalOrExpression;
-	LogicalAndExpression* logicalAndExpression;
+	LogicalOrExpressionNode* logicalOrExpression;
+	LogicalAndExpressionNode* logicalAndExpression;
 
 };
 
@@ -1124,9 +1128,7 @@ private:
 	DeclarationSpecifiersNode* declSpecifier;
 };
 
-class DeclarationSpecifiersNode : public Node {
-
-	typedef std::string TypeQualifierNode;
+class DeclarationSpecifiersNode {
 
 	std::vector<TypeSpecifierNode*> tSpecs;
 	std::vector<StorageClassSpecifierNode*> sSpecs;
@@ -1194,7 +1196,7 @@ public:
 	
 };
 
-class StorageClassSpecifierNode : public Node {
+class StorageClassSpecifierNode {
 private:
 	int specifier;
 
@@ -1250,7 +1252,7 @@ const std::string specs[specs_size] = {
 "enum",
 "typedef"
 };
-class TypeSpecifierNode : public Node {
+class TypeSpecifierNode {
 
 private:
 	// typedef int TypeSpecEnum;
@@ -1365,19 +1367,19 @@ private:
 
 };
 
-class TypeQualifierNode : public Node {
+class TypeQualifierNode {
 };
 
-class StructOrUnionSpecifierNode : public Node {
+class StructOrUnionSpecifierNode {
 };
 
-class StructOrUnionNode : public Node {
+class StructOrUnionNode {
 };
 
-class StructDeclarationListNode : public Node {
+class StructDeclarationListNode {
 };
 
-class InitDeclaratorListNode : public Node {
+class InitDeclaratorListNode {
 public:
 
 	InitDeclaratorListNode() {}
@@ -1385,19 +1387,13 @@ public:
 	void add(InitDeclaratorNode* initDecl) 
 	{
 		declaratorList.push_back(initDecl);	
-		if ( StorageSpecifierKindStart  <= storageSpecKind && storageSpecKind <= StorageSpecifierKindEnd ) {
-			specifier = storageSpecKind;
-		}
-		else {
-			//throw ParserError(ParserError::Whatever, "StorageSpecifierNode");
-		}
 	}
 
 private:
 	std::vector<InitDeclaratorNode*> declaratorList;
 };
 
-class InitDeclaratorNode : public Node {
+class InitDeclaratorNode {
 public:
 
 	InitDeclaratorNode() {}
@@ -1415,28 +1411,28 @@ private:
 	InitializerNode* initNode;
 };
 
-class StructDeclarationNode : public Node {
+class StructDeclarationNode {
 };
 
-class SpecifierQualifierListNode : public Node {
+class SpecifierQualifierListNode {
 };
 
-class StructDeclaratorListNode : public Node {
+class StructDeclaratorListNode {
 };
 
-class StructDeclaratorNode : public Node {
+class StructDeclaratorNode {
 };
 
-class EnumSpecifierNode : public Node {
+class EnumSpecifierNode {
 };
 
-class EnumeratorListNode : public Node {
+class EnumeratorListNode {
 };
 
-class EnumeratorNode : public Node {
+class EnumeratorNode {
 };
 
-class DeclaratorNode : public Node {
+class DeclaratorNode {
 public:
 
 	DeclaratorNode() {}
@@ -1454,7 +1450,7 @@ private:
 	PointerNode* ptrNode;
 };
 
-class DirectDeclaratorNode : Node {
+class DirectDeclaratorNode {
 public:
 
 	DirectDeclaratorNode() {initData();}
@@ -1481,22 +1477,22 @@ private:
 	bool functionDefinition; // declaration?
 };
 
-class PointerNode : public Node {
+class PointerNode {
 };
 
-class TypeQualifierListNode : public Node {
+class TypeQualifierListNode {
 };
 
-class ParameterTypeListNode : public Node {
+class ParameterTypeListNode {
 };
 
-class ParameterListNode : public Node {
+class ParameterListNode {
 };
 
-class ParameterDeclarationNode : public Node {
+class ParameterDeclarationNode {
 };
 
-class IdentifierListNode : public Node {
+class IdentifierListNode {
 };
 
 class InitializerNode {
@@ -1539,13 +1535,13 @@ public:
 	std::vector<InitializerNode*> initializerList;
 };
 
-class TypeNameNode : public Node {
+class TypeNameNode {
 };
 
-class AbstractDeclaratorNode : public Node {
+class AbstractDeclaratorNode {
 };
 
-class DirectAbstractDeclaratorNode : public Node {
+class DirectAbstractDeclaratorNode {
 };
 
 #endif /* ASTNODES_H_ */

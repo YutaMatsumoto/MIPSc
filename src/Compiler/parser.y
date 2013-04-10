@@ -137,7 +137,7 @@
 //%type <STRING> identifier
 //%type <STRING> string
 // %type <EXPRESSION> constant;
-%stype Node*
+%stype void*
 
 %lsp-needed
 %debug
@@ -213,20 +213,32 @@ declaration_specifiers
 		// TODO : is this legal???
 		determineType();
 		debugPrint("storage_class_specifier -> declaration_specifiers"); 
-	  }
-	| storage_class_specifier declaration_specifiers { debugPrint("storage_class_specifier declaration_specifiers -> declaration_specifiers"); }
+		$$ = (void*) new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1 );
+		}
+	| storage_class_specifier declaration_specifiers { 
+		debugPrint("storage_class_specifier declaration_specifiers -> declaration_specifiers"); 
+		$$ = new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		}
 	| type_specifier { 
 		TypeSpecifierNode* ts = static_cast<TypeSpecifierNode*>( $1 );
 		determineType();
 		debugPrint("type_specifier -> declaration_specifiers"); 
-	  }
-	| type_specifier declaration_specifiers { debugPrint("type_specifier declaration_specifiers -> declaration_specifiers"); }
+		$$ = new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1 );
+		}
+	| type_specifier declaration_specifiers { 
+		debugPrint("type_specifier declaration_specifiers -> declaration_specifiers"); 
+		$$ = new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		}
 	| type_qualifier  { 
 		// TODO : is this legal???
 		determineType();
 		debugPrint("type_qualifier  -> declaration_specifiers"); 
-	  }
-	| type_qualifier declaration_specifiers { debugPrint("type_qualifier declaration_specifiers -> declaration_specifiers"); }
+		$$ = new DeclarationSpecifiersNode( (TypeQualifierNode*)$1 );
+		}
+	| type_qualifier declaration_specifiers { 
+		debugPrint("type_qualifier declaration_specifiers -> declaration_specifiers"); 
+		$$ = new DeclarationSpecifiersNode( (TypeQualifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		}
 	;
 
 storage_class_specifier
@@ -640,7 +652,7 @@ logical_or_expression
 	| logical_or_expression OR_OP logical_and_expression { debugPrint("logical_or_expression OR_OP logical_and_expression -> logical_or_expression"); }
 	{
 	
-		$$ = new LogicalOrExpressionNode( (InclusiveOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
+		$$ = new LogicalOrExpressionNode( (LogicalOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
 	
 	}
 	;
@@ -1063,6 +1075,7 @@ identifier
 	{
 		//setDeclarationLocation();
 		pushIdentifier();
+		$$ =  new IdentifierNode( scanner->matched() );
 	}
 	else
 	{
