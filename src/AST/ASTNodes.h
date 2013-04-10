@@ -18,6 +18,7 @@ class CastExpressionNode;
 class TypeNameNode;
 class ConditionalExpressionNode;
 class AssignmentExpressionNode;
+class StatementNode;
 
 //Definitions
 
@@ -1276,12 +1277,155 @@ public:
 
 };
 
+
+
+class IterationStatementNode : public Node
+{
+
+public:
+
+	enum IterationStatementType
+	{
+		While,
+		DoWhile,
+		For
+	};
+
+	inline IterationStatementNode( ExpressionNode* _condition , StatementNode* _statement, IterationStatementType _type )
+		: condition( _condition ), statement( _statement ), type( _type )
+	{
+
+	}
+
+	inline IterationStatementNode( ExpressionNode* _initialization ,ExpressionNode* _condition ,ExpressionNode* _increment ,StatementNode* _statement )
+		: initialization( _initialization ), condition(_condition), increment(_increment), statement(_statement)
+	{
+		type = For;
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "iteration statement" );
+
+	}
+
+	ExpressionNode* condition;
+
+	ExpressionNode* initialization;
+
+	ExpressionNode* increment;
+
+	StatementNode* statement;
+
+	IterationStatementType type;
+
+};
+
+class SelectionStatementNode : public Node
+{
+
+public:
+
+	enum SelectionStatementType
+	{
+		If,
+		IfElse,
+		Switch
+	};
+
+	inline SelectionStatementNode( ExpressionNode* _condition , StatementNode* _statement, SelectionStatementType _type )
+		: condition( _condition ), statement( _statement ), type( _type )
+	{
+
+	}
+
+	inline SelectionStatementNode( ExpressionNode* _condition , StatementNode* _statement, StatementNode* _elseStatement )
+			: condition( _condition ), statement( _statement )
+	{
+		type = IfElse;
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "iteration statement" );
+
+	}
+
+	ExpressionNode* condition;
+
+	StatementNode* statement;
+
+	StatementNode* elseStatement;
+
+	SelectionStatementType type;
+
+};
+
+class StatementListNode : public Node
+{
+
+public:
+
+	inline StatementListNode( StatementNode* _statement )
+		: statement( _statement )
+	{
+
+	}
+
+	inline StatementListNode( StatementListNode* _statementList, StatementNode* _statement )
+			: statement( _statement ), statementList( _statementList )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "iteration statement" );
+
+	}
+
+	StatementNode* statement;
+
+	StatementListNode* statementList;
+
+};
+
+
 // TODO: This is temporary
 class TypeNameNode : public Node
 {
 
 };
 
+// TODO: This is temporary
+class StatementNode : public Node
+{
+
+};
 
 // ---------------------------------------------------------------------------
 //

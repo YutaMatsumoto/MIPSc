@@ -567,26 +567,101 @@ compound_statement
 
 statement_list
 	: statement { debugPrint("statement -> statement_list"); }
+	{
+
+		$$ = new StatementListNode( (StatementNode*) $1 );
+
+	}
 	| statement_list statement { debugPrint("statement_list statement -> statement_list"); }
+	{
+
+		$$ = new StatementListNode( (StatementListNode*) $1 , (StatementNode*) $2 );
+
+	}
 	;
 
 selection_statement
 	: IF '(' expression ')' statement { debugPrint("IF '(' expression ')' statement -> selection_statement"); }
+	{
+
+		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , SelectionStatementNode::If );
+
+	}
 	| IF '(' expression ')' statement ELSE statement { debugPrint("IF '(' expression ')' statement ELSE statement -> selection_statement"); }
+	{
+
+		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , (StatementNode*) $7 );
+
+	}
 	| SWITCH '(' expression ')' statement { debugPrint("SWITCH '(' expression ')' statement -> selection_statement"); }
+	{
+
+		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , SelectionStatementNode::Switch );
+
+	}
 	;
 
 iteration_statement
 	: WHILE '(' expression ')' statement { debugPrint("WHILE '(' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , IterationStatementNode::While );
+
+	}
 	| DO statement WHILE '(' expression ')' ';' { debugPrint("DO statement WHILE '(' expression ')' ';' -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $5 , (StatementNode*) $2 , IterationStatementNode::DoWhile );
+
+	}
 	| FOR '(' ';' ';' ')' statement { debugPrint("FOR '(' ';' ';' ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( 0 , 0 , 0 , (StatementNode*) $6 );
+
+	}
 	| FOR '(' ';' ';' expression ')' statement { debugPrint("FOR '(' ';' ';' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( 0 , 0 , (ExpressionNode*) $5 , (StatementNode*) $7 );
+
+	}
 	| FOR '(' ';' expression ';' ')' statement { debugPrint("FOR '(' ';' expression ';' ')' statement -> iteration_statement"); }
+	{
+	
+		$$ = new IterationStatementNode( 0 , (ExpressionNode*) $4 , 0 , (StatementNode*) $7 );
+
+	}
 	| FOR '(' ';' expression ';' expression ')' statement { debugPrint("FOR '(' ';' expression ';' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( 0 , (ExpressionNode*) $4 , (ExpressionNode*) $6 , (StatementNode*) $8 );
+
+	}
 	| FOR '(' expression ';' ';' ')' statement { debugPrint("FOR '(' expression ';' ';' ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , 0 , 0 , (StatementNode*) $7 );
+
+	}
 	| FOR '(' expression ';' ';' expression ')' statement { debugPrint("FOR '(' expression ';' ';' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , 0 , (ExpressionNode*) $6 , (StatementNode*) $8 );
+
+	}
 	| FOR '(' expression ';' expression ';' ')' statement { debugPrint("FOR '(' expression ';' expression ';' ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (ExpressionNode*) $5 , 0 , (StatementNode*) $8 );
+
+	}
 	| FOR '(' expression ';' expression ';' expression ')' statement { debugPrint("FOR '(' expression ';' expression ';' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (ExpressionNode*) $5 , (ExpressionNode*) $7 , (StatementNode*) $9 );
+
+	}
 	;
 
 jump_statement
