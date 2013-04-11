@@ -137,7 +137,7 @@
 //%type <STRING> identifier
 //%type <STRING> string
 // %type <EXPRESSION> constant;
-%stype Node*
+%stype void*
 
 %lsp-needed
 %debug
@@ -213,41 +213,53 @@ declaration_specifiers
 		// TODO : is this legal???
 		determineType();
 		debugPrint("storage_class_specifier -> declaration_specifiers"); 
-	  }
-	| storage_class_specifier declaration_specifiers { debugPrint("storage_class_specifier declaration_specifiers -> declaration_specifiers"); }
+		$$ = (void*) new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1 );
+		}
+	| storage_class_specifier declaration_specifiers { 
+		debugPrint("storage_class_specifier declaration_specifiers -> declaration_specifiers"); 
+		$$ = new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		}
 	| type_specifier { 
 		TypeSpecifierNode* ts = static_cast<TypeSpecifierNode*>( $1 );
 		determineType();
 		debugPrint("type_specifier -> declaration_specifiers"); 
-	  }
-	| type_specifier declaration_specifiers { debugPrint("type_specifier declaration_specifiers -> declaration_specifiers"); }
+		$$ = new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1 );
+		}
+	| type_specifier declaration_specifiers { 
+		debugPrint("type_specifier declaration_specifiers -> declaration_specifiers"); 
+		$$ = new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		}
 	| type_qualifier  { 
 		// TODO : is this legal???
 		determineType();
 		debugPrint("type_qualifier  -> declaration_specifiers"); 
-	  }
-	| type_qualifier declaration_specifiers { debugPrint("type_qualifier declaration_specifiers -> declaration_specifiers"); }
+		$$ = new DeclarationSpecifiersNode( (TypeQualifierNode*)$1 );
+		}
+	| type_qualifier declaration_specifiers { 
+		debugPrint("type_qualifier declaration_specifiers -> declaration_specifiers"); 
+		$$ = new DeclarationSpecifiersNode( (TypeQualifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		}
 	;
 
 storage_class_specifier
 	: AUTO { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Auto);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Auto);
 		debugPrint("AUTO -> storage_class_specifier"); 
 		}
 	| REGISTER { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Register);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Register);
 		debugPrint("REGISTER -> storage_class_specifier"); 
 		}
 	| STATIC { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Static);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Static);
 		debugPrint("STATIC -> storage_class_specifier"); 
 		}
 	| EXTERN { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Extern);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Extern);
 		debugPrint("EXTERN -> storage_class_specifier"); 
 		}
 	| TYPEDEF { 
-		$$ = (Node*) new StorageSpecifierNode(StorageSpecifierNode::Typedef);
+		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Typedef);
 		debugPrint("TYPEDEF -> storage_class_specifier"); 
 		}
 	;
@@ -1317,6 +1329,7 @@ identifier
 	{
 		//setDeclarationLocation();
 		pushIdentifier();
+		$$ =  new IdentifierNode( scanner->matched() );
 	}
 	else
 	{

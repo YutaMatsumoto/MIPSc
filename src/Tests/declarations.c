@@ -17,9 +17,9 @@ double double_var;
 int foo = 3;
 
 /* struct */
-typedef struct Foo {
-	int foo;
-} Foo;
+// typedef struct Foo {
+	// int foo;
+// } Foo;
 /* Foo struct_foo; */ /* Error in our parser but gcc -ansi -pedantic compiles this*/
 
 /* array */
@@ -38,7 +38,7 @@ int k,l=10;
 /* function(); */ /*Error for some reason*/
 
 /* illegal type specifier */
-double double double_double_var, double_double_var2;
+// double double double_double_var, double_double_var2;
 
 /* declaration with only declaration-specifiers */
-double double;
+// double double;
