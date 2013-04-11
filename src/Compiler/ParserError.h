@@ -2,6 +2,7 @@
 #define PARSER_ERROR_H_GUARD
 
 #include <exception>
+#include <string>
 
 class ParserError : public std::exception {
 private:

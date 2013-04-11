@@ -21,7 +21,7 @@ class ConditionalExpressionNode;
 class AssignmentExpressionNode;
 class StatementNode;
 class DeclarationListNode;
-
+class ExternalDeclarationNode;
 //Definitions
 
 class IdentifierNode : public Node
@@ -1533,7 +1533,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "expression statement" );
+		return std::string( "labeled statement" );
 
 	}
 
@@ -1597,7 +1597,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "expression statement" );
+		return std::string( "statement" );
 
 	}
 
@@ -1607,6 +1607,44 @@ public:
 	SelectionStatementNode* selectionStatement;
 	IterationStatementNode* iterationStatement;
 	JumpStatementNode* jumpStatement;
+
+
+};
+
+class TranslationUnitNode : public Node
+{
+
+public:
+
+	inline TranslationUnitNode( ExternalDeclarationNode* _externalDeclaration )
+		: externalDeclaration( _externalDeclaration )
+	{
+
+	}
+
+	inline TranslationUnitNode( ExternalDeclarationNode* _externalDeclaration, TranslationUnitNode* _translationUnit )
+			: externalDeclaration( _externalDeclaration ) ,  translationUnit( _translationUnit )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "translation unit" );
+
+	}
+
+	TranslationUnitNode* translationUnit;
+
+	ExternalDeclarationNode* externalDeclaration;
 
 
 };
