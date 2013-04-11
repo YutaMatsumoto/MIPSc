@@ -17,6 +17,10 @@
 class ExpressionNode;
 class CastExpressionNode;
 class TypeNameNode;
+class ConditionalExpressionNode;
+class AssignmentExpressionNode;
+class StatementNode;
+class DeclarationListNode;
 
 //Definitions
 
@@ -271,38 +275,6 @@ protected:
 	// EnumerationConstantNode* enumConstant;
 
 	//~CharConstantNode(){}
-
-};
-
-
-class AssignmentExpressionNode : public Node
-{
-
-public:
-
-	inline AssignmentExpressionNode( )
-	{
-
-
-
-	}
-
-
-	inline std::vector< Operation > toOperations()
-	{
-		std::vector< Operation > operations;
-
-		return operations;
-	}
-
-	inline std::string getNodeTypeAsString()
-	{
-
-		return std::string( "assignment expression" );
-
-	}
-
-	//~ArgExpressionListNode(){}
 
 };
 
@@ -566,7 +538,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "unary expression" );
 
 	}
 
@@ -608,7 +580,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "cast expression" );
 
 	}
 
@@ -657,7 +629,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "multiplicative expression" );
 
 	}
 
@@ -705,7 +677,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "additive expression" );
 
 	}
 
@@ -753,7 +725,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "shift expression" );
 
 	}
 
@@ -802,7 +774,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "relational expression" );
 
 	}
 
@@ -849,7 +821,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "equality expression" );
 
 	}
 
@@ -889,7 +861,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "AND expression" );
 
 	}
 
@@ -928,7 +900,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "exclusive OR expression" );
 
 	}
 
@@ -967,7 +939,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "inclusive OR expression" );
 
 	}
 
@@ -986,8 +958,8 @@ public:
 
 	}
 
-	inline LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
-			LogicalAndExpressionNode* _logicalAndExpression
+	inline LogicalAndExpressionNode( LogicalAndExpressionNode* _logicalAndExpression,
+			InclusiveOrExpressionNode* _inclusiveOrExpressionNode
 			)
 		: logicalAndExpression( _logicalAndExpression ), inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
 	{
@@ -1006,7 +978,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "logical AND expression" );
 
 	}
 
@@ -1020,19 +992,15 @@ class LogicalOrExpressionNode : public Node
 
 public:
 
-	LogicalOrExpressionNode( LogicalOrExpressionNode* logicalOrExpression, LogicalAndExpressionNode* logicalAndExpression)
-		: logicalOrExpression(logicalOrExpression), logicalAndExpression(logicalAndExpression)
-	{}
 
 	inline LogicalOrExpressionNode( LogicalAndExpressionNode* _logicalAndExpression ) : logicalAndExpression( _logicalAndExpression )
 	{
 
 	}
 
-	inline LogicalOrExpressionNode( LogicalAndExpressionNode* _logicalAndExpression ,
-			LogicalOrExpressionNode* _logicalOrExpression
-			)
-		: logicalAndExpression( _logicalAndExpression ), logicalOrExpression( _logicalOrExpression )
+	inline LogicalOrExpressionNode( LogicalOrExpressionNode* _logicalOrExpression ,
+			LogicalAndExpressionNode* _logicalAndExpression )
+		: logicalOrExpression( _logicalOrExpression ), logicalAndExpression( _logicalAndExpression )
 	{
 
 	}
@@ -1049,7 +1017,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "unary operator" );
+		return std::string( "logical OR expression" );
 
 	}
 
@@ -1058,12 +1026,593 @@ public:
 
 };
 
-// TODO: This is temporary
-class ExpressionNode : public Node
+class ConstantExpressionNode : public Node
 {
+
+public:
+
+	inline ConstantExpressionNode( ConditionalExpressionNode* _conditionalExpression ) : conditionalExpression( _conditionalExpression )
+	{
+
+	}
+
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "constant expression" );
+
+	}
+
+	ConditionalExpressionNode* conditionalExpression;
 
 };
 
+class ConditionalExpressionNode : public Node
+{
+
+public:
+
+	inline ConditionalExpressionNode( LogicalOrExpressionNode* _logicalOrExpression ) : logicalOrExpression( _logicalOrExpression )
+	{
+
+	}
+
+	inline ConditionalExpressionNode(
+			LogicalOrExpressionNode* _logicalOrExpression,
+			ExpressionNode* _expression,
+			ConditionalExpressionNode* _conditionalExpression
+		) : logicalOrExpression( _logicalOrExpression ), expression(_expression), conditionalExpression(_conditionalExpression)
+	{
+
+	}
+
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "conditional expression" );
+
+	}
+
+	LogicalOrExpressionNode* logicalOrExpression;
+	ExpressionNode* expression;
+	ConditionalExpressionNode* conditionalExpression;
+
+};
+
+class AssignmentOperatorNode : public Node
+{
+
+public:
+
+	enum AssignmentOperatorType
+	{
+		Assign,
+		MulAssign,
+		DivAssign,
+		ModAssign,
+		AddAssign,
+		SubAssign,
+		LeftAssign,
+		RightAssign,
+		AndAssign,
+		XORAssign,
+		OrAssign
+
+	};
+
+	inline AssignmentOperatorNode( AssignmentOperatorType _type ) : type( _type )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "assignment operator" );
+
+	}
+
+	AssignmentOperatorType type;
+
+};
+
+class AssignmentExpressionNode : public Node
+{
+
+public:
+
+	inline AssignmentExpressionNode( ConditionalExpressionNode* _conditionalExpression ) : conditionalExpression( _conditionalExpression )
+	{
+
+	}
+
+	inline AssignmentExpressionNode(
+			UnaryExpressionNode* _unaryExpression,
+			AssignmentOperatorNode* _assignmentOperator,
+			AssignmentExpressionNode* _assignmentExpression
+		) : unaryExpression( _unaryExpression ), assignmentOperator(_assignmentOperator), assignmentExpression(_assignmentExpression)
+	{
+
+	}
+
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "conditional expression" );
+
+	}
+
+	UnaryExpressionNode* unaryExpression;
+	AssignmentOperatorNode* assignmentOperator;
+	AssignmentExpressionNode* assignmentExpression;
+	ConditionalExpressionNode* conditionalExpression;
+
+};
+
+class ExpressionNode : public Node
+{
+
+public:
+
+	inline ExpressionNode( AssignmentExpressionNode* _assignmentExpression ) : assignmentExpression( _assignmentExpression )
+	{
+
+	}
+
+	inline ExpressionNode(
+			ExpressionNode* _expression,
+			AssignmentExpressionNode* _assignmentExpression
+		) : expression( _expression ), assignmentExpression(_assignmentExpression)
+	{
+
+	}
+
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "expression" );
+
+	}
+
+	AssignmentExpressionNode* assignmentExpression;
+	ExpressionNode* expression;
+
+};
+
+class JumpStatementNode : public Node
+{
+
+public:
+
+	enum JumpStatementType
+	{
+		Goto,
+		Continue,
+		Break,
+		Return
+	};
+
+	inline JumpStatementNode( ExpressionNode* _expression ) : expression( _expression )
+	{
+		type = Return;
+	}
+
+	inline JumpStatementNode( IdentifierNode* _identifier ) : identifier( _identifier )
+	{
+		type = Goto;
+	}
+
+	inline JumpStatementNode( JumpStatementType _type ) : type( _type )
+	{
+
+	}
+
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	//~PrimaryExpressionNode(){}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "jump statement" );
+
+	}
+
+	IdentifierNode* identifier;
+	ExpressionNode* expression;
+	JumpStatementType type;
+
+};
+
+
+
+class IterationStatementNode : public Node
+{
+
+public:
+
+	enum IterationStatementType
+	{
+		While,
+		DoWhile,
+		For
+	};
+
+	inline IterationStatementNode( ExpressionNode* _condition , StatementNode* _statement, IterationStatementType _type )
+		: condition( _condition ), statement( _statement ), type( _type )
+	{
+
+	}
+
+	inline IterationStatementNode( ExpressionNode* _initialization ,ExpressionNode* _condition ,ExpressionNode* _increment ,StatementNode* _statement )
+		: initialization( _initialization ), condition(_condition), increment(_increment), statement(_statement)
+	{
+		type = For;
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "iteration statement" );
+
+	}
+
+	ExpressionNode* condition;
+
+	ExpressionNode* initialization;
+
+	ExpressionNode* increment;
+
+	StatementNode* statement;
+
+	IterationStatementType type;
+
+};
+
+class SelectionStatementNode : public Node
+{
+
+public:
+
+	enum SelectionStatementType
+	{
+		If,
+		IfElse,
+		Switch
+	};
+
+	inline SelectionStatementNode( ExpressionNode* _condition , StatementNode* _statement, SelectionStatementType _type )
+		: condition( _condition ), statement( _statement ), type( _type )
+	{
+
+	}
+
+	inline SelectionStatementNode( ExpressionNode* _condition , StatementNode* _statement, StatementNode* _elseStatement )
+			: condition( _condition ), statement( _statement )
+	{
+		type = IfElse;
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "selection statement" );
+
+	}
+
+	ExpressionNode* condition;
+
+	StatementNode* statement;
+
+	StatementNode* elseStatement;
+
+	SelectionStatementType type;
+
+};
+
+class StatementListNode : public Node
+{
+
+public:
+
+	inline StatementListNode( StatementNode* _statement )
+		: statement( _statement )
+	{
+
+	}
+
+	inline StatementListNode( StatementListNode* _statementList, StatementNode* _statement )
+			: statement( _statement ), statementList( _statementList )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "statement list" );
+
+	}
+
+	StatementNode* statement;
+
+	StatementListNode* statementList;
+
+};
+
+class CompoundStatementNode : public Node
+{
+
+public:
+
+	inline CompoundStatementNode( DeclarationListNode* _declarationList )
+		: declarationList( _declarationList )
+	{
+
+	}
+
+	inline CompoundStatementNode( StatementListNode* _statementList )
+			: statementList( _statementList )
+		{
+
+		}
+
+	inline CompoundStatementNode( DeclarationListNode* _declarationList , StatementListNode* _statementList)
+			: declarationList( _declarationList ), statementList( _statementList )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "compound statement" );
+
+	}
+
+	DeclarationListNode* declarationList;
+
+	StatementListNode* statementList;
+
+};
+
+class ExpressionStatementNode : public Node
+{
+
+public:
+
+	inline ExpressionStatementNode( )
+	{
+
+	}
+
+	inline ExpressionStatementNode( ExpressionNode* _expression )
+			: expression( _expression )
+		{
+
+		}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "expression statement" );
+
+	}
+
+	ExpressionNode* expression;
+
+};
+
+class LabeledStatementNode : public Node
+{
+
+public:
+
+	enum LabeledStatementType
+	{
+		Label,
+		Case,
+		Default
+	};
+
+	inline LabeledStatementNode( IdentifierNode* _identifier, StatementNode* _statement )
+		: identifier( _identifier ), statement( _statement )
+	{
+		type = Label;
+	}
+
+	inline LabeledStatementNode( ConstantExpressionNode* _constantExpression, StatementNode* _statement )
+			: constantExpression( _constantExpression ), statement( _statement )
+	{
+		type = Case;
+	}
+
+	inline LabeledStatementNode( StatementNode* _statement )
+			: statement( _statement )
+	{
+		type = Default;
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "expression statement" );
+
+	}
+
+	IdentifierNode* identifier;
+	ConstantExpressionNode* constantExpression;
+	StatementNode* statement;
+
+	LabeledStatementType type;
+
+
+};
+
+class StatementNode : public Node
+{
+
+public:
+
+	inline StatementNode( LabeledStatementNode* _labeledStatement )
+		: labeledStatement( _labeledStatement )
+	{
+
+	}
+
+	inline StatementNode( ExpressionStatementNode* _expressionStatement )
+		: expressionStatement( _expressionStatement )
+	{
+
+	}
+
+	inline StatementNode( CompoundStatementNode* _compoundStatement )
+		: compoundStatement( _compoundStatement )
+	{
+
+	}
+
+	inline StatementNode( SelectionStatementNode* _selectionStatement )
+		: selectionStatement( _selectionStatement )
+	{
+
+	}
+
+	inline StatementNode( IterationStatementNode* _iterationStatement )
+		: iterationStatement( _iterationStatement )
+	{
+
+	}
+
+	inline StatementNode( JumpStatementNode* _jumpStatement )
+		: jumpStatement( _jumpStatement )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "expression statement" );
+
+	}
+
+	LabeledStatementNode* labeledStatement;
+	CompoundStatementNode* compoundStatement;
+	ExpressionStatementNode* expressionStatement;
+	SelectionStatementNode* selectionStatement;
+	IterationStatementNode* iterationStatement;
+	JumpStatementNode* jumpStatement;
+
+
+};
+
+class DeclarationListNode : public Node
+{
 
 // ---------------------------------------------------------------------------
 //
@@ -1071,7 +1620,6 @@ class ExpressionNode : public Node
 //
 
 class DeclarationNode;
-class DeclarationListNode;
 class DeclarationSpecifiersNode;
 class StorageClassSpecifierNode;
 class TypeSpecifierNode;

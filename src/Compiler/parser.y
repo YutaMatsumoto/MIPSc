@@ -561,22 +561,77 @@ direct_abstract_declarator
 
 statement
 	: labeled_statement { debugPrint("labeled_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (LabeledStatementNode*) $1 );
+
+	}
 	| compound_statement { debugPrint("compound_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (CompoundStatementNode*) $1 );
+
+	}
 	| expression_statement { debugPrint("expression_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (ExpressionStatementNode*) $1 );
+
+	}
 	| selection_statement { debugPrint("selection_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (SelectionStatementNode*) $1 );
+
+	}
 	| iteration_statement { debugPrint("iteration_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (IterationStatementNode*) $1 );
+
+	}
 	| jump_statement { debugPrint("jump_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (JumpStatementNode*) $1 );
+
+	}
 	;
 
 labeled_statement
 	: identifier ':' statement { debugPrint("identifier ':' statement -> labeled_statement"); }
+	{
+
+		$$ = new LabeledStatementNode( (IdentifierNode*) $1 , (StatementNode*) $3 );
+
+	}
 	| CASE constant_expression ':' statement { debugPrint("CASE constant_expression ':' statement -> labeled_statement"); }
+	{
+
+		$$ = new LabeledStatementNode( (ConstantExpressionNode*) $2 , (StatementNode*) $4 );
+
+	}
 	| DEFAULT ':' statement { debugPrint("DEFAULT ':' statement -> labeled_statement"); }
+	{
+
+		$$ = new LabeledStatementNode( (StatementNode*) $3 );
+
+	}
 	;
 
 expression_statement
 	: ';' { debugPrint("';' -> expression_statement"); }
+	{
+
+		$$ = new ExpressionStatementNode();		
+
+	}
 	| expression ';' { debugPrint("expression ';' -> expression_statement"); }
+	{
+
+		$$ = new ExpressionStatementNode( (ExpressionNode*) $1 );
+
+	}
 	;
 
 compound_statement
@@ -588,6 +643,9 @@ compound_statement
 		symbolTable->beginScope(); } statement_list '}' { 
 		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
+
+		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
+
 	  }
 	| '{' {
 		symbolTable->beginScope();
@@ -597,7 +655,10 @@ compound_statement
 	  declaration_list '}' { 
 	  	symbolTable->endScope();
 		debugPrint("---- Declaration Mode Done  ----");
-		debugPrint("'{' declaration_list '}' -> compound_statement"); 
+		debugPrint("'{' declaration_list '}' -> compound_statement");
+
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
+
 	  }
 	| '{' {
 		symbolTable->beginScope();
@@ -609,73 +670,266 @@ compound_statement
 		beginLookupSection();
 	  }
 	  statement_list '}' { 
-		debugPrint("'{' declaration_list statement_list '}' -> compound_statement"); 
+		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
+
+
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
 	  }
 	;
 
 statement_list
 	: statement { debugPrint("statement -> statement_list"); }
+	{
+
+		$$ = new StatementListNode( (StatementNode*) $1 );
+
+	}
 	| statement_list statement { debugPrint("statement_list statement -> statement_list"); }
+	{
+
+		$$ = new StatementListNode( (StatementListNode*) $1 , (StatementNode*) $2 );
+
+	}
 	;
 
 selection_statement
 	: IF '(' expression ')' statement { debugPrint("IF '(' expression ')' statement -> selection_statement"); }
+	{
+
+		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , SelectionStatementNode::If );
+
+	}
 	| IF '(' expression ')' statement ELSE statement { debugPrint("IF '(' expression ')' statement ELSE statement -> selection_statement"); }
+	{
+
+		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , (StatementNode*) $7 );
+
+	}
 	| SWITCH '(' expression ')' statement { debugPrint("SWITCH '(' expression ')' statement -> selection_statement"); }
+	{
+
+		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , SelectionStatementNode::Switch );
+
+	}
 	;
 
 iteration_statement
 	: WHILE '(' expression ')' statement { debugPrint("WHILE '(' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , IterationStatementNode::While );
+
+	}
 	| DO statement WHILE '(' expression ')' ';' { debugPrint("DO statement WHILE '(' expression ')' ';' -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $5 , (StatementNode*) $2 , IterationStatementNode::DoWhile );
+
+	}
 	| FOR '(' ';' ';' ')' statement { debugPrint("FOR '(' ';' ';' ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( 0 , 0 , 0 , (StatementNode*) $6 );
+
+	}
 	| FOR '(' ';' ';' expression ')' statement { debugPrint("FOR '(' ';' ';' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( 0 , 0 , (ExpressionNode*) $5 , (StatementNode*) $7 );
+
+	}
 	| FOR '(' ';' expression ';' ')' statement { debugPrint("FOR '(' ';' expression ';' ')' statement -> iteration_statement"); }
+	{
+	
+		$$ = new IterationStatementNode( 0 , (ExpressionNode*) $4 , 0 , (StatementNode*) $7 );
+
+	}
 	| FOR '(' ';' expression ';' expression ')' statement { debugPrint("FOR '(' ';' expression ';' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( 0 , (ExpressionNode*) $4 , (ExpressionNode*) $6 , (StatementNode*) $8 );
+
+	}
 	| FOR '(' expression ';' ';' ')' statement { debugPrint("FOR '(' expression ';' ';' ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , 0 , 0 , (StatementNode*) $7 );
+
+	}
 	| FOR '(' expression ';' ';' expression ')' statement { debugPrint("FOR '(' expression ';' ';' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , 0 , (ExpressionNode*) $6 , (StatementNode*) $8 );
+
+	}
 	| FOR '(' expression ';' expression ';' ')' statement { debugPrint("FOR '(' expression ';' expression ';' ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (ExpressionNode*) $5 , 0 , (StatementNode*) $8 );
+
+	}
 	| FOR '(' expression ';' expression ';' expression ')' statement { debugPrint("FOR '(' expression ';' expression ';' expression ')' statement -> iteration_statement"); }
+	{
+
+		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (ExpressionNode*) $5 , (ExpressionNode*) $7 , (StatementNode*) $9 );
+
+	}
 	;
 
 jump_statement
 	: GOTO identifier ';' { debugPrint("GOTO identifier ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( (IdentifierNode*) $2 );
+
+	}
 	| CONTINUE ';' { debugPrint("CONTINUE ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( JumpStatementNode::Continue );
+
+	}
 	| BREAK ';' { debugPrint("BREAK ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( JumpStatementNode::Break );
+
+	}
 	| RETURN ';' { debugPrint("RETURN ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( JumpStatementNode::Return );
+
+	}
 	| RETURN expression ';' { debugPrint("RETURN expression ';' -> jump_statement"); }
+	{
+
+		$$ = new JumpStatementNode( (ExpressionNode*) $2 );
+
+	}
 	;
 
 expression
 	: assignment_expression { debugPrint("assignment_expression -> expression"); }
+	{
+
+		$$ = new ExpressionNode( (AssignmentExpressionNode*) $1 );
+
+	}
 	| expression ',' assignment_expression { debugPrint("expression ',' assignment_expression -> expression"); }
+	{
+
+		$$ = new ExpressionNode( (ExpressionNode*) $1 , (AssignmentExpressionNode*) $3 );
+
+	}
 	;
 
 assignment_expression
 	: conditional_expression { debugPrint("conditional_expression -> assignment_expression"); }
+	{
+
+		$$ = new AssignmentExpressionNode( (ConditionalExpressionNode*) $1 );
+
+	}
 	| unary_expression assignment_operator assignment_expression { debugPrint("unary_expression assignment_operator assignment_expression -> assignment_expression"); }
+	{
+
+		$$ = new AssignmentExpressionNode( (UnaryExpressionNode*) $1 , (AssignmentOperatorNode*) $2 , (AssignmentExpressionNode*) $3 );
+
+	}
 	;
 
 assignment_operator
 	: '=' { debugPrint("'=' -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::Assign );
+
+	}
 	| MUL_ASSIGN { debugPrint("MUL_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::MulAssign );
+
+	}
 	| DIV_ASSIGN { debugPrint("DIV_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::DivAssign );
+
+	}
 	| MOD_ASSIGN { debugPrint("MOD_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::ModAssign );
+
+	}
 	| ADD_ASSIGN { debugPrint("ADD_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::AddAssign );
+
+	}
 	| SUB_ASSIGN { debugPrint("SUB_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::SubAssign );
+
+	}
 	| LEFT_ASSIGN { debugPrint("LEFT_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::LeftAssign );
+
+	}
 	| RIGHT_ASSIGN { debugPrint("RIGHT_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::RightAssign );
+
+	}
 	| AND_ASSIGN { debugPrint("AND_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::AndAssign );
+
+	}
 	| XOR_ASSIGN { debugPrint("XOR_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::XORAssign );
+
+	}
 	| OR_ASSIGN { debugPrint("OR_ASSIGN -> assignment_operator"); }
+	{
+
+		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::OrAssign );
+
+	}
 	;
 
 conditional_expression
 	: logical_or_expression { debugPrint("logical_or_expression -> conditional_expression"); }
+	{
+
+		$$ = new ConditionalExpressionNode( (LogicalOrExpressionNode*) $1 );
+
+	}
 	| logical_or_expression '?' expression ':' conditional_expression { debugPrint("logical_or_expression '?' expression ':' conditional_expression -> conditional_expression"); }
+	{
+
+		$$ = new ConditionalExpressionNode( (LogicalOrExpressionNode*) $1 , (ExpressionNode*) $3 , (ConditionalExpressionNode*) $5 );
+
+	}
 	;
 
 constant_expression
 	: conditional_expression { debugPrint("conditional_expression -> constant_expression"); }
+	{
+
+		$$ = new ConstantExpressionNode( (ConditionalExpressionNode*) $1 );
+
+	}
 	;
 
 logical_or_expression
@@ -703,7 +957,7 @@ logical_and_expression
 	| logical_and_expression AND_OP inclusive_or_expression { debugPrint("logical_and_expression AND_OP inclusive_or_expression -> logical_and_expression"); }
 	{
 	
-		$$ = new LogicalAndExpressionNode( (InclusiveOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
+		$$ = new LogicalAndExpressionNode( (LogicalAndExpressionNode*) $1 , (InclusiveOrExpressionNode*) $3 );
 	
 	}
 	;
