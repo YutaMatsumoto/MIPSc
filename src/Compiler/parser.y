@@ -196,7 +196,7 @@ declaration
 		}
 		debugPrint("declaration_specifiers ';' -> declaration"); 
 		DeclarationNode* declNode = new DeclarationNode(  (DeclarationSpecifiersNode*) $1 );
-		declNode->injectSymbols(symbolTable);
+		declNode->declare(symbolTable);
 		$$ = (void*) declNode;
 		}
 	| declaration_specifiers init_declarator_list ';' { 
@@ -206,8 +206,9 @@ declaration
 		}
 		debugPrint("declaration_specifiers init_declarator_list ';' -> declaration"); 
 		DeclarationNode* n = new DeclarationNode(  (DeclarationSpecifiersNode*) $1, (InitDeclaratorListNode*) $2);
-		n->injectSymbols(symbolTable);
+		n->declare(symbolTable);
 		$$ = (void*) n;
+		std::cout << n->toString() << std::endl;
 		}
 	;
 
@@ -228,27 +229,27 @@ declaration_specifiers
 		}
 	| storage_class_specifier declaration_specifiers { 
 		debugPrint("storage_class_specifier declaration_specifiers -> declaration_specifiers"); 
-		$$ = new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		$$ = (void*) new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
 		}
 	| type_specifier { 
 		TypeSpecifierNode* ts = static_cast<TypeSpecifierNode*>( $1 );
 		determineType();
 		debugPrint("type_specifier -> declaration_specifiers"); 
-		$$ = new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1 );
+		$$ = (void*) new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1 );
 		}
 	| type_specifier declaration_specifiers { 
 		debugPrint("type_specifier declaration_specifiers -> declaration_specifiers"); 
-		$$ = new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		$$ = (void*) new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
 		}
 	| type_qualifier  { 
 		// TODO : is this legal???
 		determineType();
 		debugPrint("type_qualifier  -> declaration_specifiers"); 
-		$$ = new DeclarationSpecifiersNode( (TypeQualifierNode*)$1 );
+		$$ = (void*) new DeclarationSpecifiersNode( (TypeQualifierNode*)$1 );
 		}
 	| type_qualifier declaration_specifiers { 
 		debugPrint("type_qualifier declaration_specifiers -> declaration_specifiers"); 
-		$$ = new DeclarationSpecifiersNode( (TypeQualifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
+		$$ = (void*) new DeclarationSpecifiersNode( (TypeQualifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
 		}
 	;
 
@@ -278,46 +279,46 @@ storage_class_specifier
 type_specifier
 	: VOID { 
 		debugPrint("VOID -> type_specifier");
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Void );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Void );
 		/* addTypeSpecifier(); */
 	  } // { /*currentDeclaration*/ }
 	| CHAR { 
 		/* addTypeSpecifier(); */
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Char );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Char );
 		debugPrint("CHAR -> type_specifier"); 
 	  }
 	| SHORT { debugPrint("SHORT -> type_specifier"); 
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Short );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Short );
 		addTypeSpecifier();
 	  }
 	| INT { 
 		/* addTypeSpecifier(); */
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Int );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Int );
 		debugPrint("INT -> type_specifier"); 
 	  }
 	| LONG {
 		/* addTypeSpecifier(); */
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Long );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Long );
 		debugPrint("LONG -> type_specifier"); 
 	  }
 	| FLOAT  {
 		/* addTypeSpecifier(); */
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Float );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Float );
 		 debugPrint("FLOAT  -> type_specifier"); 
 	  }
 	| DOUBLE {
 		/* addTypeSpecifier(); */
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Double );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Double );
 		debugPrint("DOUBLE -> type_specifier"); 
 	  }
 	| SIGNED {
 		addTypeSpecifier();
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Signed );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Signed );
 		debugPrint("SIGNED -> type_specifier"); 
 	  }
 	| UNSIGNED {
 		addTypeSpecifier();
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Unsigned );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Unsigned );
 		debugPrint("UNSIGNED -> type_specifier"); 
 	  }
 	| struct_or_union_specifier {
@@ -333,7 +334,7 @@ type_specifier
 		debugPrint("enum_specifier -> type_specifier"); 
 	  }
 	| TYPEDEF_NAME {
-		$$ = new TypeSpecifierNode( TypeSpecifierNode::Typedef );
+		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Typedef );
 		debugPrint("TYPEDEF_NAME -> type_specifier"); 
 	  }
 	;
@@ -462,7 +463,7 @@ direct_declarator
 			$$ = (void*) ddn;
 		}
 	| direct_declarator '(' ')' { 
-			// TODO : function call or structure instantiation ?
+			// TODO : function call or structure instantiation ? function definition?
 			debugPrint("direct_declarator '(' ')' -> direct_declarator"); 
 		}
 	| direct_declarator '(' parameter_type_list ')' { 
@@ -563,37 +564,37 @@ statement
 	: labeled_statement { debugPrint("labeled_statement -> statement"); }
 	{
 
-		$$ = new StatementNode( (LabeledStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (LabeledStatementNode*) $1 );
 
 	}
 	| compound_statement { debugPrint("compound_statement -> statement"); }
 	{
 
-		$$ = new StatementNode( (CompoundStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (CompoundStatementNode*) $1 );
 
 	}
 	| expression_statement { debugPrint("expression_statement -> statement"); }
 	{
 
-		$$ = new StatementNode( (ExpressionStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (ExpressionStatementNode*) $1 );
 
 	}
 	| selection_statement { debugPrint("selection_statement -> statement"); }
 	{
 
-		$$ = new StatementNode( (SelectionStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (SelectionStatementNode*) $1 );
 
 	}
 	| iteration_statement { debugPrint("iteration_statement -> statement"); }
 	{
 
-		$$ = new StatementNode( (IterationStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (IterationStatementNode*) $1 );
 
 	}
 	| jump_statement { debugPrint("jump_statement -> statement"); }
 	{
 
-		$$ = new StatementNode( (JumpStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (JumpStatementNode*) $1 );
 
 	}
 	;
@@ -602,19 +603,19 @@ labeled_statement
 	: identifier ':' statement { debugPrint("identifier ':' statement -> labeled_statement"); }
 	{
 
-		$$ = new LabeledStatementNode( (IdentifierNode*) $1 , (StatementNode*) $3 );
+		$$ = (void*) new LabeledStatementNode( (IdentifierNode*) $1 , (StatementNode*) $3 );
 
 	}
 	| CASE constant_expression ':' statement { debugPrint("CASE constant_expression ':' statement -> labeled_statement"); }
 	{
 
-		$$ = new LabeledStatementNode( (ConstantExpressionNode*) $2 , (StatementNode*) $4 );
+		$$ = (void*) new LabeledStatementNode( (ConstantExpressionNode*) $2 , (StatementNode*) $4 );
 
 	}
 	| DEFAULT ':' statement { debugPrint("DEFAULT ':' statement -> labeled_statement"); }
 	{
 
-		$$ = new LabeledStatementNode( (StatementNode*) $3 );
+		$$ = (void*) new LabeledStatementNode( (StatementNode*) $3 );
 
 	}
 	;
@@ -623,13 +624,13 @@ expression_statement
 	: ';' { debugPrint("';' -> expression_statement"); }
 	{
 
-		$$ = new ExpressionStatementNode();		
+		$$ = (void*) new ExpressionStatementNode();		
 
 	}
 	| expression ';' { debugPrint("expression ';' -> expression_statement"); }
 	{
 
-		$$ = new ExpressionStatementNode( (ExpressionNode*) $1 );
+		$$ = (void*) new ExpressionStatementNode( (ExpressionNode*) $1 );
 
 	}
 	;
@@ -644,7 +645,7 @@ compound_statement
 		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 
-		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
+		$$ = (void*) new CompoundStatementNode( (StatementListNode*) $2 );
 
 	  }
 	| '{' {
@@ -657,7 +658,7 @@ compound_statement
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement");
 
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
+		$$ = (void*) new CompoundStatementNode( (DeclarationListNode*) $2 );
 
 	  }
 	| '{' {
@@ -673,7 +674,7 @@ compound_statement
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
 
 
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
+		$$ = (void*) new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
 	  }
 	;
 
@@ -681,13 +682,13 @@ statement_list
 	: statement { debugPrint("statement -> statement_list"); }
 	{
 
-		$$ = new StatementListNode( (StatementNode*) $1 );
+		$$ = (void*) new StatementListNode( (StatementNode*) $1 );
 
 	}
 	| statement_list statement { debugPrint("statement_list statement -> statement_list"); }
 	{
 
-		$$ = new StatementListNode( (StatementListNode*) $1 , (StatementNode*) $2 );
+		$$ = (void*) new StatementListNode( (StatementListNode*) $1 , (StatementNode*) $2 );
 
 	}
 	;
@@ -696,19 +697,19 @@ selection_statement
 	: IF '(' expression ')' statement { debugPrint("IF '(' expression ')' statement -> selection_statement"); }
 	{
 
-		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , SelectionStatementNode::If );
+		$$ = (void*) new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , SelectionStatementNode::If );
 
 	}
 	| IF '(' expression ')' statement ELSE statement { debugPrint("IF '(' expression ')' statement ELSE statement -> selection_statement"); }
 	{
 
-		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , (StatementNode*) $7 );
+		$$ = (void*) new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , (StatementNode*) $7 );
 
 	}
 	| SWITCH '(' expression ')' statement { debugPrint("SWITCH '(' expression ')' statement -> selection_statement"); }
 	{
 
-		$$ = new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , SelectionStatementNode::Switch );
+		$$ = (void*) new SelectionStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , SelectionStatementNode::Switch );
 
 	}
 	;
@@ -717,61 +718,61 @@ iteration_statement
 	: WHILE '(' expression ')' statement { debugPrint("WHILE '(' expression ')' statement -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , IterationStatementNode::While );
+		$$ = (void*) new IterationStatementNode( (ExpressionNode*) $3 , (StatementNode*) $5 , IterationStatementNode::While );
 
 	}
 	| DO statement WHILE '(' expression ')' ';' { debugPrint("DO statement WHILE '(' expression ')' ';' -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( (ExpressionNode*) $5 , (StatementNode*) $2 , IterationStatementNode::DoWhile );
+		$$ = (void*) new IterationStatementNode( (ExpressionNode*) $5 , (StatementNode*) $2 , IterationStatementNode::DoWhile );
 
 	}
 	| FOR '(' ';' ';' ')' statement { debugPrint("FOR '(' ';' ';' ')' statement -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( 0 , 0 , 0 , (StatementNode*) $6 );
+		$$ = (void*) new IterationStatementNode( 0 , 0 , 0 , (StatementNode*) $6 );
 
 	}
 	| FOR '(' ';' ';' expression ')' statement { debugPrint("FOR '(' ';' ';' expression ')' statement -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( 0 , 0 , (ExpressionNode*) $5 , (StatementNode*) $7 );
+		$$ = (void*) new IterationStatementNode( 0 , 0 , (ExpressionNode*) $5 , (StatementNode*) $7 );
 
 	}
 	| FOR '(' ';' expression ';' ')' statement { debugPrint("FOR '(' ';' expression ';' ')' statement -> iteration_statement"); }
 	{
 	
-		$$ = new IterationStatementNode( 0 , (ExpressionNode*) $4 , 0 , (StatementNode*) $7 );
+		$$ = (void*) new IterationStatementNode( 0 , (ExpressionNode*) $4 , 0 , (StatementNode*) $7 );
 
 	}
 	| FOR '(' ';' expression ';' expression ')' statement { debugPrint("FOR '(' ';' expression ';' expression ')' statement -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( 0 , (ExpressionNode*) $4 , (ExpressionNode*) $6 , (StatementNode*) $8 );
+		$$ = (void*) new IterationStatementNode( 0 , (ExpressionNode*) $4 , (ExpressionNode*) $6 , (StatementNode*) $8 );
 
 	}
 	| FOR '(' expression ';' ';' ')' statement { debugPrint("FOR '(' expression ';' ';' ')' statement -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( (ExpressionNode*) $3 , 0 , 0 , (StatementNode*) $7 );
+		$$ = (void*) new IterationStatementNode( (ExpressionNode*) $3 , 0 , 0 , (StatementNode*) $7 );
 
 	}
 	| FOR '(' expression ';' ';' expression ')' statement { debugPrint("FOR '(' expression ';' ';' expression ')' statement -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( (ExpressionNode*) $3 , 0 , (ExpressionNode*) $6 , (StatementNode*) $8 );
+		$$ = (void*) new IterationStatementNode( (ExpressionNode*) $3 , 0 , (ExpressionNode*) $6 , (StatementNode*) $8 );
 
 	}
 	| FOR '(' expression ';' expression ';' ')' statement { debugPrint("FOR '(' expression ';' expression ';' ')' statement -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (ExpressionNode*) $5 , 0 , (StatementNode*) $8 );
+		$$ = (void*) new IterationStatementNode( (ExpressionNode*) $3 , (ExpressionNode*) $5 , 0 , (StatementNode*) $8 );
 
 	}
 	| FOR '(' expression ';' expression ';' expression ')' statement { debugPrint("FOR '(' expression ';' expression ';' expression ')' statement -> iteration_statement"); }
 	{
 
-		$$ = new IterationStatementNode( (ExpressionNode*) $3 , (ExpressionNode*) $5 , (ExpressionNode*) $7 , (StatementNode*) $9 );
+		$$ = (void*) new IterationStatementNode( (ExpressionNode*) $3 , (ExpressionNode*) $5 , (ExpressionNode*) $7 , (StatementNode*) $9 );
 
 	}
 	;
@@ -780,31 +781,31 @@ jump_statement
 	: GOTO identifier ';' { debugPrint("GOTO identifier ';' -> jump_statement"); }
 	{
 
-		$$ = new JumpStatementNode( (IdentifierNode*) $2 );
+		$$ = (void*) new JumpStatementNode( (IdentifierNode*) $2 );
 
 	}
 	| CONTINUE ';' { debugPrint("CONTINUE ';' -> jump_statement"); }
 	{
 
-		$$ = new JumpStatementNode( JumpStatementNode::Continue );
+		$$ = (void*) new JumpStatementNode( JumpStatementNode::Continue );
 
 	}
 	| BREAK ';' { debugPrint("BREAK ';' -> jump_statement"); }
 	{
 
-		$$ = new JumpStatementNode( JumpStatementNode::Break );
+		$$ = (void*) new JumpStatementNode( JumpStatementNode::Break );
 
 	}
 	| RETURN ';' { debugPrint("RETURN ';' -> jump_statement"); }
 	{
 
-		$$ = new JumpStatementNode( JumpStatementNode::Return );
+		$$ = (void*) new JumpStatementNode( JumpStatementNode::Return );
 
 	}
 	| RETURN expression ';' { debugPrint("RETURN expression ';' -> jump_statement"); }
 	{
 
-		$$ = new JumpStatementNode( (ExpressionNode*) $2 );
+		$$ = (void*) new JumpStatementNode( (ExpressionNode*) $2 );
 
 	}
 	;
@@ -813,13 +814,13 @@ expression
 	: assignment_expression { debugPrint("assignment_expression -> expression"); }
 	{
 
-		$$ = new ExpressionNode( (AssignmentExpressionNode*) $1 );
+		$$ = (void*) new ExpressionNode( (AssignmentExpressionNode*) $1 );
 
 	}
 	| expression ',' assignment_expression { debugPrint("expression ',' assignment_expression -> expression"); }
 	{
 
-		$$ = new ExpressionNode( (ExpressionNode*) $1 , (AssignmentExpressionNode*) $3 );
+		$$ = (void*) new ExpressionNode( (ExpressionNode*) $1 , (AssignmentExpressionNode*) $3 );
 
 	}
 	;
@@ -828,13 +829,13 @@ assignment_expression
 	: conditional_expression { debugPrint("conditional_expression -> assignment_expression"); }
 	{
 
-		$$ = new AssignmentExpressionNode( (ConditionalExpressionNode*) $1 );
+		$$ = (void*) new AssignmentExpressionNode( (ConditionalExpressionNode*) $1 );
 
 	}
 	| unary_expression assignment_operator assignment_expression { debugPrint("unary_expression assignment_operator assignment_expression -> assignment_expression"); }
 	{
 
-		$$ = new AssignmentExpressionNode( (UnaryExpressionNode*) $1 , (AssignmentOperatorNode*) $2 , (AssignmentExpressionNode*) $3 );
+		$$ = (void*) new AssignmentExpressionNode( (UnaryExpressionNode*) $1 , (AssignmentOperatorNode*) $2 , (AssignmentExpressionNode*) $3 );
 
 	}
 	;
@@ -843,67 +844,67 @@ assignment_operator
 	: '=' { debugPrint("'=' -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::Assign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::Assign );
 
 	}
 	| MUL_ASSIGN { debugPrint("MUL_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::MulAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::MulAssign );
 
 	}
 	| DIV_ASSIGN { debugPrint("DIV_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::DivAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::DivAssign );
 
 	}
 	| MOD_ASSIGN { debugPrint("MOD_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::ModAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::ModAssign );
 
 	}
 	| ADD_ASSIGN { debugPrint("ADD_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::AddAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::AddAssign );
 
 	}
 	| SUB_ASSIGN { debugPrint("SUB_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::SubAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::SubAssign );
 
 	}
 	| LEFT_ASSIGN { debugPrint("LEFT_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::LeftAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::LeftAssign );
 
 	}
 	| RIGHT_ASSIGN { debugPrint("RIGHT_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::RightAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::RightAssign );
 
 	}
 	| AND_ASSIGN { debugPrint("AND_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::AndAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::AndAssign );
 
 	}
 	| XOR_ASSIGN { debugPrint("XOR_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::XORAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::XORAssign );
 
 	}
 	| OR_ASSIGN { debugPrint("OR_ASSIGN -> assignment_operator"); }
 	{
 
-		$$ = new AssignmentOperatorNode( AssignmentOperatorNode::OrAssign );
+		$$ = (void*) new AssignmentOperatorNode( AssignmentOperatorNode::OrAssign );
 
 	}
 	;
@@ -912,13 +913,13 @@ conditional_expression
 	: logical_or_expression { debugPrint("logical_or_expression -> conditional_expression"); }
 	{
 
-		$$ = new ConditionalExpressionNode( (LogicalOrExpressionNode*) $1 );
+		$$ = (void*) new ConditionalExpressionNode( (LogicalOrExpressionNode*) $1 );
 
 	}
 	| logical_or_expression '?' expression ':' conditional_expression { debugPrint("logical_or_expression '?' expression ':' conditional_expression -> conditional_expression"); }
 	{
 
-		$$ = new ConditionalExpressionNode( (LogicalOrExpressionNode*) $1 , (ExpressionNode*) $3 , (ConditionalExpressionNode*) $5 );
+		$$ = (void*) new ConditionalExpressionNode( (LogicalOrExpressionNode*) $1 , (ExpressionNode*) $3 , (ConditionalExpressionNode*) $5 );
 
 	}
 	;
@@ -927,7 +928,7 @@ constant_expression
 	: conditional_expression { debugPrint("conditional_expression -> constant_expression"); }
 	{
 
-		$$ = new ConstantExpressionNode( (ConditionalExpressionNode*) $1 );
+		$$ = (void*) new ConstantExpressionNode( (ConditionalExpressionNode*) $1 );
 
 	}
 	;
@@ -936,13 +937,13 @@ logical_or_expression
 	: logical_and_expression { debugPrint("logical_and_expression -> logical_or_expression"); }
 	{
 	
-		$$ = new LogicalOrExpressionNode( (LogicalAndExpressionNode*) $1 );
+		$$ = (void*) new LogicalOrExpressionNode( (LogicalAndExpressionNode*) $1 );
 	
 	}
 	| logical_or_expression OR_OP logical_and_expression { debugPrint("logical_or_expression OR_OP logical_and_expression -> logical_or_expression"); }
 	{
 	
-		$$ = new LogicalOrExpressionNode( (LogicalOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
+		$$ = (void*) new LogicalOrExpressionNode( (LogicalOrExpressionNode*) $1 , (LogicalAndExpressionNode*) $3 );
 	
 	}
 	;
@@ -951,13 +952,13 @@ logical_and_expression
 	: inclusive_or_expression { debugPrint("inclusive_or_expression -> logical_and_expression"); }
 	{
 	
-		$$ = new LogicalAndExpressionNode( (InclusiveOrExpressionNode*) $1 );
+		$$ = (void*) new LogicalAndExpressionNode( (InclusiveOrExpressionNode*) $1 );
 	
 	}
 	| logical_and_expression AND_OP inclusive_or_expression { debugPrint("logical_and_expression AND_OP inclusive_or_expression -> logical_and_expression"); }
 	{
 	
-		$$ = new LogicalAndExpressionNode( (LogicalAndExpressionNode*) $1 , (InclusiveOrExpressionNode*) $3 );
+		$$ = (void*) new LogicalAndExpressionNode( (LogicalAndExpressionNode*) $1 , (InclusiveOrExpressionNode*) $3 );
 	
 	}
 	;
@@ -966,13 +967,13 @@ inclusive_or_expression
 	: exclusive_or_expression { debugPrint("exclusive_or_expression -> inclusive_or_expression"); }
 	{
 
-		$$ = new InclusiveOrExpressionNode( (ExclusiveOrExpressionNode*) $1 );
+		$$ = (void*) new InclusiveOrExpressionNode( (ExclusiveOrExpressionNode*) $1 );
 
 	}
 	| inclusive_or_expression '|' exclusive_or_expression { debugPrint("inclusive_or_expression '|' exclusive_or_expression -> inclusive_or_expression"); }
 	{
 
-		$$ = new InclusiveOrExpressionNode( (InclusiveOrExpressionNode*) $1 , (ExclusiveOrExpressionNode*) $3 );
+		$$ = (void*) new InclusiveOrExpressionNode( (InclusiveOrExpressionNode*) $1 , (ExclusiveOrExpressionNode*) $3 );
 
 	}
 	;
@@ -981,13 +982,13 @@ exclusive_or_expression
 	: and_expression { debugPrint("and_expression -> exclusive_or_expression"); }
 	{
 
-		$$ = new ExclusiveOrExpressionNode( (AndExpressionNode*) $1 );
+		$$ = (void*) new ExclusiveOrExpressionNode( (AndExpressionNode*) $1 );
 
 	}
 	| exclusive_or_expression '^' and_expression { debugPrint("exclusive_or_expression '^' and_expression -> exclusive_or_expression"); }
 	{
 
-		$$ = new ExclusiveOrExpressionNode( (ExclusiveOrExpressionNode*) $1 , (AndExpressionNode*) $3 );
+		$$ = (void*) new ExclusiveOrExpressionNode( (ExclusiveOrExpressionNode*) $1 , (AndExpressionNode*) $3 );
 
 	}
 	;
@@ -996,13 +997,13 @@ and_expression
 	: equality_expression { debugPrint("equality_expression -> and_expression"); }
 	{
 
-		$$ = new AndExpressionNode( (EqualityExpressionNode*) $1 );
+		$$ = (void*) new AndExpressionNode( (EqualityExpressionNode*) $1 );
 
 	}
 	| and_expression '&' equality_expression { debugPrint("and_expression '&' equality_expression -> and_expression"); }
 	{
 
-		$$ = new AndExpressionNode( (AndExpressionNode*) $1 , (EqualityExpressionNode*) $3 );
+		$$ = (void*) new AndExpressionNode( (AndExpressionNode*) $1 , (EqualityExpressionNode*) $3 );
 
 	}
 	;
@@ -1011,19 +1012,19 @@ equality_expression
 	: relational_expression { debugPrint("relational_expression -> equality_expression"); }
 	{
 
-		$$ = new EqualityExpressionNode( (RelationalExpressionNode*) $1 );
+		$$ = (void*) new EqualityExpressionNode( (RelationalExpressionNode*) $1 );
 
 	}
 	| equality_expression EQ_OP relational_expression { debugPrint("equality_expression EQ_OP relational_expression -> equality_expression"); }
 	{
 
-		$$ = new EqualityExpressionNode( (EqualityExpressionNode*) $1 , (RelationalExpressionNode*) $3 , EqualityExpressionNode::Equal );
+		$$ = (void*) new EqualityExpressionNode( (EqualityExpressionNode*) $1 , (RelationalExpressionNode*) $3 , EqualityExpressionNode::Equal );
 
 	}
 	| equality_expression NE_OP relational_expression { debugPrint("equality_expression NE_OP relational_expression -> equality_expression"); }
 	{
 
-		$$ = new EqualityExpressionNode( (EqualityExpressionNode*) $1 , (RelationalExpressionNode*) $3 , EqualityExpressionNode::NotEqual );
+		$$ = (void*) new EqualityExpressionNode( (EqualityExpressionNode*) $1 , (RelationalExpressionNode*) $3 , EqualityExpressionNode::NotEqual );
 
 	}
 	;
@@ -1032,31 +1033,31 @@ relational_expression
 	: shift_expression { debugPrint("shift_expression -> relational_expression"); }
 	{
 
-		$$ = new RelationalExpressionNode( (ShiftExpressionNode*) $1 );
+		$$ = (void*) new RelationalExpressionNode( (ShiftExpressionNode*) $1 );
 
 	}
 	| relational_expression '<' shift_expression { debugPrint("relational_expression '<' shift_expression -> relational_expression"); }
 	{
 
-		$$ = new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::Less );
+		$$ = (void*) new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::Less );
 
 	}
 	| relational_expression '>' shift_expression { debugPrint("relational_expression '>' shift_expression -> relational_expression"); }
 	{
 
-		$$ = new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::Greater );
+		$$ = (void*) new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::Greater );
 
 	}
 	| relational_expression LE_OP shift_expression { debugPrint("relational_expression LE_OP shift_expression -> relational_expression"); }
 	{
 
-		$$ = new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::LessEqual );
+		$$ = (void*) new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::LessEqual );
 
 	}
 	| relational_expression GE_OP shift_expression { debugPrint("relational_expression GE_OP shift_expression -> relational_expression"); }
 	{
 
-		$$ = new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::GreaterEqual );
+		$$ = (void*) new RelationalExpressionNode( (RelationalExpressionNode*) $1 , (ShiftExpressionNode*) $3 , RelationalExpressionNode::GreaterEqual );
 
 	}
 	;
@@ -1065,19 +1066,19 @@ shift_expression
 	: additive_expression { debugPrint("additive_expression -> shift_expression"); }
 	{
 
-		$$ = new ShiftExpressionNode( (AdditiveExpressionNode*) $1 );
+		$$ = (void*) new ShiftExpressionNode( (AdditiveExpressionNode*) $1 );
 
 	}
 	| shift_expression LEFT_OP additive_expression { debugPrint("shift_expression LEFT_OP additive_expression -> shift_expression"); }
 	{
 
-		$$ = new ShiftExpressionNode( (ShiftExpressionNode*) $1 , (AdditiveExpressionNode*) $3 , ShiftExpressionNode::Left );
+		$$ = (void*) new ShiftExpressionNode( (ShiftExpressionNode*) $1 , (AdditiveExpressionNode*) $3 , ShiftExpressionNode::Left );
 
 	}
 	| shift_expression RIGHT_OP additive_expression { debugPrint("shift_expression RIGHT_OP additive_expression -> shift_expression"); }
 	{
 
-		$$ = new ShiftExpressionNode( (ShiftExpressionNode*) $1 , (AdditiveExpressionNode*) $3 , ShiftExpressionNode::Left );
+		$$ = (void*) new ShiftExpressionNode( (ShiftExpressionNode*) $1 , (AdditiveExpressionNode*) $3 , ShiftExpressionNode::Left );
 
 	}
 	;
@@ -1086,19 +1087,19 @@ additive_expression
 	: multiplicative_expression { debugPrint("multiplicative_expression -> additive_expression"); }
 	{
 
-		$$ = new AdditiveExpressionNode( (MultiplicativeExpressionNode*) $1 );
+		$$ = (void*) new AdditiveExpressionNode( (MultiplicativeExpressionNode*) $1 );
 
 	}
 	| additive_expression '+' multiplicative_expression { debugPrint("additive_expression '+' multiplicative_expression -> additive_expression"); }
 	{
 
-		$$ = new AdditiveExpressionNode( (AdditiveExpressionNode*) $1 , (MultiplicativeExpressionNode*) $3 , AdditiveExpressionNode::Add );
+		$$ = (void*) new AdditiveExpressionNode( (AdditiveExpressionNode*) $1 , (MultiplicativeExpressionNode*) $3 , AdditiveExpressionNode::Add );
 
 	}
 	| additive_expression '-' multiplicative_expression { debugPrint("additive_expression '-' multiplicative_expression -> additive_expression"); }
 	{
 
-		$$ = new AdditiveExpressionNode( (AdditiveExpressionNode*) $1 , (MultiplicativeExpressionNode*) $3 , AdditiveExpressionNode::Subtract );
+		$$ = (void*) new AdditiveExpressionNode( (AdditiveExpressionNode*) $1 , (MultiplicativeExpressionNode*) $3 , AdditiveExpressionNode::Subtract );
 
 	}
 	;
@@ -1107,25 +1108,25 @@ multiplicative_expression
 	: cast_expression { debugPrint("cast_expression -> multiplicative_expression"); }
 	{
 
-		$$ = new MultiplicativeExpressionNode( (CastExpressionNode*) $1 );
+		$$ = (void*) new MultiplicativeExpressionNode( (CastExpressionNode*) $1 );
 
 	}
 	| multiplicative_expression '*' cast_expression { debugPrint("multiplicative_expression '*' cast_expression -> multiplicative_expression"); }
 	{
 
-		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Multiply );
+		$$ = (void*) new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Multiply );
 
 	}
 	| multiplicative_expression '/' cast_expression { debugPrint("multiplicative_expression '/' cast_expression -> multiplicative_expression"); }
 	{
 
-		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Divide );
+		$$ = (void*) new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Divide );
 
 	}
 	| multiplicative_expression '%' cast_expression { debugPrint("multiplicative_expression '%' cast_expression -> multiplicative_expression"); }
 	{
 
-		$$ = new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Modulo );
+		$$ = (void*) new MultiplicativeExpressionNode( (MultiplicativeExpressionNode*) $1 , (CastExpressionNode*) $3 , MultiplicativeExpressionNode::Modulo );
 
 	}
 	;
@@ -1134,13 +1135,13 @@ cast_expression
 	: unary_expression { debugPrint("unary_expression -> cast_expression"); }
 	{
 
-		$$ = new CastExpressionNode( (UnaryExpressionNode*) $1 );
+		$$ = (void*) new CastExpressionNode( (UnaryExpressionNode*) $1 );
 
 	}
 	| '(' type_name ')' cast_expression { debugPrint("'(' type_name ')' cast_expression -> cast_expression"); }
 	{
 
-		$$ = new CastExpressionNode( (TypeNameNode*) $2 , (CastExpressionNode*) $4 );
+		$$ = (void*) new CastExpressionNode( (TypeNameNode*) $2 , (CastExpressionNode*) $4 );
 
 	}
 	;
@@ -1149,37 +1150,37 @@ unary_expression
 	: postfix_expression { debugPrint("postfix_expression -> unary_expression"); }
 	{
 
-		$$ = new UnaryExpressionNode( (PostfixExpressionNode*) $1 );	
+		$$ = (void*) new UnaryExpressionNode( (PostfixExpressionNode*) $1 );	
 
 	}
 	| INC_OP unary_expression { debugPrint("INC_OP unary_expression -> unary_expression"); }
 	{
 
-		$$ = new UnaryExpressionNode( (UnaryExpressionNode*) $2 , UnaryExpressionNode::Increment );
+		$$ = (void*) new UnaryExpressionNode( (UnaryExpressionNode*) $2 , UnaryExpressionNode::Increment );
 
 	}
 	| DEC_OP unary_expression { debugPrint("DEC_OP unary_expression -> unary_expression"); }
 	{
 
-		$$ = new UnaryExpressionNode( (UnaryExpressionNode*) $2 , UnaryExpressionNode::Decrement );
+		$$ = (void*) new UnaryExpressionNode( (UnaryExpressionNode*) $2 , UnaryExpressionNode::Decrement );
 
 	}
 	| unary_operator cast_expression { debugPrint("unary_operator cast_expression -> unary_expression"); }
 	{
 
-		$$ = new UnaryExpressionNode( (UnaryOperatorNode*) $1 , (CastExpressionNode*) $2 );
+		$$ = (void*) new UnaryExpressionNode( (UnaryOperatorNode*) $1 , (CastExpressionNode*) $2 );
 
 	}
 	| SIZEOF unary_expression { debugPrint("SIZEOF unary_expression -> unary_expression"); }
 	{
 
-		$$ = new UnaryExpressionNode( (UnaryExpressionNode*) $1 , UnaryExpressionNode::SizeofExpression );
+		$$ = (void*) new UnaryExpressionNode( (UnaryExpressionNode*) $1 , UnaryExpressionNode::SizeofExpression );
 
 	}
 	| SIZEOF '(' type_name ')' { debugPrint("SIZEOF '(' type_name ')' -> unary_expression"); }
 	{
 
-		$$ = new UnaryExpressionNode( (TypeNameNode*) $1  );
+		$$ = (void*) new UnaryExpressionNode( (TypeNameNode*) $1  );
 
 	}
 	;
@@ -1188,37 +1189,37 @@ unary_operator
 	: '&' { debugPrint("'&' -> unary_operator"); }
 	{
 
-		$$ = new UnaryOperatorNode( UnaryOperatorNode::Address );
+		$$ = (void*) new UnaryOperatorNode( UnaryOperatorNode::Address );
 
 	}
 	| '*' { debugPrint("'*' -> unary_operator"); }
 	{
 
-		$$ = new UnaryOperatorNode( UnaryOperatorNode::Indirection );
+		$$ = (void*) new UnaryOperatorNode( UnaryOperatorNode::Indirection );
 
 	}
 	| '+' { debugPrint("'+' -> unary_operator"); }
 	{
 
-		$$ = new UnaryOperatorNode( UnaryOperatorNode::Positive );
+		$$ = (void*) new UnaryOperatorNode( UnaryOperatorNode::Positive );
 
 	}
 	| '-' { debugPrint("'-' -> unary_operator"); }
 	{
 
-		$$ = new UnaryOperatorNode( UnaryOperatorNode::Negative );
+		$$ = (void*) new UnaryOperatorNode( UnaryOperatorNode::Negative );
 
 	}
 	| '~' { debugPrint("'~' -> unary_operator"); }
 	{
 
-		$$ = new UnaryOperatorNode( UnaryOperatorNode::BitwiseNot );
+		$$ = (void*) new UnaryOperatorNode( UnaryOperatorNode::BitwiseNot );
 
 	}
 	| '!' { debugPrint("'!' -> unary_operator"); }
 	{
 
-		$$ = new UnaryOperatorNode( UnaryOperatorNode::Address );
+		$$ = (void*) new UnaryOperatorNode( UnaryOperatorNode::Address );
 
 	}
 	;
@@ -1227,72 +1228,72 @@ postfix_expression
 	: primary_expression { debugPrint("primary_expression -> postfix_expression"); }
 	{
 	
-		$$ = new PostfixExpressionNode( (PrimaryExpressionNode*) $1 );
+		$$ = (void*) new PostfixExpressionNode( (PrimaryExpressionNode*) $1 );
 
 	}
 	| postfix_expression '[' expression ']' { debugPrint("postfix_expression '[' expression ']' -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (ExpressionNode*) $3 );
+		$$ = (void*) new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (ExpressionNode*) $3 );
 
 	}
 	| postfix_expression '(' ')' { debugPrint("postfix_expression '(' ')' -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::FunctionCall );
+		$$ = (void*) new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::FunctionCall );
 
 	}
 	| postfix_expression '(' argument_expression_list ')' { debugPrint("postfix_expression '(' argument_expression_list ')' -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (ArgExpressionListNode*) $3 );
+		$$ = (void*) new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (ArgExpressionListNode*) $3 );
 
 	}
 	| postfix_expression '.' identifier { debugPrint("postfix_expression '.' identifier -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (IdentifierNode*) $3 , PostfixExpressionNode::DirectMemberAccess );
+		$$ = (void*) new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (IdentifierNode*) $3 , PostfixExpressionNode::DirectMemberAccess );
 
 	}
 	| postfix_expression PTR_OP identifier { debugPrint("postfix_expression PTR_OP identifier -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (IdentifierNode*) $3 , PostfixExpressionNode::PointerMemberAccess );
+		$$ = (void*) new PostfixExpressionNode( (PostfixExpressionNode*) $1 , (IdentifierNode*) $3 , PostfixExpressionNode::PointerMemberAccess );
 
 	}
 	| postfix_expression INC_OP { debugPrint("postfix_expression INC_OP -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::Increment );
+		$$ = (void*) new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::Increment );
 
 	}
 	| postfix_expression DEC_OP { debugPrint("postfix_expression DEC_OP -> postfix_expression"); }
 	{
 
-		$$ = new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::Decrement );
+		$$ = (void*) new PostfixExpressionNode( (PostfixExpressionNode*) $1 , PostfixExpressionNode::Decrement );
 
 	}
 	;
 
 primary_expression
 	: identifier { 
-		$$ = new PrimaryExpressionNode( (IdentifierNode*) $1 );
+		$$ = (void*) new PrimaryExpressionNode( (IdentifierNode*) $1 );
 		}
 	| constant { 
-		$$ = new PrimaryExpressionNode( (ConstantNode*) $1 );
+		$$ = (void*) new PrimaryExpressionNode( (ConstantNode*) $1 );
 		
 		debugPrint("constant -> primary_expression"); 
 		}
 	| string { debugPrint("string -> primary_expression"); }
 	{
 	
-		$$ = new PrimaryExpressionNode( (StringNode*) $1 );
+		$$ = (void*) new PrimaryExpressionNode( (StringNode*) $1 );
 	
 	}
 	| '(' expression ')' { debugPrint("'(' expression ')' -> primary_expression"); } 
 	{
 	
-		$$ = new PrimaryExpressionNode( (ExpressionNode*) $2 );
+		$$ = (void*) new PrimaryExpressionNode( (ExpressionNode*) $2 );
 	
 	}
 	;
@@ -1301,13 +1302,13 @@ argument_expression_list
 	: assignment_expression { debugPrint("assignment_expression -> argument_expression_list"); }
 	{
 	
-		$$ = new ArgExpressionListNode( (AssignmentExpressionNode*) $1 );
+		$$ = (void*) new ArgExpressionListNode( (AssignmentExpressionNode*) $1 );
 	
 	}
 	| argument_expression_list ',' assignment_expression { debugPrint("argument_expression_list ',' assignment_expression -> argument_expression_list"); }
 	{
 	
-		$$ = new ArgExpressionListNode( (ArgExpressionListNode*) $3 , (AssignmentExpressionNode*) $1 );
+		$$ = (void*) new ArgExpressionListNode( (ArgExpressionListNode*) $3 , (AssignmentExpressionNode*) $1 );
 	
 	}
 	;
@@ -1321,7 +1322,7 @@ constant
 			std::string match = scanner->matched();
 			long long i = atoi( match.c_str() );
 			
-			$$ = new ConstantNode( new IntegerConstantNode( i ) );
+			$$ = (void*) new ConstantNode( new IntegerConstantNode( i ) );
 
 			debugPrint("I_CONSTANT -> constant"); 
 		}
@@ -1330,7 +1331,7 @@ constant
 			std::string match = scanner->matched();
 			double f = atof( match.c_str() );
 			
-			$$ = new ConstantNode( new FloatConstantNode( f ) );
+			$$ = (void*) new ConstantNode( new FloatConstantNode( f ) );
 
 			debugPrint("F_CONSTANT -> constant"); 
 		}
@@ -1338,7 +1339,7 @@ constant
 			std::string match = scanner->matched();
 			char c = ( match.c_str() )[0];
 
-			$$ = new ConstantNode( new CharConstantNode( c ) );
+			$$ = (void*) new ConstantNode( new CharConstantNode( c ) );
 		
 			debugPrint("CHAR_LITERAL -> constant"); 
 		}
@@ -1352,7 +1353,7 @@ string
 	: STRING_LITERAL { debugPrint("STRING_LITERAL -> string"); }
 	{
 	
-	$$ = new StringNode( scanner->matched() );
+	$$ = (void*) new StringNode( scanner->matched() );
 	
 	}
 	;
