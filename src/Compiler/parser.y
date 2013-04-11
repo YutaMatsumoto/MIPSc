@@ -513,22 +513,77 @@ direct_abstract_declarator
 
 statement
 	: labeled_statement { debugPrint("labeled_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (LabeledStatementNode*) $1 );
+
+	}
 	| compound_statement { debugPrint("compound_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (CompoundStatementNode*) $1 );
+
+	}
 	| expression_statement { debugPrint("expression_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (ExpressionStatementNode*) $1 );
+
+	}
 	| selection_statement { debugPrint("selection_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (SelectionStatementNode*) $1 );
+
+	}
 	| iteration_statement { debugPrint("iteration_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (IterationStatementNode*) $1 );
+
+	}
 	| jump_statement { debugPrint("jump_statement -> statement"); }
+	{
+
+		$$ = new StatementNode( (JumpStatementNode*) $1 );
+
+	}
 	;
 
 labeled_statement
 	: identifier ':' statement { debugPrint("identifier ':' statement -> labeled_statement"); }
+	{
+
+		$$ = new LabeledStatementNode( (IdentifierNode*) $1 , (StatementNode*) $3 );
+
+	}
 	| CASE constant_expression ':' statement { debugPrint("CASE constant_expression ':' statement -> labeled_statement"); }
+	{
+
+		$$ = new LabeledStatementNode( (ConstantExpressionNode*) $2 , (StatementNode*) $4 );
+
+	}
 	| DEFAULT ':' statement { debugPrint("DEFAULT ':' statement -> labeled_statement"); }
+	{
+
+		$$ = new LabeledStatementNode( (StatementNode*) $3 );
+
+	}
 	;
 
 expression_statement
 	: ';' { debugPrint("';' -> expression_statement"); }
+	{
+
+		$$ = new ExpressionStatementNode();		
+
+	}
 	| expression ';' { debugPrint("expression ';' -> expression_statement"); }
+	{
+
+		$$ = new ExpressionStatementNode( (ExpressionNode*) $1 );
+
+	}
 	;
 
 compound_statement
@@ -540,6 +595,9 @@ compound_statement
 		symbolTable->beginScope(); } statement_list '}' { 
 		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
+
+		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
+
 	  }
 	| '{' {
 		symbolTable->beginScope();
@@ -549,7 +607,10 @@ compound_statement
 	  declaration_list '}' { 
 	  	symbolTable->endScope();
 		debugPrint("---- Declaration Mode Done  ----");
-		debugPrint("'{' declaration_list '}' -> compound_statement"); 
+		debugPrint("'{' declaration_list '}' -> compound_statement");
+
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
+
 	  }
 	| '{' {
 		symbolTable->beginScope();
@@ -561,7 +622,10 @@ compound_statement
 		beginLookupSection();
 	  }
 	  statement_list '}' { 
-		debugPrint("'{' declaration_list statement_list '}' -> compound_statement"); 
+		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
+
+
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
 	  }
 	;
 

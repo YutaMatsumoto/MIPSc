@@ -19,6 +19,7 @@ class TypeNameNode;
 class ConditionalExpressionNode;
 class AssignmentExpressionNode;
 class StatementNode;
+class DeclarationListNode;
 
 //Definitions
 
@@ -1363,7 +1364,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "iteration statement" );
+		return std::string( "selection statement" );
 
 	}
 
@@ -1404,7 +1405,7 @@ public:
 	inline std::string getNodeTypeAsString()
 	{
 
-		return std::string( "iteration statement" );
+		return std::string( "statement list" );
 
 	}
 
@@ -1414,15 +1415,209 @@ public:
 
 };
 
+class CompoundStatementNode : public Node
+{
+
+public:
+
+	inline CompoundStatementNode( DeclarationListNode* _declarationList )
+		: declarationList( _declarationList )
+	{
+
+	}
+
+	inline CompoundStatementNode( StatementListNode* _statementList )
+			: statementList( _statementList )
+		{
+
+		}
+
+	inline CompoundStatementNode( DeclarationListNode* _declarationList , StatementListNode* _statementList)
+			: declarationList( _declarationList ), statementList( _statementList )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "compound statement" );
+
+	}
+
+	DeclarationListNode* declarationList;
+
+	StatementListNode* statementList;
+
+};
+
+class ExpressionStatementNode : public Node
+{
+
+public:
+
+	inline ExpressionStatementNode( )
+	{
+
+	}
+
+	inline ExpressionStatementNode( ExpressionNode* _expression )
+			: expression( _expression )
+		{
+
+		}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "expression statement" );
+
+	}
+
+	ExpressionNode* expression;
+
+};
+
+class LabeledStatementNode : public Node
+{
+
+public:
+
+	enum LabeledStatementType
+	{
+		Label,
+		Case,
+		Default
+	};
+
+	inline LabeledStatementNode( IdentifierNode* _identifier, StatementNode* _statement )
+		: identifier( _identifier ), statement( _statement )
+	{
+		type = Label;
+	}
+
+	inline LabeledStatementNode( ConstantExpressionNode* _constantExpression, StatementNode* _statement )
+			: constantExpression( _constantExpression ), statement( _statement )
+	{
+		type = Case;
+	}
+
+	inline LabeledStatementNode( StatementNode* _statement )
+			: statement( _statement )
+	{
+		type = Default;
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "expression statement" );
+
+	}
+
+	IdentifierNode* identifier;
+	ConstantExpressionNode* constantExpression;
+	StatementNode* statement;
+
+	LabeledStatementType type;
+
+
+};
+
+class StatementNode : public Node
+{
+
+public:
+
+	inline StatementNode( LabeledStatementNode* _labeledStatement )
+		: labeledStatement( _labeledStatement )
+	{
+
+	}
+
+	inline StatementNode( ExpressionStatementNode* _expressionStatement )
+		: expressionStatement( _expressionStatement )
+	{
+
+	}
+
+	inline StatementNode( CompoundStatementNode* _compoundStatement )
+		: compoundStatement( _compoundStatement )
+	{
+
+	}
+
+	inline StatementNode( SelectionStatementNode* _selectionStatement )
+		: selectionStatement( _selectionStatement )
+	{
+
+	}
+
+	inline StatementNode( IterationStatementNode* _iterationStatement )
+		: iterationStatement( _iterationStatement )
+	{
+
+	}
+
+	inline StatementNode( JumpStatementNode* _jumpStatement )
+		: jumpStatement( _jumpStatement )
+	{
+
+	}
+
+	inline std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > operations;
+
+		return operations;
+	}
+
+	inline std::string getNodeTypeAsString()
+	{
+
+		return std::string( "expression statement" );
+
+	}
+
+	LabeledStatementNode* labeledStatement;
+	CompoundStatementNode* compoundStatement;
+	ExpressionStatementNode* expressionStatement;
+	SelectionStatementNode* selectionStatement;
+	IterationStatementNode* iterationStatement;
+	JumpStatementNode* jumpStatement;
+
+
+};
 
 // TODO: This is temporary
-class TypeNameNode : public Node
+class DeclarationListNode : public Node
 {
 
 };
 
 // TODO: This is temporary
-class StatementNode : public Node
+class TypeNameNode : public Node
 {
 
 };
