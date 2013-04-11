@@ -999,7 +999,7 @@ public:
 	}
 
 	inline LogicalOrExpressionNode( LogicalOrExpressionNode* _logicalOrExpression ,
-			LogicalAndExpressionNode* _logicalAndExpression
+			LogicalAndExpressionNode* _logicalAndExpression )
 		: logicalOrExpression( _logicalOrExpression ), logicalAndExpression( _logicalAndExpression )
 	{
 
@@ -1620,7 +1620,6 @@ class DeclarationListNode : public Node
 //
 
 class DeclarationNode;
-class DeclarationListNode;
 class DeclarationSpecifiersNode;
 class StorageClassSpecifierNode;
 class TypeSpecifierNode;
