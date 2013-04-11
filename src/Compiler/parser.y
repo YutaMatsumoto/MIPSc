@@ -191,18 +191,29 @@ function_definition
 declaration
 	: declaration_specifiers ';' { 
 		// TODO : Is this legal???
-		
+		if (!isDeclarationMode()) {
+			throw ParserError(ParserError::SemanticError, "Declaration must be done on top of a block"); 
+		}
 		debugPrint("declaration_specifiers ';' -> declaration"); 
-	  }
+		DeclarationNode* declNode = new DeclarationNode(  (DeclarationSpecifiersNode*) $1 );
+		declNode->injectSymbols(symbolTable);
+		$$ = (void*) declNode;
+		}
 	| declaration_specifiers init_declarator_list ';' { 
-		declare();
+		// declare();
+		if (!isDeclarationMode()) {
+			throw ParserError(ParserError::SemanticError, "Declaration must be done on top of a block"); 
+		}
 		debugPrint("declaration_specifiers init_declarator_list ';' -> declaration"); 
-	  }
+		DeclarationNode* n = new DeclarationNode(  (DeclarationSpecifiersNode*) $1, (InitDeclaratorListNode*) $2);
+		n->injectSymbols(symbolTable);
+		$$ = (void*) n;
+		}
 	;
 
 declaration_list
 	: declaration { 
-		//endDeclarationSection();
+		// beginLookupSection();
 		debugPrint("declaration -> declaration_list"); 
 	  }
 	| declaration_list declaration { debugPrint("declaration_list declaration -> declaration_list"); }
@@ -243,23 +254,23 @@ declaration_specifiers
 
 storage_class_specifier
 	: AUTO { 
-		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Auto);
+		$$ = (void*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Auto);
 		debugPrint("AUTO -> storage_class_specifier"); 
 		}
 	| REGISTER { 
-		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Register);
+		$$ = (void*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Register);
 		debugPrint("REGISTER -> storage_class_specifier"); 
 		}
 	| STATIC { 
-		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Static);
+		$$ = (void*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Static);
 		debugPrint("STATIC -> storage_class_specifier"); 
 		}
 	| EXTERN { 
-		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Extern);
+		$$ = (void*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Extern);
 		debugPrint("EXTERN -> storage_class_specifier"); 
 		}
 	| TYPEDEF { 
-		$$ = (Node*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Typedef);
+		$$ = (void*) new StorageClassSpecifierNode(StorageClassSpecifierNode::Typedef);
 		debugPrint("TYPEDEF -> storage_class_specifier"); 
 		}
 	;
@@ -355,16 +366,26 @@ struct_declaration_list
 	;
 
 init_declarator_list
-	: init_declarator { debugPrint("init_declarator -> init_declarator_list"); }
-	| init_declarator_list ',' init_declarator { debugPrint("init_declarator_list ',' init_declarator -> init_declarator_list"); }
+	: init_declarator { 
+		debugPrint("init_declarator -> init_declarator_list"); 
+		$$ = (void*) new InitDeclaratorListNode( (InitDeclaratorNode*) $1 );
+		}
+	| init_declarator_list ',' init_declarator { 
+		debugPrint("init_declarator_list ',' init_declarator -> init_declarator_list"); 
+		$$ = (void*) new InitDeclaratorListNode( (InitDeclaratorListNode*) $1, (InitDeclaratorNode*)$2 );
+		}
 	;
 
 init_declarator
-	: declarator { debugPrint("declarator -> init_declarator"); }
+	: declarator { 
+		debugPrint("declarator -> init_declarator"); 
+		$$ = (void*)new InitDeclaratorNode((DeclaratorNode*) $1 );
+		}
 	| declarator '=' initializer { 
 		// TODO : initialize here or even before when something reduces to initializer ?
 		/* initializeValue(); */
 		debugPrint("declarator '=' initializer -> init_declarator"); 
+		$$ = (void*)new InitDeclaratorNode((DeclaratorNode*) $1, (InitializerNode*) $2);
 	  }
 	;
 
@@ -407,8 +428,14 @@ enumerator
 	;
 
 declarator
-	: direct_declarator { debugPrint("direct_declarator -> declarator"); }
-	| pointer direct_declarator { debugPrint("pointer direct_declarator -> declarator"); }
+	: direct_declarator { 
+		debugPrint("direct_declarator -> declarator"); 
+		$$ = (void*) new DeclaratorNode((DirectDeclaratorNode*)$1);
+		}
+	| pointer direct_declarator { 
+		debugPrint("pointer direct_declarator -> declarator"); 
+		$$ = (void*) new DeclaratorNode((PointerNode*)$1, (DirectDeclaratorNode*)$1);
+		}
 	;
 
 direct_declarator
@@ -416,31 +443,40 @@ direct_declarator
 			//^^ Can the scanner match on a non-terminal?
 			//pushIdentifier();
 			debugPrint("identifier -> direct_declarator"); 
+			$$ = (void*) new DirectDeclaratorNode( (IdentifierNode*)$1 );
 		}
 	| '(' declarator ')' { 
 			// TODO : what's this guy???
 			debugPrint("'(' declarator ')' -> direct_declarator"); 
 		}
 	| direct_declarator '[' ']' { 
-			specifyArray();
 			debugPrint("direct_declarator '[' ']' -> direct_declarator"); 
+			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
+			ddn->specifyArray();
+			$$ = (void*) ddn;
 		}
 	| direct_declarator '[' constant_expression ']' { 
-			// TODO : harness constant_expression
-			specifyArray();
 			debugPrint("direct_declarator '[' constant_expression ']' -> direct_declarator"); 
+			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
+			ddn->specifyArray( (ConstantExpressionNode*)$3 );
+			$$ = (void*) ddn;
 		}
 	| direct_declarator '(' ')' { 
 			// TODO : function call or structure instantiation ?
 			debugPrint("direct_declarator '(' ')' -> direct_declarator"); 
 		}
 	| direct_declarator '(' parameter_type_list ')' { 
-			specifyFunction();
 			debugPrint("direct_declarator '(' parameter_type_list ')' -> direct_declarator"); 
+			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
+			ddn->specifyFunction( (ParameterTypeListNode*)$3 );
+			$$ = (void*) ddn;
 		}
 	| direct_declarator '(' identifier_list ')' { 
-			specifyFunctionCall();	// TODO : or structure instantiation ?
 			debugPrint("direct_declarator '(' identifier_list ')' -> direct_declarator"); 
+			specifyFunctionCall();	// TODO : or structure instantiation ?
+			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
+			ddn->specifyFunctionCall( (IdentifierListNode*)$3 );
+			$$ = (void*) ddn;
 		}
 	;
 

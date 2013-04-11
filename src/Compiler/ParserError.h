@@ -23,6 +23,7 @@ public:
 
 	enum ErrorKind {
 		NotImplemented,
+		SemanticError,
 		Whatever
 	}; 
 

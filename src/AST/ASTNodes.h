@@ -1102,8 +1102,12 @@ class TypeNameNode;
 class AbstractDeclaratorNode;
 class DirectAbstractDeclaratorNode;
 
+class ConstantExpressionNode;
+
 class DeclarationNode : public Node {
 public:
+
+
 	DeclarationNode() {}	
 
 	// -----------------------------------------------------------------------
@@ -1117,123 +1121,33 @@ public:
 	{}
 
 	// -----------------------------------------------------------------------
+	
+	// TODO
+	virtual std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > ops;
+		return ops;
+	}
+
+	virtual std::string getNodeTypeAsString()
+	{
+		return "DeclarationNode";
+	}
 
 	void declare(SymbolTable* stab) 
 	{
 		std::cout << "DeclarationNode::declare() TODO" << std::endl;
 	}
 
+	// TODO
+	void injectSymbols(SymbolTable* stab) 
+	{
+	
+	}
+
 private:
 	InitDeclaratorListNode* initDeclList;		
 	DeclarationSpecifiersNode* declSpecifier;
-};
-
-class DeclarationSpecifiersNode {
-
-	std::vector<TypeSpecifierNode*> tSpecs;
-	std::vector<StorageClassSpecifierNode*> sSpecs;
-	std::vector<TypeQualifierNode*> qSpecs;
-	
-public:
-
-	DeclarationSpecifiersNode( StorageClassSpecifierNode* s )
-	{
-		sSpecs.push_back(s);
-	}
-
-	DeclarationSpecifiersNode( StorageClassSpecifierNode* s, DeclarationSpecifiersNode* ds )
-	{
-		*this = *ds;		
-		sSpecs.push_back(s);	
-	}
-
-	DeclarationSpecifiersNode( TypeSpecifierNode* ts  )
-	{
-		tSpecs.push_back( ts );
-	}
-
-	DeclarationSpecifiersNode( TypeSpecifierNode* ts, DeclarationSpecifiersNode* ds )
-	{
-		*this = *ds;
-		tSpecs.push_back(ts);
-	}
-
-	DeclarationSpecifiersNode( TypeQualifierNode* ts )
-	{
-		qSpecs.push_back(ts);	
-	}
-
-	DeclarationSpecifiersNode( TypeQualifierNode*tq, DeclarationSpecifiersNode* ds)
-	{
-		*this = *ds;
-		qSpecs.push_back(tq);
-	}
-
-
-// 	DeclarationSpecifiersNode() {}
-
-// 	void addTypeSpecifier(TypeSpecifierNode t)
-// 	{
-// 		tSpecs.push_back(t);
-// 	}
-
-// 	void addStorageSpecifier(StorageClassSpecifierNode s)
-// 	{
-// 		sSpecs.push_back(s);
-// 	}
-
-// 	void addTypeQualifier(std::string s)
-// 	{
-// 		qSpecs.push_back(s);
-// 	}
-
-// 	bool determineType()
-// 	{
-// 		// TODO
-// 		return true;
-// 	}
-
-	
-};
-
-class StorageClassSpecifierNode {
-private:
-	int specifier;
-
-const char specs[5][10] = {
-	"auto",
-	"register",
-	"static",
-	"extern",
-	"typedef"
-};
-
-public:
-
-	virtual std::vector< Operation > toOperations() { } 
-
-	virtual std::string getNodeTypeAsString() {}
-
-	enum StorageSpecifierKind {
-		Auto = 0,  StorageSpecifierKindStart = 0,
-		Register,
-		Static,
-		Extern,
-		Typedef, StorageSpecifierKindEnd = Typedef,
-	};
-
-	StorageClassSpecifierNode() {}
-	// StorageClassSpecifierNode(const std::string& s) : s(s) {}
-	StorageClassSpecifierNode(int storageSpecKind ) 
-	{
-		if ( StorageSpecifierKindStart  <= storageSpecKind && storageSpecKind <= StorageSpecifierKindEnd ) {
-			specifier = storageSpecKind;
-		}
-		else {
-			throw ParserError(ParserError::Whatever, "StorageClassSpecifierNode");
-		}
-	}
-
 };
 
 static const size_t specs_size = 13;
@@ -1349,6 +1263,11 @@ public:
 		return false;
 	}
 
+	int getTypeSpecifier()
+	{
+		return specifier;
+	}
+
 	std::string toString()
 	{	
 		for (size_t spec = TypeSpecifierStart; spec < TypeSpecifierEnd; spec++ ) {
@@ -1363,6 +1282,190 @@ private:
 	void error(std::string error) 
 	{
 		std::cout << "TypeSpecifier Error : " << error << std::endl;
+	}
+
+};
+
+class DeclarationSpecifiersNode {
+
+	std::vector<TypeSpecifierNode*> tSpecs;
+	std::vector<StorageClassSpecifierNode*> sSpecs;
+	std::vector<TypeQualifierNode*> qSpecs;
+	
+public:
+
+	DeclarationSpecifiersNode( StorageClassSpecifierNode* s )
+	{
+		sSpecs.push_back(s);
+	}
+
+	DeclarationSpecifiersNode( StorageClassSpecifierNode* s, DeclarationSpecifiersNode* ds )
+	{
+		*this = *ds;		
+		sSpecs.push_back(s);	
+	}
+
+	DeclarationSpecifiersNode( TypeSpecifierNode* ts  )
+	{
+		tSpecs.push_back( ts );
+	}
+
+	DeclarationSpecifiersNode( TypeSpecifierNode* ts, DeclarationSpecifiersNode* ds )
+	{
+		*this = *ds;
+		tSpecs.push_back(ts);
+	}
+
+	DeclarationSpecifiersNode( TypeQualifierNode* ts )
+	{
+		qSpecs.push_back(ts);	
+	}
+
+	DeclarationSpecifiersNode( TypeQualifierNode*tq, DeclarationSpecifiersNode* ds)
+	{
+		*this = *ds;
+		qSpecs.push_back(tq);
+	}
+
+	void error(std::string msg)
+	{
+		std::cerr << "DeclarationSpecifiersNode Error : "<< msg << std::endl;	
+	}
+
+	struct TypeInfo {
+
+		TypeInfo()
+			: longSpecified(false), longLongSpecified(false),
+			  unsignedSpecified(false), integral(TypeSpecifierNode::TypeSpecifierEnd) {}
+
+		TypeInfo(bool longS, bool llongS, bool uS , int integral)
+			: longSpecified(longS), longLongSpecified(llongS),
+			  unsignedSpecified(uS), integral(integral) {}
+
+		bool longSpecified;
+		bool longLongSpecified ;
+		bool unsignedSpecified ;
+		int  integral ;
+	};
+	TypeInfo getTypeInfo()
+	{
+
+		bool longSpecified = false;
+		bool longLongSpecified = false;
+		bool unsignedSpecified = false;
+		int  integral = TypeSpecifierNode::TypeSpecifierEnd;
+
+		//
+		// type check
+		//
+		for (auto type : tSpecs) {
+			if( type->isIntegral() ) {
+				if (integral == TypeSpecifierEnd) 
+					integral = type->getTypeSpecifier();
+				else 
+					error("type specified more than once.");
+				continue;
+			}
+			else if (type->getTypeSpecifier()==TypeSpecifierNode::Long) {
+				if (longLongSpecified)
+					error("long specified more than twice");
+				if (longSpecified) {
+					longLongSpecified = true;
+					longSpecified = false;
+				}
+				else 
+					longSpecified = true;
+			}
+			else if (type->getTypeSpecifier()==TypeSpecifierNode::Unsigned) {
+				if (unsignedSpecified)
+					error("unsigned specified more than once");
+				else
+					unsignedSpecified = true;
+			}
+		}
+
+		if ( (longSpecified || longLongSpecified) && integral == TypeSpecifierEnd )
+			integral = TypeSpecifierNode::Int;
+
+		// 
+		// Error Check
+		//
+
+		// error if integral not specified or cast to int
+		// TODO
+
+		// error if ( Float || Double ) && ( Long || Unsigned )
+		if ( ( TypeSpecifierNode::Float || TypeSpecifierNode::Double ) && (TypeSpecifierNode::Long || TypeSpecifierNode::Unsigned) )
+			error("( Float || Double ) && ( Long || Unsigned ) is illegal");
+
+		// error if Void && ( Long || Unsigned )
+		if ( TypeSpecifierNode::Void && ( TypeSpecifierNode::Long || TypeSpecifierNode::Unsigned) )
+			error("Void && ( Long || Unsigned ) is illegal");
+
+		// error if Void and not a function return
+		// TODO
+		// if (TypeSpecifierNode::Void)
+
+		return TypeInfo( longSpecified, longLongSpecified, unsignedSpecified, integral );
+	}
+
+	// TODO
+	struct StorageInfo {
+	};
+	StorageInfo getStorageInfo()
+	{
+		return StorageInfo();
+	}
+
+	// TODO
+	struct TypeQualInfo {
+		bool constness;
+		bool volatileness;
+	};
+	TypeQualInfo getTypeQualInfo() 
+	{
+		return TypeQualInfo();
+	};
+
+	
+};
+
+class StorageClassSpecifierNode {
+private:
+	int specifier;
+
+const char specs[5][10] = {
+	"auto",
+	"register",
+	"static",
+	"extern",
+	"typedef"
+};
+
+public:
+
+	virtual std::vector< Operation > toOperations() { } 
+
+	virtual std::string getNodeTypeAsString() {}
+
+	enum StorageSpecifierKind {
+		Auto = 0,  StorageSpecifierKindStart = 0,
+		Register,
+		Static,
+		Extern,
+		Typedef, StorageSpecifierKindEnd = Typedef,
+	};
+
+	StorageClassSpecifierNode() {}
+	// StorageClassSpecifierNode(const std::string& s) : s(s) {}
+	StorageClassSpecifierNode(int storageSpecKind ) 
+	{
+		if ( StorageSpecifierKindStart  <= storageSpecKind && storageSpecKind <= StorageSpecifierKindEnd ) {
+			specifier = storageSpecKind;
+		}
+		else {
+			throw ParserError(ParserError::Whatever, "StorageClassSpecifierNode");
+		}
 	}
 
 };
@@ -1383,6 +1486,19 @@ class InitDeclaratorListNode {
 public:
 
 	InitDeclaratorListNode() {}
+
+	InitDeclaratorListNode( InitDeclaratorNode* n)
+	{
+		declaratorList.push_back(n);
+
+	}
+
+	InitDeclaratorListNode( InitDeclaratorListNode* a,  InitDeclaratorNode* b )
+	{
+		*this = *a;
+		declaratorList.push_back(b);
+	}
+
 
 	void add(InitDeclaratorNode* initDecl) 
 	{
@@ -1455,6 +1571,12 @@ public:
 
 	DirectDeclaratorNode() {initData();}
 
+	DirectDeclaratorNode( DirectDeclaratorNode* a)
+	{
+		initData();	
+		dirDeclNode = a;
+	}
+
 	DirectDeclaratorNode( IdentifierNode* id )
 		: id(id)
 	{initData();}
@@ -1464,13 +1586,45 @@ public:
 		array = false;
 		functionCall = false;
 		functionDefinition = false;
+
+		id = NULL;
+		dirDeclNode = NULL;
+		declNode = NULL;
+		idListNode = NULL;
+		arraySize = NULL;
+		funcParams = NULL;
+	}
+
+	void specifyArray()
+	{
+		array = true;
+	}
+
+	void specifyArray( ConstantExpressionNode* a)
+	{
+		arraySize = a;
+		array = true;
+	}
+
+	void specifyFunction( ParameterTypeListNode* a )
+	{
+		funcParams = a;
+		functionDefinition = true; // TODO is this right?
+	}
+
+	void specifyFunctionCall( IdentifierListNode* a )
+	{
+		functionCall = true;
+		idListNode = a;	
 	}
 	
 private:
 	IdentifierNode* id;
-	DirectDeclaratorNode* dirDeclNode;
 	DeclaratorNode* declNode;		
+	DirectDeclaratorNode* dirDeclNode;
 	IdentifierListNode* idListNode;
+	ConstantExpressionNode* arraySize;
+	ParameterTypeListNode* funcParams;
 
 	bool array;
 	bool functionCall;
@@ -1478,6 +1632,7 @@ private:
 };
 
 class PointerNode {
+
 };
 
 class TypeQualifierListNode {
@@ -1542,6 +1697,40 @@ class AbstractDeclaratorNode {
 };
 
 class DirectAbstractDeclaratorNode {
+};
+
+//  -----------------------------------------------------------------------------
+//
+//  Fake Expression to cope with a ton of expressions
+//
+
+class Expression {
+public:
+	Expression(Expression* exp) 
+		: exp1(exp) 
+	{
+		initData();
+	}
+
+	Expression(Expression* exp1, Expression* exp2) 
+		: exp1(exp1), exp2(exp2)
+	{
+		initData();
+	}
+
+	void initData()
+	{
+		exp1 = exp2 = NULL;	
+	}
+
+private:
+	typedef std::string ExpressionKind; // temporary
+	ExpressionKind kind;	
+	Expression* exp1;
+	Expression* exp2;
+};
+
+class ConstantExpressionNode {
 };
 
 #endif /* ASTNODES_H_ */
