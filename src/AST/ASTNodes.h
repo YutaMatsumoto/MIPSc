@@ -1648,82 +1648,6 @@ class AbstractDeclaratorNode;
 class DirectAbstractDeclaratorNode;
 
 // class ConstantExpressionNode;
-
-class  DeclarationNode : public Node {
-public:
-
-
-	DeclarationNode() {}	
-
-	// -----------------------------------------------------------------------
-	
-	DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
-		: declSpecifier(declSpecifier)
-	{}
-
-	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
-		: declSpecifier(declSpecifier), initDeclList(initDeclList)
-	{}
-
-	// -----------------------------------------------------------------------
-	
-	// TODO
-	virtual std::vector< Operation > toOperations()
-	{
-		std::vector< Operation > ops;
-		return ops;
-	}
-
-	virtual std::string getNodeTypeAsString()
-	{
-		return std::string( "DeclarationNode" );
-	}
-
-	void declare(SymbolTable* stab) 
-	{
-	// BIG TODO
-		std::vector<Symbol*> symList;
-	
-		// DeclarationSpecifiersNode::TypeInfo tInfo = declSpecifier->getTypeInfo();	
-		// for (auto initDecl : initDeclList->declaratorList ) {
-		// 	auto decl = initDecl->declNode;
-		// 	auto init = initDecl->initNode;
-		// 	auto dirDecl = decl->dirDeclNode;
-		// 	auto ptr     = decl->ptrNode;
-
-		// 	int dKind = dirDecl->getKind() ;
-		// 	switch(dKind) {
-		// 		case None: 
-		// 			// Type()
-		// 			dirDecl->identifier;
-		// 			break;
-		// 		case DirectDeclaratorKind::Array: 
-		// 			break;
-		// 		case DirectDeclaratorKind::ArrayWithSize: 
-		// 			break;
-		// 		case DirectDeclaratorKind::FunctionDefinition: 
-		// 			break;
-		// 		case DirectDeclaratorKind::FunctionDefinitionWithParam: 
-		// 			break;
-		// 		case DirectDeclaratorKind::FunctionCall: 
-		// 			break;
-		// 		case DirectDeclaratorKind::FunctionCallWithParam:
-		// 			break;
-		// 	}
-		// }
-	}
-
-	std::string toString() const
-	{
-		std::cout << "DeclarationNode" << std::endl;
-	}
-
-
-private:
-	InitDeclaratorListNode* initDeclList;		
-	DeclarationSpecifiersNode* declSpecifier;
-};
-
 class TypeSpecifierNode {
 
 private:
@@ -2008,6 +1932,81 @@ public:
 	};
 
 	
+};
+
+class  DeclarationNode : public Node {
+public:
+
+
+	DeclarationNode() {}	
+
+	// -----------------------------------------------------------------------
+	
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
+		: declSpecifier(declSpecifier)
+	{}
+
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
+		: declSpecifier(declSpecifier), initDeclList(initDeclList)
+	{}
+
+	// -----------------------------------------------------------------------
+	
+	// TODO
+	virtual std::vector< Operation > toOperations()
+	{
+		std::vector< Operation > ops;
+		return ops;
+	}
+
+	virtual std::string getNodeTypeAsString()
+	{
+		return std::string( "DeclarationNode" );
+	}
+
+	void declare(SymbolTable* stab) 
+	{
+	// BIG TODO
+		std::vector<Symbol*> symList;
+	
+		DeclarationSpecifiersNode::TypeInfo tInfo = declSpecifier->getTypeInfo();	
+		// for (auto initDecl : initDeclList->declaratorList ) {
+		// 	auto decl = initDecl->declNode;
+		// 	auto init = initDecl->initNode;
+		// 	auto dirDecl = decl->dirDeclNode;
+		// 	auto ptr     = decl->ptrNode;
+
+		// 	int dKind = dirDecl->getKind() ;
+		// 	switch(dKind) {
+		// 		case None: 
+		// 			// Type()
+		// 			dirDecl->identifier;
+		// 			break;
+		// 		case DirectDeclaratorKind::Array: 
+		// 			break;
+		// 		case DirectDeclaratorKind::ArrayWithSize: 
+		// 			break;
+		// 		case DirectDeclaratorKind::FunctionDefinition: 
+		// 			break;
+		// 		case DirectDeclaratorKind::FunctionDefinitionWithParam: 
+		// 			break;
+		// 		case DirectDeclaratorKind::FunctionCall: 
+		// 			break;
+		// 		case DirectDeclaratorKind::FunctionCallWithParam:
+		// 			break;
+		// 	}
+		// }
+	}
+
+	std::string toString() const
+	{
+		std::cout << "DeclarationNode" << std::endl;
+	}
+
+
+private:
+	InitDeclaratorListNode* initDeclList;		
+	DeclarationSpecifiersNode* declSpecifier;
 };
 
 class StorageClassSpecifierNode {

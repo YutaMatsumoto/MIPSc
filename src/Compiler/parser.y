@@ -208,7 +208,7 @@ declaration
 		DeclarationNode* n = new DeclarationNode(  (DeclarationSpecifiersNode*) $1, (InitDeclaratorListNode*) $2);
 		n->declare(symbolTable);
 		$$ = (void*) n;
-		std::cout << n->toString() << std::endl;
+		/* std::cout << n->toString() << std::endl; */
 		}
 	;
 
