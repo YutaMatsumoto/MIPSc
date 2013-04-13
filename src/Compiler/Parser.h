@@ -59,7 +59,9 @@ class Parser: public ParserBase
 		int lex();						// returns the next token from the
 										// lexical scanner. 
 		void print();					// use, e.g., d_token, d_loc
-		void debugPrint(std::string);
+		void debugPrint( std::string );
+
+		std::vector< Operation* >* generate3AC();
 
 		struct ParserDebug {
 			ParserDebug() 
@@ -108,7 +110,7 @@ class Parser: public ParserBase
 		void specifyFunctionCall();
 		bool isDeclarationMode();
 
-
+		TranslationUnitNode* ast;
 
 		bool isUseless(int token);	
 
