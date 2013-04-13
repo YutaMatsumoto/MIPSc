@@ -12,6 +12,8 @@
 #include "Node.h"
 #include <cfloat>
 #include "SymbolTable.h"
+#include "Type.h"
+#include "BuiltinType.h"
 
 //Forward Declarations
 class ExpressionNode;
@@ -1654,6 +1656,8 @@ public:
 // DeclarationNode ... DirectAbstractDeclaratorNode
 //
 
+using namespace std;
+
 class DeclarationNode;
 class DeclarationSpecifiersNode;
 class StorageClassSpecifierNode;
@@ -1690,7 +1694,7 @@ class TypeSpecifierNode {
 
 private:
 	size_t specs_size; 
-	std::vector<std::string> specs; 
+	static std::vector<std::string> specs; 
 	// typedef int TypeSpecEnum;
 	// TypeSpecEnum specifier;
 	size_t specifier;
@@ -1703,12 +1707,12 @@ public:
 		Char     = 1, IntegralStart = 1,
 		Short    = 2,
 		Int      = 3,
-		Long     = 4,
-		Float    = 5,
-		Double   = 6,
-		Signed   = 7, IntegralEnd   = 7,
-		Unsigned = 8,
-		Struct   = 9,
+		Float    = 4,
+		Double   = 5,
+		Long     = 6, IntegralEnd = 6, ModifierStart = 6,
+		Signed   = 7, 
+		Unsigned = 8, 
+		Struct   = 9, ModifierEnd = 9,
 		Union    = 10,
 		Enum     = 11,
 		Typedef  = 12,
@@ -1716,6 +1720,38 @@ public:
 	};
 
 public:
+
+	static std::string integralToString(int integral)
+	{
+		if (integral==Void) 
+			return "void";
+		else if (integral==Char) 
+			return "char";
+		else if (integral==Short) 
+			return "short";
+		else if (integral==Int) 
+			return "int";
+		else if (integral==Long) 
+			return "long";
+		else if (integral==Float) 
+			return "float";
+		else if (integral==Double) 
+			return "double";
+		else if (integral==Signed) 
+			return "signed";
+		else if (integral==Unsigned) 
+			return "unsigned";
+		else if (integral==Struct) 
+			return "struct";
+		else if (integral==Union) 
+			return "union";
+		else if (integral==Enum) 
+			return "enum";
+		else if (integral==Typedef) 
+			return "typedef";
+		else
+			return "invalid type";
+	}
 
 	std::vector<Operation> toOperations()
 	{
@@ -1771,7 +1807,7 @@ public:
 		if ( ! success ) {
 			std::string s( std::to_string( specifier ) );
 			if ( specifier < specs_size ) {
-				s = s + " " + specs[specifier];
+				s = s + " " + integralToString( specifier );
 			}
 			error("TypeSpecifier is invalid. <" + s + "> given.");
 		}
@@ -1779,29 +1815,32 @@ public:
 
 	void initData()
 	{
-		specs.push_back( "void" );
-		specs.push_back( "char" );
-		specs.push_back( "short" );
-		specs.push_back( "int" );
-		specs.push_back( "long" );
-		specs.push_back( "float" );
-		specs.push_back( "double" );
-		specs.push_back( "signed" );
-		specs.push_back( "unsigned" );
-		specs.push_back( "struct" );
-		specs.push_back( "union" );
-		specs.push_back( "enum" );
-		specs.push_back( "typedef");
+		// specs.push_back( "void" );
+		// specs.push_back( "char" );
+		// specs.push_back( "short" );
+		// specs.push_back( "int" );
+		// specs.push_back( "long" );
+		// specs.push_back( "float" );
+		// specs.push_back( "double" );
+		// specs.push_back( "signed" );
+		// specs.push_back( "unsigned" );
+		// specs.push_back( "struct" );
+		// specs.push_back( "union" );
+		// specs.push_back( "enum" );
+		// specs.push_back( "typedef");
 		specs_size = 13;
 	}
 
 	bool isIntegral()
 	{
+		// std::cout << "isIntegral() : "  << toString() << " : ";
 		for ( size_t integral = IntegralStart ; integral<IntegralEnd ; integral++ ) {
 			if ( specifier == integral ) {
+				// std::cout << " true  " << std::endl;
 				return true;
 			}
 		}
+		// std::cout << " false " << std::endl;
 		return false;
 	}
 
@@ -1814,7 +1853,7 @@ public:
 	{	
 		for (size_t spec = TypeSpecifierStart; spec < TypeSpecifierEnd; spec++ ) {
 			if ( specifier == spec ) {
-				return specs[spec];
+				return integralToString( spec );
 			}
 		}
 		return "";
@@ -1884,6 +1923,16 @@ public:
 			: longSpecified(longS), longLongSpecified(llongS),
 			  unsignedSpecified(uS), integral(integral) {}
 
+		std::string toString()
+		{
+			std::string s="TypeInfo: ";
+			if (longSpecified)s += "long ";
+			if (longLongSpecified) s+= "long long ";
+			if (unsignedSpecified) s+= "unsigned ";
+			s += TypeSpecifierNode::integralToString(integral);
+			return s;
+		}
+
 		bool longSpecified;
 		bool longLongSpecified ;
 		bool unsignedSpecified ;
@@ -1937,11 +1986,12 @@ public:
 		// TODO
 
 		// error if ( Float || Double ) && ( Long || Unsigned )
-		if ( ( TypeSpecifierNode::Float || TypeSpecifierNode::Double ) && (TypeSpecifierNode::Long || TypeSpecifierNode::Unsigned) )
+		if ( ( integral==TypeSpecifierNode::Float || integral==TypeSpecifierNode::Double ) 
+				&& ( integral==TypeSpecifierNode::Long || integral==TypeSpecifierNode::Unsigned ) )
 			error("( Float || Double ) && ( Long || Unsigned ) is illegal");
 
 		// error if Void && ( Long || Unsigned )
-		if ( TypeSpecifierNode::Void && ( TypeSpecifierNode::Long || TypeSpecifierNode::Unsigned) )
+		if ( integral==TypeSpecifierNode::Void && ( integral==TypeSpecifierNode::Long || integral==TypeSpecifierNode::Unsigned) )
 			error("Void && ( Long || Unsigned ) is illegal");
 
 		// error if Void and not a function return
@@ -1972,81 +2022,6 @@ public:
 	
 };
 
-class  DeclarationNode : public Node {
-public:
-
-
-	DeclarationNode() {}	
-
-	// -----------------------------------------------------------------------
-	
-	DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
-		: declSpecifier(declSpecifier)
-	{}
-
-	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
-		: declSpecifier(declSpecifier), initDeclList(initDeclList)
-	{}
-
-	// -----------------------------------------------------------------------
-	
-	// TODO
-	virtual std::vector< Operation > toOperations()
-	{
-		std::vector< Operation > ops;
-		return ops;
-	}
-
-	virtual std::string getNodeTypeAsString()
-	{
-		return std::string( "DeclarationNode" );
-	}
-
-	void declare(SymbolTable* stab) 
-	{
-	// BIG TODO
-		std::vector<Symbol*> symList;
-	
-		DeclarationSpecifiersNode::TypeInfo tInfo = declSpecifier->getTypeInfo();	
-		// for (auto initDecl : initDeclList->declaratorList ) {
-		// 	auto decl = initDecl->declNode;
-		// 	auto init = initDecl->initNode;
-		// 	auto dirDecl = decl->dirDeclNode;
-		// 	auto ptr     = decl->ptrNode;
-
-		// 	int dKind = dirDecl->getKind() ;
-		// 	switch(dKind) {
-		// 		case None: 
-		// 			// Type()
-		// 			dirDecl->identifier;
-		// 			break;
-		// 		case DirectDeclaratorKind::Array: 
-		// 			break;
-		// 		case DirectDeclaratorKind::ArrayWithSize: 
-		// 			break;
-		// 		case DirectDeclaratorKind::FunctionDefinition: 
-		// 			break;
-		// 		case DirectDeclaratorKind::FunctionDefinitionWithParam: 
-		// 			break;
-		// 		case DirectDeclaratorKind::FunctionCall: 
-		// 			break;
-		// 		case DirectDeclaratorKind::FunctionCallWithParam:
-		// 			break;
-		// 	}
-		// }
-	}
-
-	std::string toString() const
-	{
-		std::cout << "DeclarationNode" << std::endl;
-	}
-
-
-private:
-	InitDeclaratorListNode* initDeclList;		
-	DeclarationSpecifiersNode* declSpecifier;
-};
-
 class StorageClassSpecifierNode {
 private:
 	int specifier;
@@ -2061,10 +2036,6 @@ const char specs[5][10] = {
 
 public:
 
-	virtual std::vector< Operation > toOperations() { } 
-
-	virtual std::string getNodeTypeAsString() {}
-
 	enum StorageSpecifierKind {
 		Auto = 0,  StorageSpecifierKindStart = 0,
 		Register,
@@ -2073,17 +2044,7 @@ public:
 		Typedef, StorageSpecifierKindEnd = Typedef,
 	};
 
-	StorageClassSpecifierNode() {}
-	// StorageClassSpecifierNode(const std::string& s) : s(s) {}
-	StorageClassSpecifierNode(int storageSpecKind ) 
-	{
-		if ( StorageSpecifierKindStart  <= storageSpecKind && storageSpecKind <= StorageSpecifierKindEnd ) {
-			specifier = storageSpecKind;
-		}
-		else {
-			throw ParserError(ParserError::Whatever, "StorageClassSpecifierNode");
-		}
-	}
+	StorageClassSpecifierNode(int storageSpecKind );
 
 };
 
@@ -2111,7 +2072,9 @@ public:
 
 	InitDeclaratorListNode( InitDeclaratorListNode* a,  InitDeclaratorNode* b )
 	{
-		*this = *a;
+		for (auto initDecl : a->declaratorList) {
+			declaratorList.push_back(initDecl);
+		}
 		declaratorList.push_back(b);
 	}
 
@@ -2122,66 +2085,6 @@ public:
 	}
 
 	std::vector<InitDeclaratorNode*> declaratorList;
-};
-
-class InitDeclaratorNode {
-public:
-
-	InitDeclaratorNode() {}
-
-	InitDeclaratorNode(DeclaratorNode* declNode) 
-		: declNode(declNode)
-	{}
-
-	InitDeclaratorNode(DeclaratorNode* declNode, InitializerNode* initNode) 
-		: declNode(declNode), initNode(initNode)
-	{}
-
-	DeclaratorNode* declNode;
-	InitializerNode* initNode;
-};
-
-class StructDeclarationNode {
-};
-
-class SpecifierQualifierListNode {
-};
-
-class StructDeclaratorListNode {
-};
-
-class StructDeclaratorNode {
-};
-
-class EnumSpecifierNode {
-};
-
-class EnumeratorListNode {
-};
-
-class EnumeratorNode {
-};
-
-class DeclaratorNode {
-public:
-
-	DeclaratorNode() {}
-
-	DeclaratorNode(DirectDeclaratorNode* dirDeclNode) 
-		: dirDeclNode(dirDeclNode), ptrNode(NULL)
-	{}
-
-	DeclaratorNode(PointerNode* ptrNode, DirectDeclaratorNode* dirDeclNode) 
-		: dirDeclNode(dirDeclNode), ptrNode(ptrNode)
-	{}
-
-	bool isPointer()
-	{
-		return (ptrNode!=NULL);
-	}
-
-	DirectDeclaratorNode* dirDeclNode;
-	PointerNode* ptrNode;
 };
 
 class DirectDeclaratorNode {
@@ -2197,6 +2100,25 @@ public:
 		FunctionCallWithParam
 	};
 
+	string toString()
+	{
+		if (id) {
+			return id->getId();
+		}
+		else if (dirDeclNode){
+			return dirDeclNode->toString();
+		}
+		else {
+			error("both of id and dirDeclNode is null");
+			return "bad DirectDeclaratorNode";
+		}
+	}
+
+	void error(string msg)
+	{
+		cerr << "Error : DirectDeclaratorKind : " << msg << endl;
+	}
+
 	DirectDeclaratorNode() {initData();}
 
 	DirectDeclaratorNode( DirectDeclaratorNode* a)
@@ -2206,8 +2128,10 @@ public:
 	}
 
 	DirectDeclaratorNode( IdentifierNode* id )
-		: id(id)
-	{initData();}
+	{
+		initData();
+		this->id = id;
+	}
 
 	void initData()
 	{
@@ -2258,13 +2182,14 @@ public:
 		return kind;
 	}
 	
-private:
 	IdentifierNode* id;
 	DeclaratorNode* declNode;		
 	DirectDeclaratorNode* dirDeclNode;
 	IdentifierListNode* idListNode;
 	ConstantExpressionNode* arraySize;
 	ParameterTypeListNode* funcParams;
+
+private:
 
 	int kind;
 
@@ -2273,6 +2198,74 @@ private:
 	bool functionDefinition; // declaration?
 };
 
+class DeclaratorNode {
+public:
+
+	DeclaratorNode(DirectDeclaratorNode* dirDeclNode) 
+		: dirDeclNode(dirDeclNode), ptrNode(NULL)
+	{}
+
+	DeclaratorNode(PointerNode* ptrNode, DirectDeclaratorNode* dirDeclNode) 
+		: dirDeclNode(dirDeclNode), ptrNode(ptrNode)
+	{}
+
+	bool isPointer()
+	{
+		return (ptrNode!=NULL);
+	}
+
+	string toString()
+	{
+		return dirDeclNode->toString();
+	}
+
+	DirectDeclaratorNode* dirDeclNode;
+	PointerNode* ptrNode;
+};
+
+class InitDeclaratorNode {
+public:
+
+	InitDeclaratorNode() {}
+
+	InitDeclaratorNode(DeclaratorNode* declNode) 
+		: declNode(declNode)
+	{}
+
+	InitDeclaratorNode(DeclaratorNode* declNode, InitializerNode* initNode) 
+		: declNode(declNode), initNode(initNode)
+	{}
+
+	string toString()
+	{
+		string s = "InitDeclaratorNode: " + declNode->toString();
+		return s;
+	}
+
+	DeclaratorNode* declNode;
+	InitializerNode* initNode;
+};
+
+class StructDeclarationNode {
+};
+
+class SpecifierQualifierListNode {
+};
+
+class StructDeclaratorListNode {
+};
+
+class StructDeclaratorNode {
+};
+
+class EnumSpecifierNode {
+};
+
+class EnumeratorListNode {
+};
+
+class EnumeratorNode {
+};
 class PointerNode {
 
 };
@@ -2340,6 +2333,43 @@ class AbstractDeclaratorNode {
 
 class DirectAbstractDeclaratorNode {
 };
+
+class DeclarationNode : public Node {
+public:
+
+
+	DeclarationNode() {}	
+
+	// -----------------------------------------------------------------------
+	
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
+		: declSpecifier(declSpecifier)
+	{}
+
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
+		: declSpecifier(declSpecifier), initDeclList(initDeclList)
+	{}
+
+	// -----------------------------------------------------------------------
+	
+	// TODO
+	virtual std::vector< Operation > toOperations();
+
+	virtual std::string getNodeTypeAsString();
+
+	void error(std::string msg);
+
+	void declare(SymbolTable* stab) ;
+
+	Type* buildType(DeclarationSpecifiersNode::TypeInfo tInfo) const;
+
+	std::string toString() const;
+
+private:
+	InitDeclaratorListNode* initDeclList;		
+	DeclarationSpecifiersNode* declSpecifier;
+};
+
 
 //  -----------------------------------------------------------------------------
 //

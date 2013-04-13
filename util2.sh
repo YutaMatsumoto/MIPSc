@@ -1,12 +1,4 @@
 # ----------------------------------------------------------------------------
-# set variables
-
-#
-#       Set Root Dir
-#
-top=$(git rev-parse --show-toplevel)
-src_dir="$top/src"
-
 # 
 #       Find Functions
 #
@@ -25,12 +17,15 @@ function find_file_from_top
 	find $top -type f -name "$1"
 }
 
-#
-#       Set Directories
-#
-debug_dir=$(find_dir_from_top Debug2)
+# ----------------------------------------------------------------------------
+# set variables
+
+top=$(git rev-parse --show-toplevel)
+src_dir="$top/src"
+debug_dir=$top
 compiler_dir=$(find_dir_in_src Compiler)
 test_dir=$(find_dir_in_src Tests)
+makefile=$debug_dir/makefile
 mipsc=$debug_dir/mipsc
 
 # ----------------------------------------------------------------------------
@@ -49,7 +44,7 @@ function compile()
 	make
 	retval=$?
 	cd $backto
-	return retval
+	return $retval
 }
 
 function clean()
@@ -97,8 +92,12 @@ function regen()
 # test 
 function t()
 {
-	echo "Util2.sh"
+	echo "Executing Util2.sh t()"
+	echo "on test_dir: $test_dir"
+	echo "with mipsc $mipsc"
+
 	for c in $( find $test_dir -name "*.c"); do
+		# echo "Executing $mipsc $c >/dev/null 2>&1"
 		$mipsc $c >/dev/null 2>&1
 		if [ $? -ne 0 ]; then
 			echo "$c does not compile"

@@ -9,14 +9,15 @@ CC=g++-4.7 -std=c++0x
 CCOPTION=-g -Wall -Wno-reorder
 
 root=$(git rev-parse --show-toplevel)
+src_dir=$(root)/src
 
-INCLUDEDIRS = $(shell find $(shell git rev-parse --show-toplevel)/Debug2/src/ -type d -exec echo -I{} \;)
+INCLUDEDIRS = $(shell find src/ -type d -exec echo -I{} \;)
 
-SRCS  := $(shell find $(root) -name "*.cpp")
-OBJS  := $(SRCS:.cpp=.o)
+SRCS  = $(shell find src/ -name "*.cpp")
+OBJS  = $(SRCS:.cpp=.o)
 
 COMPILER=mipsc
-MAIN:=$(shell find src/Compiler -name "main.cc")
+MAIN = $(shell find src/Compiler -name "main.cc")
 LEX_OBJ = src/Compiler/lex.o 
 PARSER_OBJ = src/Compiler/parse.o
 COMPILER_OBJ = $(LEX_OBJ) $(PARSER_OBJ)
@@ -51,19 +52,21 @@ $(SCANNERIMPL) : $(SCANNERDEF)
 	cd src/Compiler && $(FLEX) $(FLEXFLAG) $(shell basename $(SCANNERDEF) )
 
 $(LEX_OBJ) : $(SCANNERIMPL) $(shell find -name "Scanner*")
-	cd src/Compiler && $(CC) $(CCOPTION) $(INCLUDEDIRS) -c lex.cc -o lex.o
+	$(CC) $(CCOPTION) $(INCLUDEDIRS) -c $(SCANNERIMPL) -o $(LEX_OBJ) 
+
+#	cd src/Compiler && $(CC) $(CCOPTION) $(INCLUDEDIRS) -c lex.cc -o lex.o
 
 # ----------------------------------------------------------------------------
 # parser
 PARSERDEF = $(shell find -name "parser.y")
-PARSERIMPL = $(shell find -name "parser.cc")
+PARSERIMPL = $(shell find -name "parse.cc")
 
 
 $(PARSERIMPL) : $(PARSERDEF)
 	cd src/Compiler && $(BISONCPP) $(BISONFLAG) $(shell basename $(PARSERDEF) )
 
 $(PARSER_OBJ) : $(PARSERIMPL)
-	cd src/Compiler && $(CC) $(CCOPTION) $(INCLUDEDIRS) -c parse.cc -o parse.o
+	$(CC) $(CCOPTION) $(INCLUDEDIRS) -c $(PARSERIMPL) -o $(PARSER_OBJ)
 
 # ---------------------------------------------------------------------
 # misc

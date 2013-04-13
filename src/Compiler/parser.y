@@ -232,7 +232,6 @@ declaration_specifiers
 		$$ = (void*) new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
 		}
 	| type_specifier { 
-		TypeSpecifierNode* ts = static_cast<TypeSpecifierNode*>( $1 );
 		determineType();
 		debugPrint("type_specifier -> declaration_specifiers"); 
 		$$ = (void*) new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1 );
@@ -369,18 +368,22 @@ struct_declaration_list
 init_declarator_list
 	: init_declarator { 
 		debugPrint("init_declarator -> init_declarator_list"); 
-		$$ = (void*) new InitDeclaratorListNode( (InitDeclaratorNode*) $1 );
+		InitDeclaratorNode* initDecl = (InitDeclaratorNode*) $1;
+		$$ = (void*) new InitDeclaratorListNode( initDecl );
 		}
 	| init_declarator_list ',' init_declarator { 
 		debugPrint("init_declarator_list ',' init_declarator -> init_declarator_list"); 
-		$$ = (void*) new InitDeclaratorListNode( (InitDeclaratorListNode*) $1, (InitDeclaratorNode*)$2 );
+		InitDeclaratorNode* initDecl = (InitDeclaratorNode*) $3;
+		$$ = (void*) new InitDeclaratorListNode( (InitDeclaratorListNode*)$1, initDecl);
 		}
 	;
 
 init_declarator
 	: declarator { 
 		debugPrint("declarator -> init_declarator"); 
-		$$ = (void*)new InitDeclaratorNode((DeclaratorNode*) $1 );
+		InitDeclaratorNode* initDecl = new InitDeclaratorNode((DeclaratorNode*) $1 );
+		/* std::cout << "reduction in init_declarator" << initDecl->toString() << std::endl; */
+		$$ = (void*) initDecl;
 		}
 	| declarator '=' initializer { 
 		// TODO : initialize here or even before when something reduces to initializer ?

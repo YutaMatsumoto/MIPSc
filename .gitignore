@@ -5,10 +5,12 @@
 *parse.cc
 
 MIPSc*
+mipsc
 
 *.o
 *.out
 *\.d
+*\.P
 
 *debug
 *tokens
