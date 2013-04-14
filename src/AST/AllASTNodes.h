@@ -8,44 +8,6 @@
 #ifndef ALLASTNODES_H_
 #define ALLASTNODES_H_
 
-class AdditiveExpressionNode;
-class AndExpressionNode;
-class ArgExpressionListNode;
-class AssignmentExpressionNode;
-class AssignmentOperatorNode;
-class CastExpressionNode;
-class CharConstantNode;
-class CompoundStatementNode;
-class ConditionalExpressionNode;
-class ConstantExpressionNode;
-class ConstantNode;
-class EqualityExpressionNode;
-class ExclusiveOrExpressionNode;
-class ExpressionNode;
-class ExpressionStatementNode;
-class ExternalDeclarationNode;
-class FloatConstantNode;
-class IdentifierNode;
-class InclusiveOrExpressionNode;
-class IntegerConstantNode;
-class IterationStatementNode;
-class JumpStatementNode;
-class LabeledStatementNode;
-class LogicalAndExpressionNode;
-class LogicalOrExpressionNode;
-class MultiplicativeExpressionNode;
-class PostfixExpressionNode;
-class PrimaryExpressionNode;
-class RelationalExpressionNode;
-class SelectionStatementNode;
-class ShiftExpressionNode;
-class StatementListNode;
-class StatementNode;
-class StringNode;
-class TranslationUnitNode;
-class UnaryExpressionNode;
-class UnaryOperatorNode;
-
 #include "AdditiveExpressionNode.h"
 #include "AndExpressionNode.h"
 #include "ArgExpressionListNode.h"
@@ -83,7 +45,5 @@ class UnaryOperatorNode;
 #include "TranslationUnitNode.h"
 #include "UnaryExpressionNode.h"
 #include "UnaryOperatorNode.h"
-
-
 
 #endif /* ALLASTNODES_H_ */

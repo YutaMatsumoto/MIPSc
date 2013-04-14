@@ -7,8 +7,6 @@
 
 #include <string>
 #include "SymbolLocation.h"
-//#include "Type.h"
-
 
 #ifndef SYMBOL_H_
 #define SYMBOL_H_
@@ -17,7 +15,6 @@ class Type;
 
 class Symbol
 {
-	// friend std::ostream& operator<< (std::ostream &out, Symbol& sym);
 
 public:
 

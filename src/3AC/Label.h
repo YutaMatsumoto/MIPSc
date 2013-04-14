@@ -10,23 +10,31 @@
 
 #include "Operation.h"
 
+#include <string>
+
 class Label: public Operation {
 
 public:
 
-	inline Label( std::string label )
+	inline Label( std::string _name , unsigned int _id )
 	{
 
-		name = label;
+		name = _name + std::to_string( id );
+
+		id = _id;
 
 	}
 
 	inline std::string to3AC()
 	{
 
-		return label + std::string(": ")
+		return name + std::string(": ")
 
 	}
+
+protected:
+
+	unsigned int id;
 
 };
 

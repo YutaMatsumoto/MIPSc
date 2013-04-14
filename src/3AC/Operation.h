@@ -12,6 +12,7 @@
 #include "Symbol.h"
 
 typedef Symbol Operand;
+typedef Symbol Temporary;
 
 class Operation
 {

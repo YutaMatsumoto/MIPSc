@@ -23,12 +23,10 @@ AdditiveExpressionNode::AdditiveExpressionNode( AdditiveExpressionNode* _additiv
 
 std::vector< Operation* >* AdditiveExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-	return operations;
 }
 
-	//~PrimaryExpressionNode(){}
 
 std::string AdditiveExpressionNode::getNodeTypeAsString()
 {
