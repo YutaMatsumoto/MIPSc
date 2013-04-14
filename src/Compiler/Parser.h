@@ -2,9 +2,9 @@
 
 //AST Stuff
 #include "Node.h"
+#include "AllASTNodes.h"
+#include "ParserError.h"
 #include "ASTNodes.h"
-
-//#include "ParserError.h"
 
 // $insert baseclass
 #include "Parserbase.h"

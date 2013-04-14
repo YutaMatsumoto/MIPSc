@@ -16,34 +16,21 @@ class Node {
 
 public:
 
-	//virtual ~Node();
+	virtual ~Node();
 
 	virtual std::vector< Operation* >* toOperations() = 0;
 
 	virtual std::string getNodeTypeAsString() = 0;
 
-	inline Node* getParent()
-	{
+	Node* getParent();
 
-		return parent;
-
-	}
-
-	inline void setParent( Node* _parent )
-	{
-
-		parent = _parent;
-
-	}
+	void setParent( Node* _parent );
 
 protected:
 
 	Node* parent;
 
-	Node( )
-	{
-
-	}
+	Node();
 
 };
 

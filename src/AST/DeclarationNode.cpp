@@ -1,8 +1,8 @@
 #include "ASTNodes.h"
 
-std::vector< Operation > DeclarationNode::toOperations()
+std::vector< Operation* >* DeclarationNode::toOperations()
 {
-	std::vector< Operation > ops;
+	std::vector< Operation* >* ops = new std::vector< Operation* >();
 	return ops;
 }
 
