@@ -12,23 +12,17 @@ class IdTracker {
 
 public:
 
-	inline static unsigned int getId()
-	{
+	static IdTracker* getInstance();
 
-		return counter++;
-
-	}
+	unsigned int getId();
 
 private:
 
-	static unsigned int counter;
+	static IdTracker* instance;
 
-	inline IdTracker()
-	{
+	unsigned int counter;
 
-		counter = 0;
-
-	};
+	IdTracker();
 
 	IdTracker(IdTracker const&);       // Don't Implement
 
