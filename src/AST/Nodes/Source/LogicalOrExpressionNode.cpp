@@ -23,6 +23,10 @@ ASTData* LogicalOrExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( logicalOrExpression == 0 )
+
+		return logicalAndExpression->toOperations();
+
 	return data;
 }
 

@@ -7,15 +7,15 @@
 
 #include "LogicalAndExpressionNode.h"
 
-LogicalAndExpressionNode::LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ) : inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
+LogicalAndExpressionNode::LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpression ) : inclusiveOrExpression( _inclusiveOrExpression )
 {
 
 }
 
 LogicalAndExpressionNode::LogicalAndExpressionNode( LogicalAndExpressionNode* _logicalAndExpression,
-		InclusiveOrExpressionNode* _inclusiveOrExpressionNode
+		InclusiveOrExpressionNode* _inclusiveOrExpression
 		)
-	: logicalAndExpression( _logicalAndExpression ), inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
+	: logicalAndExpression( _logicalAndExpression ), inclusiveOrExpression( _inclusiveOrExpression )
 {
 
 }
@@ -23,6 +23,10 @@ LogicalAndExpressionNode::LogicalAndExpressionNode( LogicalAndExpressionNode* _l
 ASTData* LogicalAndExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
+
+	if( logicalAndExpression == 0 )
+
+		return inclusiveOrExpression->toOperations();
 
 	return data;
 }

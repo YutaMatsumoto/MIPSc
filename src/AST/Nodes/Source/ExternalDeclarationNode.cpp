@@ -16,6 +16,10 @@ ASTData* ExternalDeclarationNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( declaration )
+
+		return declaration->toOperations();
+
 	return data;
 }
 

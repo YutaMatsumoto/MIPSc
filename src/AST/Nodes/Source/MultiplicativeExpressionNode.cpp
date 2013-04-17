@@ -29,7 +29,7 @@ MultiplicativeExpressionNode::MultiplicativeExpressionNode( MultiplicativeExpres
 
 ASTData* MultiplicativeExpressionNode::toOperations()
 {
-	if( multiplicativeExpression == 0 )
+		if( multiplicativeExpression == 0 )
 		{
 
 			return castExpression->toOperations();
@@ -59,7 +59,7 @@ ASTData* MultiplicativeExpressionNode::toOperations()
 		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , castExpressionResult->symbolType );
 
 		//create a new operation to compute the addition
-		MultOp* op = new MultOp( temporary , multiplicativeResult , castExpressionResult );
+		MultOp* op = new MultOp( temporary , multiplicativeResult , castExpressionResult , type );
 
 		//Add the multiplicative operations to what we will return
 		operations->insert( operations->end() , multiplicativeData->code->begin() , multiplicativeData->code->end() );

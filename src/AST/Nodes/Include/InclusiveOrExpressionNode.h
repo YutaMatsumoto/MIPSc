@@ -23,7 +23,7 @@ class InclusiveOrExpressionNode : public Node
 public:
 
 	InclusiveOrExpressionNode( ExclusiveOrExpressionNode* _exclusiveOrExpression );
-	InclusiveOrExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
+	InclusiveOrExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpression ,
 			ExclusiveOrExpressionNode* _exclusiveOrExpression
 			);
 	ASTData* toOperations();
@@ -31,7 +31,7 @@ public:
 
 	~InclusiveOrExpressionNode();
 
-	InclusiveOrExpressionNode* inclusiveOrExpressionNode;
+	InclusiveOrExpressionNode* inclusiveOrExpression;
 	ExclusiveOrExpressionNode* exclusiveOrExpression;
 
 };

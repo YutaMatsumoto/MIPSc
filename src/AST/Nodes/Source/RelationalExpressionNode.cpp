@@ -25,6 +25,10 @@ ASTData* RelationalExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( relationalExpression == 0 )
+
+		return shiftExpression->toOperations();
+
 	return data;
 }
 

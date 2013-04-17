@@ -12,6 +12,9 @@
 #include "Operation.h"
 #include <vector>
 #include <string>
+#include "ASTNodes.h"
+
+class DeclarationNode;
 
 class ExternalDeclarationNode : public Node {
 
@@ -20,6 +23,9 @@ public:
 	ExternalDeclarationNode();
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
+
+	DeclarationNode* declaration;
+	//FunctionDefinitionNode* functionDefinition;
 
 };
 

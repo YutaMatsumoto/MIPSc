@@ -27,6 +27,10 @@ ASTData* ExclusiveOrExpressionNode::toOperations()
 
 	ASTData* data = new ASTData();
 
+	if( exclusiveOrExpression == 0 )
+
+		return andExpression->toOperations();
+
 	return data;
 }
 

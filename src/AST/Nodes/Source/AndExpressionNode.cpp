@@ -24,6 +24,10 @@ ASTData* AndExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( andExpression == 0 )
+
+		return equalityExpression->toOperations();
+
 	return data;
 }
 

@@ -26,6 +26,10 @@ ASTData* AssignmentExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( assignmentOperator == 0 )
+
+		return conditionalExpression->toOperations();
+
 	return data;
 }
 

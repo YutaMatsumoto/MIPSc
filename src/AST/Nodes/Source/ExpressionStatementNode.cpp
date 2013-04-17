@@ -22,6 +22,10 @@ ASTData* ExpressionStatementNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( expression )
+
+		return expression->toOperations();
+
 	return data;
 }
 

@@ -15,6 +15,8 @@
 
 #include "ExternalDeclarationNode.h"
 
+class ExternalDeclarationNode;
+
 class TranslationUnitNode : public Node
 {
 

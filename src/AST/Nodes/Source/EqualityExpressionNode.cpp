@@ -25,6 +25,10 @@ ASTData* EqualityExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( equalityExpression == 0 )
+
+		return relationalExpression->toOperations();
+
 	return data;
 }
 

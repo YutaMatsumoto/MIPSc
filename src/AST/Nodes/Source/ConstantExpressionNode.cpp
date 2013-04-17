@@ -15,9 +15,7 @@ ConstantExpressionNode::ConstantExpressionNode( ConditionalExpressionNode* _cond
 
 ASTData* ConstantExpressionNode::toOperations()
 {
-	ASTData* data = new ASTData();
-
-	return data;
+	return conditionalExpression->toOperations();
 }
 
 std::string ConstantExpressionNode::getNodeTypeAsString()

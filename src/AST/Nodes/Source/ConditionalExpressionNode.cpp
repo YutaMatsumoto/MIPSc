@@ -26,6 +26,10 @@ ASTData*ConditionalExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( expression == 0 )
+
+		return logicalOrExpression->toOperations();
+
 	return data;
 }
 

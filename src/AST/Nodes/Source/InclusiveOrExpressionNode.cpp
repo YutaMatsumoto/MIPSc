@@ -12,10 +12,10 @@ InclusiveOrExpressionNode::InclusiveOrExpressionNode( ExclusiveOrExpressionNode*
 
 }
 
-InclusiveOrExpressionNode::InclusiveOrExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
+InclusiveOrExpressionNode::InclusiveOrExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpression ,
 		ExclusiveOrExpressionNode* _exclusiveOrExpression
 		)
-	: exclusiveOrExpression( _exclusiveOrExpression ), inclusiveOrExpressionNode( _inclusiveOrExpressionNode )
+	: exclusiveOrExpression( _exclusiveOrExpression ), inclusiveOrExpression( _inclusiveOrExpression )
 {
 
 }
@@ -23,6 +23,10 @@ InclusiveOrExpressionNode::InclusiveOrExpressionNode( InclusiveOrExpressionNode*
 ASTData* InclusiveOrExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
+
+	if( inclusiveOrExpression == 0 )
+
+		return exclusiveOrExpression->toOperations();
 
 	return data;
 }

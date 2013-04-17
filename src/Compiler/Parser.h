@@ -53,6 +53,8 @@ class Parser: public ParserBase
 		void configDebugPrint(
 			std::ostream& os, std::string prefix="", std::string postfix="");
 
+		ASTData* generate3AC();
+
 
 	private:
 		void error(char const *msg);	// called on (syntax) errors
@@ -61,7 +63,7 @@ class Parser: public ParserBase
 		void print();					// use, e.g., d_token, d_loc
 		void debugPrint( std::string );
 
-		ASTData* generate3AC();
+
 
 		struct ParserDebug {
 			ParserDebug() 

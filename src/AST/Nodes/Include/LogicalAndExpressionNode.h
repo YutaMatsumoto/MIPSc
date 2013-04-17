@@ -22,15 +22,15 @@ class LogicalAndExpressionNode : public Node
 
 public:
 
-	LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode );
+	LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpression );
 	LogicalAndExpressionNode( LogicalAndExpressionNode* _logicalAndExpression,
-			InclusiveOrExpressionNode* _inclusiveOrExpressionNode
+			InclusiveOrExpressionNode* _inclusiveOrExpression
 			);
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 	~LogicalAndExpressionNode();
 
-	InclusiveOrExpressionNode* inclusiveOrExpressionNode;
+	InclusiveOrExpressionNode* inclusiveOrExpression;
 	LogicalAndExpressionNode* logicalAndExpression;
 
 };
