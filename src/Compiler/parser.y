@@ -339,14 +339,12 @@ type_specifier
 	;
 
 type_qualifier
-	: CONST { 
-		setConst();
-		debugPrint("CONST -> type_qualifier"); 
-	  }
-	| VOLATILE { 
-		setVolitle();
-		debugPrint("VOLATILE -> type_qualifier"); 
-	  }
+	: CONST { debugPrint("CONST -> type_qualifier"); } {
+		$$ = (void*) new TypeQualifierNode(TypeQualifierNode::Const);
+		}
+	| VOLATILE { debugPrint("VOLATILE -> type_qualifier"); } {
+		$$ = (void*) new TypeQualifierNode(TypeQualifierNode::Volatile);
+		}
 	;
 
 struct_or_union_specifier
@@ -398,10 +396,22 @@ struct_declaration
 	;
 
 specifier_qualifier_list
-	: type_specifier { debugPrint("type_specifier -> specifier_qualifier_list"); }
-	| type_specifier specifier_qualifier_list { debugPrint("type_specifier specifier_qualifier_list -> specifier_qualifier_list"); }
-	| type_qualifier { debugPrint("type_qualifier -> specifier_qualifier_list"); }
-	| type_qualifier specifier_qualifier_list { debugPrint("type_qualifier specifier_qualifier_list -> specifier_qualifier_list"); }
+	: type_specifier { 
+		debugPrint("type_specifier -> specifier_qualifier_list"); 
+		$$ = (void*) new SpecifierQualifierListNode( (TypeSpecifierNode*) $1);
+		}
+	| type_specifier specifier_qualifier_list { 
+		debugPrint("type_specifier specifier_qualifier_list -> specifier_qualifier_list"); 
+		$$ = (void*) new SpecifierQualifierListNode( (TypeSpecifierNode*) $1, (SpecifierQualifierListNode*)$2);
+		}
+	| type_qualifier { 
+		debugPrint("type_qualifier -> specifier_qualifier_list"); 
+		$$ = (void*) new SpecifierQualifierListNode((TypeQualifierNode*)$1);
+		}
+	| type_qualifier specifier_qualifier_list { 
+		debugPrint("type_qualifier specifier_qualifier_list -> specifier_qualifier_list"); 
+		$$ = (void*) new SpecifierQualifierListNode((TypeQualifierNode*)$1, (SpecifierQualifierListNode*)$2);
+		}
 	;
 
 struct_declarator_list
@@ -485,36 +495,78 @@ direct_declarator
 	;
 
 pointer
-	: '*' { debugPrint("'*' -> pointer"); }
-	| '*' type_qualifier_list { debugPrint("'*' type_qualifier_list -> pointer"); }
-	| '*' pointer { debugPrint("'*' pointer -> pointer"); }
-	| '*' type_qualifier_list pointer { debugPrint("'*' type_qualifier_list pointer -> pointer"); }
+	: '*' { debugPrint("'*' -> pointer"); } {
+		$$ = (void*) new PointerNode();
+		}
+	| '*' type_qualifier_list { debugPrint("'*' type_qualifier_list -> pointer"); } {
+		$$ = (void*) new PointerNode((TypeQualifierListNode*) $2);
+		}
+	| '*' pointer { debugPrint("'*' pointer -> pointer"); } {
+		$$ = (void*) new PointerNode((PointerNode*) $2);
+		}
+	| '*' type_qualifier_list pointer { debugPrint("'*' type_qualifier_list pointer -> pointer"); } {
+		$$ = (void*) new PointerNode((TypeQualifierListNode*) $2, (PointerNode*)$3 );
+		}
 	;
 
 type_qualifier_list
-	: type_qualifier { debugPrint("type_qualifier -> type_qualifier_list"); }
-	| type_qualifier_list type_qualifier { debugPrint("type_qualifier_list type_qualifier -> type_qualifier_list"); }
+	: type_qualifier { 
+		debugPrint("type_qualifier -> type_qualifier_list"); 
+		$$ = (void*) new TypeQualifierListNode( (TypeQualifierNode*)$1 );
+		}
+	| type_qualifier_list type_qualifier { 
+		debugPrint("type_qualifier_list type_qualifier -> type_qualifier_list"); 
+		$$ = (void*) new TypeQualifierListNode( (TypeQualifierListNode*)$1, (TypeQualifierNode*)$2 );
+		}
 	;
 
 parameter_type_list
-	: parameter_list { debugPrint("parameter_list -> parameter_type_list"); }
-	| parameter_list ',' ELLIPSIS { debugPrint("parameter_list ',' ELLIPSIS -> parameter_type_list"); }
+	: parameter_list { debugPrint("parameter_list -> parameter_type_list"); } {
+		$$ = (void*) new ParameterTypeListNode( (ParameterListNode*) $1 );
+		}
+	| parameter_list ',' ELLIPSIS { 
+		debugPrint("parameter_list ',' ELLIPSIS -> parameter_type_list"); 
+		ParameterTypeListNode* pl = new ParameterTypeListNode( (ParameterListNode*) $1 );
+		pl->setVariableArgumentList();
+		$$ = (void*) pl;
+		}
 	;
 
 parameter_list
-	: parameter_declaration { debugPrint("parameter_declaration -> parameter_list"); }
-	| parameter_list ',' parameter_declaration { debugPrint("parameter_list ',' parameter_declaration -> parameter_list"); }
+	: parameter_declaration { 
+		debugPrint("parameter_declaration -> parameter_list"); 
+		$$ = (void*) new ParameterListNode((ParameterDeclarationNode*)$1);
+		}
+	| parameter_list ',' parameter_declaration { 
+		debugPrint("parameter_list ',' parameter_declaration -> parameter_list"); 
+		$$ = (void*) new ParameterListNode( (ParameterListNode*)$1, (ParameterDeclarationNode*)$2);
+		}
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator { debugPrint("declaration_specifiers declarator -> parameter_declaration"); }
-	| declaration_specifiers { debugPrint("declaration_specifiers -> parameter_declaration"); }
-	| declaration_specifiers abstract_declarator { debugPrint("declaration_specifiers abstract_declarator -> parameter_declaration"); }
+	: declaration_specifiers declarator { debugPrint("declaration_specifiers declarator -> parameter_declaration"); } {
+		$$ = (void*) new
+		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1, (DeclaratorNode*)$2);	
+		}
+	| declaration_specifiers { debugPrint("declaration_specifiers -> parameter_declaration"); } {
+		$$ = (void*) new 
+		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1);	
+		}
+	| declaration_specifiers abstract_declarator { debugPrint("declaration_specifiers abstract_declarator -> parameter_declaration"); } {
+		$$ = (void*) new
+		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1, (AbstractDeclaratorNode*)$2);	
+		}
 	;
 
 identifier_list
-	: identifier { debugPrint("identifier -> identifier_list"); }
-	| identifier_list ',' identifier { debugPrint("identifier_list ',' identifier -> identifier_list"); }
+	: identifier { debugPrint("identifier -> identifier_list"); } {
+			$$ = (void*) new 
+			IdentifierListNode( (IdentifierNode*)$1 );
+		}
+	| identifier_list ',' identifier { debugPrint("identifier_list ',' identifier -> identifier_list"); } {
+			$$ = (void*) new 
+			IdentifierListNode( (IdentifierListNode*)$1 , (IdentifierNode*)$2 );
+		}
 	;
 
 initializer
@@ -541,26 +593,84 @@ initializer_list
 	;
 
 type_name
-	: specifier_qualifier_list { debugPrint("specifier_qualifier_list -> type_name"); }
-	| specifier_qualifier_list abstract_declarator { debugPrint("specifier_qualifier_list abstract_declarator -> type_name"); }
+	: specifier_qualifier_list { debugPrint("specifier_qualifier_list -> type_name"); } {
+		$$ = (void*) new 
+		TypeNameNode( (SpecifierQualifierListNode*)$1 );
+		}
+	| specifier_qualifier_list abstract_declarator { debugPrint("specifier_qualifier_list abstract_declarator -> type_name"); } {
+		$$ = (void*) new 
+		TypeNameNode( (SpecifierQualifierListNode*)$1, (AbstractDeclaratorNode*)$2 );
+		}
 	;
 
 abstract_declarator
-	: pointer { debugPrint("pointer -> abstract_declarator"); }
-	| direct_abstract_declarator { debugPrint("direct_abstract_declarator -> abstract_declarator"); }
-	| pointer direct_abstract_declarator { debugPrint("pointer direct_abstract_declarator -> abstract_declarator"); }
+	: pointer { debugPrint("pointer -> abstract_declarator"); } {
+		$$ = (void*) new 
+		AbstractDeclaratorNode((PointerNode*)$1 );
+		}
+	| direct_abstract_declarator { debugPrint("direct_abstract_declarator -> abstract_declarator"); } {
+		$$ = (void*) new 
+		AbstractDeclaratorNode((DirectAbstractDeclaratorNode*)$1 );
+		}
+	| pointer direct_abstract_declarator { debugPrint("pointer direct_abstract_declarator -> abstract_declarator"); } {
+		$$ = (void*) new 
+		AbstractDeclaratorNode((PointerNode*)$1, (DirectAbstractDeclaratorNode*)$2 );
+		}
 	;
 
 direct_abstract_declarator
-	: '(' abstract_declarator ')' { debugPrint("'(' abstract_declarator ')' -> direct_abstract_declarator"); }
-	| '[' ']' { debugPrint("'[' ']' -> direct_abstract_declarator"); }
-	| '[' constant_expression ']' { debugPrint("'[' constant_expression ']' -> direct_abstract_declarator"); }
-	| direct_abstract_declarator '[' ']' { debugPrint("direct_abstract_declarator '[' ']' -> direct_abstract_declarator"); }
-	| direct_abstract_declarator '[' constant_expression ']' { debugPrint("direct_abstract_declarator '[' constant_expression ']' -> direct_abstract_declarator"); }
-	| '(' ')' { debugPrint("'(' ')' -> direct_abstract_declarator"); }
-	| '(' parameter_type_list ')' { debugPrint("'(' parameter_type_list ')' -> direct_abstract_declarator"); }
-	| direct_abstract_declarator '(' ')' { debugPrint("direct_abstract_declarator '(' ')' -> direct_abstract_declarator"); }
-	| direct_abstract_declarator '(' parameter_type_list ')' { debugPrint("direct_abstract_declarator '(' parameter_type_list ')' -> direct_abstract_declarator"); }
+	: '(' abstract_declarator ')' { debugPrint("'(' abstract_declarator ')' -> direct_abstract_declarator"); } {
+		$$ = (void*) new DirectAbstractDeclaratorNode( 
+			(AbstractDeclaratorNode*) $2
+		);
+		}
+	| '[' ']' { debugPrint("'[' ']' -> direct_abstract_declarator"); } {
+		$$ = (void*) new DirectAbstractDeclaratorNode( 
+			DirectAbstractDeclaratorNode::Square
+		);
+		}
+	| '[' constant_expression ']' { debugPrint("'[' constant_expression ']' -> direct_abstract_declarator"); } {
+		$$ = (void*) new DirectAbstractDeclaratorNode( 
+			(ConstantExpressionNode*) $2
+		);
+		}
+	| direct_abstract_declarator '[' ']' { debugPrint("direct_abstract_declarator '[' ']' -> direct_abstract_declarator"); } {
+		// TODO
+		$$ = (void*) new DirectAbstractDeclaratorNode( 
+			(DirectAbstractDeclaratorNode*) $1,
+			DirectAbstractDeclaratorNode::Square
+		);
+		}
+	| direct_abstract_declarator '[' constant_expression ']' { debugPrint("direct_abstract_declarator '[' constant_expression ']' -> direct_abstract_declarator"); } {
+		$$ = (void*) new DirectAbstractDeclaratorNode( 
+			(DirectAbstractDeclaratorNode*)	$1, 
+			(ConstantExpressionNode*)	$3
+		);
+		}
+	| '(' ')' { debugPrint("'(' ')' -> direct_abstract_declarator"); } {
+		// TODO
+		$$ = (void*) new DirectAbstractDeclaratorNode( 
+			DirectAbstractDeclaratorNode::Normal
+		);
+		}
+	| '(' parameter_type_list ')' { debugPrint("'(' parameter_type_list ')' -> direct_abstract_declarator"); } {
+		$$ = (void*) new DirectAbstractDeclaratorNode( 
+			(ParameterTypeListNode*) $2
+		);
+		}
+	| direct_abstract_declarator '(' ')' { debugPrint("direct_abstract_declarator '(' ')' -> direct_abstract_declarator"); } {
+		// TODO
+		$$ = (void*) new DirectAbstractDeclaratorNode( 
+			(DirectAbstractDeclaratorNode*) $1,
+			DirectAbstractDeclaratorNode::Normal
+		);
+		}
+	| direct_abstract_declarator '(' parameter_type_list ')' { debugPrint("direct_abstract_declarator '(' parameter_type_list ')' -> direct_abstract_declarator"); } {
+		$$ = (void*) new DirectAbstractDeclaratorNode ( 
+			(DirectAbstractDeclaratorNode*) $1,
+			(ParameterTypeListNode*) $3
+		);
+		}
 	;
 
 statement
