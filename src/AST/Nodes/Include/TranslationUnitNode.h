@@ -22,7 +22,7 @@ public:
 
 	TranslationUnitNode( ExternalDeclarationNode* _externalDeclaration );
 	TranslationUnitNode( ExternalDeclarationNode* _externalDeclaration, TranslationUnitNode* _translationUnit );
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	TranslationUnitNode* translationUnit;

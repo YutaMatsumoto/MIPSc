@@ -17,11 +17,11 @@ std::string StringNode::getValue()
 	return value;
 }
 
-std::vector< Operation* >* StringNode::toOperations()
+ASTData* StringNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string StringNode::getNodeTypeAsString()

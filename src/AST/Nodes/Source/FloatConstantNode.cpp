@@ -27,11 +27,11 @@ bool FloatConstantNode::canBeFloat()
 
 }
 
-std::vector< Operation* >* FloatConstantNode::toOperations()
+ASTData* FloatConstantNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string FloatConstantNode::getNodeTypeAsString()

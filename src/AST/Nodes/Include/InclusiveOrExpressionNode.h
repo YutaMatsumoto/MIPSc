@@ -26,7 +26,7 @@ public:
 	InclusiveOrExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpressionNode ,
 			ExclusiveOrExpressionNode* _exclusiveOrExpression
 			);
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	~InclusiveOrExpressionNode();

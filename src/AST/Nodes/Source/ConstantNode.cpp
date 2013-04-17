@@ -7,6 +7,8 @@
 
 #include "ConstantNode.h"
 
+#include "BuiltinType.h"
+
 ConstantNode::ConstantNode( IntegerConstantNode* _intConstant ) : intConstant( _intConstant )
 {
 
@@ -22,11 +24,27 @@ ConstantNode::ConstantNode( CharConstantNode* _charConstant ) : charConstant( _c
 
 }
 
-std::vector< Operation* >* ConstantNode::toOperations()
+ASTData* ConstantNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	if( intConstant )
+	{
 
-	return operations;
+		return intConstant->toOperations();
+
+	}
+	if( floatConstant )
+	{
+
+		return floatConstant->toOperations();
+
+	}
+	if( charConstant )
+	{
+
+		return charConstant->toOperations();
+
+	}
+
 }
 
 std::string ConstantNode::getNodeTypeAsString()

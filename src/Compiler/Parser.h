@@ -61,7 +61,7 @@ class Parser: public ParserBase
 		void print();					// use, e.g., d_token, d_loc
 		void debugPrint( std::string );
 
-		std::vector< Operation* >* generate3AC();
+		ASTData* generate3AC();
 
 		struct ParserDebug {
 			ParserDebug() 

@@ -32,7 +32,7 @@ public:
 
 	IterationStatementNode( ExpressionNode* _condition , StatementNode* _statement, IterationStatementType _type );
 	IterationStatementNode( ExpressionNode* _initialization ,ExpressionNode* _condition ,ExpressionNode* _increment ,StatementNode* _statement );
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 	~IterationStatementNode();
 

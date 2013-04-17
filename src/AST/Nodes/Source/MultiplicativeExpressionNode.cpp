@@ -21,11 +21,11 @@ MultiplicativeExpressionNode::MultiplicativeExpressionNode( MultiplicativeExpres
 
 }
 
-std::vector< Operation* >* MultiplicativeExpressionNode::toOperations()
+ASTData* MultiplicativeExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string MultiplicativeExpressionNode::getNodeTypeAsString()

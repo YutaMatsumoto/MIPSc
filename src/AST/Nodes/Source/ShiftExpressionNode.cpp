@@ -21,11 +21,11 @@ ShiftExpressionNode::ShiftExpressionNode( ShiftExpressionNode* _shiftExpression 
 
 }
 
-std::vector< Operation* >* ShiftExpressionNode::toOperations()
+ASTData* ShiftExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 //~PrimaryExpressionNode(){}

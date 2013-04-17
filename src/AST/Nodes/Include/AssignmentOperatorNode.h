@@ -36,7 +36,7 @@ public:
 
 	AssignmentOperatorNode( AssignmentOperatorType _type );
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	inline std::string getNodeTypeAsString();
 

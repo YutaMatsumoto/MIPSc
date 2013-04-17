@@ -32,7 +32,7 @@ public:
 	JumpStatementNode( ExpressionNode* _expression );
 	JumpStatementNode( IdentifierNode* _identifier );
 	JumpStatementNode( JumpStatementType _type );
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	IdentifierNode* identifier;

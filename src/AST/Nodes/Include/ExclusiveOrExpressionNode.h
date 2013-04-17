@@ -27,7 +27,7 @@ public:
 			ExclusiveOrExpressionNode* _exclusiveOrExpression,
 			AndExpressionNode* _andExpression);
 
-	std::vector<Operation*>* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

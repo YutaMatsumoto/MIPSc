@@ -28,7 +28,7 @@ public:
 			EqualityExpressionNode* _equalityExpression
 			);
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	//~PrimaryExpressionNode(){}
 

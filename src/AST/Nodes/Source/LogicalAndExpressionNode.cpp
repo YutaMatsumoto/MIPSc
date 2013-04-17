@@ -20,11 +20,11 @@ LogicalAndExpressionNode::LogicalAndExpressionNode( LogicalAndExpressionNode* _l
 
 }
 
-std::vector< Operation* >* LogicalAndExpressionNode::toOperations()
+ASTData* LogicalAndExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string LogicalAndExpressionNode::getNodeTypeAsString()

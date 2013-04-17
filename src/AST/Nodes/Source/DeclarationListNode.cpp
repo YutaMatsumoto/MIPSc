@@ -14,11 +14,11 @@ DeclarationListNode::DeclarationListNode()
 
 
 
-std::vector< Operation* >* DeclarationListNode::toOperations()
+ASTData* DeclarationListNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 //~PrimaryExpressionNode(){}

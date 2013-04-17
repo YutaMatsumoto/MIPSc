@@ -1,9 +1,10 @@
 #include "ASTNodes.h"
 
-std::vector< Operation* >* DeclarationNode::toOperations()
+ASTData* DeclarationNode::toOperations()
 {
-	std::vector< Operation* >* ops = new std::vector< Operation* >();
-	return ops;
+	ASTData* data = new ASTData();
+
+	return data;
 }
 
 std::string DeclarationNode::getNodeTypeAsString()

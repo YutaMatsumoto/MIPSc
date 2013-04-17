@@ -20,7 +20,7 @@ public:
 
 	StringNode( std::string _value );
 	std::string getValue();
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

@@ -28,7 +28,7 @@ public:
 	LogicalOrExpressionNode( LogicalOrExpressionNode* _logicalOrExpression ,
 			LogicalAndExpressionNode* _logicalAndExpression );
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	LogicalOrExpressionNode* logicalOrExpression;

@@ -30,11 +30,11 @@ UnaryExpressionNode::UnaryExpressionNode( TypeNameNode* _typeName )
 	type = SizeofType;
 }
 
-std::vector< Operation* >* UnaryExpressionNode::toOperations()
+ASTData* UnaryExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 //~PrimaryExpressionNode(){}

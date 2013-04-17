@@ -25,8 +25,12 @@ LabeledStatementNode::LabeledStatementNode( StatementNode* _statement )
 	type = Default;
 }
 
-std::vector< Operation* >* LabeledStatementNode::toOperations()
+ASTData* LabeledStatementNode::toOperations()
 {
+	ASTData* data = new ASTData();
+
+	/*
+
 	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 	if( type == Label )
@@ -54,6 +58,8 @@ std::vector< Operation* >* LabeledStatementNode::toOperations()
 		operations->insert( operations->end() , temp->begin() , temp->end() );
 
 	}
+	*/
+	return data;
 }
 
 std::string LabeledStatementNode::getNodeTypeAsString()

@@ -21,11 +21,11 @@ RelationalExpressionNode::RelationalExpressionNode( RelationalExpressionNode* _r
 
 }
 
-std::vector< Operation* >* RelationalExpressionNode::toOperations()
+ASTData* RelationalExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string RelationalExpressionNode::getNodeTypeAsString()

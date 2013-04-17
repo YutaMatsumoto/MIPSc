@@ -22,11 +22,11 @@ AssignmentExpressionNode::AssignmentExpressionNode(
 }
 
 
-std::vector< Operation* >* AssignmentExpressionNode::toOperations()
+ASTData* AssignmentExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string AssignmentExpressionNode::getNodeTypeAsString()

@@ -22,12 +22,12 @@ ExclusiveOrExpressionNode::ExclusiveOrExpressionNode(
 
 }
 
-std::vector<Operation*>* ExclusiveOrExpressionNode::toOperations()
+ASTData* ExclusiveOrExpressionNode::toOperations()
 {
 
-	std::vector<Operation*>* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string ExclusiveOrExpressionNode::getNodeTypeAsString()

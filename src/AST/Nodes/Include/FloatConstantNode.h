@@ -27,7 +27,7 @@ public:
 
 	bool canBeFloat();
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 protected:

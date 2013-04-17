@@ -22,7 +22,7 @@ public:
 
 	char getValue();
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

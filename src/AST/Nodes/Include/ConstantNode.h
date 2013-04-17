@@ -30,7 +30,7 @@ public:
 
 	ConstantNode( CharConstantNode* _charConstant );
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

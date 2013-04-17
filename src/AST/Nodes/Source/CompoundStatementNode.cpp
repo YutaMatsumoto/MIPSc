@@ -25,11 +25,11 @@ CompoundStatementNode::CompoundStatementNode( DeclarationListNode* _declarationL
 
 }
 
-std::vector< Operation* >* CompoundStatementNode::toOperations()
+ASTData* CompoundStatementNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string CompoundStatementNode::getNodeTypeAsString()

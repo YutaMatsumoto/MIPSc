@@ -35,7 +35,7 @@ public:
 			AdditiveExpressionType _type
 			);
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

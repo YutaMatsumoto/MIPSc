@@ -17,11 +17,11 @@ char CharConstantNode::getValue()
 	return value;
 }
 
-std::vector< Operation* >* CharConstantNode::toOperations()
+ASTData* CharConstantNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string CharConstantNode::getNodeTypeAsString()

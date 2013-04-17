@@ -175,7 +175,7 @@ bool Parser::isDeclarationMode()
 	
 }
 
-std::vector< Operation* >* Parser::generate3AC()
+ASTData* Parser::generate3AC()
 {
 
 	return ast->toOperations();

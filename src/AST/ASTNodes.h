@@ -118,10 +118,11 @@ public:
 			return "invalid type";
 	}
 
-	std::vector<Operation> toOperations()
+	ASTData* toOperations()
 	{
-		std::vector<Operation> emptyHack;
-		return emptyHack;
+		ASTData* data = new ASTData();
+
+		return data;
 	}
 
 	std::string getNodeTypeAsString()
@@ -717,7 +718,7 @@ public:
 	// -----------------------------------------------------------------------
 	
 	// TODO
-	virtual std::vector< Operation* >* toOperations();
+	virtual ASTData* toOperations();
 
 	virtual std::string getNodeTypeAsString();
 

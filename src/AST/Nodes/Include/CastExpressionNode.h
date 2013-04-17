@@ -27,7 +27,7 @@ public:
 
 	CastExpressionNode( TypeNameNode* _typeName , CastExpressionNode* _castExpression );
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

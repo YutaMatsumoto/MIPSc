@@ -32,7 +32,7 @@ public:
 			AssignmentExpressionNode* _assignmentExpression
 		);
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 
 	std::string getNodeTypeAsString();

@@ -21,11 +21,11 @@ ArgExpressionListNode::ArgExpressionListNode( ArgExpressionListNode* _argumentEx
 
 }
 
-std::vector< Operation* >* ArgExpressionListNode::toOperations()
+ASTData* ArgExpressionListNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string ArgExpressionListNode::getNodeTypeAsString()

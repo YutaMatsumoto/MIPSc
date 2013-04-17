@@ -18,7 +18,7 @@ class ExternalDeclarationNode : public Node {
 public:
 
 	ExternalDeclarationNode();
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 };

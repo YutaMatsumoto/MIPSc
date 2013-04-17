@@ -21,11 +21,11 @@ EqualityExpressionNode::EqualityExpressionNode( EqualityExpressionNode* _equalit
 
 }
 
-std::vector< Operation* >* EqualityExpressionNode::toOperations()
+ASTData* EqualityExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 

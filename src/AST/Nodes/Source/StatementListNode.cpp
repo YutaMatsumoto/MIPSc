@@ -19,11 +19,11 @@ StatementListNode::StatementListNode( StatementListNode* _statementList, Stateme
 
 }
 
-std::vector< Operation* >* StatementListNode::toOperations()
+ASTData* StatementListNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string StatementListNode::getNodeTypeAsString()

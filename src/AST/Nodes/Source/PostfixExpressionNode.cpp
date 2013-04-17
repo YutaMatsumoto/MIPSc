@@ -42,11 +42,11 @@ PostfixExpressionNode::PostfixExpressionNode( PostfixExpressionNode* _postfixExp
 	type = DirectMemberAccess;
 }
 
-std::vector< Operation* >* PostfixExpressionNode::toOperations()
+ASTData* PostfixExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string PostfixExpressionNode::getNodeTypeAsString()

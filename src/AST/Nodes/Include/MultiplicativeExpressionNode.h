@@ -34,7 +34,7 @@ public:
 			CastExpressionNode* _castExpression ,
 			MultiplicativeExpressionType _type
 			);
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	CastExpressionNode* castExpression;

@@ -19,11 +19,11 @@ SelectionStatementNode::SelectionStatementNode( ExpressionNode* _condition , Sta
 	type = IfElse;
 }
 
-std::vector< Operation* >* SelectionStatementNode::toOperations()
+ASTData* SelectionStatementNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string SelectionStatementNode::getNodeTypeAsString()

@@ -22,11 +22,11 @@ ConditionalExpressionNode::ConditionalExpressionNode(
 }
 
 
-std::vector< Operation* >* ConditionalExpressionNode::toOperations()
+ASTData*ConditionalExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string ConditionalExpressionNode::getNodeTypeAsString()

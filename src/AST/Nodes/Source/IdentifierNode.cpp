@@ -17,11 +17,11 @@ std::string IdentifierNode::getId()
 	return id;
 }
 
-std::vector< Operation* >* IdentifierNode::toOperations()
+ASTData* IdentifierNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string IdentifierNode::getNodeTypeAsString()

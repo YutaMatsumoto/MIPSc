@@ -35,7 +35,7 @@ public:
 	LabeledStatementNode( IdentifierNode* _identifier, StatementNode* _statement );
 	LabeledStatementNode( ConstantExpressionNode* _constantExpression, StatementNode* _statement );
 	LabeledStatementNode( StatementNode* _statement );
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	IdentifierNode* identifier;

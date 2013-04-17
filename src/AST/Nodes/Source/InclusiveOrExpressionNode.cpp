@@ -20,11 +20,11 @@ InclusiveOrExpressionNode::InclusiveOrExpressionNode( InclusiveOrExpressionNode*
 
 }
 
-std::vector< Operation* >* InclusiveOrExpressionNode::toOperations()
+ASTData* InclusiveOrExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string InclusiveOrExpressionNode::getNodeTypeAsString()

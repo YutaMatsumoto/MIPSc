@@ -25,7 +25,7 @@ public:
 
 	StatementListNode( StatementNode* _statement );
 	StatementListNode( StatementListNode* _statementList, StatementNode* _statement );
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	StatementNode* statement;

@@ -20,11 +20,11 @@ AndExpressionNode::AndExpressionNode( AndExpressionNode* _andExpression ,
 
 }
 
-std::vector< Operation* >* AndExpressionNode::toOperations()
+ASTData* AndExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string AndExpressionNode::getNodeTypeAsString()

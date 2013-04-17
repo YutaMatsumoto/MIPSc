@@ -12,11 +12,11 @@ ExternalDeclarationNode::ExternalDeclarationNode( )
 
 }
 
-std::vector< Operation* >* ExternalDeclarationNode::toOperations()
+ASTData* ExternalDeclarationNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string ExternalDeclarationNode::getNodeTypeAsString()

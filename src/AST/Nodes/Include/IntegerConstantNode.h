@@ -20,7 +20,7 @@ public:
 
 	IntegerConstantNode( long long int _value );
 	long long int getValue();
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	//These handle the issue of overflow when casting

@@ -43,7 +43,7 @@ StatementNode::StatementNode( JumpStatementNode* _jumpStatement )
 
 }
 
-std::vector< Operation* >* StatementNode::toOperations()
+ASTData* StatementNode::toOperations()
 {
 	//std::vector< Operation* >* operations;
 

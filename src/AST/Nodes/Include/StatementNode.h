@@ -42,7 +42,7 @@ public:
 
 	StatementNode( JumpStatementNode* _jumpStatement );
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

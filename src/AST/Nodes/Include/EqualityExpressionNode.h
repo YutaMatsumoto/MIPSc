@@ -33,7 +33,7 @@ public:
 			RelationalExpressionNode* _relationalExpression ,
 			EqualityExpressionType _type
 			);
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 	~EqualityExpressionNode();
 

@@ -27,11 +27,11 @@ PrimaryExpressionNode::PrimaryExpressionNode( ExpressionNode* _expression ) : ex
 
 }
 
-std::vector< Operation* >* PrimaryExpressionNode::toOperations()
+ASTData* PrimaryExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string PrimaryExpressionNode::getNodeTypeAsString()

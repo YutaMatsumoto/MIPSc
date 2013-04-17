@@ -29,7 +29,7 @@ public:
 	PrimaryExpressionNode( ConstantNode* _constant );
 	PrimaryExpressionNode( StringNode* _string );
 	PrimaryExpressionNode( ExpressionNode* _expression );
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	IdentifierNode* identifier;

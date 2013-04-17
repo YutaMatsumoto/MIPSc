@@ -34,7 +34,7 @@ public:
 
 	SelectionStatementNode( ExpressionNode* _condition , StatementNode* _statement, StatementNode* _elseStatement );
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

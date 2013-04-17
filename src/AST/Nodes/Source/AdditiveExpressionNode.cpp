@@ -26,7 +26,7 @@ AdditiveExpressionNode::AdditiveExpressionNode( AdditiveExpressionNode* _additiv
 
 }
 
-std::vector< Operation* >* AdditiveExpressionNode::toOperations()
+ASTData* AdditiveExpressionNode::toOperations()
 {
 
 	if( additiveExpression == 0 )
@@ -36,6 +36,8 @@ std::vector< Operation* >* AdditiveExpressionNode::toOperations()
 
 	}
 
+	ASTData* data = new ASTData();
+/*
 	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 	//Gets the code for the first parameter
@@ -67,9 +69,9 @@ std::vector< Operation* >* AdditiveExpressionNode::toOperations()
 
 	//Add our 'add' operation to the end of the list
 	operations->push_back( op );
-
+*/
 	//return the result
-	return operations;
+	return data;
 
 }
 

@@ -18,11 +18,11 @@ ExpressionStatementNode::ExpressionStatementNode( ExpressionNode* _expression )
 
 	}
 
-std::vector< Operation* >* ExpressionStatementNode::toOperations()
+ASTData* ExpressionStatementNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string ExpressionStatementNode::getNodeTypeAsString()

@@ -19,11 +19,11 @@ LogicalOrExpressionNode::LogicalOrExpressionNode( LogicalOrExpressionNode* _logi
 
 }
 
-std::vector< Operation* >* LogicalOrExpressionNode::toOperations()
+ASTData* LogicalOrExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string LogicalOrExpressionNode::getNodeTypeAsString()

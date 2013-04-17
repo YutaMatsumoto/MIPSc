@@ -20,9 +20,11 @@ TranslationUnitNode::TranslationUnitNode( ExternalDeclarationNode* _externalDecl
 
 }
 
-std::vector< Operation* >* TranslationUnitNode::toOperations()
+ASTData* TranslationUnitNode::toOperations()
 {
 
+	ASTData* data = new ASTData();
+	/*
 	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 	if( externalDeclaration )
@@ -41,6 +43,10 @@ std::vector< Operation* >* TranslationUnitNode::toOperations()
 	operations->insert( operations->end() , temp->begin() , temp->end() );
 
 	return operations;
+
+	*/
+
+	return data;
 
 }
 

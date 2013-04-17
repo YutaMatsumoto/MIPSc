@@ -12,12 +12,11 @@ UnaryOperatorNode::UnaryOperatorNode( UnaryOperatorType _type ) : type( _type )
 
 }
 
-std::vector< Operation* >* UnaryOperatorNode::toOperations()
+ASTData* UnaryOperatorNode::toOperations()
 {
+	ASTData* data = new ASTData();
 
-	std::vector< Operation* >* operations;
-
-	return operations;
+	return data;
 }
 
 

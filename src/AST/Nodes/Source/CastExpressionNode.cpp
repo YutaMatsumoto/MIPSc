@@ -18,11 +18,11 @@ CastExpressionNode::CastExpressionNode( TypeNameNode* _typeName , CastExpression
 
 }
 
-std::vector< Operation* >* CastExpressionNode::toOperations()
+ASTData* CastExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string CastExpressionNode::getNodeTypeAsString()

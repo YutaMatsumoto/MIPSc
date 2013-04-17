@@ -30,7 +30,7 @@ public:
 
 	CompoundStatementNode( DeclarationListNode* _declarationList , StatementListNode* _statementList);
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

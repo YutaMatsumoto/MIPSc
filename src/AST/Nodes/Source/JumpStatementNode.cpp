@@ -23,11 +23,11 @@ JumpStatementNode::JumpStatementNode( JumpStatementType _type ) : type( _type )
 }
 
 
-std::vector< Operation* >* JumpStatementNode::toOperations()
+ASTData* JumpStatementNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 

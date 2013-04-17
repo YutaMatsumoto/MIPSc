@@ -19,11 +19,11 @@ IterationStatementNode::IterationStatementNode( ExpressionNode* _initialization 
 	type = For;
 }
 
-std::vector< Operation* >* IterationStatementNode::toOperations()
+ASTData* IterationStatementNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string IterationStatementNode::getNodeTypeAsString()

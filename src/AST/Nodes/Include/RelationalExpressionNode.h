@@ -35,7 +35,7 @@ public:
 			ShiftExpressionNode* _shiftExpression ,
 			RelationalExpressionType _type
 			);
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	RelationalExpressionNode* relationalExpression;

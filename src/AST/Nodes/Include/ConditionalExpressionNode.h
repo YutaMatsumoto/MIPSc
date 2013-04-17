@@ -32,7 +32,7 @@ public:
 			ConditionalExpressionNode* _conditionalExpression
 		);
 
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 

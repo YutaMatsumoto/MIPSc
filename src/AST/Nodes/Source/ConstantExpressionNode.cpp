@@ -13,11 +13,11 @@ ConstantExpressionNode::ConstantExpressionNode( ConditionalExpressionNode* _cond
 }
 
 
-std::vector< Operation* >* ConstantExpressionNode::toOperations()
+ASTData* ConstantExpressionNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 std::string ConstantExpressionNode::getNodeTypeAsString()

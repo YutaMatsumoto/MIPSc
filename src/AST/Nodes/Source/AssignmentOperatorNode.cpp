@@ -12,11 +12,11 @@ AssignmentOperatorNode::AssignmentOperatorNode( AssignmentOperatorType _type ) :
 
 }
 
-std::vector< Operation* >* AssignmentOperatorNode::toOperations()
+ASTData* AssignmentOperatorNode::toOperations()
 {
-	std::vector< Operation* >* operations;
+	ASTData* data = new ASTData();
 
-	return operations;
+	return data;
 }
 
 //~PrimaryExpressionNode(){}

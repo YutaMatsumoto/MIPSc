@@ -41,7 +41,7 @@ public:
 	UnaryExpressionNode( UnaryOperatorNode* _unaryOperator , CastExpressionNode* _castExpression );
 
 	UnaryExpressionNode( TypeNameNode* _typeName );
-	std::vector< Operation* >* toOperations();
+	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	PostfixExpressionNode* postfixExpression;
