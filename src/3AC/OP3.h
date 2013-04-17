@@ -22,10 +22,7 @@ public:
 
 	virtual ~OP3();
 
-	virtual std::string to3AC()
-	{
-
-	}
+	virtual std::string toString() - 0;
 
 protected:
 

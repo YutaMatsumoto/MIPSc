@@ -144,9 +144,29 @@
 
 %%
 
+program
+	:
+	translation_unit { debugPrint("translation_unit -> program"); }
+	{
+	
+		ast = (TranslationUnitNode*) $1;
+	
+	}
+	;
+
 translation_unit
 	: external_declaration { debugPrint("external_declaration -> translation_unit"); }
+	{
+	
+		$$ = new TranslationUnitNode( (ExternalDeclarationNode*) $1 );	
+	
+	}
 	| translation_unit external_declaration { debugPrint("translation_unit external_declaration -> translation_unit"); }
+	{
+	
+		$$ = new TranslationUnitNode( (ExternalDeclarationNode*) $2 , (TranslationUnitNode*) $1 );
+	
+	}
 	;
 
 external_declaration

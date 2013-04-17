@@ -18,7 +18,7 @@ public:
 
 	//virtual ~Node();
 
-	virtual std::vector< Operation > toOperations() = 0;
+	virtual std::vector< Operation* >* toOperations() = 0;
 
 	virtual std::string getNodeTypeAsString() = 0;
 

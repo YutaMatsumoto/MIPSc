@@ -5,6 +5,8 @@
 // $insert class.h
 #include "Parser.h"
 #include <string>
+#include <vector>
+#include "Operation.h"
 
 inline void Parser::error(char const *msg)
 {
@@ -171,6 +173,13 @@ bool Parser::isDeclarationMode()
 	
 	return declarationMode;
 	
+}
+
+std::vector< Operation* >* Parser::generate3AC()
+{
+
+	return ast->toOperations();
+
 }
 
 	// Add here includes that are only required for the compilation 

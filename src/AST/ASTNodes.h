@@ -23,7 +23,7 @@ class ConditionalExpressionNode;
 class AssignmentExpressionNode;
 class StatementNode;
 class DeclarationListNode;
-class ExternalDeclarationNode;
+//class ExternalDeclarationNode;
 //Definitions
 
 class IdentifierNode : public Node
@@ -41,9 +41,9 @@ public:
 		return id;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -79,9 +79,9 @@ public:
 		return value;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -117,9 +117,9 @@ public:
 		return value;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -173,9 +173,9 @@ public:
 
 	bool canBeFloat() { return ( value < FLT_MAX ) ? true : false; }
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -211,9 +211,9 @@ public:
 		return value;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -253,9 +253,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -304,9 +304,9 @@ public:
 	ArgExpressionListNode* argumentExpressionList;
 
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -348,9 +348,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -422,9 +422,9 @@ public:
 		type = DirectMemberAccess;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -470,9 +470,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -528,9 +528,9 @@ public:
 		type = SizeofType;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -570,9 +570,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -619,9 +619,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -667,9 +667,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -715,9 +715,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -764,9 +764,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -811,9 +811,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -851,9 +851,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -890,9 +890,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -929,9 +929,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -968,9 +968,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1007,9 +1007,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1039,9 +1039,9 @@ public:
 	}
 
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1079,9 +1079,9 @@ public:
 	}
 
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1127,9 +1127,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1167,9 +1167,9 @@ public:
 	}
 
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1209,9 +1209,9 @@ public:
 	}
 
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1259,9 +1259,9 @@ public:
 	}
 
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1307,9 +1307,9 @@ public:
 		type = For;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1357,9 +1357,9 @@ public:
 		type = IfElse;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1398,9 +1398,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1441,9 +1441,9 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1477,9 +1477,9 @@ public:
 
 		}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations;
 
 		return operations;
 	}
@@ -1525,11 +1525,35 @@ public:
 		type = Default;
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-		return operations;
+		if( type == Label )
+		{
+
+			std::vector< Operation* >* temp = identifier->toOperations();
+
+			operations->insert( operations->end() , temp->begin() , temp->end() );
+
+			temp = statement->toOperations();
+
+			operations->insert( operations->end() , temp->begin() , temp->end() );
+
+		}
+
+		if( type == Case )
+		{
+
+			std::vector< Operation* >* temp = constantExpression->toOperations();
+
+			operations->insert( operations->end() , temp->begin() , temp->end() );
+
+			temp = statement->toOperations();
+
+			operations->insert( operations->end() , temp->begin() , temp->end() );
+
+		}
 	}
 
 	inline std::string getNodeTypeAsString()
@@ -1589,11 +1613,54 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+		//std::vector< Operation* >* operations;
 
-		return operations;
+		if( labeledStatement )
+		{
+
+			return labeledStatement->toOperations();
+
+		}
+
+		if( compoundStatement )
+		{
+
+			return compoundStatement->toOperations();
+
+		}
+
+		if( expressionStatement )
+		{
+
+			return expressionStatement->toOperations();
+
+		}
+
+		if( selectionStatement )
+		{
+
+			return selectionStatement->toOperations();
+
+		}
+
+		if( iterationStatement )
+		{
+
+			return iterationStatement->toOperations();
+
+		}
+
+		if( jumpStatement )
+		{
+
+			return jumpStatement->toOperations();
+
+		}
+
+		return 0;
+
 	}
 
 	inline std::string getNodeTypeAsString()
@@ -1610,6 +1677,10 @@ public:
 	IterationStatementNode* iterationStatement;
 	JumpStatementNode* jumpStatement;
 
+
+};
+
+class ExternalDeclarationNode : public Node {
 
 };
 
@@ -1630,11 +1701,28 @@ public:
 
 	}
 
-	inline std::vector< Operation > toOperations()
+	inline std::vector< Operation* >* toOperations()
 	{
-		std::vector< Operation > operations;
+
+		std::vector< Operation* >* operations = new std::vector< Operation* >();
+
+		if( externalDeclaration )
+		{
+
+			std::vector< Operation* >* temp;
+
+			temp = externalDeclaration->toOperations();
+
+			operations->insert( operations->end(), temp->begin() , temp->end() );
+
+		}
+
+		std::vector< Operation* >* temp = translationUnit->toOperations();
+
+		operations->insert( operations->end() , temp->begin() , temp->end() );
 
 		return operations;
+
 	}
 
 	inline std::string getNodeTypeAsString()
@@ -2414,6 +2502,8 @@ public:
 	IdentifierListNode* il;
 };
 
+
+
 class InitializerNode {
 public:
 
@@ -2545,7 +2635,7 @@ public:
 	// -----------------------------------------------------------------------
 	
 	// TODO
-	virtual std::vector< Operation > toOperations();
+	virtual std::vector< Operation* >* toOperations();
 
 	virtual std::string getNodeTypeAsString();
 
