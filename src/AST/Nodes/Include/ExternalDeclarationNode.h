@@ -13,19 +13,21 @@
 #include <vector>
 #include <string>
 #include "ASTNodes.h"
+#include "FunctionDefinitionNode.h"
 
 class DeclarationNode;
+class FunctionDefinitionNode;
 
 class ExternalDeclarationNode : public Node {
 
 public:
 
-	ExternalDeclarationNode();
+	ExternalDeclarationNode(FunctionDefinitionNode*);
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 	DeclarationNode* declaration;
-	//FunctionDefinitionNode* functionDefinition;
+	FunctionDefinitionNode* functionDefinition;
 
 };
 

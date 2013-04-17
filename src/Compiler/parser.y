@@ -171,6 +171,11 @@ translation_unit
 
 external_declaration
 	: function_definition { debugPrint("function_definition -> external_declaration"); }
+	{
+
+		$$ = new ExternalDeclarationNode( (FunctionDefinitionNode*) $1 );
+
+	}
 	| declaration { 
 		debugPrint("declaration -> external_declaration"); 
 	  }
@@ -179,8 +184,13 @@ external_declaration
 function_definition
 	: declarator compound_statement { 
 		debugPrint("----to function_definition by production 1----"); 
-		debugPrint("declarator compound_statement -> function_definition"); 
+		debugPrint("declarator compound_statement -> function_definition");
 	  }
+	 {
+
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $2 );
+
+	 }
 	| declarator { 
 	  	// declaration mdoe start 
 	  }
@@ -191,10 +201,15 @@ function_definition
 		// declaration mode end
 		debugPrint("----to function definition Production 2----"); 
 		debugPrint("declarator declaration_list compound_statement -> function_definition"); 
+
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3 );
 	  }
 	| declaration_specifiers declarator compound_statement { 
 		debugPrint("----to function_definition by production 3----"); 
 	  	debugPrint("declaration_specifiers declarator compound_statement -> function_definition"); 
+
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3 );
+
 	  }
 	| declaration_specifiers declarator {
 		// declaration mode start
@@ -205,6 +220,8 @@ function_definition
 	  compound_statement { 
 		debugPrint("----to function definition production 4----"); 
 	    debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
+	  
+	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 );
 	  }
 	;
 
@@ -668,7 +685,7 @@ compound_statement
 		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 
-		$$ = (void*) new CompoundStatementNode( (StatementListNode*) $2 );
+		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
 
 	  }
 	| '{' {
@@ -681,7 +698,7 @@ compound_statement
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement");
 
-		$$ = (void*) new CompoundStatementNode( (DeclarationListNode*) $2 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
 
 	  }
 	| '{' {
@@ -697,7 +714,7 @@ compound_statement
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
 
 
-		$$ = (void*) new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
+		//$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
 	  }
 	;
 

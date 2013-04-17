@@ -7,7 +7,7 @@
 
 #include "ExternalDeclarationNode.h"
 
-ExternalDeclarationNode::ExternalDeclarationNode( )
+ExternalDeclarationNode::ExternalDeclarationNode( FunctionDefinitionNode* _functionDefinition ): functionDefinition(_functionDefinition)
 {
 
 }
@@ -19,6 +19,10 @@ ASTData* ExternalDeclarationNode::toOperations()
 	if( declaration )
 
 		return declaration->toOperations();
+
+	if( functionDefinition )
+
+		return functionDefinition->toOperations();
 
 	return data;
 }

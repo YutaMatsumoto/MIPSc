@@ -29,6 +29,10 @@ ASTData* CompoundStatementNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( statementList )
+
+		return statementList->toOperations();
+
 	return data;
 }
 
