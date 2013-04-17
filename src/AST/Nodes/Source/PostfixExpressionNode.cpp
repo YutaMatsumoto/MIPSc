@@ -7,6 +7,8 @@
 
 #include "PostfixExpressionNode.h"
 
+#include "ArrayType.h"
+
 //Primary Expression
 PostfixExpressionNode::PostfixExpressionNode( PrimaryExpressionNode* _primaryExpression )
 	: primaryExpression( _primaryExpression )
@@ -45,6 +47,62 @@ PostfixExpressionNode::PostfixExpressionNode( PostfixExpressionNode* _postfixExp
 ASTData* PostfixExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
+
+	std::vector< Operation* >* operations = new std::vector< Operation* >();
+
+	if( type ==  PrimaryExpression )
+
+		return primaryExpression->toOperations();
+
+	if( type == ArrayAccess )
+	{
+		//Various errors will be thrown here (eg: accessing a non-array type)
+		ASTData* arrayData = postfixExpression->toOperations();
+
+		Symbol* arrayId = arrayData->result;
+
+		Type* arrayType = arrayId->symbolType;
+
+		ArrayType* array = (ArrayType*) arrayType;
+
+		// TODO: finish this...
+
+	}
+
+	if( type == FunctionCall )
+	{
+
+
+
+	}
+
+	if( type == DirectMemberAccess )
+	{
+
+
+
+	}
+
+	if( type == PointerMemberAccess )
+	{
+
+
+
+	}
+
+	if( type == Increment )
+	{
+
+
+
+	}
+
+	if( type == Decrement )
+	{
+
+
+
+	}
 
 	return data;
 }

@@ -27,6 +27,8 @@ long long int IntegerConstantNode::getValue()
 
 ASTData* IntegerConstantNode::toOperations()
 {
+	ASTData* data = new ASTData();
+
 	std::vector< Operation* >* operations;
 
 	Symbol* constant = new Symbol( std::to_string( value ) , *new SymbolLocation() , new BuiltinType<long long int>( Type::LongLong , value ) );
@@ -36,6 +38,12 @@ ASTData* IntegerConstantNode::toOperations()
 	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , new BuiltinType<long long int>( Type::LongLong , value ) );
 
 	operations->push_back( new AssignOp( temporary , constant ) );
+
+	data->result = temporary;
+
+	data->code = operations;
+
+	return data;
 }
 
 std::string IntegerConstantNode::getNodeTypeAsString()

@@ -34,6 +34,11 @@ ASTData* UnaryExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( type == Postfix )
+
+		return postfixExpression->toOperations();
+
+
 	return data;
 }
 

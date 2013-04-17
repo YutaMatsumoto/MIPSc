@@ -15,7 +15,6 @@ ArrayType::~ArrayType() {
 int ArrayType::sizeInBytes()
 {
 
-	//TODO Implement this
-	return 1;
+	return array.size() * getElementType()->sizeInBytes();
 
 }

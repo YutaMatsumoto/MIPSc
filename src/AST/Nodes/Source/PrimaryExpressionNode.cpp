@@ -29,9 +29,23 @@ PrimaryExpressionNode::PrimaryExpressionNode( ExpressionNode* _expression ) : ex
 
 ASTData* PrimaryExpressionNode::toOperations()
 {
-	ASTData* data = new ASTData();
 
-	return data;
+	if( identifier )
+
+		return identifier->toOperations();
+
+	if( constant )
+
+		return constant->toOperations();
+
+	if( string )
+
+		return string->toOperations();
+
+	if( expression )
+
+		return expression->toOperations();
+
 }
 
 std::string PrimaryExpressionNode::getNodeTypeAsString()

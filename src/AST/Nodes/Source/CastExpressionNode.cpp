@@ -22,6 +22,10 @@ ASTData* CastExpressionNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( unaryExpression )
+
+		return unaryExpression->toOperations();
+
 	return data;
 }
 
