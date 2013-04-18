@@ -682,12 +682,12 @@ compound_statement
 		std::cout << "1111111" << std::endl;
 	  }
 	/* declaration mode*/ 
-	| '{' /*{ beginLookupSection();
-		symbolTable->beginScope(); }*/ statement_list '}' { 
+	| '{' { beginLookupSection();
+		symbolTable->beginScope(); } statement_list '}' { 
 		//symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 		std::cout << "222222" << std::endl;
-		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
+		$$ = new CompoundStatementNode( (StatementListNode*) $3 );
 
 	  }
 	| '{' {
