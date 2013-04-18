@@ -46,4 +46,6 @@
 #include "UnaryExpressionNode.h"
 #include "UnaryOperatorNode.h"
 
+#include "ASTNodes.h"
+
 #endif /* ALLASTNODES_H_ */

@@ -24,6 +24,8 @@ class CompoundStatementNode;
 class IterationStatementNode;
 class LabeledStatementNode;
 class SelectionStatementNode;
+class ExpressionStatementNode;
+class JumpStatementNode;
 
 class StatementNode : public Node
 {

@@ -73,6 +73,8 @@ $(PARSER_OBJ) : $(PARSERIMPL)
 
 clean :
 	find -name "*.o" -exec rm {} \;
+	find -name "*.P" -exec rm {} \;
+	find -name "*.d" -exec rm {} \;
 	rm tags
 
 cleanAll :

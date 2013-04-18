@@ -11,12 +11,15 @@
 #include "PostfixExpressionNode.h"
 #include "UnaryOperatorNode.h"
 #include "CastExpressionNode.h"
-#include "TypeNameNode.h"
+#include "AllASTNodes.h"
+// #include "TypeNameNode.h"
 
 #include "Node.h"
 #include "Operation.h"
 #include <vector>
 #include <string>
+
+class TypeNameNode;
 
 class CastExpressionNode;
 class PostfixExpressionNode;
