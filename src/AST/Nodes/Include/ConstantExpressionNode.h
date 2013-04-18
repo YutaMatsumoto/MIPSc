@@ -26,7 +26,7 @@ public:
 
 	std::string getNodeTypeAsString();
 
-	ConditionalExpressionNode* conditionalExpression;
+	ConditionalExpressionNode* conditionalExpression = 0;
 
 	~ConstantExpressionNode();
 

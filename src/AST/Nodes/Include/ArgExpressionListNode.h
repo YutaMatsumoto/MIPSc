@@ -25,9 +25,9 @@ public:
 	ArgExpressionListNode( AssignmentExpressionNode* _assignmentExpression );
 	ArgExpressionListNode( ArgExpressionListNode* _argumentExpressionList, AssignmentExpressionNode* _assignmentExpression );
 
-	AssignmentExpressionNode* assignmentExpression;
+	AssignmentExpressionNode* assignmentExpression = 0;
 
-	ArgExpressionListNode* argumentExpressionList;
+	ArgExpressionListNode* argumentExpressionList = 0;
 
 
 	ASTData* toOperations();

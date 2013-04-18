@@ -30,8 +30,8 @@ public:
 	std::string getNodeTypeAsString();
 	~LogicalAndExpressionNode();
 
-	InclusiveOrExpressionNode* inclusiveOrExpression;
-	LogicalAndExpressionNode* logicalAndExpression;
+	InclusiveOrExpressionNode* inclusiveOrExpression = 0;
+	LogicalAndExpressionNode* logicalAndExpression = 0;
 
 };
 

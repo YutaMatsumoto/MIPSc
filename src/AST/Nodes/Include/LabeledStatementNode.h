@@ -38,9 +38,9 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	IdentifierNode* identifier;
-	ConstantExpressionNode* constantExpression;
-	StatementNode* statement;
+	IdentifierNode* identifier = 0;
+	ConstantExpressionNode* constantExpression = 0;
+	StatementNode* statement = 0;
 
 	LabeledStatementType type;
 

@@ -32,10 +32,10 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	IdentifierNode* identifier;
-	ConstantNode* constant;
-	StringNode* string;
-	ExpressionNode* expression;
+	IdentifierNode* identifier = 0;
+	ConstantNode* constant = 0;
+	StringNode* string = 0;
+	ExpressionNode* expression = 0;
 
 };
 

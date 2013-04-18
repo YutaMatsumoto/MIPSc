@@ -32,8 +32,8 @@ public:
 	std::string getNodeTypeAsString();
 	~ExpressionNode();
 
-	AssignmentExpressionNode* assignmentExpression;
-	ExpressionNode* expression;
+	AssignmentExpressionNode* assignmentExpression = 0;
+	ExpressionNode* expression = 0;
 
 };
 

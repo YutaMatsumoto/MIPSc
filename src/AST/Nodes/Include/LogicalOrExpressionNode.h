@@ -31,8 +31,8 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	LogicalOrExpressionNode* logicalOrExpression;
-	LogicalAndExpressionNode* logicalAndExpression;
+	LogicalOrExpressionNode* logicalOrExpression = 0;
+	LogicalAndExpressionNode* logicalAndExpression = 0;
 
 };
 

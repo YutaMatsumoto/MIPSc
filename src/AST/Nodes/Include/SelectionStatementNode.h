@@ -38,11 +38,11 @@ public:
 
 	std::string getNodeTypeAsString();
 
-	ExpressionNode* condition;
+	ExpressionNode* condition = 0;
 
-	StatementNode* statement;
+	StatementNode* statement = 0;
 
-	StatementNode* elseStatement;
+	StatementNode* elseStatement = 0;
 
 	SelectionStatementType type;
 

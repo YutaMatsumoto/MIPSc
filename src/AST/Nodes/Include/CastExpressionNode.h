@@ -31,10 +31,10 @@ public:
 
 	std::string getNodeTypeAsString();
 
-	UnaryExpressionNode* unaryExpression;
+	UnaryExpressionNode* unaryExpression = 0;
 
-	TypeNameNode* typeName;
-	CastExpressionNode* castExpression;
+	TypeNameNode* typeName = 0;
+	CastExpressionNode* castExpression = 0;
 
 };
 

@@ -25,7 +25,7 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	ExpressionNode* expression;
+	ExpressionNode* expression = 0;
 
 };
 

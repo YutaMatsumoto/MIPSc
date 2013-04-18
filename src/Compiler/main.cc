@@ -230,16 +230,18 @@ int main(int argc, char** argv)
 	// run parser
 	int returnFromParser = p.parse();
 
-	ASTData* tac = p.generate3AC();
+	ASTData* astData = p.generate3AC();
 
 	std::ofstream of;
 
 	of.open( "tac_test.txt");
 
-	for( Operation* i : *tac->code )
+	std::vector< Operation* >* tac = astData->code;
+
+	for( unsigned int i = 0 ; i < tac->size() ; i++ )
 	{
 
-		of << i->to3AC();
+		of << tac->at( i )->to3AC() << std::endl;
 
 	}
 

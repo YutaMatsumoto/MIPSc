@@ -36,8 +36,8 @@ public:
 
 	~AndExpressionNode();
 
-	AndExpressionNode* andExpression;
-	EqualityExpressionNode* equalityExpression;
+	AndExpressionNode* andExpression = 0;
+	EqualityExpressionNode* equalityExpression = 0;
 
 };
 

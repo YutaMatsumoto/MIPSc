@@ -38,9 +38,9 @@ public:
 
 protected:
 
-	IntegerConstantNode* intConstant;
-	FloatConstantNode* floatConstant;
-	CharConstantNode* charConstant;
+	IntegerConstantNode* intConstant = 0;
+	FloatConstantNode* floatConstant = 0;
+	CharConstantNode* charConstant = 0;
 
 	// TODO Enumeration constant
 	// EnumerationConstantNode* enumConstant;

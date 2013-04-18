@@ -38,10 +38,10 @@ public:
 	std::string getNodeTypeAsString();
 	~AssignmentExpressionNode();
 
-	UnaryExpressionNode* unaryExpression;
-	AssignmentOperatorNode* assignmentOperator;
-	AssignmentExpressionNode* assignmentExpression;
-	ConditionalExpressionNode* conditionalExpression;
+	UnaryExpressionNode* unaryExpression = 0;
+	AssignmentOperatorNode* assignmentOperator = 0;
+	AssignmentExpressionNode* assignmentExpression = 0;
+	ConditionalExpressionNode* conditionalExpression = 0;
 
 };
 

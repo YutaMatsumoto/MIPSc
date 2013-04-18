@@ -44,11 +44,11 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	PostfixExpressionNode* postfixExpression;
-	UnaryExpressionNode* unaryExpression;
-	UnaryOperatorNode* unaryOperator;
-	CastExpressionNode* castExpression;
-	TypeNameNode* typeName;
+	PostfixExpressionNode* postfixExpression = 0;
+	UnaryExpressionNode* unaryExpression = 0;
+	UnaryOperatorNode* unaryOperator = 0;
+	CastExpressionNode* castExpression = 0;
+	TypeNameNode* typeName = 0;
 
 	UnaryExpressionType type;
 

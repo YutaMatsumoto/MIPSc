@@ -37,8 +37,8 @@ public:
 	std::string getNodeTypeAsString();
 	~EqualityExpressionNode();
 
-	EqualityExpressionNode* equalityExpression;
-	RelationalExpressionNode* relationalExpression;
+	EqualityExpressionNode* equalityExpression = 0;
+	RelationalExpressionNode* relationalExpression = 0;
 	EqualityExpressionType type;
 
 };

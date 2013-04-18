@@ -26,8 +26,8 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	DeclarationNode* declaration;
-	FunctionDefinitionNode* functionDefinition;
+	DeclarationNode* declaration = 0;
+	FunctionDefinitionNode* functionDefinition = 0;
 
 };
 

@@ -41,8 +41,8 @@ public:
 
 	~AdditiveExpressionNode();
 
-	AdditiveExpressionNode* additiveExpression;
-	MultiplicativeExpressionNode* multiplicativeExpression;
+	AdditiveExpressionNode* additiveExpression = 0;
+	MultiplicativeExpressionNode* multiplicativeExpression = 0;
 	AdditiveExpressionType type;
 
 

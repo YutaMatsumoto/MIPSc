@@ -31,8 +31,8 @@ public:
 
 	std::string getNodeTypeAsString();
 
-	AndExpressionNode* andExpression;
-	ExclusiveOrExpressionNode* exclusiveOrExpression;
+	AndExpressionNode* andExpression = 0;
+	ExclusiveOrExpressionNode* exclusiveOrExpression = 0;
 
 };
 

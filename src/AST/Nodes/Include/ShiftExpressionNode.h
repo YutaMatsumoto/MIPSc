@@ -39,8 +39,8 @@ public:
 
 	std::string getNodeTypeAsString();
 
-	AdditiveExpressionNode* additiveExpression;
-	ShiftExpressionNode* shiftExpression;
+	AdditiveExpressionNode* additiveExpression = 0;
+	ShiftExpressionNode* shiftExpression = 0;
 	ShiftExpressionType type;
 
 };

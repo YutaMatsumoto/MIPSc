@@ -46,12 +46,12 @@ public:
 
 	std::string getNodeTypeAsString();
 
-	LabeledStatementNode* labeledStatement;
-	CompoundStatementNode* compoundStatement;
-	ExpressionStatementNode* expressionStatement;
-	SelectionStatementNode* selectionStatement;
-	IterationStatementNode* iterationStatement;
-	JumpStatementNode* jumpStatement;
+	LabeledStatementNode* labeledStatement = 0;
+	CompoundStatementNode* compoundStatement = 0;
+	ExpressionStatementNode* expressionStatement = 0;
+	SelectionStatementNode* selectionStatement = 0;
+	IterationStatementNode* iterationStatement = 0;
+	JumpStatementNode* jumpStatement = 0;
 
 
 	inline ~StatementNode() {};

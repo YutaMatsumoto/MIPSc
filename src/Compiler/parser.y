@@ -678,13 +678,15 @@ expression_statement
 compound_statement
 	: '{' '}' { 
 		debugPrint("'{' '}' -> compound_statement"); 
+	  	
+		std::cout << "1111111" << std::endl;
 	  }
 	/* declaration mode*/ 
-	| '{' { beginLookupSection();
-		symbolTable->beginScope(); } statement_list '}' { 
-		symbolTable->endScope();
+	| '{' /*{ beginLookupSection();
+		symbolTable->beginScope(); }*/ statement_list '}' { 
+		//symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
-
+		std::cout << "222222" << std::endl;
 		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
 
 	  }
@@ -697,7 +699,7 @@ compound_statement
 	  	symbolTable->endScope();
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement");
-
+		std::cout << "33333333" << std::endl;
 		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
 
 	  }
@@ -712,9 +714,9 @@ compound_statement
 	  }
 	  statement_list '}' { 
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
-
-
-		//$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
+		std::cout << "Took last production in compound statement" << std::endl;
+		std::cout << "444444" << std::endl;
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
 	  }
 	;
 
@@ -1406,12 +1408,12 @@ identifier
 	{
 		//setDeclarationLocation();
 		pushIdentifier();
-		$$ =  new IdentifierNode( scanner->matched() );
+		$$ =  new IdentifierNode( symbolTable , scanner->matched() );
 	}
 	else
 	{
 	
-		$$ =  new IdentifierNode( scanner->matched() );
+		$$ =  new IdentifierNode( symbolTable , scanner->matched() );
 	
 	}
 

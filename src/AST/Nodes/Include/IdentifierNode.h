@@ -10,6 +10,7 @@
 
 #include "Node.h"
 #include "Operation.h"
+#include "SymbolTable.h"
 #include <vector>
 #include <string>
 
@@ -18,9 +19,11 @@ class IdentifierNode : public Node
 
 public:
 
-	IdentifierNode( std::string _id );
+	IdentifierNode( SymbolTable* _table , std::string _id );
 
 	std::string getId();
+
+	Symbol* resolveSymbol();
 
 	ASTData* toOperations();
 
@@ -29,6 +32,8 @@ public:
 protected:
 
 	std::string id;
+
+	SymbolTable* table;
 
 };
 

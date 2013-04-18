@@ -38,8 +38,8 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	RelationalExpressionNode* relationalExpression;
-	ShiftExpressionNode* shiftExpression;
+	RelationalExpressionNode* relationalExpression = 0;
+	ShiftExpressionNode* shiftExpression = 0;
 	RelationalExpressionType type;
 
 };

@@ -38,9 +38,9 @@ public:
 
 	~ConditionalExpressionNode();
 
-	LogicalOrExpressionNode* logicalOrExpression;
-	ExpressionNode* expression;
-	ConditionalExpressionNode* conditionalExpression;
+	LogicalOrExpressionNode* logicalOrExpression = 0;
+	ExpressionNode* expression = 0;
+	ConditionalExpressionNode* conditionalExpression = 0;
 
 };
 

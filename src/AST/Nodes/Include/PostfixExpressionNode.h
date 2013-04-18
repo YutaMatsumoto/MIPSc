@@ -53,11 +53,11 @@ public:
 
 	PostfixExpressionType type;
 
-	PrimaryExpressionNode* primaryExpression;
-	PostfixExpressionNode* postfixExpression;
-	ArgExpressionListNode* argExpressionList;
-	IdentifierNode* memberIdentifier;
-	ExpressionNode* arrayExpression;
+	PrimaryExpressionNode* primaryExpression = 0;
+	PostfixExpressionNode* postfixExpression = 0;
+	ArgExpressionListNode* argExpressionList = 0;
+	IdentifierNode* memberIdentifier = 0;
+	ExpressionNode* arrayExpression = 0;
 
 
 };

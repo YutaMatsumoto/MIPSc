@@ -37,8 +37,8 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	CastExpressionNode* castExpression;
-	MultiplicativeExpressionNode* multiplicativeExpression;
+	CastExpressionNode* castExpression = 0;
+	MultiplicativeExpressionNode* multiplicativeExpression = 0;
 	MultiplicativeExpressionType type;
 
 

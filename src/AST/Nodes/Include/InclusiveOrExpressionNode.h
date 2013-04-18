@@ -31,8 +31,8 @@ public:
 
 	~InclusiveOrExpressionNode();
 
-	InclusiveOrExpressionNode* inclusiveOrExpression;
-	ExclusiveOrExpressionNode* exclusiveOrExpression;
+	InclusiveOrExpressionNode* inclusiveOrExpression = 0;
+	ExclusiveOrExpressionNode* exclusiveOrExpression = 0;
 
 };
 

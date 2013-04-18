@@ -35,8 +35,8 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	IdentifierNode* identifier;
-	ExpressionNode* expression;
+	IdentifierNode* identifier = 0;
+	ExpressionNode* expression = 0;
 	JumpStatementType type;
 
 };

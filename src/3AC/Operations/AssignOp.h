@@ -10,11 +10,13 @@
 
 #include "Operation.h"
 
+#include "AssignmentOperatorNode.h"
+
 class AssignOp: public Operation {
 
 public:
 
-	inline AssignOp( Operand* destination , Operand* source ) : Operation(destination , source , 0 )
+	inline AssignOp( Operand* destination , Operand* source , AssignmentOperatorNode::AssignmentOperatorType _type ) : Operation(destination , source , 0 ), type( _type )
 	{
 
 	}
@@ -25,6 +27,8 @@ public:
 		return op1->getId() + " = " + op2->getId();
 
 	}
+
+	AssignmentOperatorNode::AssignmentOperatorType type;
 
 };
 

@@ -36,13 +36,13 @@ public:
 	std::string getNodeTypeAsString();
 	~IterationStatementNode();
 
-	ExpressionNode* condition;
+	ExpressionNode* condition = 0;
 
-	ExpressionNode* initialization;
+	ExpressionNode* initialization = 0;
 
-	ExpressionNode* increment;
+	ExpressionNode* increment = 0;
 
-	StatementNode* statement;
+	StatementNode* statement = 0;
 
 	IterationStatementType type;
 

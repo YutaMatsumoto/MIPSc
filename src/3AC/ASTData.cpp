@@ -10,5 +10,7 @@
 ASTData::ASTData() {
 	// TODO Auto-generated constructor stub
 
+	code = new std::vector< Operation* >();
+
 }
 

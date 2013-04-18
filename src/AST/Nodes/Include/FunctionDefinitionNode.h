@@ -20,7 +20,7 @@ public:
 
 	FunctionDefinitionNode( CompoundStatementNode* _compoundStatement );
 
-	CompoundStatementNode* compoundStatement;
+	CompoundStatementNode* compoundStatement = 0;
 
 	ASTData* toOperations();
 

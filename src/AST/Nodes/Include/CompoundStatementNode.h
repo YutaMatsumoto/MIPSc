@@ -34,9 +34,9 @@ public:
 
 	std::string getNodeTypeAsString();
 
-	DeclarationListNode* declarationList;
+	DeclarationListNode* declarationList = 0;
 
-	StatementListNode* statementList;
+	StatementListNode* statementList = 0;
 
 };
 

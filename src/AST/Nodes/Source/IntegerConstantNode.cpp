@@ -14,6 +14,7 @@
 #include "BuiltinType.h"
 #include "AssignOp.h"
 #include "IdTracker.h"
+#include "AssignmentOperatorNode.h"
 
 IntegerConstantNode::IntegerConstantNode( long long int _value ) : value( _value )
 {
@@ -29,7 +30,7 @@ ASTData* IntegerConstantNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
-	std::vector< Operation* >* operations;
+	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 	Symbol* constant = new Symbol( std::to_string( value ) , *new SymbolLocation() , new BuiltinType<long long int>( Type::LongLong , value ) );
 
@@ -37,7 +38,7 @@ ASTData* IntegerConstantNode::toOperations()
 
 	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , new BuiltinType<long long int>( Type::LongLong , value ) );
 
-	operations->push_back( new AssignOp( temporary , constant ) );
+	operations->push_back( new AssignOp( temporary , constant , AssignmentOperatorNode::Assign ) );
 
 	data->result = temporary;
 

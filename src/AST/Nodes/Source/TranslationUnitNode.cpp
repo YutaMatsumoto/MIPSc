@@ -27,18 +27,18 @@ ASTData* TranslationUnitNode::toOperations()
 
 	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-	if( externalDeclaration )
+	ASTData* externalData = externalDeclaration->toOperations();
+
+	operations->insert( operations->end(), externalData->code->begin() , externalData->code->end() );
+
+	if( translationUnit )
 	{
 
-		ASTData* externalData = externalDeclaration->toOperations();
+		ASTData* transData = translationUnit->toOperations();
 
-		operations->insert( operations->end(), externalData->code->begin() , externalData->code->end() );
+		operations->insert( operations->end() , transData->code->begin() , transData->code->end() );
 
 	}
-
-	ASTData* transData = translationUnit->toOperations();
-
-	operations->insert( operations->end() , transData->code->begin() , transData->code->end() );
 
 	data->code = operations;
 

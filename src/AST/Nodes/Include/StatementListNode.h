@@ -28,9 +28,9 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	StatementNode* statement;
+	StatementNode* statement = 0;
 
-	StatementListNode* statementList;
+	StatementListNode* statementList = 0;
 
 };
 

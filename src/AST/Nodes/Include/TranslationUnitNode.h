@@ -27,9 +27,9 @@ public:
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
-	TranslationUnitNode* translationUnit;
+	TranslationUnitNode* translationUnit = 0;
 
-	ExternalDeclarationNode* externalDeclaration;
+	ExternalDeclarationNode* externalDeclaration = 0;
 
 
 };
