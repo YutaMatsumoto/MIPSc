@@ -54,7 +54,8 @@ class TypeNameNode;
 class AbstractDeclaratorNode;
 class DirectAbstractDeclaratorNode;
 
-// class ConstantExpressionNode;
+class ConstantExpressionNode;
+
 class TypeSpecifierNode {
 
 private:
@@ -415,14 +416,26 @@ public:
 };
 
 class TypeQualifierNode {
+public:
+
+	enum TypeQual { Const, Volatile };
+	
+	TypeQualifierNode(int tqual )
+		: tqual(tqual)
+	{}
+
+	int /*TypeQual*/ tqual;
 };
 
+// Maybe
 class StructOrUnionSpecifierNode {
 };
 
+// Maybe
 class StructOrUnionNode {
 };
 
+// Maybe
 class StructDeclarationListNode {
 };
 
@@ -466,87 +479,27 @@ public:
 		FunctionCallWithParam
 	};
 
-	string toString()
-	{
-		if (id) {
-			return id->getId();
-		}
-		else if (dirDeclNode){
-			return dirDeclNode->toString();
-		}
-		else {
-			error("both of id and dirDeclNode is null");
-			return "bad DirectDeclaratorNode";
-		}
-	}
+	string toString();
 
-	void error(string msg)
-	{
-		cerr << "Error : DirectDeclaratorKind : " << msg << endl;
-	}
+	void error(string msg);
 
-	DirectDeclaratorNode() {initData();}
+	DirectDeclaratorNode();
 
-	DirectDeclaratorNode( DirectDeclaratorNode* a)
-	{
-		initData();	
-		dirDeclNode = a;
-	}
+	DirectDeclaratorNode( DirectDeclaratorNode* a);
 
-	DirectDeclaratorNode( IdentifierNode* id )
-	{
-		initData();
-		this->id = id;
-	}
+	DirectDeclaratorNode( IdentifierNode* id );
 
-	void initData()
-	{
-		array = false;
-		functionCall = false;
-		functionDefinition = false;
+	void initData();
 
-		kind = None;
+	void specifyArray();
 
-		id = NULL;
-		dirDeclNode = NULL;
-		declNode = NULL;
-		idListNode = NULL;
-		arraySize = NULL;
-		funcParams = NULL;
-	}
+	void specifyArray( ConstantExpressionNode* a);
 
-	void specifyArray()
-	{
-		// TODO check existence of initializer in the upstream
-		array = true;
-		kind = Array;
-	}
+	void specifyFunction( ParameterTypeListNode* a );
 
-	void specifyArray( ConstantExpressionNode* a)
-	{
-		arraySize = a;
-		array = true;
-		kind = ArrayWithSize;
-	}
+	void specifyFunctionCall( IdentifierListNode* a );
 
-	void specifyFunction( ParameterTypeListNode* a )
-	{
-		funcParams = a;
-		functionDefinition = true; // TODO is this right?
-		kind = FunctionDefinitionWithParam;
-	}
-
-	void specifyFunctionCall( IdentifierListNode* a )
-	{
-		functionCall = true;
-		idListNode = a;	
-		kind = FunctionCallWithParam;
-	}
-
-	int getKind()
-	{
-		return kind;
-	}
+	int getKind();
 	
 	IdentifierNode* id;
 	DeclaratorNode* declNode;		
@@ -616,42 +569,157 @@ class StructDeclarationNode {
 };
 
 class SpecifierQualifierListNode {
+public:
+
+	SpecifierQualifierListNode( TypeSpecifierNode* ts )
+		: typeSpecifier(ts), typeQualifier(NULL), specifierQualifierList(NULL)
+	{}
+
+	SpecifierQualifierListNode( TypeSpecifierNode* ts, SpecifierQualifierListNode* sql )
+		: typeSpecifier(ts), specifierQualifierList(sql)
+	{}
+
+	SpecifierQualifierListNode( TypeQualifierNode* tq )
+		: typeSpecifier(NULL), typeQualifier(tq), specifierQualifierList(NULL)
+	{}
+
+	SpecifierQualifierListNode( TypeQualifierNode* tq, SpecifierQualifierListNode* sql )
+		: typeQualifier(tq), specifierQualifierList(sql)
+	{}
+
+	bool isLast() { return specifierQualifierList == NULL; }
+
+	TypeSpecifierNode* typeSpecifier;
+	TypeQualifierNode* typeQualifier;
+	SpecifierQualifierListNode* specifierQualifierList;	
 };
 
+// Maybe
 class StructDeclaratorListNode {
 };
 
+// Maybe
 class StructDeclaratorNode {
 };
 
+// Maybe
 class EnumSpecifierNode {
 };
 
+// Maybe
 class EnumeratorListNode {
 };
 
+// Maybe
 class EnumeratorNode {
 };
-class PointerNode {
 
+class PointerNode {
+public:
+
+	PointerNode()
+		: p(NULL), tql(NULL)
+	{}
+		
+	PointerNode( TypeQualifierListNode* tql )
+		: p(NULL), tql(tql)
+	{}
+
+	PointerNode( PointerNode* p )
+		: p(p), tql(NULL)
+	{}
+
+	PointerNode( TypeQualifierListNode* tql,  PointerNode* p)
+		: p(p), tql(tql)
+	{}
+
+	PointerNode* p;
+	TypeQualifierListNode* tql;
 };
 
 class TypeQualifierListNode {
+public:
+
+	TypeQualifierListNode(TypeQualifierNode* tq)
+	{
+		tqlist.push_back(tq);	
+	}
+
+	TypeQualifierListNode(TypeQualifierListNode* tql, TypeQualifierNode* tq)
+		: tqlist(tql->tqlist)
+	{	
+		tqlist.push_back(tq);
+	}
+
+	std::vector<TypeQualifierNode*>	tqlist;
+
 };
 
 class ParameterTypeListNode {
+public:
+
+	ParameterTypeListNode(ParameterListNode* pl)
+		: pl(pl), ellipsis(false)
+	{}
+
+	void setVariableArgumentList()	
+	{
+		ellipsis = true;
+	}
+
+	ParameterListNode* pl;
+	bool ellipsis;
 };
 
 class ParameterListNode {
+public:
+
+	ParameterListNode( ParameterDeclarationNode* pd)
+		: pd(pd), pl(NULL)
+	{}
+
+	ParameterListNode( ParameterListNode* pl, ParameterDeclarationNode* pd)
+		: pd(pd), pl(pl)
+	{}
+
+	ParameterDeclarationNode* pd;
+	ParameterListNode* pl;
+
 };
 
 class ParameterDeclarationNode {
+public:
+	ParameterDeclarationNode( DeclarationSpecifiersNode* ds,  DeclaratorNode* d)
+		: ds(ds), d(d), ad(NULL)
+	{}
+
+	ParameterDeclarationNode( DeclarationSpecifiersNode* ds )
+		: ds(ds), d(NULL), ad(NULL)
+	{}
+
+	ParameterDeclarationNode( DeclarationSpecifiersNode* ds, AbstractDeclaratorNode* ad)
+		: ds(ds), d(NULL), ad(ad)
+	{}
+
+	DeclarationSpecifiersNode* ds;  
+	DeclaratorNode* d;
+	AbstractDeclaratorNode* ad;
 };
 
 class IdentifierListNode {
+public:
+
+	IdentifierListNode( IdentifierNode* i )
+		: i(i), il(NULL)
+	{}
+
+	IdentifierListNode( IdentifierListNode* il,  IdentifierNode* i)
+		: i(i), il(il)
+	{}
+
+	IdentifierNode* i;
+	IdentifierListNode* il;
 };
-
-
 
 class InitializerNode {
 public:
@@ -693,10 +761,76 @@ public:
 	std::vector<InitializerNode*> initializerList;
 };
 
+class TypeNameNode {
+public:
+	TypeNameNode( SpecifierQualifierListNode* sql )
+		: sql(sql), ad(NULL)
+	{}
+
+	TypeNameNode( SpecifierQualifierListNode* sql,  AbstractDeclaratorNode* ad )
+		: sql(sql), ad(ad)
+	{}
+
+	SpecifierQualifierListNode* sql;
+	AbstractDeclaratorNode* ad;
+};
+
 class AbstractDeclaratorNode {
+public:
+
+	AbstractDeclaratorNode( PointerNode* p )
+		: p(p), dad(NULL)
+	{}
+
+	AbstractDeclaratorNode( DirectAbstractDeclaratorNode * dad )
+		: p(NULL), dad(dad)
+	{}
+
+	AbstractDeclaratorNode( PointerNode* p,  DirectAbstractDeclaratorNode* dad)
+		: p(p), dad(dad)
+	{}
+
+	PointerNode* p;
+	DirectAbstractDeclaratorNode* dad;
 };
 
 class DirectAbstractDeclaratorNode {
+public:
+
+	enum ParenType {
+		Square, Normal, None
+	};
+
+	// typedef int ParenType;
+
+	DirectAbstractDeclaratorNode( AbstractDeclaratorNode* ad) // '(' abstract_declarator ')' 
+		: ad(ad), dad(NULL), ce(NULL), ptl(NULL), ptype(None)
+	{}
+	DirectAbstractDeclaratorNode( /*ParenType*/ int ptype ) // '[' ']' and '(' ')' 
+		: ad(NULL), dad(NULL), ce(NULL), ptl(NULL), ptype(ptype)
+	{}
+	DirectAbstractDeclaratorNode( ConstantExpressionNode* ce )// '[' constant_expression ']' 
+		: ad(NULL), dad(NULL), ce(ce), ptl(NULL), ptype(None)
+	{}
+	DirectAbstractDeclaratorNode( DirectAbstractDeclaratorNode* dad, /*ParenType*/ int  ptype) // direct_abstract_declarator '[' ']'  and '(' ')' 
+		: ad(NULL), dad(dad), ce(NULL), ptl(NULL), ptype(None)
+	{}
+	DirectAbstractDeclaratorNode( DirectAbstractDeclaratorNode* dad, ConstantExpressionNode* ce ) // direct_abstract_declarator '[' constant_expression ']' 
+		: ad(NULL), dad(dad), ce(ce), ptl(NULL), ptype(None)
+	{}
+	DirectAbstractDeclaratorNode( ParameterTypeListNode* ptl ) // '(' parameter_type_list ')' 
+		: ad(NULL), dad(NULL), ce(NULL), ptl(ptl), ptype(None)
+	{}
+	DirectAbstractDeclaratorNode( DirectAbstractDeclaratorNode* dad, ParameterTypeListNode* ptl ) // direct_abstract_declarator '(' parameter_type_list ')' 
+		: ad(NULL), dad(dad), ce(NULL), ptl(ptl), ptype(None)
+	{}
+
+	AbstractDeclaratorNode* ad;
+	DirectAbstractDeclaratorNode* dad;
+	ConstantExpressionNode* ce;
+	ParameterTypeListNode* ptl;
+
+	/*ParenType*/ int ptype;
 };
 
 class DeclarationNode : public Node {
@@ -734,7 +868,6 @@ private:
 	InitDeclaratorListNode* initDeclList;		
 	DeclarationSpecifiersNode* declSpecifier;
 };
-
 
 //  -----------------------------------------------------------------------------
 //
