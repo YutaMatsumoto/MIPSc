@@ -11,6 +11,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "ArrayType.h"
+
 SymbolTableInfo SymbolTable::getSymbolInfo(std::string symbolName, bool currentScopeOnly)
 {
 
@@ -140,8 +142,20 @@ void SymbolTable::dumpTable( std::string filename )
 		for( auto& j : i.symbolMap )
 		{
 
-			o << j.second->getId() << " : " << j.second->getTypeAsString() << std::endl;
+			Symbol* sym = j.second;
+			Type* t = sym->getType();
 
+			// ugly cast
+			if (t && t->getType()==Type::Array) {
+				t = dynamic_cast<ArrayType*>( t );
+			}
+			std::string typeStr = ( (t) ? t->toString() : "bad type" );
+
+			// print
+			o << sym->getId() 
+				<< " : " 
+				<< typeStr
+				<< std::endl;
 		}
 
 	}

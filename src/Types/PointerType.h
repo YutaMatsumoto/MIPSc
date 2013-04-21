@@ -10,6 +10,8 @@
 
 #include "Type.h"
 
+class Symbol;
+
 class PointerType: public Type {
 public:
 

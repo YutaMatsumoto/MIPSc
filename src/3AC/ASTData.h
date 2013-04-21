@@ -8,9 +8,10 @@
 #ifndef ASTDATA_H_
 #define ASTDATA_H_
 
-#include "Symbol.h"
+// #include "Symbol.h"
 #include "Label.h"
 #include <vector>
+class Symbol;
 
 // TODO: This might be necessary if returning vectors of operations isn't sufficient
 class ASTData {

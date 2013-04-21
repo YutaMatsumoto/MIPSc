@@ -12,6 +12,8 @@
 
 #include <map>
 
+class Symbol;
+
 class StructType: public Type {
 public:
 

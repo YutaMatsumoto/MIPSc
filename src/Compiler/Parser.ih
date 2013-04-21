@@ -8,6 +8,8 @@
 #include <vector>
 #include "Operation.h"
 
+#include "AllASTNodes.h"
+
 inline void Parser::error(char const *msg)
 {
 	SymbolLocation& location = scanner->getLoc();
@@ -28,7 +30,8 @@ inline int Parser::lex()
 
 	// Lex Debug and Token File can be created here
 	//
-	// std::cout << "lex() : " << scanner->matched() << " : " << token << std::endl;
+	
+	std::cout << "lex() : " << scanner->matched() << " : " << token << std::endl;
 
 	// Return token value
 	if( token == Parser::ENDOFFILE ) {
@@ -177,9 +180,7 @@ bool Parser::isDeclarationMode()
 
 ASTData* Parser::generate3AC()
 {
-
-	return ast->toOperations();
-
+	if (ast) return ast->toOperations();
 }
 
 	// Add here includes that are only required for the compilation 

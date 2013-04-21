@@ -6,6 +6,8 @@
  */
 
 #include "EnumType.h"
+#include <iostream>
+#include <cstdlib>
 
 EnumType::~EnumType() {
 

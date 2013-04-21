@@ -5,23 +5,32 @@
  *      Author: njordan
  */
 
-#include "Type.h"
 #include "Symbol.h"
+#include "Type.h"
 #include "ArrayType.h"
 #include "PointerType.h"
 #include "TypedefType.h"
 #include "FunctionType.h"
+#include "BuiltinType.h"
+
+#include "TypeInfo.h"
 
 // Type::Type( std::string id , int lineNumber , int columnNumber ) {
-
 	// this->id = id;
-
 	// this->lineNumber = lineNumber;
-
 	// this->columnNumber = columnNumber;
-
 // }
 
+std::string Type::getTypeAsString()
+{
+	return "Naked Type";
+}
+std::string Type::toString()
+{
+	return getTypeAsString();
+}
+
+/*
 std::string Type::getTypeAsString()
 {
 	switch( getType() )
@@ -135,11 +144,15 @@ std::string Type::getTypeAsString()
 
 			s = "";
 
-			s += ( (ArrayType*) this )->getElementType()->getTypeAsString();
+			ArrayType* a = (ArrayType*) this;
 
-			for( unsigned int i = 0 ; i < ( (ArrayType*) this )->dimension && ( (ArrayType*) this )->dimension > 1 ; i++ )
+			std::cout << "before" << std::endl;
+			return a->toString();
+			std::cout << "after" << std::endl;
 
-				s += std::string( "[" + ( (ArrayType*) this )->offsets.at(i) ) + "]";
+			// s += ( (ArrayType*) this )->getElementType()->getTypeAsString();
+			// for( unsigned int i = 0 ; i < ( (ArrayType*) this )->dimension && ( (ArrayType*) this )->dimension > 1 ; i++ )
+			// 	s += std::string( "[" + ( (ArrayType*) this )->offsets.at(i) ) + "]";
 
 			return s;
 
@@ -184,6 +197,14 @@ std::string Type::getTypeAsString()
 	return "";
 
 }
+*/
+
+/*
+std::string Type::toString()
+{
+	return	getTypeAsString();
+}
+*/
 
 std::string Type::getId()
 {
@@ -192,14 +213,17 @@ std::string Type::getId()
 
 }
 
-// Type::Type() {
-// }
 
-Type::Type(TypeEnum type)
-	: type(type)
-{}
+Type::Type(TypeEnum type) : type(type)
+{
+}
 
-Type::~Type() {
+Type::~Type() 
+{
 	// TODO Auto-generated destructor stub
 }
 
+int Type::getType() 
+{
+	return type;
+}

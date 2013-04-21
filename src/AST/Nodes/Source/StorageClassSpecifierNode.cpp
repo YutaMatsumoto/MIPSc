@@ -1,4 +1,5 @@
-#include "ASTNodes.h"
+#include "StorageClassSpecifierNode.h"
+#include "ParserError.h"
 
 StorageClassSpecifierNode::StorageClassSpecifierNode(int storageSpecKind ) 
 {
@@ -9,3 +10,4 @@ StorageClassSpecifierNode::StorageClassSpecifierNode(int storageSpecKind )
 		throw ParserError(ParserError::Whatever, "StorageClassSpecifierNode");
 	}
 }
+

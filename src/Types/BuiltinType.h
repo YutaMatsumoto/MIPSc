@@ -10,85 +10,25 @@
 
 #include "Type.h"
 
-/*
-enum BuiltinTag
-{
-
-	uChar,
-	uShort,
-	uInt,
-	uLong,
-	uLongLong,
-	Char,
-	Short,
-	Int,
-	Long,
-	LongLong,
-	Float,
-	Double,
-	Void
-
-};
-*/
-
-template <class Data> class BuiltinType : public Type
+class BuiltinType : public Type
 {
 public:
 
-	// BuiltinType(int/*Builtins enum*/ tag)
-	BuiltinType(Type::TypeEnum type)
-		: Type(type), data(Data())
-	{}
+	static Type* buildType(TypeInfo tInfo);
 
-	BuiltinType(Type::TypeEnum type, Data data)
-		: Type(type), data(data)
-	{}
+	virtual ~BuiltinType();
 
-	// virtual ~BuiltinType();
+	BuiltinType(Type::TypeEnum type);
+
+	// BuiltinType(int type);
+	
+	virtual std::string getTypeAsString();
+
+	virtual std::string toString();
 
 
-
-	/* template might save time if we could do it.
-	 *
-	struct value
-	{
-
-		unsigned char ucharVal;
-
-		unsigned short ushortVal;
-
-		unsigned int uintVal;
-
-		unsigned long ulongVal;
-
-		unsigned long long ulonglongVal;
-
-		char charVal;
-
-		short shortVal;
-
-		int intVal;
-
-		long longVal;
-
-		long long longlongVal;
-
-		float floatVal;
-
-		double doubleVal;
-
-	};
-	*/
-
-	Data data;
-
-	virtual int sizeInBytes()
-	{
-
-		return sizeof(Data);
-
-	}
-
+	virtual int sizeInBytes();
 };
+
 
 #endif /* BUILTINTYPE_H_ */

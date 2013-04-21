@@ -1,43 +1,50 @@
-/*
- * ArrayType.h
- *
- *  Created on: Mar 29, 2013
- *      Author: njordan
- */
-
 #ifndef ARRAYTYPE_H_
 #define ARRAYTYPE_H_
 
+#include "ConstantExpressionNode.h"
+
 #include "Type.h"
 
-class ArrayType: public Type {
+class ArrayType : public Type {
 
 public:
 
-	ArrayType( Type* ) : Type( Array )
-	{
+	// delete this 
+	// ArrayType(ConstantExpressionNode* size, Type* elementType)
+	// 	: size(size), elementType(elementType), Type(Type::Array)
+	// {}
 
+	ArrayType(ConstantExpressionNode* size, Type* elementType)
+		: elementType(elementType), Type(Type::Array)
+	{
+		sizes.push_back(size);
 	}
 
-	virtual ~ArrayType();
+	void addDimension(ConstantExpressionNode* s)
+	{
+		sizes.push_back(s);			
+	}
 
 	Type* getElementType()
 	{
-
-		return array.at( 0 );
-
+		return elementType;
 	}
 
 	virtual int sizeInBytes();
 
-	//whether its 1D, 2D, 3d, 4d...
-	unsigned int dimension;
+	virtual std::string getTypeAsString();
 
-	std::vector< unsigned int > offsets;
+	virtual std::string toString();
 
-	//the array of types(type data)
-	std::vector< Type* > array;
+	// sizes of arrays
+	// [0]    : size of the outermost array
+	// [last] : size of the innermost dimension
+	vector<ConstantExpressionNode*> sizes;
 
+	Type* elementType; 
+
+	// TODO delete this
+	ConstantExpressionNode* size;
 };
 
 #endif /* ARRAYTYPE_H_ */

@@ -116,34 +116,34 @@ public:
 
 		if (unsignedSpecified) {
 			if (integral==Char) 
-				type = new BuiltinType<char>(Type::uChar);
+				type = new BuiltinType(Type::uChar);
 			else if (integral==Short)
-				type = new BuiltinType<short>(Type::uShort);
+				type = new BuiltinType(Type::uShort);
 			else if (integral==Int)
-				type = new BuiltinType<int>(Type::uInt);
+				type = new BuiltinType(Type::uInt);
 			else if (longLongSpecified)
-				type = new BuiltinType<unsigned long long>(Type::uLongLong);
+				type = new BuiltinType(Type::uLongLong);
 			else if (longSpecified)
-				type = new BuiltinType<unsigned long>(Type::uLong);
+				type = new BuiltinType(Type::uLong);
 		}
 		else {
 			if (integral==Int) {
 				if (longLongSpecified)
-					type = new BuiltinType<long long>(Type::Long);
+					type = new BuiltinType(Type::Long);
 				else if (longSpecified)
-					type = new BuiltinType<long>(Type::Long);
+					type = new BuiltinType(Type::Long);
 				else
-					type = new BuiltinType<int>(Type::Int);
+					type = new BuiltinType(Type::Int);
 			}
 			else {
 				if (integral==Char)
-					type = new BuiltinType<char>(Type::Char);
+					type = new BuiltinType(Type::Char);
 				else if (Short)
-					type = new BuiltinType<short>(Type::Short);
+					type = new BuiltinType(Type::Short);
 				else if (integral==Float)
-					type = new BuiltinType<float>(Type::Float);
+					type = new BuiltinType(Type::Float);
 				else if (integral==Double)
-					type = new BuiltinType<double>(Type::Double);
+					type = new BuiltinType(Type::Double);
 			}
 		}
 

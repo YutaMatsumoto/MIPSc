@@ -13,9 +13,18 @@
 class FunctionType: public Type {
 public:
 
-	FunctionType() : Type(Function)
-	{
+	FunctionType() 
+		: Type(Function)
+	{}
 
+	void setReturnType(Type* rtype)
+	{
+		this->returnType = rtype;
+	}
+
+	void addOperand(Type* type)
+	{
+		operands.push_back(type);
 	}
 
 	virtual ~FunctionType();

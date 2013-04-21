@@ -32,7 +32,7 @@ DEFAULT : $(OBJS) $(COMPILER_OBJ)
 
 MAKEDEPEND = gcc $(INCLUDEDIRS) -M $(CPPFLAGS) -o $*.d $<
 
-%.o : %.cpp
+%.o : %.cpp %.h
 	@$(MAKEDEPEND); \
 	cp $*.d $*.P; \
 	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
@@ -59,10 +59,11 @@ $(LEX_OBJ) : $(SCANNERIMPL) $(shell find -name "Scanner*")
 # ----------------------------------------------------------------------------
 # parser
 PARSERDEF = $(shell find -name "parser.y")
+PARSER_IH= $(shell find -name "Parser.ih")
+PARSER_H= $(shell find -name "Parser.H")
 PARSERIMPL = $(shell find -name "parse.cc")
 
-
-$(PARSERIMPL) : $(PARSERDEF)
+$(PARSERIMPL) : $(PARSERDEF) $(PARSER_IH) $(PARSR_H)
 	cd src/Compiler && $(BISONCPP) $(BISONFLAG) $(shell basename $(PARSERDEF) )
 
 $(PARSER_OBJ) : $(PARSERIMPL)
@@ -75,6 +76,7 @@ clean :
 	find -name "*.o" -exec rm {} \;
 	find -name "*.P" -exec rm {} \;
 	find -name "*.d" -exec rm {} \;
+	rm $(COMPILER)
 	rm tags
 
 cleanAll :

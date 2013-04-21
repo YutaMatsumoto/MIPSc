@@ -202,7 +202,7 @@ function_definition
 		debugPrint("----to function definition Production 2----"); 
 		debugPrint("declarator declaration_list compound_statement -> function_definition"); 
 
-		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3 );
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3 ); // $BUG
 	  }
 	| declaration_specifiers declarator compound_statement { 
 		debugPrint("----to function_definition by production 3----"); 
@@ -221,7 +221,7 @@ function_definition
 		debugPrint("----to function definition production 4----"); 
 	    debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
 	  
-	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 );
+	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 ); // $BUG
 	  }
 	;
 
@@ -424,7 +424,7 @@ init_declarator
 		// TODO : initialize here or even before when something reduces to initializer ?
 		/* initializeValue(); */
 		debugPrint("declarator '=' initializer -> init_declarator"); 
-		$$ = (void*)new InitDeclaratorNode((DeclaratorNode*) $1, (InitializerNode*) $2);
+		$$ = (void*)new InitDeclaratorNode((DeclaratorNode*) $1, (InitializerNode*) $3);
 	  }
 	;
 
@@ -485,14 +485,12 @@ declarator
 		}
 	| pointer direct_declarator { 
 		debugPrint("pointer direct_declarator -> declarator"); 
-		$$ = (void*) new DeclaratorNode((PointerNode*)$1, (DirectDeclaratorNode*)$1);
+		$$ = (void*) new DeclaratorNode((PointerNode*)$1, (DirectDeclaratorNode*)$2);
 		}
 	;
 
 direct_declarator
 	: identifier { 
-			//^^ Can the scanner match on a non-terminal?
-			//pushIdentifier();
 			debugPrint("identifier -> direct_declarator"); 
 			$$ = (void*) new DirectDeclaratorNode( (IdentifierNode*)$1 );
 		}
@@ -523,10 +521,17 @@ direct_declarator
 			$$ = (void*) ddn;
 		}
 	| direct_declarator '(' identifier_list ')' { 
+			//
+			// function call 
+			//
+			// or
+			//
+			// function definition with paramters types specified outside of
+			// parentheses
 			debugPrint("direct_declarator '(' identifier_list ')' -> direct_declarator"); 
 			specifyFunctionCall();	// TODO : or structure instantiation ?
 			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
-			ddn->specifyFunctionCall( (IdentifierListNode*)$3 );
+			ddn->specifyFunctionCall( (IdentifierListNode*)$3 ); // TODO TOFIX
 			$$ = (void*) ddn;
 		}
 	;
@@ -576,7 +581,9 @@ parameter_list
 		}
 	| parameter_list ',' parameter_declaration { 
 		debugPrint("parameter_list ',' parameter_declaration -> parameter_list"); 
-		$$ = (void*) new ParameterListNode( (ParameterListNode*)$1, (ParameterDeclarationNode*)$2);
+		ParameterListNode* pl = (ParameterListNode*) $1;
+		pl->add( (ParameterDeclarationNode*) $3);
+		$$ = (void*) pl;
 		}
 	;
 
@@ -590,6 +597,7 @@ parameter_declaration
 		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1);	
 		}
 	| declaration_specifiers abstract_declarator { debugPrint("declaration_specifiers abstract_declarator -> parameter_declaration"); } {
+		// TODO what's this?
 		$$ = (void*) new
 		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1, (AbstractDeclaratorNode*)$2);	
 		}
@@ -601,11 +609,13 @@ identifier_list
 			IdentifierListNode( (IdentifierNode*)$1 );
 		}
 	| identifier_list ',' identifier { debugPrint("identifier_list ',' identifier -> identifier_list"); } {
-			$$ = (void*) new 
-			IdentifierListNode( (IdentifierListNode*)$1 , (IdentifierNode*)$2 );
+			IdentifierListNode*	idList = (IdentifierListNode*) $1;
+			idList->add( (IdentifierNode*) $3 );
+			$$ = (void*) idList;
 		}
 	;
 
+// TODO
 initializer
 	: assignment_expression { debugPrint("assignment_expression -> initializer"); }
 	| '{' initializer_list '}' { 
@@ -618,6 +628,7 @@ initializer
 		}
 	;
 
+// TODO
 initializer_list
 	: initializer { 
 			addValueToArray();
@@ -797,7 +808,7 @@ compound_statement
 		//symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 		std::cout << "222222" << std::endl;
-		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
+		$$ = new CompoundStatementNode( (StatementListNode*) $2 ); // $BUG
 
 	  }
 	| '{' {
@@ -810,7 +821,7 @@ compound_statement
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement");
 		std::cout << "33333333" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 ); // $BUG
 
 	  }
 	| '{' {
@@ -826,7 +837,7 @@ compound_statement
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
 		std::cout << "Took last production in compound statement" << std::endl;
 		std::cout << "444444" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 ); // $BUG
 	  }
 	;
 
@@ -1332,7 +1343,8 @@ unary_expression
 	| SIZEOF '(' type_name ')' { debugPrint("SIZEOF '(' type_name ')' -> unary_expression"); }
 	{
 
-		$$ = (void*) new UnaryExpressionNode( (TypeNameNode*) $1  );
+		// TODO BUG?  should insert sizeof ?
+		$$ = (void*) new UnaryExpressionNode( (TypeNameNode*) $1  ); 
 
 	}
 	;
@@ -1371,7 +1383,7 @@ unary_operator
 	| '!' { debugPrint("'!' -> unary_operator"); }
 	{
 
-		$$ = (void*) new UnaryOperatorNode( UnaryOperatorNode::Address );
+		$$ = (void*) new UnaryOperatorNode( UnaryOperatorNode::Address ); // BUG?
 
 	}
 	;
@@ -1428,13 +1440,11 @@ postfix_expression
 	;
 
 primary_expression
-	: identifier { 
+	: identifier { debugPrint("identifier -> primary_expression"); } {
 		$$ = (void*) new PrimaryExpressionNode( (IdentifierNode*) $1 );
 		}
-	| constant { 
+	| constant { debugPrint("constant -> primary_expression"); } { 
 		$$ = (void*) new PrimaryExpressionNode( (ConstantNode*) $1 );
-		
-		debugPrint("constant -> primary_expression"); 
 		}
 	| string { debugPrint("string -> primary_expression"); }
 	{
@@ -1460,15 +1470,13 @@ argument_expression_list
 	| argument_expression_list ',' assignment_expression { debugPrint("argument_expression_list ',' assignment_expression -> argument_expression_list"); }
 	{
 	
-		$$ = (void*) new ArgExpressionListNode( (ArgExpressionListNode*) $3 , (AssignmentExpressionNode*) $1 );
+		$$ = (void*) new ArgExpressionListNode( (ArgExpressionListNode*) $3 , (AssignmentExpressionNode*) $1 ); // $BUG
 	
 	}
 	;
 
 constant
 	: I_CONSTANT /* includes character_constant */ { 
-			// Create expression which will propagate up the grammar
-			// Type should not be made here but data of a symbol is held within type currently...
 
 			// Convert the string integer constant to integer
 			std::string match = scanner->matched();
@@ -1518,11 +1526,13 @@ identifier
 	{
 		//setDeclarationLocation();
 		pushIdentifier();
+		// TODO : why take symbol table argument?
 		$$ =  new IdentifierNode( symbolTable , scanner->matched() );
 	}
 	else
 	{
 	
+		// TODO : why take symbol table argument?
 		$$ =  new IdentifierNode( symbolTable , scanner->matched() );
 	
 	}

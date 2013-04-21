@@ -7,11 +7,10 @@
 
 #include <string>
 #include "SymbolLocation.h"
+#include "Type.h"
 
 #ifndef SYMBOL_H_
 #define SYMBOL_H_
-
-class Type;
 
 class Symbol
 {
@@ -23,6 +22,8 @@ public:
 	SymbolLocation location;
 	
 	Type* symbolType;
+
+	bool constness = false;
 
 	Symbol() 
 	{}
@@ -40,6 +41,11 @@ public:
 		return id;
 	}
 
+	Type* getType()
+	{
+		return symbolType;
+	}
+
 	std::string getValueAsString()
 	{
 		//return symbolType->getType()->
@@ -49,10 +55,8 @@ public:
 
 	std::string getTypeAsString()
 	{
-
-		return "";
-		//return symbolType->getTypeAsString();
-
+		// return "";
+		return symbolType->getTypeAsString();
 	}
 
 };

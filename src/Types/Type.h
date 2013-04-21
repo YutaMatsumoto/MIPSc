@@ -10,9 +10,9 @@
 
 #include <string>
 #include <vector>
-#include "Symbol.h"
 
-//class Symbol;
+class DeclarationSpecifiersNode;
+class TypeInfo;
 
 enum TypeSpecifier {
 	Void,
@@ -77,30 +77,34 @@ public:
 		Function 
 	};
 
-	TypeEnum getType() 
-	{
-		return type;
-	}
+	int getType();
 
-	std::string getTypeAsString();
+	virtual std::string getTypeAsString();
+
+	virtual std::string toString();
 
 	virtual int sizeInBytes() = 0;
-
-	std::string id;
-
-	Symbol* typeSymbol;
-
-	std::vector< std::string > storageSpecifiers;
-
-	std::vector< std::string > typeQualifiers;
-
-	TypeEnum type;
 
 protected:
 
 	// Type(); // need this?
 
 	Type( TypeEnum );
+
+// ---------------------------------------------------------------------------
+// data member
+//
+private:
+
+	std::string id;
+
+	// Symbol* typeSymbol;
+
+	std::vector< std::string > storageSpecifiers;
+
+	std::vector< std::string > typeQualifiers;
+
+	TypeEnum type;
 
 };
 
