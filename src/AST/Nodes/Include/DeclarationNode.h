@@ -10,7 +10,6 @@
 #include "Type.h"
 #include "Node.h"
 
-
 #include "DeclarationSpecifiersNode.h"
 #include "InitDeclaratorListNode.h"
 
@@ -51,6 +50,8 @@ public:
 	void declare(SymbolTable* stab) ;
 
 	std::string toString() const;
+
+	Type* buildType(TypeInfo tInfo);
 
 	// bool isPointer();
 

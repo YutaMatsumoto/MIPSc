@@ -18,3 +18,15 @@ size_t InitializerListNode::size()
 { 
 	return initializerList.size(); 
 }
+
+ASTData* InitializerListNode::toOperations()
+{
+	ASTData* data = new ASTData();
+
+	return data;
+}
+
+std::string InitializerListNode::getNodeTypeAsString()
+{
+	return std::string("initializer list node");
+}

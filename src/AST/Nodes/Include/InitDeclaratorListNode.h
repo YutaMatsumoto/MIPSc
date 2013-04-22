@@ -5,7 +5,8 @@
 
 #include "InitDeclaratorNode.h"
 
-class InitDeclaratorListNode {
+
+class InitDeclaratorListNode : public Node {
 public:
 
 	InitDeclaratorListNode() {}
@@ -14,11 +15,15 @@ public:
 
 	InitDeclaratorListNode( InitDeclaratorListNode* a,  InitDeclaratorNode* b);
 
+	ASTData* toOperations();
+
+	std::string getNodeTypeAsString();
+
 	void add(InitDeclaratorNode* initDecl) ;
 
-
-	std::vector<InitDeclaratorNode*> declaratorList;
+	InitDeclaratorListNode* initDeclaratorList = 0;
+	InitDeclaratorNode* initDeclarator = 0;
+	
 };
 
 #endif // END InitDeclaratorListNode_H_GUARD
-

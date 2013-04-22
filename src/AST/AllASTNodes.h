@@ -109,6 +109,11 @@
 #include "ConstantNode.h"
 #include "StringNode.h"
 #include "IdentifierNode.h"
+#include "InitializerNode.h"
+#include "InitializerListNode.h"
+#include "InitDeclaratorNode.h"
+#include "InitDeclaratorListNode.h"
+#include "DeclaratorNode.h"
 
 
 #endif /* ALLASTNODES_H_ */

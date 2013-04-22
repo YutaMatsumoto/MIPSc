@@ -1,6 +1,7 @@
 #ifndef InitializerListNode_H_GUARD
 #define InitializerListNode_H_GUARD
 
+#include "Node.h"
 #include "AllASTNodes.h"
 
 class InitializerNode;
@@ -12,6 +13,9 @@ public:
 
 	InitializerListNode(InitializerNode* initNode, InitializerListNode* initListNode);
 
+	ASTData* toOperations();
+	std::string getNodeTypeAsString();
+
 	size_t size();
 
 	std::vector<InitializerNode*> initializerList;
@@ -19,4 +23,3 @@ public:
 
 
 #endif // END InitializerListNode_H_GUARD
-

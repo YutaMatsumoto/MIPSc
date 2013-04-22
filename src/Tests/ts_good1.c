@@ -1,17 +1,19 @@
-char greeting[] = "hello world";
+// The declaration nodes need to have 'toOperations()' implemented
+// for this to work...
+// char greeting[] = "hello world";
 
 int main()
 {
 
     {
-        int foo;
+        int foo = 50000;
     }
 
     {
-        int bar;
+        int bar = 1;
     }
 
-    printf("%s", greeting);  
+    printf("%i", foo + bar );  
 
 }
 

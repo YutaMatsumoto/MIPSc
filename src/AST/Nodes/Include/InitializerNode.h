@@ -18,6 +18,8 @@ public:
 		: initListNode( initListNode )
 	{}
 			
+	ASTData* toOperations();
+	std::string getNodeTypeAsString();
 
 private:
 	AssignmentExpressionNode* assignExprNode;
@@ -26,4 +28,3 @@ private:
 
 
 #endif // END InitializerNode_H_GUARD
-

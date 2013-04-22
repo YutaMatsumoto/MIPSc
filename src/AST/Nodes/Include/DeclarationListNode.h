@@ -13,16 +13,26 @@
 #include <vector>
 #include <string>
 
+#include "ASTNodes.h"
+
+class DeclarationNode;
+
 class DeclarationListNode : public Node
 {
 
 public:
 
-	DeclarationListNode();
+	DeclarationListNode( DeclarationNode* _declaration );
+
+	DeclarationListNode( DeclarationListNode* _declarationList , DeclarationNode* _declaration );
 
 	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
+
+	DeclarationNode* declaration = 0;
+
+	DeclarationListNode* declarationList = 0;
 
 };
 

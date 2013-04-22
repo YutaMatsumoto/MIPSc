@@ -252,9 +252,15 @@ declaration
 declaration_list
 	: declaration { 
 		// beginLookupSection();
-		debugPrint("declaration -> declaration_list"); 
+		debugPrint("declaration -> declaration_list");
+		$$ = new DeclarationListNode( (DeclarationNode*) $1 );
 	  }
 	| declaration_list declaration { debugPrint("declaration_list declaration -> declaration_list"); }
+	{
+
+		$$ = new DeclarationListNode( (DeclarationListNode*) $1 , (DeclarationNode*) $2 );
+
+	}
 	;
 
 declaration_specifiers
@@ -403,22 +409,20 @@ struct_declaration_list
 init_declarator_list
 	: init_declarator { 
 		debugPrint("init_declarator -> init_declarator_list"); 
-		InitDeclaratorNode* initDecl = (InitDeclaratorNode*) $1;
-		$$ = (void*) new InitDeclaratorListNode( initDecl );
+		$$ = new InitDeclaratorListNode( (InitDeclaratorNode*) $1 );
 		}
 	| init_declarator_list ',' init_declarator { 
 		debugPrint("init_declarator_list ',' init_declarator -> init_declarator_list"); 
-		InitDeclaratorNode* initDecl = (InitDeclaratorNode*) $3;
-		$$ = (void*) new InitDeclaratorListNode( (InitDeclaratorListNode*)$1, initDecl);
+		$$ = new InitDeclaratorListNode( (InitDeclaratorListNode*) $1 , (InitDeclaratorNode*) $3 );
 		}
 	;
 
 init_declarator
 	: declarator { 
 		debugPrint("declarator -> init_declarator"); 
-		InitDeclaratorNode* initDecl = new InitDeclaratorNode((DeclaratorNode*) $1 );
+		//InitDeclaratorNode* initDecl = new InitDeclaratorNode((DeclaratorNode*) $1 );
 		/* std::cout << "reduction in init_declarator" << initDecl->toString() << std::endl; */
-		$$ = (void*) initDecl;
+		$$ = new InitDeclaratorNode( (DeclaratorNode*) $1 );
 		}
 	| declarator '=' initializer { 
 		// TODO : initialize here or even before when something reduces to initializer ?
@@ -618,6 +622,11 @@ identifier_list
 // TODO
 initializer
 	: assignment_expression { debugPrint("assignment_expression -> initializer"); }
+	{
+
+		$$ = new InitializerNode( (AssignmentExpressionNode*) $1 );
+
+	}
 	| '{' initializer_list '}' { 
 			initializeArray();
 			debugPrint("'{' initializer_list ' }' -> initializer"); 
@@ -634,10 +643,20 @@ initializer_list
 			addValueToArray();
 			debugPrint("initializer -> initializer_list"); 
 		}
+	{
+
+		$$ = new InitializerListNode( (InitializerNode*) $1 );
+
+	}
 	| initializer_list ',' initializer { 
 			addValueToArray();
 			debugPrint("initializer_list ',' initializer -> initializer_list"); 
 		}
+	{
+
+		$$ = new InitializerListNode( (InitializerListNode*) $1 , (InitializerNode*) $3 );
+
+	}
 	;
 
 type_name
@@ -803,12 +822,12 @@ compound_statement
 		std::cout << "1111111" << std::endl;
 	  }
 	/* declaration mode*/ 
-	| '{' /*{ beginLookupSection();
-		symbolTable->beginScope(); }*/ statement_list '}' { 
-		//symbolTable->endScope();
+	| '{' { beginLookupSection();
+		symbolTable->beginScope(); } statement_list '}' { 
+		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 		std::cout << "222222" << std::endl;
-		$$ = new CompoundStatementNode( (StatementListNode*) $2 ); // $BUG
+		$$ = new CompoundStatementNode( (StatementListNode*) $3 );
 
 	  }
 	| '{' {
@@ -821,7 +840,7 @@ compound_statement
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement");
 		std::cout << "33333333" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 ); // $BUG
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $3 );
 
 	  }
 	| '{' {
@@ -837,7 +856,7 @@ compound_statement
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
 		std::cout << "Took last production in compound statement" << std::endl;
 		std::cout << "444444" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 ); // $BUG
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $3 , (StatementListNode*) $5 );
 	  }
 	;
 

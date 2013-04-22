@@ -4,8 +4,8 @@
 #include "AllASTNodes.h"
 
 #include "DirectDeclaratorNode.h"
-
 #include "PointerNode.h"
+#include "Node.h"
 
 class DirectDeclaratorNode;
 
@@ -20,9 +20,14 @@ public:
 		: dirDeclNode(dirDeclNode), ptrNode(ptrNode)
 	{}
 
+	ASTData* toOperations();
+
+	std::string getNodeTypeAsString();
+
 	bool isPointer();
 
 	string toString() const;
+
 
 	DirectDeclaratorNode* dirDeclNode;
 	PointerNode* ptrNode;

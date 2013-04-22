@@ -13,20 +13,19 @@
 #include <vector>
 class Symbol;
 
-// TODO: This might be necessary if returning vectors of operations isn't sufficient
 class ASTData {
 
 public:
 
 	ASTData();
 
-	Symbol* result;
+	Symbol* result = 0;
 
 	std::vector< Operation* >* code;
 
-	Label* before;
+	Label* before = 0;
 
-	Label* after;
+	Label* after = 0;
 
 };
 

@@ -22,7 +22,7 @@ SymbolTableInfo SymbolTable::getSymbolInfo(std::string symbolName, bool currentS
 
 	Symbol* s;
 
-	for( auto i : scopeStack )
+	for( Scope i : scopeStack )
 	{
 
 		try
@@ -32,7 +32,12 @@ SymbolTableInfo SymbolTable::getSymbolInfo(std::string symbolName, bool currentS
 
 		}
 
-		catch( std::out_of_range& e ) { }
+		catch( std::out_of_range& e )
+		{
+
+			continue;
+
+		}
 
 		if( info.symbol == 0 )
 		{

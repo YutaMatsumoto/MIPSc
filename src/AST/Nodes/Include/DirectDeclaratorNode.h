@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "Symbol.h"
+#include "Node.h"
 
 #include "AllASTNodes.h"
 
@@ -10,6 +11,7 @@
 #include "DeclaratorNode.h"
 #include "IdentifierListNode.h"
 
+// class DirectDeclaratorNode : public Node {
 class DirectDeclaratorNode {
 public:
 
@@ -24,15 +26,21 @@ public:
 		None
 	};
 
-	string toString();
-
-	void error(string msg);
-
 	DirectDeclaratorNode();
 
 	DirectDeclaratorNode( DirectDeclaratorNode* a);
 
 	DirectDeclaratorNode( IdentifierNode* id );
+
+	// ASTData* toOperations();
+
+	// std::string getNodeTypeAsString();
+
+	string toString();
+
+	void error(string msg);
+
+
 
 	void initData();
 

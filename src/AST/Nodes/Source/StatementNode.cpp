@@ -57,7 +57,7 @@ ASTData* StatementNode::toOperations()
 	if( compoundStatement )
 	{
 
-		//return compoundStatement->toOperations();
+		return compoundStatement->toOperations();
 
 	}
 
