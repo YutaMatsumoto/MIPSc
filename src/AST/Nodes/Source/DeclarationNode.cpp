@@ -32,9 +32,14 @@ void DeclarationNode::declare(SymbolTable* stab)
 		error("declare() : SymbolTable pointer supplied is null.");
 	}
 
-	// bool array = false;
-
+	// Declarations
+	
+	// type (just primitive type info for now)
 	TypeInfo tInfo = declSpecifier->getTypeInfo();	
+
+	// const/volatile
+	TypeQualInfo tQualInfo = declSpecifier->getTypeQualInfo();
+
 	Type* t = BuiltinType::buildType(tInfo);
 	for (auto initDecl : initDeclList->declaratorList ) {
 
@@ -61,6 +66,8 @@ void DeclarationNode::declare(SymbolTable* stab)
 		//
 		//	see DirectDeclaratorNode::declare(...)
 		//
+
+		sym->setTypeQualInfo(tQualInfo);	
 
 		stab->insertSymbol(sym);
 	}

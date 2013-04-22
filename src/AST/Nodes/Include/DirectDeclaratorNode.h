@@ -48,7 +48,7 @@ public:
 
 	Symbol* declare(Type*);
 
-	Type* declare_recurse(Type* t);
+	// Type* declare_recurse(Type* t);
 
 	// If this is true, then this instance is the bottom of the
 	// direct_declarator symbol

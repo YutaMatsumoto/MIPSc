@@ -9,6 +9,10 @@
 
 #include <vector>
 
+// TODO
+struct StorageInfo {
+};
+
 class DeclarationSpecifiersNode {
 
 	std::vector<TypeSpecifierNode*> tSpecs;
@@ -29,22 +33,15 @@ public:
 
 	DeclarationSpecifiersNode( TypeQualifierNode*tq, DeclarationSpecifiersNode* ds);
 
+	// -----------------------------------------------------------------------
+
 
 	void error(std::string msg);
 
 	TypeInfo getTypeInfo();
 
-
-	// TODO
-	struct StorageInfo {
-	};
 	StorageInfo getStorageInfo();
 
-	// TODO
-	struct TypeQualInfo {
-		bool constness;
-		bool volatileness;
-	};
 	TypeQualInfo getTypeQualInfo();
 
 	

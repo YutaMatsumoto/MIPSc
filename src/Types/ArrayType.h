@@ -36,6 +36,7 @@ public:
 
 	virtual std::string toString();
 
+	// TODO : This should be array or size_t instead of ConstantExpressionNode
 	// sizes of arrays
 	// [0]    : size of the outermost array
 	// [last] : size of the innermost dimension

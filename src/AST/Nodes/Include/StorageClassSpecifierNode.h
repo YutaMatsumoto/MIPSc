@@ -1,7 +1,5 @@
-// #include "ASTNodes.h"
 #ifndef STORAGECLASSSPECIFIERNODE_H_GUARD
 #define STORAGECLASSSPECIFIERNODE_H_GUARD
-
 
 class StorageClassSpecifierNode {
 private:

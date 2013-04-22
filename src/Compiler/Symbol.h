@@ -8,6 +8,7 @@
 #include <string>
 #include "SymbolLocation.h"
 #include "Type.h"
+#include "TypeQualifierNode.h"
 
 #ifndef SYMBOL_H_
 #define SYMBOL_H_
@@ -23,7 +24,7 @@ public:
 	
 	Type* symbolType;
 
-	bool constness = false;
+	TypeQualInfo tQualInfo;
 
 	Symbol() 
 	{}
@@ -57,6 +58,11 @@ public:
 	{
 		// return "";
 		return symbolType->getTypeAsString();
+	}
+
+	void setTypeQualInfo(TypeQualInfo value)
+	{
+		tQualInfo = value;
 	}
 
 };

@@ -35,8 +35,6 @@ DeclarationSpecifiersNode::DeclarationSpecifiersNode( TypeQualifierNode*tq, Decl
 	qSpecs.push_back(tq);
 }
 
-
-
 void DeclarationSpecifiersNode::error(std::string msg)
 {
 	std::cerr << "DeclarationSpecifiersNode Error : "<< msg << std::endl;	
@@ -112,5 +110,25 @@ DeclarationSpecifiersNode::StorageInfo DeclarationSpecifiersNode::getStorageInfo
 
 DeclarationSpecifiersNode::TypeQualInfo DeclarationSpecifiersNode::getTypeQualInfo()
 {
-	return TypeQualInfo();
+	TypeQualInfo tQualInfo;
+
+	for ( auto typeQual : qSpecs ) {
+		int tq = typeQual->getTypeQualitiferValue();
+		if (tq==TypeQualifierNode::Const) {
+			bool success = tQualInfo.setConstness();
+			if (!success) 
+				cerr << "const declared twice or more" << endl;
+				; // throw
+		}
+		else if (tq==TypeQualifierNode::Volatile) {
+			bool success = tQualInfo.setVolatileness();
+			if (!success) 
+				cerr << "const declared twice or more" << endl;
+				; // throw
+		}
+		else { // does not happen 
+		}
+	}
+
+	return tQualInfo;
 }
