@@ -71,8 +71,8 @@ ASTData* PostfixExpressionNode::toOperations()
 
 	if( type == FunctionCall )
 	{
-
-
+		//TODO: Implement function calls
+		return data;
 
 	}
 

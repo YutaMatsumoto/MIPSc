@@ -4,6 +4,10 @@ ASTData* DeclarationNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
+	if( initDeclList != 0 )
+
+		return initDeclList->toOperations();
+
 	return data;
 }
 
@@ -30,14 +34,17 @@ void DeclarationNode::declare(SymbolTable* stab)
 
 	DeclarationSpecifiersNode::TypeInfo tInfo = declSpecifier->getTypeInfo();	
 	// std::cout << "InideDeclList.size() : " << initDeclList->declaratorList.size()<< std::endl; // debug
-	for (auto initDecl : initDeclList->declaratorList ) {
+
+	InitDeclaratorListNode* list = initDeclList;
+
+	while( list != 0 ) {
 
 		Type* t;
 		Symbol* s;
 		SymbolLocation sloc;
 
 		// seg fault here since some of these are mutually exlusive pointers
-		auto decl = initDecl->declNode;
+		auto decl = list->initDeclarator->declarationNode;
 		// auto init = initDecl->initNode;
 		auto dirDecl = decl->dirDeclNode;
 		auto dirDeclId = dirDecl->id;
@@ -72,6 +79,8 @@ void DeclarationNode::declare(SymbolTable* stab)
 			case DirectDeclaratorNode::FunctionCallWithParam:
 				break;
 		}
+
+		list = initDeclList->initDeclaratorList;
 
 	}
 

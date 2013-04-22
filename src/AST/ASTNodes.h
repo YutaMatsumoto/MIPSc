@@ -48,8 +48,6 @@ class ParameterTypeListNode;
 class ParameterListNode;
 class ParameterDeclarationNode;
 class IdentifierListNode;
-class InitializerNode;
-class InitializerListNode;
 class TypeNameNode;
 class AbstractDeclaratorNode;
 class DirectAbstractDeclaratorNode;
@@ -439,34 +437,7 @@ class StructOrUnionNode {
 class StructDeclarationListNode {
 };
 
-class InitDeclaratorListNode {
-public:
-
-	InitDeclaratorListNode() {}
-
-	InitDeclaratorListNode( InitDeclaratorNode* n)
-	{
-		declaratorList.push_back(n);
-	}
-
-	InitDeclaratorListNode( InitDeclaratorListNode* a,  InitDeclaratorNode* b )
-	{
-		for (auto initDecl : a->declaratorList) {
-			declaratorList.push_back(initDecl);
-		}
-		declaratorList.push_back(b);
-	}
-
-
-	void add(InitDeclaratorNode* initDecl) 
-	{
-		declaratorList.push_back(initDecl);	
-	}
-
-	std::vector<InitDeclaratorNode*> declaratorList;
-};
-
-class DirectDeclaratorNode {
+class DirectDeclaratorNode : public Node {
 public:
 
 	enum DirectDeclaratorKind {
@@ -501,6 +472,10 @@ public:
 
 	int getKind();
 	
+	ASTData* toOperations();
+
+	std::string getNodeTypeAsString();
+
 	IdentifierNode* id;
 	DeclaratorNode* declNode;		
 	DirectDeclaratorNode* dirDeclNode;
@@ -517,56 +492,7 @@ private:
 	bool functionDefinition; // declaration?
 };
 
-class DeclaratorNode {
-public:
 
-	DeclaratorNode(DirectDeclaratorNode* dirDeclNode) 
-		: dirDeclNode(dirDeclNode), ptrNode(NULL)
-	{}
-
-	DeclaratorNode(PointerNode* ptrNode, DirectDeclaratorNode* dirDeclNode) 
-		: dirDeclNode(dirDeclNode), ptrNode(ptrNode)
-	{}
-
-	bool isPointer()
-	{
-		return (ptrNode!=NULL);
-	}
-
-	string toString()
-	{
-		return dirDeclNode->toString();
-	}
-
-	DirectDeclaratorNode* dirDeclNode;
-	PointerNode* ptrNode;
-};
-
-class InitDeclaratorNode {
-public:
-
-	InitDeclaratorNode() {}
-
-	InitDeclaratorNode(DeclaratorNode* declNode) 
-		: declNode(declNode)
-	{}
-
-	InitDeclaratorNode(DeclaratorNode* declNode, InitializerNode* initNode) 
-		: declNode(declNode), initNode(initNode)
-	{}
-
-	string toString()
-	{
-		string s = "InitDeclaratorNode: " + declNode->toString();
-		return s;
-	}
-
-	DeclaratorNode* declNode;
-	InitializerNode* initNode;
-};
-
-class StructDeclarationNode {
-};
 
 class SpecifierQualifierListNode {
 public:
@@ -721,46 +647,6 @@ public:
 	IdentifierListNode* il;
 };
 
-class InitializerNode {
-public:
-
-	InitializerNode() {}
-
-	InitializerNode(AssignmentExpressionNode* assignExprNode) 
-		: assignExprNode(assignExprNode)
-	{}
-
-	InitializerNode(InitializerListNode* initListNode)
-		: initListNode( initListNode )
-	{}
-			
-
-private:
-	AssignmentExpressionNode* assignExprNode;
-	InitializerListNode* initListNode;
-};
-
-class InitializerListNode {
-public:
-
-	InitializerListNode(InitializerNode* initNode)
-	{
-		initializerList.push_back(initNode);
-	}
-
-	InitializerListNode(InitializerNode* initNode, InitializerListNode* initListNode)
-	{
-		initializerList.push_back(initNode);
-		for (size_t i = 0; i <initListNode->initializerList.size(); i++ )	{
-			initializerList.push_back( initListNode->initializerList[i] );
-		}
-	}
-
-	size_t size() { return initializerList.size(); };
-
-	std::vector<InitializerNode*> initializerList;
-};
-
 class TypeNameNode {
 public:
 	TypeNameNode( SpecifierQualifierListNode* sql )
@@ -865,8 +751,8 @@ public:
 	std::string toString() const;
 
 private:
-	InitDeclaratorListNode* initDeclList;		
-	DeclarationSpecifiersNode* declSpecifier;
+	InitDeclaratorListNode* initDeclList = 0;
+	DeclarationSpecifiersNode* declSpecifier = 0;
 };
 
 //  -----------------------------------------------------------------------------

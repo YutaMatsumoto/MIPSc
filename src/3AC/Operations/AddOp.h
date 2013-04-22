@@ -27,11 +27,11 @@ public:
 
 		if( type == AdditiveExpressionNode::Add )
 
-			return op1->getId() + " = " + op2->getId() + " + " + op3->getId();
+			return "ADD " + op1->getId() + " = " + op2->getId() + " + " + op3->getId();
 
 		else
 
-			return op1->getId() + " = " + op2->getId() + " - " + op3->getId();
+			return "ADD " + op1->getId() + " = " + op2->getId() + " - " + op3->getId();
 
 	}
 

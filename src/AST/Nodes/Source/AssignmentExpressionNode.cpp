@@ -7,7 +7,8 @@
 
 #include "AssignmentExpressionNode.h"
 #include "IdTracker.h"
-#include "AssignOp.h"
+#include "StoreOp.h"
+#include "GetAddressOp.h"
 
 AssignmentExpressionNode::AssignmentExpressionNode( ConditionalExpressionNode* _conditionalExpression ) : conditionalExpression( _conditionalExpression )
 {
@@ -57,8 +58,10 @@ ASTData* AssignmentExpressionNode::toOperations()
 		//create a new temporary for our result
 		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , unaryResult->symbolType );
 
+		GetAddressOp* op1 = new GetAddressOp( temporary , unaryResult );
+
 		//create a new operation to compute the addition
-		AssignOp* op = new AssignOp( temporary , assignmentExpressionResult , assignmentOperator->type );
+		StoreOp* op2 = new StoreOp( temporary , assignmentExpressionResult );
 
 		//Add the multiplicative operations to what we will return
 		operations->insert( operations->end() , unaryData->code->begin() , unaryData->code->end() );
@@ -67,7 +70,9 @@ ASTData* AssignmentExpressionNode::toOperations()
 		operations->insert( operations->end() , assignmentExpressionData->code->begin() , assignmentExpressionData->code->end() );
 
 		//Add our 'add' operation to the end of the list
-		operations->push_back( op );
+		operations->push_back( op1 );
+
+		operations->push_back( op2 );
 
 		//add the result of this expression to the data
 		data->result = temporary;

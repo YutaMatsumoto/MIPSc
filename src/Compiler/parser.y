@@ -252,9 +252,15 @@ declaration
 declaration_list
 	: declaration { 
 		// beginLookupSection();
-		debugPrint("declaration -> declaration_list"); 
+		debugPrint("declaration -> declaration_list");
+		$$ = new DeclarationListNode( (DeclarationNode*) $1 );
 	  }
 	| declaration_list declaration { debugPrint("declaration_list declaration -> declaration_list"); }
+	{
+
+		$$ = new DeclarationListNode( (DeclarationListNode*) $1 , (DeclarationNode*) $2 );
+
+	}
 	;
 
 declaration_specifiers
@@ -403,28 +409,26 @@ struct_declaration_list
 init_declarator_list
 	: init_declarator { 
 		debugPrint("init_declarator -> init_declarator_list"); 
-		InitDeclaratorNode* initDecl = (InitDeclaratorNode*) $1;
-		$$ = (void*) new InitDeclaratorListNode( initDecl );
+		$$ = new InitDeclaratorListNode( (InitDeclaratorNode*) $1 );
 		}
 	| init_declarator_list ',' init_declarator { 
 		debugPrint("init_declarator_list ',' init_declarator -> init_declarator_list"); 
-		InitDeclaratorNode* initDecl = (InitDeclaratorNode*) $3;
-		$$ = (void*) new InitDeclaratorListNode( (InitDeclaratorListNode*)$1, initDecl);
+		$$ = new InitDeclaratorListNode( (InitDeclaratorListNode*) $1 , (InitDeclaratorNode*) $3 );
 		}
 	;
 
 init_declarator
 	: declarator { 
 		debugPrint("declarator -> init_declarator"); 
-		InitDeclaratorNode* initDecl = new InitDeclaratorNode((DeclaratorNode*) $1 );
+		//InitDeclaratorNode* initDecl = new InitDeclaratorNode((DeclaratorNode*) $1 );
 		/* std::cout << "reduction in init_declarator" << initDecl->toString() << std::endl; */
-		$$ = (void*) initDecl;
+		$$ = new InitDeclaratorNode( (DeclaratorNode*) $1 );
 		}
 	| declarator '=' initializer { 
 		// TODO : initialize here or even before when something reduces to initializer ?
 		/* initializeValue(); */
 		debugPrint("declarator '=' initializer -> init_declarator"); 
-		$$ = (void*)new InitDeclaratorNode((DeclaratorNode*) $1, (InitializerNode*) $2);
+		$$ = new InitDeclaratorNode( (DeclaratorNode*) $1, (InitializerNode*) $3 );
 	  }
 	;
 
@@ -608,6 +612,11 @@ identifier_list
 
 initializer
 	: assignment_expression { debugPrint("assignment_expression -> initializer"); }
+	{
+
+		$$ = new InitializerNode( (AssignmentExpressionNode*) $1 );
+
+	}
 	| '{' initializer_list '}' { 
 			initializeArray();
 			debugPrint("'{' initializer_list ' }' -> initializer"); 
@@ -623,10 +632,20 @@ initializer_list
 			addValueToArray();
 			debugPrint("initializer -> initializer_list"); 
 		}
+	{
+
+		$$ = new InitializerListNode( (InitializerNode*) $1 );
+
+	}
 	| initializer_list ',' initializer { 
 			addValueToArray();
 			debugPrint("initializer_list ',' initializer -> initializer_list"); 
 		}
+	{
+
+		$$ = new InitializerListNode( (InitializerListNode*) $1 , (InitializerNode*) $3 );
+
+	}
 	;
 
 type_name

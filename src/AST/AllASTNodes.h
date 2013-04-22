@@ -45,6 +45,11 @@
 #include "TranslationUnitNode.h"
 #include "UnaryExpressionNode.h"
 #include "UnaryOperatorNode.h"
+#include "InitializerNode.h"
+#include "InitializerListNode.h"
+#include "InitDeclaratorNode.h"
+#include "InitDeclaratorListNode.h"
+#include "DeclaratorNode.h"
 
 #include "ASTNodes.h"
 

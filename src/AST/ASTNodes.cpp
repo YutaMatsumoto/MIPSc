@@ -90,3 +90,32 @@ int DirectDeclaratorNode::getKind()
 {
 	return kind;
 }
+
+ASTData* DirectDeclaratorNode::toOperations()
+{
+
+	ASTData* data = new ASTData();
+
+	if( id )
+	{
+
+		data->result = id->resolveSymbol();
+
+		return data;
+
+	}
+
+	if( declNode )
+
+		return declNode->toOperations();
+
+	if( dirDeclNode )
+
+		return dirDeclNode->toOperations();
+
+}
+
+std::string DirectDeclaratorNode::getNodeTypeAsString()
+{
+	return std::string("initializer list node");
+}

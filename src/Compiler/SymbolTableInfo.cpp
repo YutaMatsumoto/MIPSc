@@ -7,7 +7,7 @@
 
 #include "SymbolTableInfo.h"
 
-SymbolTableInfo::SymbolTableInfo() {
+SymbolTableInfo::SymbolTableInfo() : symbol(0) , conflict(0) {
 	// TODO Auto-generated constructor stub
 
 }

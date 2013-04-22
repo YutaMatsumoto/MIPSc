@@ -1,28 +1,28 @@
 /*
- * DeclarationListNode.cpp
+ * InitDeclaratorListNode.cpp
  *
- *  Created on: Apr 13, 2013
+ *  Created on: Apr 21, 2013
  *      Author: njordan
  */
 
-#include "DeclarationListNode.h"
+#include "InitDeclaratorListNode.h"
 
-DeclarationListNode::DeclarationListNode( DeclarationNode* _declaration ) : declaration(_declaration)
+InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorListNode* _initDeclaratorList , InitDeclaratorNode* _initDeclarator) : initDeclaratorList(_initDeclaratorList) , initDeclarator(_initDeclarator)
 {
 
 }
 
-DeclarationListNode::DeclarationListNode( DeclarationListNode* _declarationList , DeclarationNode* _declaration ) : declarationList(_declarationList ), declaration(_declaration)
+InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorNode* _initDeclarator) : initDeclarator(_initDeclarator)
 {
-
 
 }
 
-ASTData* DeclarationListNode::toOperations()
+ASTData* InitDeclaratorListNode::toOperations()
 {
-	if( declarationList == 0 )
 
-		return declaration->toOperations();
+	if( initDeclaratorList == 0 )
+
+		return initDeclarator->toOperations();
 
 	else
 	{
@@ -32,10 +32,10 @@ ASTData* DeclarationListNode::toOperations()
 		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 		//Gets the data for the first parameter
-		ASTData* declarationData = declaration->toOperations();
+		ASTData* initDeclaratorData = initDeclarator->toOperations();
 
 		//gets the data for the second parameter
-		ASTData* declarationListData = declarationList->toOperations();
+		ASTData* initDeclaratorListData = initDeclaratorList->toOperations();
 
 		//create a new temporary name
 		//std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
@@ -53,10 +53,10 @@ ASTData* DeclarationListNode::toOperations()
 		//AddOp* op = new AddOp( temporary , additiveResult , multiplicativeResult , type );
 
 		//add the additive the multiplicative operations to what we will return
-		operations->insert( operations->end() , declarationListData->code->begin() , declarationListData->code->end() );
+		operations->insert( operations->end() , initDeclaratorListData->code->begin() , initDeclaratorListData->code->end() );
 
 		//Add the multiplicative operations to what we will return
-		operations->insert( operations->end() , declarationData->code->begin() , declarationData->code->end() );
+		operations->insert( operations->end() , initDeclaratorData->code->begin() , initDeclaratorData->code->end() );
 
 		//Add our 'add' operation to the end of the list
 		//operations->push_back( op );
@@ -71,15 +71,13 @@ ASTData* DeclarationListNode::toOperations()
 		return data;
 
 	}
+
 }
 
-//~PrimaryExpressionNode(){}
-
-std::string DeclarationListNode::getNodeTypeAsString()
+std::string InitDeclaratorListNode::getNodeTypeAsString()
 {
 
-	return std::string( "unary operator" );
+	return std::string( "init declarator list node" );
 
 }
-
 
