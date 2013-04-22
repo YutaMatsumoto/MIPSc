@@ -1,4 +1,3 @@
-
 # stop using yacc!!
 .SUFFIXES :
 
@@ -8,19 +7,20 @@ FLEX=flexc++
 CC=g++-4.7 -std=c++0x 
 CCOPTION=-g -Wall -Wno-reorder
 
+# ----------------------------------------------------------------------------
+
 root=$(git rev-parse --show-toplevel)
 src_dir=$(root)/src
-
 INCLUDEDIRS = $(shell find src/ -type d -exec echo -I{} \;)
-
 SRCS  = $(shell find src/ -name "*.cpp")
 OBJS  = $(SRCS:.cpp=.o)
-
 COMPILER=mipsc
 MAIN = $(shell find src/Compiler -name "main.cc")
 LEX_OBJ = src/Compiler/lex.o 
 PARSER_OBJ = src/Compiler/parse.o
 COMPILER_OBJ = $(LEX_OBJ) $(PARSER_OBJ)
+
+# ----------------------------------------------------------------------------
 
 DEFAULT : $(OBJS) $(COMPILER_OBJ)
 	$(CC) $(INCLUDEDIRS) $(CCOPTION) $(MAIN) $^ -o $(COMPILER)
@@ -32,7 +32,14 @@ DEFAULT : $(OBJS) $(COMPILER_OBJ)
 
 MAKEDEPEND = gcc $(INCLUDEDIRS) -M $(CPPFLAGS) -o $*.d $<
 
-%.o : %.cpp %.h
+#
+# TODO 
+# This does not understand update on .h files, but putting %.h on dependency
+# list causes 
+# 
+# 	make: *** No rule to make target `src/AST/Nodes/Source/InitializerListNode.o'.  Stop.
+#
+%.o : %.cpp
 	@$(MAKEDEPEND); \
 	cp $*.d $*.P; \
 	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
