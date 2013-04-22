@@ -794,7 +794,7 @@ compound_statement
 	/* declaration mode*/ 
 	| '{' { beginLookupSection();
 		symbolTable->beginScope(); } statement_list '}' { 
-		//symbolTable->endScope();
+		symbolTable->endScope();
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 		std::cout << "222222" << std::endl;
 		$$ = new CompoundStatementNode( (StatementListNode*) $3 );
@@ -810,7 +810,7 @@ compound_statement
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement");
 		std::cout << "33333333" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $3 );
 
 	  }
 	| '{' {
@@ -826,7 +826,7 @@ compound_statement
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
 		std::cout << "Took last production in compound statement" << std::endl;
 		std::cout << "444444" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $3 , (StatementListNode*) $5 );
 	  }
 	;
 

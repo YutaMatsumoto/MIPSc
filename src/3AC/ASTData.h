@@ -12,7 +12,6 @@
 #include "Label.h"
 #include <vector>
 
-// TODO: This might be necessary if returning vectors of operations isn't sufficient
 class ASTData {
 
 public:
