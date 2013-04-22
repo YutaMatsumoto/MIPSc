@@ -29,9 +29,27 @@ ASTData* CompoundStatementNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
-	if( statementList )
+	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-		return statementList->toOperations();
+	if( declarationList )
+	{
+
+		ASTData* temp = declarationList->toOperations();
+
+		operations->insert( operations->end() , temp->code->begin() , temp->code->end() );
+
+	}
+
+	if( statementList )
+	{
+
+		ASTData* temp = statementList->toOperations();
+
+		operations->insert( operations->end() , temp->code->begin() , temp->code->end() );
+
+	}
+
+	data->code = operations;
 
 	return data;
 }
