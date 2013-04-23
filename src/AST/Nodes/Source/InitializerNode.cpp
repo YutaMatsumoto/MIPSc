@@ -1,21 +1,4 @@
-/*
- * InitializerNode.cpp
- *
- *  Created on: Apr 21, 2013
- *      Author: njordan
- */
-
 #include "InitializerNode.h"
-
-InitializerNode::InitializerNode(AssignmentExpressionNode* _assignmentExpression) : assignmentExpression(_assignmentExpression)
-{
-
-}
-
-InitializerNode::InitializerNode(InitializerListNode* _initializerList) : initializerList(_initializerList)
-{
-
-}
 
 ASTData* InitializerNode::toOperations()
 {

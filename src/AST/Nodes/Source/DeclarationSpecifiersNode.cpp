@@ -103,12 +103,14 @@ TypeInfo DeclarationSpecifiersNode::getTypeInfo()
 	return TypeInfo( longSpecified, longLongSpecified, unsignedSpecified, integral );
 }
 
-DeclarationSpecifiersNode::StorageInfo DeclarationSpecifiersNode::getStorageInfo()
+/*
+StorageInfo DeclarationSpecifiersNode::getStorageInfo()
 {
 	return StorageInfo();
 }
+*/
 
-DeclarationSpecifiersNode::TypeQualInfo DeclarationSpecifiersNode::getTypeQualInfo()
+TypeQualInfo DeclarationSpecifiersNode::getTypeQualInfo()
 {
 	TypeQualInfo tQualInfo;
 

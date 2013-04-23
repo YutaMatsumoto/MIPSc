@@ -2,16 +2,17 @@
 #define InitializerNode_H_GUARD
 
 #include "AllASTNodes.h"
-
 #include "InitializerListNode.h"
+
+class InitializerListNode;
 
 class InitializerNode {
 public:
 
 	InitializerNode() {}
 
-	InitializerNode(AssignmentExpressionNode* assignExprNode) 
-		: assignExprNode(assignExprNode)
+	InitializerNode(AssignmentExpressionNode* assignmentExpression) 
+		: assignmentExpression(assignmentExpression)
 	{}
 
 	InitializerNode(InitializerListNode* initListNode)
@@ -22,7 +23,7 @@ public:
 	std::string getNodeTypeAsString();
 
 private:
-	AssignmentExpressionNode* assignExprNode;
+	AssignmentExpressionNode* assignmentExpression;
 	InitializerListNode* initListNode;
 };
 

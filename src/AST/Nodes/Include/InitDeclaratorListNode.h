@@ -6,6 +6,8 @@
 #include "InitDeclaratorNode.h"
 
 
+typedef list<InitDeclaratorNode*> InitDeclaratorNodeInList;
+
 class InitDeclaratorListNode : public Node {
 public:
 
@@ -18,6 +20,8 @@ public:
 	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
+
+	InitDeclaratorNodeInList toList();
 
 	void add(InitDeclaratorNode* initDecl) ;
 

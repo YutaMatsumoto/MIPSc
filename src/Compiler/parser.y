@@ -654,7 +654,8 @@ initializer_list
 		}
 	{
 
-		$$ = new InitializerListNode( (InitializerListNode*) $1 , (InitializerNode*) $3 );
+		// $$ = new InitializerListNode( (InitializerListNode*) $1 , (InitializerNode*) $3 );
+		$$ = new InitializerListNode( (InitializerNode*) $3, (InitializerListNode*) $1  );
 
 	}
 	;

@@ -32,9 +32,9 @@ public:
 
 	DirectDeclaratorNode( IdentifierNode* id );
 
-	// ASTData* toOperations();
+	ASTData* toOperations();
 
-	// std::string getNodeTypeAsString();
+	std::string getNodeTypeAsString();
 
 	string toString();
 

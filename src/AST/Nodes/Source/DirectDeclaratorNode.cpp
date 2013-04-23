@@ -15,13 +15,13 @@ DirectDeclaratorNode::DirectDeclaratorNode()
 }
 */
 
-DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a)
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a) // here vtable  blablabla
 {
 	initData();	
 	dirDeclNode = a;
 }
 
-DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id )
+DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id ) // here vtable  blablabla
 {
 	initData();
 	this->id = id;
@@ -123,6 +123,19 @@ Symbol* DirectDeclaratorNode::declare(Type* type)
 	}
 
 	return new Symbol(symId, sloc, returnType);
+}
+
+// ---------------------------------------------------------------------------
+
+ASTData* DirectDeclaratorNode::toOperations()
+{
+	std::cout << "DirectDeclaratorNode::toOperations() : returning empty ASTDATA " << endl;
+	return new ASTData();
+}
+
+std::string getNodeTypeAsString()
+{
+	return std::string("DirectDeclaratorNode");
 }
 
 // ---------------------------------------------------------------------------

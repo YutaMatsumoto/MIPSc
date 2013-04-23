@@ -5,7 +5,7 @@
 
 std::string InitDeclaratorNode::toString()
 {
-	string s = "InitDeclaratorNode: " + declNode->toString();
+	string s = "InitDeclaratorNode: " + declarationNode->toString();
 	return s;
 }
 

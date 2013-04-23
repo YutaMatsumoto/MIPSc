@@ -1,22 +1,17 @@
-#include "InitDeclaratorListNode.h"
+
 #include "InitDeclaratorListNode.h"
 
 InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorNode* n)
-{
-	declaratorList.push_back(n);
-}
+	: initDeclaratorList(NULL), initDeclarator(n)
+{}
 
 InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorListNode* a,  InitDeclaratorNode* b)
-{
-	for (auto initDecl : a->declaratorList) {
-		declaratorList.push_back(initDecl);
-	}
-	declaratorList.push_back(b);
-}
+	: initDeclaratorList(a), initDeclarator(b)
+{}
 
 void InitDeclaratorListNode::add(InitDeclaratorNode* initDecl) 
 {
-	declaratorList.push_back(initDecl);	
+	// declaratorList.push_back(initDecl);	
 }
 
 ASTData* InitDeclaratorListNode::toOperations()
@@ -83,3 +78,16 @@ std::string InitDeclaratorListNode::getNodeTypeAsString()
 
 }
 
+InitDeclaratorNodeInList InitDeclaratorListNode::toList()
+{
+	InitDeclaratorNodeInList list;
+
+	InitDeclaratorListNode* iter = this;
+	list.push_front(initDeclarator);
+	while (iter) {
+		iter = iter->initDeclaratorList;			
+		list.push_front(initDeclarator);
+	}
+
+	return list;
+}

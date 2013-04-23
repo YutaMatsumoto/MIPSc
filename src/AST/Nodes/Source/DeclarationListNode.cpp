@@ -6,6 +6,7 @@
  */
 
 #include "DeclarationListNode.h"
+#include "DeclarationNode.h"
 
 DeclarationListNode::DeclarationListNode( DeclarationNode* _declaration ) : declaration(_declaration)
 {

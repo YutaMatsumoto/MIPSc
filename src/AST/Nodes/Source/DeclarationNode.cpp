@@ -40,13 +40,16 @@ void DeclarationNode::declare(SymbolTable* stab)
 	// const/volatile
 	TypeQualInfo tQualInfo = declSpecifier->getTypeQualInfo();
 
+	// primitive type
 	Type* t = BuiltinType::buildType(tInfo);
-	for (auto initDecl : initDeclList->declaratorList ) {
+
+	// Iterate over 
+	for (auto initDecl : initDeclList->toList() ) {
 
 		// Symbol* s;
 		SymbolLocation sloc;
 
-		auto decl = initDecl->declNode;
+		auto decl = initDecl->declarationNode;
 		// auto init = initDecl->initNode;
 		auto dirDecl = decl->dirDeclNode;
 		// auto dirDeclId = dirDecl->id;
@@ -68,9 +71,9 @@ void DeclarationNode::declare(SymbolTable* stab)
 		//
 
 		sym->setTypeQualInfo(tQualInfo);	
-
 		stab->insertSymbol(sym);
 	}
+
 
 }
 
@@ -81,11 +84,4 @@ std::string DeclarationNode::toString() const
 	TypeInfo t = declSpecifier->getTypeInfo();
 	s+= "\t" + t.toString() + "\n";
 	return s;
-}
-
-Symbol* DeclarationNode::buildArray(TypeInfo tInfo, DirectDeclaratorNode* dd)
-{
-	Symbol* sym;
-	// std::string id = dd->id;
-	return sym;
 }
