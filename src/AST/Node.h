@@ -32,6 +32,8 @@ protected:
 
 	Node* parent;
 
+	ASTData* nodeData;
+
 	Node();
 
 };
