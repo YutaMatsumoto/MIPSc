@@ -1,11 +1,6 @@
 #include "BuiltinType.h"
 #include "TypeInfo.h"
 
-// BuiltinType::BuiltinType() {
-	// TODO Auto-generated constructor stub
-
-// }
-
 BuiltinType::~BuiltinType() 
 {
 	// TODO Auto-generated destructor stub

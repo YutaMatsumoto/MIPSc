@@ -13,6 +13,8 @@
 #include "DeclarationSpecifiersNode.h"
 #include "InitDeclaratorListNode.h"
 
+#include "TypeInfo.h"
+
 
 class DeclarationSpecifiersNode;
 class TypeInfo;
@@ -51,7 +53,7 @@ public:
 
 	std::string toString() const;
 
-	Type* buildType(TypeInfo tInfo);
+	Type* buildType(TypeInfo tInfo) const;
 
 	// bool isPointer();
 
