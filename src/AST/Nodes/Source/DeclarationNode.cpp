@@ -77,7 +77,6 @@ void DeclarationNode::declare(SymbolTable* stab)
 
 }
 
-
 std::string DeclarationNode::toString() const
 {
 	std::string s="DeclarationNode: \n" ;

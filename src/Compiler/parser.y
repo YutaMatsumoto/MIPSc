@@ -236,13 +236,12 @@ declaration
 		declNode->declare(symbolTable);
 		$$ = (void*) declNode;
 		}
-	| declaration_specifiers init_declarator_list ';' { 
-		// declare();
+	| declaration_specifiers init_declarator_list ';' { debugPrint("declaration_specifiers init_declarator_list ';' -> declaration");  } { 
 		if (!isDeclarationMode()) {
 			throw ParserError(ParserError::SemanticError, "Declaration must be done on top of a block"); 
 		}
-		debugPrint("declaration_specifiers init_declarator_list ';' -> declaration"); 
-		DeclarationNode* n = new DeclarationNode(  (DeclarationSpecifiersNode*) $1, (InitDeclaratorListNode*) $2);
+		DeclarationSpecifiersNode* ds = (DeclarationSpecifiersNode*) $1;
+		DeclarationNode* n = new DeclarationNode( ds , (InitDeclaratorListNode*) $2);
 		n->declare(symbolTable);
 		$$ = (void*) n;
 		/* std::cout << n->toString() << std::endl; */
@@ -266,7 +265,6 @@ declaration_list
 declaration_specifiers
 	: storage_class_specifier { 
 		// TODO : is this legal???
-		determineType();
 		debugPrint("storage_class_specifier -> declaration_specifiers"); 
 		$$ = (void*) new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1 );
 		}
@@ -275,7 +273,6 @@ declaration_specifiers
 		$$ = (void*) new DeclarationSpecifiersNode( (StorageClassSpecifierNode*)$1, (DeclarationSpecifiersNode*)$2 );
 		}
 	| type_specifier { 
-		determineType();
 		debugPrint("type_specifier -> declaration_specifiers"); 
 		$$ = (void*) new DeclarationSpecifiersNode( (TypeSpecifierNode*)$1 );
 		}
@@ -285,7 +282,6 @@ declaration_specifiers
 		}
 	| type_qualifier  { 
 		// TODO : is this legal???
-		determineType();
 		debugPrint("type_qualifier  -> declaration_specifiers"); 
 		$$ = (void*) new DeclarationSpecifiersNode( (TypeQualifierNode*)$1 );
 		}
@@ -321,62 +317,52 @@ storage_class_specifier
 type_specifier
 	: VOID { 
 		debugPrint("VOID -> type_specifier");
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Void );
-		/* addTypeSpecifier(); */
+		$$ = (void*) new TypeSpecifierNode( Void );
 	  } // { /*currentDeclaration*/ }
 	| CHAR { 
-		/* addTypeSpecifier(); */
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Char );
+		$$ = (void*) new TypeSpecifierNode( Char );
 		debugPrint("CHAR -> type_specifier"); 
 	  }
 	| SHORT { debugPrint("SHORT -> type_specifier"); 
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Short );
+		$$ = (void*) new TypeSpecifierNode( Short );
 		addTypeSpecifier();
 	  }
 	| INT { 
-		/* addTypeSpecifier(); */
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Int );
+		$$ = (void*) new TypeSpecifierNode( Int );
 		debugPrint("INT -> type_specifier"); 
 	  }
 	| LONG {
-		/* addTypeSpecifier(); */
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Long );
+		$$ = (void*) new TypeSpecifierNode( Long );
 		debugPrint("LONG -> type_specifier"); 
 	  }
 	| FLOAT  {
-		/* addTypeSpecifier(); */
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Float );
+		$$ = (void*) new TypeSpecifierNode( Float );
 		 debugPrint("FLOAT  -> type_specifier"); 
 	  }
 	| DOUBLE {
-		/* addTypeSpecifier(); */
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Double );
+		$$ = (void*) new TypeSpecifierNode( Double );
 		debugPrint("DOUBLE -> type_specifier"); 
 	  }
 	| SIGNED {
-		addTypeSpecifier();
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Signed );
+		$$ = (void*) new TypeSpecifierNode( Signed );
 		debugPrint("SIGNED -> type_specifier"); 
 	  }
 	| UNSIGNED {
-		addTypeSpecifier();
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Unsigned );
+		$$ = (void*) new TypeSpecifierNode( Unsigned );
 		debugPrint("UNSIGNED -> type_specifier"); 
 	  }
 	| struct_or_union_specifier {
 		// TODO 
-		// addTypeSpecifier();
 		//throw ParserError(ParserError::NotImplemented, "Sturuct/Union is not implemented");
 		debugPrint("struct_or_union_specifier -> type_specifier"); 
 	  }
 	| enum_specifier {
 		// TODO 
-		// addTypeSpecifier();
 		//throw ParserError(ParserError::NotImplemented, "enum is not implemented");
 		debugPrint("enum_specifier -> type_specifier"); 
 	  }
 	| TYPEDEF_NAME {
-		$$ = (void*) new TypeSpecifierNode( TypeSpecifierNode::Typedef );
+		$$ = (void*) new TypeSpecifierNode( Typedef );
 		debugPrint("TYPEDEF_NAME -> type_specifier"); 
 	  }
 	;

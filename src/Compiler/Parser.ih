@@ -180,7 +180,7 @@ bool Parser::isDeclarationMode()
 
 ASTData* Parser::generate3AC()
 {
-	if (ast) return ast->toOperations();
+	return  (ast) ? ast->toOperations() : NULL ;
 }
 
 	// Add here includes that are only required for the compilation 

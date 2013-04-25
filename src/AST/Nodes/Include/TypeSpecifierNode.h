@@ -16,23 +16,6 @@ private:
 
 public:
 
-	enum TypeSpecifierEnum {
-		Void     = 0, TypeSpecifierStart = 0,
-		Char     = 1, IntegralStart = 1,
-		Short    = 2,
-		Int      = 3,
-		Float    = 4,
-		Double   = 5,
-		Long     = 6, IntegralEnd = 6, ModifierStart = 6,
-		Signed   = 7, 
-		Unsigned = 8, 
-		Struct   = 9, ModifierEnd = 9,
-		Union    = 10,
-		Enum     = 11,
-		Typedef  = 12,
-		TypeSpecifierEnd
-	};
-
 public:
 
 	static std::string integralToString(int integral);

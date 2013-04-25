@@ -5,6 +5,7 @@
 
 #include "InitDeclaratorNode.h"
 
+#include <list>
 
 typedef list<InitDeclaratorNode*> InitDeclaratorNodeInList;
 
