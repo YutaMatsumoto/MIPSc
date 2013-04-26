@@ -85,6 +85,7 @@ function regen()
 	cd -
 }
 
+
 # 
 # test 
 #
@@ -117,4 +118,31 @@ function tv()
 		fi
 	done
 }
+
+# ---------------------------------------------------------------------------
+function tomips()
+{
+
+	source=$1
+	if [ -z "$source" ]; then
+		echo "usage: tomips file.c"
+		echo "argument required"
+		exit 1
+	fi
+
+	source_bc=$(mktemp)
+	source_mips=$source".s"
+
+	clang -emit-llvm $source -c -o $source_bc
+	if [ "$?" -eq 0 ]; then
+		llc-3.0 $source_bc -march=mipsel -relocation-model=static -o $source_mips
+	fi
+	if [ $? -eq 0 ]; then
+		echo "Generated $source_mips"
+	fi
+
+
+	rm $source_bc -f 2>&1 >/dev/null
+}
+
 
