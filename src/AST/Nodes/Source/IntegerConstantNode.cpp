@@ -18,7 +18,7 @@
 
 IntegerConstantNode::IntegerConstantNode( long long int _value ) : value( _value )
 {
-
+	nodeData = toOperations();
 }
 
 long long int IntegerConstantNode::getValue()

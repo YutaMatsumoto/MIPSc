@@ -8,14 +8,13 @@
 #include "FunctionDefinitionNode.h"
 
 FunctionDefinitionNode::FunctionDefinitionNode( CompoundStatementNode* _compoundStatement ) : compoundStatement(_compoundStatement) {
-	// TODO Auto-generated constructor stub
-
+	nodeData = toOperations();
 }
 
 ASTData* FunctionDefinitionNode::toOperations()
 {
 
-	return compoundStatement->toOperations();
+	return compoundStatement->nodeData;
 
 }
 

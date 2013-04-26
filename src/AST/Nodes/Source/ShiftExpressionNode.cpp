@@ -15,7 +15,7 @@
 
 ShiftExpressionNode::ShiftExpressionNode( AdditiveExpressionNode* _additiveExpression ) : additiveExpression( _additiveExpression )
 {
-
+	nodeData = toOperations();
 }
 
 ShiftExpressionNode::ShiftExpressionNode( ShiftExpressionNode* _shiftExpression ,
@@ -24,7 +24,7 @@ ShiftExpressionNode::ShiftExpressionNode( ShiftExpressionNode* _shiftExpression 
 		)
 	: shiftExpression( _shiftExpression ), additiveExpression( _additiveExpression ), type( _type )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* ShiftExpressionNode::toOperations()
@@ -32,7 +32,7 @@ ASTData* ShiftExpressionNode::toOperations()
 	if( shiftExpression == 0 )
 		{
 
-			return additiveExpression->toOperations();
+			return additiveExpression->nodeData;
 
 		}
 
@@ -41,10 +41,10 @@ ASTData* ShiftExpressionNode::toOperations()
 		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 		//Gets the data for the first parameter
-		ASTData* shiftExpressionData = shiftExpression->toOperations();
+		ASTData* shiftExpressionData = shiftExpression->nodeData;
 
 		//gets the data for the second parameter
-		ASTData* additiveExpressionData = additiveExpression->toOperations();
+		ASTData* additiveExpressionData = additiveExpression->nodeData;
 
 		//create a new temporary name
 		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );

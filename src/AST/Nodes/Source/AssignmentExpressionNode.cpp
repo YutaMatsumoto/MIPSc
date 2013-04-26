@@ -12,7 +12,7 @@
 
 AssignmentExpressionNode::AssignmentExpressionNode( ConditionalExpressionNode* _conditionalExpression ) : conditionalExpression( _conditionalExpression )
 {
-
+	nodeData = toOperations();
 }
 
 AssignmentExpressionNode::AssignmentExpressionNode(
@@ -21,7 +21,7 @@ AssignmentExpressionNode::AssignmentExpressionNode(
 		AssignmentExpressionNode* _assignmentExpression
 	) : unaryExpression( _unaryExpression ), assignmentOperator(_assignmentOperator), assignmentExpression(_assignmentExpression)
 {
-
+	nodeData = toOperations();
 }
 
 
@@ -31,7 +31,7 @@ ASTData* AssignmentExpressionNode::toOperations()
 
 	if( assignmentOperator == 0 )
 
-		return conditionalExpression->toOperations();
+		return conditionalExpression->nodeData;
 
 	if( assignmentOperator->type == AssignmentOperatorNode::Assign )
 	{
@@ -41,10 +41,10 @@ ASTData* AssignmentExpressionNode::toOperations()
 		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 		//Gets the data for the first parameter
-		ASTData* unaryData = unaryExpression->toOperations();
+		ASTData* unaryData = unaryExpression->nodeData;
 
 		//gets the data for the second parameter
-		ASTData* assignmentExpressionData = assignmentExpression->toOperations();
+		ASTData* assignmentExpressionData = assignmentExpression->nodeData;
 
 		//create a new temporary name
 		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );

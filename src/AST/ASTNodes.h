@@ -454,11 +454,11 @@ public:
 
 	void error(string msg);
 
-	DirectDeclaratorNode();
-
 	DirectDeclaratorNode( DirectDeclaratorNode* a);
 
 	DirectDeclaratorNode( IdentifierNode* id );
+
+	DirectDeclaratorNode( DeclaratorNode* declaratorNode );
 
 	void initData();
 
@@ -729,11 +729,15 @@ public:
 	
 	DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
 		: declSpecifier(declSpecifier)
-	{}
+	{
+		nodeData = toOperations();
+	}
 
 	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
 		: declSpecifier(declSpecifier), initDeclList(initDeclList)
-	{}
+	{
+		nodeData = toOperations();
+	}
 
 	// -----------------------------------------------------------------------
 	

@@ -6,7 +6,7 @@ ASTData* DeclarationNode::toOperations()
 
 	if( initDeclList != 0 )
 
-		return initDeclList->toOperations();
+		return initDeclList->nodeData;
 
 	return data;
 }
@@ -54,16 +54,31 @@ void DeclarationNode::declare(SymbolTable* stab)
 
 		std::string id;
 
+		SymbolTableInfo info;
+
+
+
 		// TODO SymbolLocation
 		// std::cout << "dKind" << dKind << std::endl;
 		switch(dKind) {
 			case DirectDeclaratorNode::None: 
 				t = buildType(tInfo);
 				id = dirDeclId->getId();
-				s = new Symbol(id, sloc, t);
-				cout << "declre() : before insertSymbol" << endl;
-				stab->insertSymbol(s);
-				cout << "declre() : after insertSymbol" << endl;
+
+				info = stab->getSymbolInfo( id , true );
+
+				if( info.symbol == 0 )
+
+					std::cout << "Symbol Lookup was null" << endl;
+
+				info.symbol->symbolType = t;
+
+
+
+				//s = new Symbol(id, sloc, t);
+				//cout << "declre() : before insertSymbol" << endl;
+				//stab->insertSymbol(s);
+				//cout << "declre() : after insertSymbol" << endl;
 				break;
 			case DirectDeclaratorNode::Array: 
 				break;

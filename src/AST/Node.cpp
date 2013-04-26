@@ -17,16 +17,16 @@ Node::~Node()
 
 }
 
-Node* Node::getParent()
+/*Node* Node::getParent()
 {
 
 	return parent;
 
-}
-
+}*/
+/*
 void Node::setParent( Node* _parent )
 {
 
 	parent = _parent;
 
-}
+}*/

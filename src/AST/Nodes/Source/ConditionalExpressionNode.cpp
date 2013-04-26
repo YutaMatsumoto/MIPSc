@@ -9,7 +9,7 @@
 
 ConditionalExpressionNode::ConditionalExpressionNode( LogicalOrExpressionNode* _logicalOrExpression ) : logicalOrExpression( _logicalOrExpression )
 {
-
+	nodeData = toOperations();
 }
 
 ConditionalExpressionNode::ConditionalExpressionNode(
@@ -18,7 +18,7 @@ ConditionalExpressionNode::ConditionalExpressionNode(
 		ConditionalExpressionNode* _conditionalExpression
 	) : logicalOrExpression( _logicalOrExpression ), expression(_expression), conditionalExpression(_conditionalExpression)
 {
-
+	nodeData = toOperations();
 }
 
 
@@ -28,7 +28,7 @@ ASTData*ConditionalExpressionNode::toOperations()
 
 	if( expression == 0 )
 
-		return logicalOrExpression->toOperations();
+		return logicalOrExpression->nodeData;
 
 	return data;
 }

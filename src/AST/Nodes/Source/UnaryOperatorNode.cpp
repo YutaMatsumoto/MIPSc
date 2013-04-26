@@ -9,7 +9,7 @@
 
 UnaryOperatorNode::UnaryOperatorNode( UnaryOperatorType _type ) : type( _type )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* UnaryOperatorNode::toOperations()

@@ -8,14 +8,14 @@
 #include <vector>
 #include "Operation.h"
 
-inline void Parser::error(char const *msg)
+/*inline void Parser::error(char const *msg)
 {
-	SymbolLocation& location = scanner->getLoc();
+	SymbolLocation location = scanner->getLoc();
 	
 	std::cerr << "Syntax Error Found around " << location.lnum << ":" << location.cnum << std::endl;
 
 	// std::cerr << "Syntax Error @: " << location.lnum << ":" << location.cnum << std::endl;
-}
+}*/
 
 // $insert lex
 inline int Parser::lex()
@@ -175,10 +175,10 @@ bool Parser::isDeclarationMode()
 	
 }
 
-ASTData* Parser::generate3AC()
+ASTData* Parser::get3AC()
 {
 
-	return ast->toOperations();
+	return ast->nodeData;
 
 }
 

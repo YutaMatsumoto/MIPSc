@@ -14,6 +14,8 @@ PostfixExpressionNode::PostfixExpressionNode( PrimaryExpressionNode* _primaryExp
 	: primaryExpression( _primaryExpression )
 {
 	type = PrimaryExpression;
+
+	nodeData = toOperations();
 }
 
 //Array Access
@@ -21,13 +23,15 @@ PostfixExpressionNode::PostfixExpressionNode( PostfixExpressionNode* _postfixExp
 	: postfixExpression( _postfixExpression )
 {
 	type = ArrayAccess;
+
+	nodeData = toOperations();
 }
 
 //Function Call, No arguments =OR= Increment =OR= Dcrement
 PostfixExpressionNode::PostfixExpressionNode( PostfixExpressionNode* _postfixExpression , PostfixExpressionType _type )
 	: postfixExpression( _postfixExpression ), type(_type)
 {
-
+	nodeData = toOperations();
 }
 
 //Function Call, w/ arguments
@@ -35,6 +39,8 @@ PostfixExpressionNode::PostfixExpressionNode( PostfixExpressionNode* _postfixExp
 	: postfixExpression( _postfixExpression ), argExpressionList( _argExpressionList )
 {
 	type = FunctionCall;
+
+	nodeData = toOperations();
 }
 
 //Direct Member Access
@@ -42,6 +48,8 @@ PostfixExpressionNode::PostfixExpressionNode( PostfixExpressionNode* _postfixExp
 	: postfixExpression( _postfixExpression ), memberIdentifier( _memberIdentifier ), type( _type )
 {
 	type = DirectMemberAccess;
+
+	nodeData = toOperations();
 }
 
 ASTData* PostfixExpressionNode::toOperations()
@@ -52,12 +60,12 @@ ASTData* PostfixExpressionNode::toOperations()
 
 	if( type ==  PrimaryExpression )
 
-		return primaryExpression->toOperations();
+		return primaryExpression->nodeData;
 
 	if( type == ArrayAccess )
 	{
 		//Various errors will be thrown here (eg: accessing a non-array type)
-		ASTData* arrayData = postfixExpression->toOperations();
+		ASTData* arrayData = postfixExpression->nodeData;
 
 		Symbol* arrayId = arrayData->result;
 

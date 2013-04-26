@@ -10,7 +10,7 @@
 ExclusiveOrExpressionNode::ExclusiveOrExpressionNode(AndExpressionNode* _andExpression) :
 		andExpression(_andExpression)
 {
-
+	nodeData = toOperations();
 }
 
 ExclusiveOrExpressionNode::ExclusiveOrExpressionNode(
@@ -19,7 +19,7 @@ ExclusiveOrExpressionNode::ExclusiveOrExpressionNode(
 		exclusiveOrExpression(_exclusiveOrExpression), andExpression(
 				_andExpression)
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* ExclusiveOrExpressionNode::toOperations()
@@ -29,7 +29,7 @@ ASTData* ExclusiveOrExpressionNode::toOperations()
 
 	if( exclusiveOrExpression == 0 )
 
-		return andExpression->toOperations();
+		return andExpression->nodeData;
 
 	return data;
 }

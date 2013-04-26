@@ -31,6 +31,10 @@ public:
 		: id(id), location(location), symbolType(symbolType)
 	{}
 
+	Symbol(std::string s, SymbolLocation location)
+			: id(s), location(location)
+		{}
+
 	Symbol(std::string s, int l, int c)
 		: id(s), location(l,c)
 	{}

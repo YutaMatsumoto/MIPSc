@@ -30,7 +30,7 @@
 							<tool command="g++-4.7" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.319124077" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.153087788" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.766761668" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.other.other.944855805" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++0x" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.other.other.944855805" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=c++0x -Wno-reorder" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1509111937" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/Compiler}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/3AC/Operations}&quot;"/>
@@ -142,23 +142,23 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="c_compiler.cdt.managedbuild.target.gnu.exe.11568101" name="Executable" projectType="cdt.managedbuild.target.gnu.exe"/>
 	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/mipsc"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.272065388;cdt.managedbuild.config.gnu.exe.release.272065388.;cdt.managedbuild.tool.gnu.c.compiler.exe.release.1812022604;cdt.managedbuild.tool.gnu.c.compiler.input.400675390">
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1081972645;cdt.managedbuild.config.gnu.exe.debug.1081972645.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.670404799;cdt.managedbuild.tool.gnu.c.compiler.input.314259976">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1081972645;cdt.managedbuild.config.gnu.exe.debug.1081972645.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.319124077;cdt.managedbuild.tool.gnu.cpp.compiler.input.2118981026">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1081972645;cdt.managedbuild.config.gnu.exe.debug.1081972645.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.670404799;cdt.managedbuild.tool.gnu.c.compiler.input.314259976">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.272065388;cdt.managedbuild.config.gnu.exe.release.272065388.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.1241556191;cdt.managedbuild.tool.gnu.cpp.compiler.input.391105665">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.272065388;cdt.managedbuild.config.gnu.exe.release.272065388.;cdt.managedbuild.tool.gnu.c.compiler.exe.release.1812022604;cdt.managedbuild.tool.gnu.c.compiler.input.400675390">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="refreshScope" versionNumber="1">
-		<resource resourceType="PROJECT" workspacePath="/mipsc"/>
-	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 </cproject>

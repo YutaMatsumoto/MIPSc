@@ -9,12 +9,12 @@
 
 DeclaratorNode::DeclaratorNode(DirectDeclaratorNode* dirDeclNode) : dirDeclNode(dirDeclNode), ptrNode(NULL)
 {
-
+	nodeData = toOperations();
 }
 
 DeclaratorNode::DeclaratorNode(PointerNode* ptrNode, DirectDeclaratorNode* dirDeclNode) : dirDeclNode(dirDeclNode), ptrNode(ptrNode)
 {
-
+	nodeData = toOperations();
 }
 
 bool DeclaratorNode::isPointer()
@@ -24,7 +24,7 @@ bool DeclaratorNode::isPointer()
 
 ASTData* DeclaratorNode::toOperations()
 {
-	return dirDeclNode->toOperations();
+	return dirDeclNode->nodeData;
 }
 
 std::string DeclaratorNode::getNodeTypeAsString()

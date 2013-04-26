@@ -11,18 +11,24 @@ LabeledStatementNode::LabeledStatementNode( IdentifierNode* _identifier, Stateme
 	: identifier( _identifier ), statement( _statement )
 {
 	type = Label;
+
+	nodeData = toOperations();
 }
 
 LabeledStatementNode::LabeledStatementNode( ConstantExpressionNode* _constantExpression, StatementNode* _statement )
 		: constantExpression( _constantExpression ), statement( _statement )
 {
 	type = Case;
+
+	nodeData = toOperations();
 }
 
 LabeledStatementNode::LabeledStatementNode( StatementNode* _statement )
 		: statement( _statement )
 {
 	type = Default;
+
+	nodeData = toOperations();
 }
 
 ASTData* LabeledStatementNode::toOperations()

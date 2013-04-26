@@ -28,18 +28,24 @@ void DirectDeclaratorNode::error(string msg)
 	cerr << "Error : DirectDeclaratorKind : " << msg << endl;
 }
 
-DirectDeclaratorNode::DirectDeclaratorNode() {initData();}
-
 DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a)
 {
 	initData();	
 	dirDeclNode = a;
+	nodeData = toOperations();
+}
+
+DirectDeclaratorNode::DirectDeclaratorNode( DeclaratorNode* _declaratorNode) : declNode(_declaratorNode)
+{
+	initData();
+	nodeData = toOperations();
 }
 
 DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id )
 {
 	initData();
 	this->id = id;
+	nodeData = toOperations();
 }
 
 void DirectDeclaratorNode::initData()
@@ -107,11 +113,11 @@ ASTData* DirectDeclaratorNode::toOperations()
 
 	if( declNode )
 
-		return declNode->toOperations();
+		return declNode->nodeData;
 
 	if( dirDeclNode )
 
-		return dirDeclNode->toOperations();
+		return dirDeclNode->nodeData;
 
 }
 

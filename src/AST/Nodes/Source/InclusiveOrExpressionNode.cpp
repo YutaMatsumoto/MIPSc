@@ -9,7 +9,7 @@
 
 InclusiveOrExpressionNode::InclusiveOrExpressionNode( ExclusiveOrExpressionNode* _exclusiveOrExpression ) : exclusiveOrExpression( _exclusiveOrExpression )
 {
-
+	nodeData = toOperations();
 }
 
 InclusiveOrExpressionNode::InclusiveOrExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpression ,
@@ -26,7 +26,7 @@ ASTData* InclusiveOrExpressionNode::toOperations()
 
 	if( inclusiveOrExpression == 0 )
 
-		return exclusiveOrExpression->toOperations();
+		return exclusiveOrExpression->nodeData;
 
 	return data;
 }

@@ -9,7 +9,7 @@
 
 CharConstantNode::CharConstantNode( char _value ) : value( _value )
 {
-
+	nodeData = toOperations();
 }
 
 char CharConstantNode::getValue()

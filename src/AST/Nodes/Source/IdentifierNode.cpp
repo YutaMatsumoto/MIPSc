@@ -13,7 +13,7 @@
 
 IdentifierNode::IdentifierNode( SymbolTable* _table , std::string _id ) : id( _id ), table( _table)
 {
-
+	nodeData = toOperations();
 }
 
 std::string IdentifierNode::getId()

@@ -15,7 +15,7 @@
 class DeclaratorNode;
 class InitializerNode;
 
-class InitDeclaratorNode {
+class InitDeclaratorNode : public Node {
 public:
 
 	InitDeclaratorNode(DeclaratorNode* _declarationNode);

@@ -227,6 +227,7 @@ public:
 	void pushIdentifier(std::string identifier)
 	{
 		identifiers.push_back(identifier);
+
 	}
 
 	void clear()

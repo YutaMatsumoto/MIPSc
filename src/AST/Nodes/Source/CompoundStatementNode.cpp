@@ -10,13 +10,13 @@
 CompoundStatementNode::CompoundStatementNode( DeclarationListNode* _declarationList )
 	: declarationList( _declarationList )
 {
-
+	nodeData = toOperations();
 }
 
 CompoundStatementNode::CompoundStatementNode( StatementListNode* _statementList )
 		: statementList( _statementList )
 {
-
+	nodeData = toOperations();
 }
 
 CompoundStatementNode::CompoundStatementNode( DeclarationListNode* _declarationList , StatementListNode* _statementList)
@@ -34,7 +34,7 @@ ASTData* CompoundStatementNode::toOperations()
 	if( declarationList )
 	{
 
-		ASTData* temp = declarationList->toOperations();
+		ASTData* temp = declarationList->nodeData;
 
 		operations->insert( operations->end() , temp->code->begin() , temp->code->end() );
 
@@ -43,7 +43,7 @@ ASTData* CompoundStatementNode::toOperations()
 	if( statementList )
 	{
 
-		ASTData* temp = statementList->toOperations();
+		ASTData* temp = statementList->nodeData;
 
 		operations->insert( operations->end() , temp->code->begin() , temp->code->end() );
 

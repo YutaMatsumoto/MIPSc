@@ -9,7 +9,7 @@
 
 StringNode::StringNode( std::string _value ) : value( _value )
 {
-
+	nodeData = toOperations();
 }
 
 std::string StringNode::getValue()

@@ -9,13 +9,13 @@
 
 CastExpressionNode::CastExpressionNode( UnaryExpressionNode* _unaryExpression ) : unaryExpression( _unaryExpression )
 {
-
+	nodeData = toOperations();
 }
 
 CastExpressionNode::CastExpressionNode( TypeNameNode* _typeName , CastExpressionNode* _castExpression )
 	: typeName( _typeName ), castExpression(_castExpression)
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* CastExpressionNode::toOperations()
@@ -24,7 +24,7 @@ ASTData* CastExpressionNode::toOperations()
 
 	if( unaryExpression )
 
-		return unaryExpression->toOperations();
+		return unaryExpression->nodeData;
 
 	return data;
 }

@@ -11,12 +11,12 @@
 
 InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode) : declarationNode(_declarationNode)
 {
-
+	nodeData = toOperations();
 }
 
 InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode, InitializerNode* _initializerNode) : declarationNode(_declarationNode), initializerNode(_initializerNode)
 {
-
+	nodeData = toOperations();
 }
 
 
@@ -30,10 +30,10 @@ ASTData* InitDeclaratorNode::toOperations()
 		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 		//Gets the data for the first parameter
-		ASTData* declaratorData = declarationNode->toOperations();
+		ASTData* declaratorData = declarationNode->nodeData;
 
 		//gets the data for the second parameter
-		ASTData* initializerData = initializerNode->toOperations();
+		ASTData* initializerData = initializerNode->nodeData;
 
 		//create a new temporary name
 		//std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
