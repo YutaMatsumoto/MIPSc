@@ -1,0 +1,40 @@
+
+Syntax
+
+    $ scan input_file [-d[l|s|p]] [-o output_file]
+
+Description
+
+    This program tokenizes input_file and writes to a file. If -d (debug)
+    option is specified, debug files are also created according to the
+    argument to -d.
+
+    The token file is written to output_file specified after -o option. If -o
+    option is not supplied, the token file is written to input_file.tokens. 
+
+    Additionally, -d option with zero or more debug mode argument(s) can be
+    specified.
+
+       | mode  | description             | output file          |
+       | ----- | ----------------------- | -------------------- |
+       | l     | lexer debug mode        | inputfile.ldebug     |
+       | s     | symbol table debug mode | inputfile.sdebug     |
+       | p     | parser debug            | inputfile.pdebug OR .list ??? |
+       | empty | same as lsp             | same as -dlsp        |
+
+    You can specify combinaion of l, s, and p.
+
+Examples
+
+    create a.c.token only
+
+        $ scan a.c
+
+    create all debug files
+
+        $ scan a.c -d
+
+    create tokenfile and a.c.ldebug
+
+        $ scan a.c -dl -o tokenfile
+
