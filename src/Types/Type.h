@@ -118,7 +118,8 @@ private:
 
 	std::string id;
 
-	// Symbol* typeSymbol;
+	Symbol* typeSymbol = 0;
+
 
 	std::vector< std::string > storageSpecifiers;
 

@@ -11,8 +11,12 @@
 
 class InitializerNode;
 
+<<<<<<< HEAD
 
 class InitDeclaratorNode {
+=======
+class InitDeclaratorNode : public Node {
+>>>>>>> nate
 public:
 
 	InitDeclaratorNode() {}

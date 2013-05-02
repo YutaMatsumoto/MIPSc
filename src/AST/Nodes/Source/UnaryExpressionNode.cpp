@@ -10,24 +10,30 @@
 UnaryExpressionNode::UnaryExpressionNode( PostfixExpressionNode* _postfixExpression ) : postfixExpression( _postfixExpression )
 {
 	type = Postfix;
+
+	nodeData = toOperations();
 }
 
 UnaryExpressionNode::UnaryExpressionNode( UnaryExpressionNode* _unaryExpression , UnaryExpressionType _type )
 	: unaryExpression( _unaryExpression ), type(_type)
 {
-
+	nodeData = toOperations();
 }
 
 UnaryExpressionNode::UnaryExpressionNode( UnaryOperatorNode* _unaryOperator , CastExpressionNode* _castExpression )
 			: unaryOperator( _unaryOperator ), castExpression(_castExpression)
 {
 	type = Cast;
+
+	nodeData = toOperations();
 }
 
 UnaryExpressionNode::UnaryExpressionNode( TypeNameNode* _typeName )
 				: typeName( _typeName )
 {
 	type = SizeofType;
+
+	nodeData = toOperations();
 }
 
 ASTData* UnaryExpressionNode::toOperations()
@@ -36,7 +42,7 @@ ASTData* UnaryExpressionNode::toOperations()
 
 	if( type == Postfix )
 
-		return postfixExpression->toOperations();
+		return postfixExpression->nodeData;
 
 
 	return data;

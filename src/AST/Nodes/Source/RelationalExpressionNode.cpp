@@ -9,7 +9,7 @@
 
 RelationalExpressionNode::RelationalExpressionNode( ShiftExpressionNode* _shiftExpression ) : shiftExpression( _shiftExpression )
 {
-
+	nodeData = toOperations();
 }
 
 RelationalExpressionNode::RelationalExpressionNode( RelationalExpressionNode* _relationalExpression ,
@@ -18,7 +18,7 @@ RelationalExpressionNode::RelationalExpressionNode( RelationalExpressionNode* _r
 		)
 	: shiftExpression( _shiftExpression ), relationalExpression( _relationalExpression ), type( _type )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* RelationalExpressionNode::toOperations()
@@ -27,7 +27,7 @@ ASTData* RelationalExpressionNode::toOperations()
 
 	if( relationalExpression == 0 )
 
-		return shiftExpression->toOperations();
+		return shiftExpression->nodeData;
 
 	return data;
 }

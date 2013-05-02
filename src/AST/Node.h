@@ -24,13 +24,17 @@ public:
 
 	virtual std::string getNodeTypeAsString() = 0;
 
-	Node* getParent();
+	//Node* getParent();
 
-	void setParent( Node* _parent );
+	//void setParent( Node* _parent );
+
+	ASTData* nodeData = 0;
 
 protected:
 
-	Node* parent;
+	//Node* parent;
+
+
 
 	Node();
 

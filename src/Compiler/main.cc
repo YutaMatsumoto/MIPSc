@@ -230,7 +230,7 @@ int main(int argc, char** argv)
 	// run parser
 	int returnFromParser = p.parse();
 
-	ASTData* astData = p.generate3AC();
+	ASTData* astData = p.get3AC();
 
 	std::ofstream of;
 

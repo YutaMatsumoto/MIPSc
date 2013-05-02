@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // #include "ASTNodes.h"
 
 
@@ -21,11 +22,31 @@ class DirectDeclaratorNode;
 
 // class DeclarationSpecifiersNode::TypeInfo;
 // class Type;
+=======
+/*
+ * DeclarationNode.h
+ *
+ *  Created on: May 1, 2013
+ *      Author: njordan
+ */
+
+#ifndef DECLARATIONNODE_H_
+#define DECLARATIONNODE_H_
+
+#include "ASTNodes.h"
+#include "InitDeclaratorListNode.h"
+#include "Type.h"
+
+class DeclarationSpecifiersNode;
+class InitDeclaratorListNode;
+struct TypeInfo;
+>>>>>>> nate
 
 class DeclarationNode : public Node {
 public:
 
 
+<<<<<<< HEAD
 	DeclarationNode() {}	
 
 	// -----------------------------------------------------------------------
@@ -40,6 +61,14 @@ public:
 
 	// -----------------------------------------------------------------------
 	
+=======
+	DeclarationNode();
+
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier);
+
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList);
+
+>>>>>>> nate
 	// TODO
 	virtual ASTData* toOperations();
 
@@ -49,6 +78,7 @@ public:
 
 	void declare(SymbolTable* stab) ;
 
+<<<<<<< HEAD
 	std::string toString() const;
 
 	Type* buildType(TypeInfo tInfo);
@@ -72,3 +102,15 @@ private:
 
 
 #endif
+=======
+	//Type* buildType(DeclarationSpecifiersNode::TypeInfo) const;
+
+	std::string toString() const;
+
+private:
+	InitDeclaratorListNode* initDeclList = 0;
+	DeclarationSpecifiersNode* declSpecifier = 0;
+};
+
+#endif /* DECLARATIONNODE_H_ */
+>>>>>>> nate

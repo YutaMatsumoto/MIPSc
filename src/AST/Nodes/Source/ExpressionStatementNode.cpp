@@ -9,14 +9,14 @@
 
 ExpressionStatementNode::ExpressionStatementNode( )
 {
-
+	nodeData = toOperations();
 }
 
 ExpressionStatementNode::ExpressionStatementNode( ExpressionNode* _expression )
 		: expression( _expression )
-	{
-
-	}
+{
+	nodeData = toOperations();
+}
 
 ASTData* ExpressionStatementNode::toOperations()
 {
@@ -24,7 +24,7 @@ ASTData* ExpressionStatementNode::toOperations()
 
 	if( expression )
 
-		return expression->toOperations();
+		return expression->nodeData;
 
 	return data;
 }

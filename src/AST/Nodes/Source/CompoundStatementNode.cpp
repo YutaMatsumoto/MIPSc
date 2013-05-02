@@ -10,28 +10,46 @@
 CompoundStatementNode::CompoundStatementNode( DeclarationListNode* _declarationList )
 	: declarationList( _declarationList )
 {
-
+	nodeData = toOperations();
 }
 
 CompoundStatementNode::CompoundStatementNode( StatementListNode* _statementList )
 		: statementList( _statementList )
 {
-
+	nodeData = toOperations();
 }
 
 CompoundStatementNode::CompoundStatementNode( DeclarationListNode* _declarationList , StatementListNode* _statementList)
 		: declarationList( _declarationList ), statementList( _statementList )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* CompoundStatementNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
-	if( statementList )
+	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-		return statementList->toOperations();
+	if( declarationList )
+	{
+
+		ASTData* temp = declarationList->nodeData;
+
+		operations->insert( operations->end() , temp->code->begin() , temp->code->end() );
+
+	}
+
+	if( statementList )
+	{
+
+		ASTData* temp = statementList->nodeData;
+
+		operations->insert( operations->end() , temp->code->begin() , temp->code->end() );
+
+	}
+
+	data->code = operations;
 
 	return data;
 }

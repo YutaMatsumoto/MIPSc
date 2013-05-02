@@ -1,5 +1,6 @@
 #include "InitDeclaratorNode.h"
 #include "StoreOp.h"
+<<<<<<< HEAD
 #include "common.h"
 #include "AllASTNodes.h"
 
@@ -7,6 +8,19 @@ std::string InitDeclaratorNode::toString()
 {
 	string s = "InitDeclaratorNode: " + declarationNode->toString();
 	return s;
+=======
+#include "IdTracker.h"
+#include "GetAddressOp.h"
+
+InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode) : declarationNode(_declarationNode)
+{
+	nodeData = toOperations();
+}
+
+InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode, InitializerNode* _initializerNode) : declarationNode(_declarationNode), initializerNode(_initializerNode)
+{
+	nodeData = toOperations();
+>>>>>>> nate
 }
 
 ASTData* InitDeclaratorNode::toOperations()
@@ -19,13 +33,13 @@ ASTData* InitDeclaratorNode::toOperations()
 		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 		//Gets the data for the first parameter
-		ASTData* declaratorData = declarationNode->toOperations();
+		ASTData* declaratorData = declarationNode->nodeData;
 
 		//gets the data for the second parameter
-		ASTData* initializerData = initializerNode->toOperations();
+		ASTData* initializerData = initializerNode->nodeData;
 
 		//create a new temporary name
-		//std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
+		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
 		//get the name of the first parameters temporary
 		Symbol* declaratorResult = declaratorData->result;
@@ -34,10 +48,12 @@ ASTData* InitDeclaratorNode::toOperations()
 		Symbol* initializerResult = initializerData->result;
 
 		//create a new temporary for our result
-		//Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , multiplicativeResult->symbolType );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , declaratorResult->symbolType , Symbol::ITEMP );
+
+		GetAddressOp* op1 = new GetAddressOp( temporary , declaratorResult );
 
 		//create a new operation to compute the addition
-		StoreOp* op = new StoreOp( declaratorResult , initializerResult );
+		StoreOp* op2 = new StoreOp( temporary , initializerResult );
 
 		//Add the multiplicative operations to what we will return
 		//operations->insert( operations->end() , multiplicativeData->code->begin() , multiplicativeData->code->end() );
@@ -46,7 +62,9 @@ ASTData* InitDeclaratorNode::toOperations()
 		operations->insert( operations->end() , initializerData->code->begin() , initializerData->code->end() );
 
 		//Add our 'add' operation to the end of the list
-		operations->push_back( op );
+		operations->push_back( op1 );
+
+		operations->push_back( op2 );
 
 		//add the result of this expression to the data
 		//data->result = temporary;

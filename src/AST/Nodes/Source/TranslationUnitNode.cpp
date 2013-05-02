@@ -11,13 +11,13 @@
 TranslationUnitNode::TranslationUnitNode( ExternalDeclarationNode* _externalDeclaration )
 	: externalDeclaration( _externalDeclaration )
 {
-
+	nodeData = toOperations();
 }
 
 TranslationUnitNode::TranslationUnitNode( ExternalDeclarationNode* _externalDeclaration, TranslationUnitNode* _translationUnit )
 		: externalDeclaration( _externalDeclaration ) ,  translationUnit( _translationUnit )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* TranslationUnitNode::toOperations()
@@ -27,7 +27,7 @@ ASTData* TranslationUnitNode::toOperations()
 
 	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-	ASTData* externalData = externalDeclaration->toOperations();
+	ASTData* externalData = externalDeclaration->nodeData;
 
 	operations->insert( operations->end(), externalData->code->begin() , externalData->code->end() );
 

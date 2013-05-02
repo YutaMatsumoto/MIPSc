@@ -10,13 +10,15 @@
 SelectionStatementNode::SelectionStatementNode( ExpressionNode* _condition , StatementNode* _statement, SelectionStatementType _type )
 	: condition( _condition ), statement( _statement ), type( _type )
 {
-
+	nodeData = toOperations();
 }
 
 SelectionStatementNode::SelectionStatementNode( ExpressionNode* _condition , StatementNode* _statement, StatementNode* _elseStatement )
 		: condition( _condition ), statement( _statement )
 {
 	type = IfElse;
+
+	nodeData = toOperations();
 }
 
 ASTData* SelectionStatementNode::toOperations()

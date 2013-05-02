@@ -22,7 +22,11 @@ private: // data members
 
 	std::vector<std::string> identifiers;
 
+	SymbolTable* stab;
+
 public:
+
+	Declaration( SymbolTable* _stab ) : stab(_stab) {}
 
 	typedef std::vector<Symbol*> SymbolList;
 	SymbolList createSymbols()
@@ -154,8 +158,11 @@ public:
 		//
 		std::vector<Symbol*> symbolList;
 		Symbol* sym;
+
+		Symbol::TACOperandType tacType = ( stab->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
+
 		for (auto identifier : identifiers) {
-			sym = new Symbol( identifier,  SymbolLocation(), type);
+			sym = new Symbol( identifier,  SymbolLocation(), type , tacType );
 			symbolList.push_back(sym);
 		}
 
@@ -227,6 +234,7 @@ public:
 	void pushIdentifier(std::string identifier)
 	{
 		identifiers.push_back(identifier);
+
 	}
 
 	void clear()

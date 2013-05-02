@@ -32,17 +32,17 @@ class StatementNode : public Node
 
 public:
 
-	StatementNode( LabeledStatementNode* _labeledStatement );
+	StatementNode( LabeledStatementNode* _labeledStatement , std::string _lineInfo);
 
-	StatementNode( ExpressionStatementNode* _expressionStatement );
+	StatementNode( ExpressionStatementNode* _expressionStatement , std::string _lineInfo);
 
-	StatementNode( CompoundStatementNode* _compoundStatement );
+	StatementNode( CompoundStatementNode* _compoundStatement , std::string _lineInfo);
 
-	StatementNode( SelectionStatementNode* _selectionStatement );
+	StatementNode( SelectionStatementNode* _selectionStatement , std::string _lineInfo);
 
-	StatementNode( IterationStatementNode* _iterationStatement );
+	StatementNode( IterationStatementNode* _iterationStatement , std::string _lineInfo );
 
-	StatementNode( JumpStatementNode* _jumpStatement );
+	StatementNode( JumpStatementNode* _jumpStatement , std::string _lineInfo);
 
 	ASTData* toOperations();
 
@@ -55,6 +55,7 @@ public:
 	IterationStatementNode* iterationStatement = 0;
 	JumpStatementNode* jumpStatement = 0;
 
+	std::string lineInfo;
 
 	inline ~StatementNode() {};
 

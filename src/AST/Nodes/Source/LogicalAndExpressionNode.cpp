@@ -9,7 +9,7 @@
 
 LogicalAndExpressionNode::LogicalAndExpressionNode( InclusiveOrExpressionNode* _inclusiveOrExpression ) : inclusiveOrExpression( _inclusiveOrExpression )
 {
-
+	nodeData = toOperations();
 }
 
 LogicalAndExpressionNode::LogicalAndExpressionNode( LogicalAndExpressionNode* _logicalAndExpression,
@@ -17,7 +17,7 @@ LogicalAndExpressionNode::LogicalAndExpressionNode( LogicalAndExpressionNode* _l
 		)
 	: logicalAndExpression( _logicalAndExpression ), inclusiveOrExpression( _inclusiveOrExpression )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* LogicalAndExpressionNode::toOperations()
@@ -26,7 +26,7 @@ ASTData* LogicalAndExpressionNode::toOperations()
 
 	if( logicalAndExpression == 0 )
 
-		return inclusiveOrExpression->toOperations();
+		return inclusiveOrExpression->nodeData;
 
 	return data;
 }

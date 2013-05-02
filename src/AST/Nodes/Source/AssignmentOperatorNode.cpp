@@ -9,7 +9,7 @@
 
 AssignmentOperatorNode::AssignmentOperatorNode( AssignmentOperatorType _type ) : type( _type )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* AssignmentOperatorNode::toOperations()

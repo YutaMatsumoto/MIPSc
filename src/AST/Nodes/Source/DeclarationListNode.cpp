@@ -10,20 +10,19 @@
 
 DeclarationListNode::DeclarationListNode( DeclarationNode* _declaration ) : declaration(_declaration)
 {
-
+	nodeData = toOperations();
 }
 
 DeclarationListNode::DeclarationListNode( DeclarationListNode* _declarationList , DeclarationNode* _declaration ) : declarationList(_declarationList ), declaration(_declaration)
 {
-
-
+	nodeData = toOperations();
 }
 
 ASTData* DeclarationListNode::toOperations()
 {
 	if( declarationList == 0 )
 
-		return declaration->toOperations();
+		return declaration->nodeData;
 
 	else
 	{
@@ -33,10 +32,10 @@ ASTData* DeclarationListNode::toOperations()
 		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 		//Gets the data for the first parameter
-		ASTData* declarationData = declaration->toOperations();
+		ASTData* declarationData = declaration->nodeData;
 
 		//gets the data for the second parameter
-		ASTData* declarationListData = declarationList->toOperations();
+		ASTData* declarationListData = declarationList->nodeData;
 
 		//create a new temporary name
 		//std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );

@@ -9,14 +9,14 @@
 
 LogicalOrExpressionNode::LogicalOrExpressionNode( LogicalAndExpressionNode* _logicalAndExpression ) : logicalAndExpression( _logicalAndExpression )
 {
-
+	nodeData = toOperations();
 }
 
 LogicalOrExpressionNode::LogicalOrExpressionNode( LogicalOrExpressionNode* _logicalOrExpression ,
 		LogicalAndExpressionNode* _logicalAndExpression )
 	: logicalOrExpression( _logicalOrExpression ), logicalAndExpression( _logicalAndExpression )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* LogicalOrExpressionNode::toOperations()
@@ -25,7 +25,7 @@ ASTData* LogicalOrExpressionNode::toOperations()
 
 	if( logicalOrExpression == 0 )
 
-		return logicalAndExpression->toOperations();
+		return logicalAndExpression->nodeData;
 
 	return data;
 }

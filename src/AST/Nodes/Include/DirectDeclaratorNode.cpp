@@ -1,16 +1,12 @@
 /*
- * ASTNodes.cpp
+ * DirectDeclaratorNode2.cpp
  *
- *  Created on: Apr 3, 2013
+ *  Created on: May 1, 2013
  *      Author: njordan
  */
 
-// #include "ASTNodes.h"
-#include "common.h"
+#include "DirectDeclaratorNode.h"
 
-using namespace std;
-
-/* commented out on 2013.04.22
 string DirectDeclaratorNode::toString()
 {
 	if (id) {
@@ -27,21 +23,27 @@ string DirectDeclaratorNode::toString()
 
 void DirectDeclaratorNode::error(string msg)
 {
-	cerr << "Error : DirectDeclaratorKind : " << msg << endl;
+	std::cerr << "Error : DirectDeclaratorKind : " << msg << std::endl;
 }
-
-DirectDeclaratorNode::DirectDeclaratorNode() {initData();}
 
 DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a)
 {
-	initData();	
+	initData();
 	dirDeclNode = a;
+	nodeData = toOperations();
+}
+
+DirectDeclaratorNode::DirectDeclaratorNode( DeclaratorNode* _declaratorNode) : declNode(_declaratorNode)
+{
+	initData();
+	nodeData = toOperations();
 }
 
 DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id )
 {
 	initData();
 	this->id = id;
+	nodeData = toOperations();
 }
 
 void DirectDeclaratorNode::initData()
@@ -84,7 +86,7 @@ void DirectDeclaratorNode::specifyFunction( ParameterTypeListNode* a )
 void DirectDeclaratorNode::specifyFunctionCall( IdentifierListNode* a )
 {
 	functionCall = true;
-	idListNode = a;	
+	idListNode = a;
 	kind = FunctionCallWithParam;
 }
 
@@ -109,11 +111,11 @@ ASTData* DirectDeclaratorNode::toOperations()
 
 	if( declNode )
 
-		return declNode->toOperations();
+		return declNode->nodeData;
 
 	if( dirDeclNode )
 
-		return dirDeclNode->toOperations();
+		return dirDeclNode->nodeData;
 
 }
 
@@ -121,4 +123,5 @@ std::string DirectDeclaratorNode::getNodeTypeAsString()
 {
 	return std::string("initializer list node");
 }
-*/
+
+

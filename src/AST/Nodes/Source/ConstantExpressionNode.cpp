@@ -9,13 +9,13 @@
 
 ConstantExpressionNode::ConstantExpressionNode( ConditionalExpressionNode* _conditionalExpression ) : conditionalExpression( _conditionalExpression )
 {
-
+	nodeData = toOperations();
 }
 
 
 ASTData* ConstantExpressionNode::toOperations()
 {
-	return conditionalExpression->toOperations();
+	return conditionalExpression->nodeData;
 }
 
 std::string ConstantExpressionNode::getNodeTypeAsString()

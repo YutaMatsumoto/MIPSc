@@ -141,6 +141,7 @@
 
 %lsp-needed
 %debug
+%no-lines
 
 %%
 
@@ -233,15 +234,15 @@ declaration
 		}
 		debugPrint("declaration_specifiers ';' -> declaration"); 
 		DeclarationNode* declNode = new DeclarationNode(  (DeclarationSpecifiersNode*) $1 );
-		declNode->declare(symbolTable);
+		//declNode->declare(symbolTable);
 		$$ = (void*) declNode;
 		}
 	| declaration_specifiers init_declarator_list ';' { debugPrint("declaration_specifiers init_declarator_list ';' -> declaration");  } { 
 		if (!isDeclarationMode()) {
 			throw ParserError(ParserError::SemanticError, "Declaration must be done on top of a block"); 
 		}
-		DeclarationSpecifiersNode* ds = (DeclarationSpecifiersNode*) $1;
-		DeclarationNode* n = new DeclarationNode( ds , (InitDeclaratorListNode*) $2);
+		debugPrint("declaration_specifiers init_declarator_list ';' -> declaration"); 
+		DeclarationNode* n = new DeclarationNode(  (DeclarationSpecifiersNode*) $1, (InitDeclaratorListNode*) $2);
 		n->declare(symbolTable);
 		$$ = (void*) n;
 		/* std::cout << n->toString() << std::endl; */
@@ -253,6 +254,8 @@ declaration_list
 		// beginLookupSection();
 		debugPrint("declaration -> declaration_list");
 		$$ = new DeclarationListNode( (DeclarationNode*) $1 );
+		//TODO: I think this goes here
+		beginLookupSection();
 	  }
 	| declaration_list declaration { debugPrint("declaration_list declaration -> declaration_list"); }
 	{
@@ -482,27 +485,30 @@ declarator
 direct_declarator
 	: identifier { 
 			debugPrint("identifier -> direct_declarator"); 
-			$$ = (void*) new DirectDeclaratorNode( (IdentifierNode*)$1 );
+			$$ = new DirectDeclaratorNode( (IdentifierNode*) $1 );
 		}
 	| '(' declarator ')' { 
-			// TODO : what's this guy???
-			debugPrint("'(' declarator ')' -> direct_declarator"); 
+			debugPrint("'(' declarator ')' -> direct_declarator");
+			
+			$$ = new DirectDeclaratorNode( (DeclaratorNode*) $2 );
 		}
 	| direct_declarator '[' ']' { 
 			debugPrint("direct_declarator '[' ']' -> direct_declarator"); 
 			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
 			ddn->specifyArray();
-			$$ = (void*) ddn;
+			$$ = ddn;
 		}
 	| direct_declarator '[' constant_expression ']' { 
 			debugPrint("direct_declarator '[' constant_expression ']' -> direct_declarator"); 
 			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
 			ddn->specifyArray( (ConstantExpressionNode*)$3 );
-			$$ = (void*) ddn;
+			$$ = ddn;
 		}
 	| direct_declarator '(' ')' { 
 			// TODO : function call or structure instantiation ? function definition?
 			debugPrint("direct_declarator '(' ')' -> direct_declarator"); 
+
+			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 );
 		}
 	| direct_declarator '(' parameter_type_list ')' { 
 			debugPrint("direct_declarator '(' parameter_type_list ')' -> direct_declarator"); 
@@ -731,37 +737,36 @@ statement
 	: labeled_statement { debugPrint("labeled_statement -> statement"); }
 	{
 
-		$$ = (void*) new StatementNode( (LabeledStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (LabeledStatementNode*) $1 , scanner->lastLine() );
 
 	}
 	| compound_statement { debugPrint("compound_statement -> statement"); }
 	{
-
-		$$ = (void*) new StatementNode( (CompoundStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (CompoundStatementNode*) $1 , scanner->lastLine() );
 
 	}
 	| expression_statement { debugPrint("expression_statement -> statement"); }
 	{
 
-		$$ = (void*) new StatementNode( (ExpressionStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (ExpressionStatementNode*) $1 , scanner->lastLine() );
 
 	}
 	| selection_statement { debugPrint("selection_statement -> statement"); }
 	{
 
-		$$ = (void*) new StatementNode( (SelectionStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (SelectionStatementNode*) $1 , scanner->lastLine() );
 
 	}
 	| iteration_statement { debugPrint("iteration_statement -> statement"); }
 	{
 
-		$$ = (void*) new StatementNode( (IterationStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (IterationStatementNode*) $1 , scanner->lastLine() );
 
 	}
 	| jump_statement { debugPrint("jump_statement -> statement"); }
 	{
 
-		$$ = (void*) new StatementNode( (JumpStatementNode*) $1 );
+		$$ = (void*) new StatementNode( (JumpStatementNode*) $1 , scanner->lastLine() );
 
 	}
 	;
@@ -802,62 +807,74 @@ expression_statement
 	}
 	;
 
-compound_statement
-	: '{' '}' { 
+compound_statement 
+	: openbrace '}' { 
 		debugPrint("'{' '}' -> compound_statement"); 
 	  	
 		std::cout << "1111111" << std::endl;
+
+		symbolTable->endScope();
 	  }
 	/* declaration mode*/ 
-	| '{' { beginLookupSection();
-		symbolTable->beginScope(); } statement_list '}' { 
-		symbolTable->endScope();
+	| openbrace /*{ beginLookupSection();
+		symbolTable->beginScope(); }*/ statement_list '}' { 
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 		std::cout << "222222" << std::endl;
-		$$ = new CompoundStatementNode( (StatementListNode*) $3 );
+		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
 
+		symbolTable->endScope();
 	  }
-	| '{' {
+	| openbrace /*{
 		symbolTable->beginScope();
 		beginDeclarationSection();
 		debugPrint("---- Declaration Mode Start ----");
-	  } 
+	  } */
 	  declaration_list '}' { 
-	  	symbolTable->endScope();
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement");
 		std::cout << "33333333" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $3 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
 
+	  	symbolTable->endScope();
 	  }
-	| '{' {
-		symbolTable->beginScope();
-		beginDeclarationSection();
+	| openbrace 
+	  /*{
+		//symbolTable->beginScope();
+		//beginDeclarationSection();
 		debugPrint("Declaration Mode Start");
-	  }
-	  declaration_list {
+	  
+		std::cout << "444444" << std::endl;
+	  }*/
+	  declaration_list
+	  {
 		debugPrint("Declaration Mode Done");
 		beginLookupSection();
 	  }
-	  statement_list '}' { 
+	  statement_list '}' 
+	  { 
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
 		std::cout << "Took last production in compound statement" << std::endl;
-		std::cout << "444444" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $3 , (StatementListNode*) $5 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $4 );
+	  	symbolTable->endScope();
 	  }
 	;
+
+openbrace:
+	'{' { beginDeclarationSection(); symbolTable->beginScope(); };
+
 
 statement_list
 	: statement { debugPrint("statement -> statement_list"); }
 	{
 
-		$$ = (void*) new StatementListNode( (StatementNode*) $1 );
+		$$ = new StatementListNode( (StatementNode*) $1 );
+
 
 	}
 	| statement_list statement { debugPrint("statement_list statement -> statement_list"); }
 	{
 
-		$$ = (void*) new StatementListNode( (StatementListNode*) $1 , (StatementNode*) $2 );
+		$$ = new StatementListNode( (StatementListNode*) $1 , (StatementNode*) $2 );
 
 	}
 	;
@@ -1532,17 +1549,31 @@ identifier
 	{
 		//setDeclarationLocation();
 		pushIdentifier();
-		// TODO : why take symbol table argument?
+
+		Symbol* sym = new Symbol( scanner->matched() , scanner->getLoc() );
+		symbolTable->insertSymbol( sym );
+
 		$$ =  new IdentifierNode( symbolTable , scanner->matched() );
 	}
 	else
 	{
 	
-		// TODO : why take symbol table argument?
-		$$ =  new IdentifierNode( symbolTable , scanner->matched() );
-	
+		try {
+		
+			$$ =  new IdentifierNode( symbolTable , scanner->matched() );
+		
+		}
+		
+		catch( SymbolNotFoundException* e )
+		{
+		
+			std::cout << e->mesg + " @ " << scanner->getLoc().lnum << ":" << scanner->getLoc().cnum << "\n";
+
+			exit(1);
+
+		}
+
 	}
 
 	}
 	;
-
