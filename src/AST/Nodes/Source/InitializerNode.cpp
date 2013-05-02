@@ -1,7 +1,5 @@
 #include "InitializerNode.h"
 
-<<<<<<< HEAD
-=======
 InitializerNode::InitializerNode(AssignmentExpressionNode* _assignmentExpression) : assignmentExpression(_assignmentExpression)
 {
 	nodeData = toOperations();
@@ -12,7 +10,6 @@ InitializerNode::InitializerNode(InitializerListNode* _initializerList) : initia
 	nodeData = toOperations();
 }
 
->>>>>>> nate
 ASTData* InitializerNode::toOperations()
 {
 	ASTData* data = new ASTData();

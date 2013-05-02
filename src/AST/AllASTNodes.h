@@ -8,8 +8,6 @@
 #ifndef ALLASTNODES_H_
 #define ALLASTNODES_H_
 
-#include "ASTNodes.h"
-
 #include "DeclarationNode.h"
 #include "DeclarationSpecifiersNode.h"
 #include "StorageClassSpecifierNode.h"

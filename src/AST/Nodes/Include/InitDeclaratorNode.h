@@ -7,29 +7,20 @@
 #include "InitializerNode.h"
 #include "Node.h"
 
-#include "ASTNodes.h"
-
 class InitializerNode;
+class DeclaratorNode;
 
-<<<<<<< HEAD
-
-class InitDeclaratorNode {
-=======
 class InitDeclaratorNode : public Node {
->>>>>>> nate
+
 public:
 
-	InitDeclaratorNode() {}
+	InitDeclaratorNode();
 
-	InitDeclaratorNode(DeclaratorNode* declarationNode) 
-		: declarationNode(declarationNode)
-	{}
+	InitDeclaratorNode(DeclaratorNode* declarationNode);
 
-	InitDeclaratorNode(DeclaratorNode* declarationNode, InitializerNode* initializerNode) 
-		: declarationNode(declarationNode), initializerNode(initializerNode)
-	{}
+	InitDeclaratorNode(DeclaratorNode* declarationNode, InitializerNode* initializerNode);
 
-	string toString();
+	std::string toString();
 
 	std::string getNodeTypeAsString();
 	ASTData* toOperations();

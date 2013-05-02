@@ -3,6 +3,8 @@
 
 #include "AllASTNodes.h"
 
+class IdentifierNode;
+
 class IdentifierListNode {
 public:
 

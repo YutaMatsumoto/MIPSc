@@ -4,27 +4,22 @@
 #include "AllASTNodes.h"
 #include "InitializerListNode.h"
 
+class AssignmentExpressionNode;
 class InitializerListNode;
 
-class InitializerNode {
+class InitializerNode : public Node {
 public:
 
-	InitializerNode() {}
+	InitializerNode(AssignmentExpressionNode* assignmentExpression);
 
-	InitializerNode(AssignmentExpressionNode* assignmentExpression) 
-		: assignmentExpression(assignmentExpression)
-	{}
-
-	InitializerNode(InitializerListNode* initListNode)
-		: initListNode( initListNode )
-	{}
+	InitializerNode(InitializerListNode* initListNode);
 			
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
 
 private:
 	AssignmentExpressionNode* assignmentExpression;
-	InitializerListNode* initListNode;
+	InitializerListNode* initializerList;
 };
 
 

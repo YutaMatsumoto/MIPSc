@@ -2,17 +2,16 @@
 #define InitDeclaratorListNode_H_GUARD
 
 #include "AllASTNodes.h"
-
 #include "InitDeclaratorNode.h"
-
 #include <list>
+#include <string>
 
-typedef list<InitDeclaratorNode*> InitDeclaratorNodeInList;
+class InitDeclaratorNode;
+
+typedef std::list<InitDeclaratorNode*> InitDeclaratorNodeInList;
 
 class InitDeclaratorListNode : public Node {
 public:
-
-	InitDeclaratorListNode() {}
 
 	InitDeclaratorListNode( InitDeclaratorNode* n);
 

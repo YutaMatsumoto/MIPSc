@@ -13,6 +13,7 @@
 
 class DeclarationSpecifiersNode;
 class TypeInfo;
+class Symbol;
 
 /*
 enum TypeSpecifier {
@@ -119,7 +120,6 @@ private:
 	std::string id;
 
 	Symbol* typeSymbol = 0;
-
 
 	std::vector< std::string > storageSpecifiers;
 

@@ -1,14 +1,5 @@
 #include "InitDeclaratorNode.h"
 #include "StoreOp.h"
-<<<<<<< HEAD
-#include "common.h"
-#include "AllASTNodes.h"
-
-std::string InitDeclaratorNode::toString()
-{
-	string s = "InitDeclaratorNode: " + declarationNode->toString();
-	return s;
-=======
 #include "IdTracker.h"
 #include "GetAddressOp.h"
 
@@ -20,7 +11,7 @@ InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode) : decla
 InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode, InitializerNode* _initializerNode) : declarationNode(_declarationNode), initializerNode(_initializerNode)
 {
 	nodeData = toOperations();
->>>>>>> nate
+
 }
 
 ASTData* InitDeclaratorNode::toOperations()

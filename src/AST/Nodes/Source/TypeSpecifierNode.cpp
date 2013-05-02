@@ -2,6 +2,28 @@
 
 #include "TypeSpecifierNode.h"
 
+TypeSpecifierNode::TypeSpecifierNode() : specifier(TypeSpecifierEnd)
+{
+
+	initData();
+
+}
+
+TypeSpecifierNode::TypeSpecifierNode(const TypeSpecifierNode& o) : specifier(o.specifier)
+{
+
+	initData();
+
+}
+
+TypeSpecifierNode::TypeSpecifierNode(std::string type)
+{
+
+	initData();
+
+}
+
+
 // static function
 std::string TypeSpecifierNode::integralToString(int integral)
 {

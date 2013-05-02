@@ -10,14 +10,14 @@
 
 #include "AllASTNodes.h"
 
-inline void Parser::error(char const *msg)
+/*inline void Parser::error(char const *msg)
 {
 	SymbolLocation location = scanner->getLoc();
 	
 	std::cerr << "Syntax Error Found around " << location.lnum << ":" << location.cnum << std::endl;
 
 	// std::cerr << "Syntax Error @: " << location.lnum << ":" << location.cnum << std::endl;
-}
+}*/
 
 // $insert lex
 inline int Parser::lex()

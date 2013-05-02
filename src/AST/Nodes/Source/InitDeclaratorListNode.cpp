@@ -1,28 +1,17 @@
 
 #include "InitDeclaratorListNode.h"
 
-<<<<<<< HEAD
-InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorNode* n)
-	: initDeclaratorList(NULL), initDeclarator(n)
-{}
-
-InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorListNode* a,  InitDeclaratorNode* b)
-	: initDeclaratorList(a), initDeclarator(b)
-{}
-=======
 InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorListNode* _initDeclaratorList , InitDeclaratorNode* _initDeclarator) : initDeclaratorList(_initDeclaratorList) , initDeclarator(_initDeclarator)
 {
 	nodeData = toOperations();
 }
->>>>>>> nate
+
 
 void InitDeclaratorListNode::add(InitDeclaratorNode* initDecl) 
 {
-<<<<<<< HEAD
-	// declaratorList.push_back(initDecl);	
-=======
+
 	nodeData = toOperations();
->>>>>>> nate
+
 }
 
 ASTData* InitDeclaratorListNode::toOperations()

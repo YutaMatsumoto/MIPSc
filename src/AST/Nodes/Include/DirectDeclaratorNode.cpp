@@ -21,7 +21,7 @@ string DirectDeclaratorNode::toString()
 	}
 }
 
-void DirectDeclaratorNode::error(string msg)
+void DirectDeclaratorNode::error(std::string msg)
 {
 	std::cerr << "Error : DirectDeclaratorKind : " << msg << std::endl;
 }
@@ -48,9 +48,6 @@ DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id )
 
 void DirectDeclaratorNode::initData()
 {
-	array = false;
-	functionCall = false;
-	functionDefinition = false;
 
 	kind = None;
 
@@ -65,27 +62,27 @@ void DirectDeclaratorNode::initData()
 void DirectDeclaratorNode::specifyArray()
 {
 	// TODO check existence of initializer in the upstream
-	array = true;
+
 	kind = Array;
 }
 
 void DirectDeclaratorNode::specifyArray( ConstantExpressionNode* a)
 {
 	arraySize = a;
-	array = true;
+
 	kind = ArrayWithSize;
 }
 
 void DirectDeclaratorNode::specifyFunction( ParameterTypeListNode* a )
 {
 	funcParams = a;
-	functionDefinition = true; // TODO is this right?
+
 	kind = FunctionDefinitionWithParam;
 }
 
 void DirectDeclaratorNode::specifyFunctionCall( IdentifierListNode* a )
 {
-	functionCall = true;
+
 	idListNode = a;
 	kind = FunctionCallWithParam;
 }

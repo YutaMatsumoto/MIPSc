@@ -5,6 +5,8 @@
 
 #include "TypeQualifierListNode.h"
 
+class TypeQualifierListNode;
+
 class PointerNode {
 public:
 

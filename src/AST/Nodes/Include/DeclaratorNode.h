@@ -1,24 +1,20 @@
 #ifndef DeclaratorNode_H_GUARD
 #define DeclaratorNode_H_GUARD
 
-#include "AllASTNodes.h"
-
 #include "DirectDeclaratorNode.h"
 #include "PointerNode.h"
 #include "Node.h"
 
+#include "AllASTNodes.h"
+
 class DirectDeclaratorNode;
 
-class DeclaratorNode {
+class DeclaratorNode : public Node {
 public:
 
-	DeclaratorNode(DirectDeclaratorNode* dirDeclNode) 
-		: dirDeclNode(dirDeclNode), ptrNode(NULL)
-	{}
+	DeclaratorNode(DirectDeclaratorNode* dirDeclNode);
 
-	DeclaratorNode(PointerNode* ptrNode, DirectDeclaratorNode* dirDeclNode) 
-		: dirDeclNode(dirDeclNode), ptrNode(ptrNode)
-	{}
+	DeclaratorNode(PointerNode* ptrNode, DirectDeclaratorNode* dirDeclNode);
 
 	ASTData* toOperations();
 
@@ -26,8 +22,7 @@ public:
 
 	bool isPointer();
 
-	string toString() const;
-
+	std::string toString() const;
 
 	DirectDeclaratorNode* dirDeclNode;
 	PointerNode* ptrNode;

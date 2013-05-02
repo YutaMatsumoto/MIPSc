@@ -1,5 +1,7 @@
 #include "DeclarationNode.h"
 
+#include "TypeInfo.h"
+
 DeclarationNode::DeclarationNode() {}
 
 // -----------------------------------------------------------------------
@@ -48,7 +50,7 @@ void DeclarationNode::declare(SymbolTable* stab)
 		error("declare() : SymbolTable pointer supplied is null.");
 	}
 
-	DeclarationSpecifiersNode::TypeInfo tInfo = declSpecifier->getTypeInfo();	
+	TypeInfo tInfo = declSpecifier->getTypeInfo();
 	// std::cout << "InideDeclList.size() : " << initDeclList->declaratorList.size()<< std::endl; // debug
 
 	InitDeclaratorListNode* list = initDeclList;
@@ -166,7 +168,7 @@ void DeclarationNode::declare(SymbolTable* stab)
 std::string DeclarationNode::toString() const
 {
 	std::string s="DeclarationNode: \n" ;
-	DeclarationSpecifiersNode::TypeInfo t = declSpecifier->getTypeInfo();
+	TypeInfo t = declSpecifier->getTypeInfo();
 	s+= "\t" + t.toString() + "\n";
 	return s;
 }
