@@ -1,0 +1,86 @@
+#include "AllASTNodes.h"
+
+#include "ArrayType.h"
+#include "TypeInfo.h"
+#include "BuiltinType.h"
+
+ASTData* DeclarationNode::toOperations()
+{
+	ASTData* data = new ASTData();
+
+	return data;
+}
+
+std::string DeclarationNode::getNodeTypeAsString()
+{
+	return std::string( "DeclarationNode" );
+}
+
+void DeclarationNode::error(std::string msg)
+{
+	std::cerr << msg << std::endl;
+	std::cerr << "Exiting ... " << std::endl;
+	exit(1);
+}
+
+void DeclarationNode::declare(SymbolTable* stab) 
+{
+// BIG TODO
+	std::vector<Symbol*> symList;
+
+	if (!stab) {
+		error("declare() : SymbolTable pointer supplied is null.");
+	}
+
+	// Declarations
+	
+	// type (just primitive type info for now)
+	TypeInfo tInfo = declSpecifier->getTypeInfo();	
+
+	// const/volatile
+	TypeQualInfo tQualInfo = declSpecifier->getTypeQualInfo();
+
+	// primitive type
+	Type* t = BuiltinType::buildType(tInfo);
+
+	// Iterate over 
+	for (auto initDecl : initDeclList->toList() ) {
+
+		// Symbol* s;
+		SymbolLocation sloc;
+
+		auto decl = initDecl->declarationNode;
+		// auto init = initDecl->initNode;
+		auto dirDecl = decl->dirDeclNode;
+		// auto dirDeclId = dirDecl->id;
+		// auto ptr     = decl->ptrNode;
+
+		Symbol* sym = dirDecl->declare(t);
+
+		// TODO
+		//
+		// At this point array/function/primitive type inside of sym
+		// might have some unknown value such as 
+		//
+		//	array dimension not specified which must be inferred from
+		//	number of items in initializer
+		//
+		//	Function return type
+		//
+		//	see DirectDeclaratorNode::declare(...)
+		//
+
+		sym->setTypeQualInfo(tQualInfo);	
+		stab->insertSymbol(sym);
+	}
+
+
+}
+
+std::string DeclarationNode::toString() const
+{
+	std::string s="DeclarationNode: \n" ;
+	TypeInfo t = declSpecifier->getTypeInfo();
+	s+= "\t" + t.toString() + "\n";
+	return s;
+}
