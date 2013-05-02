@@ -18,17 +18,42 @@ class Symbol
 
 public:
 
+	enum TACOperandType
+	{
+		LOCAL,
+		GLOB,
+		ITEMP,
+		FTEMP,
+		CONS,
+		FCONS,
+		INDR,
+		LABEL,
+		REFAR,
+		VALARG,
+		STRING,
+		NONE
+	};
+
 	std::string id;
 
 	SymbolLocation location;
 	
-	Type* symbolType;
+	Type* symbolType = 0;
+
+	TACOperandType operandType = NONE;
+
+	//For 3AC
+
 
 	Symbol() 
 	{}
 
 	Symbol(std::string id, SymbolLocation location, Type* symbolType )
 		: id(id), location(location), symbolType(symbolType)
+	{}
+
+	Symbol(std::string id, SymbolLocation location, Type* symbolType , TACOperandType _operandType )
+		: id(id), location(location), symbolType(symbolType), operandType(_operandType)
 	{}
 
 	Symbol(std::string s, SymbolLocation location)

@@ -22,7 +22,7 @@ CompoundStatementNode::CompoundStatementNode( StatementListNode* _statementList 
 CompoundStatementNode::CompoundStatementNode( DeclarationListNode* _declarationList , StatementListNode* _statementList)
 		: declarationList( _declarationList ), statementList( _statementList )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* CompoundStatementNode::toOperations()

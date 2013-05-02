@@ -67,8 +67,8 @@ void Parser::configDebugPrint(std::ostream& os, std::string prefix, std::string 
 		debug.debugOutputStream.rdbuf(os.rdbuf());
 	}
 	else {
-		std::cerr << "Parser::setDebugPrintTo() : the supplied stream is not good";
-		std::cerr << "Setting output stream to stdout" << std::endl;
+		//std::cerr << "Parser::setDebugPrintTo() : the supplied stream is not good";
+		//std::cerr << "Setting output stream to stdout" << std::endl;
 		debug.debugOutputStream.rdbuf(std::cout.rdbuf());
 	}
 	debug.debugOutputPrefix  = prefix;

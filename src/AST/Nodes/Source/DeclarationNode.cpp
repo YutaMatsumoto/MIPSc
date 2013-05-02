@@ -1,4 +1,20 @@
-#include "ASTNodes.h"
+#include "DeclarationNode.h"
+
+DeclarationNode::DeclarationNode() {}
+
+// -----------------------------------------------------------------------
+
+DeclarationNode::DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
+	: declSpecifier(declSpecifier)
+{
+	nodeData = toOperations();
+}
+
+DeclarationNode::DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
+	: declSpecifier(declSpecifier), initDeclList(initDeclList)
+{
+	nodeData = toOperations();
+}
 
 ASTData* DeclarationNode::toOperations()
 {
@@ -62,7 +78,8 @@ void DeclarationNode::declare(SymbolTable* stab)
 		// std::cout << "dKind" << dKind << std::endl;
 		switch(dKind) {
 			case DirectDeclaratorNode::None: 
-				t = buildType(tInfo);
+				//TODO: fix this ish
+				//t = buildType(tInfo);
 				id = dirDeclId->getId();
 
 				info = stab->getSymbolInfo( id , true );
@@ -101,7 +118,7 @@ void DeclarationNode::declare(SymbolTable* stab)
 
 }
 
-Type* DeclarationNode::buildType(DeclarationSpecifiersNode::TypeInfo tInfo) const
+/*Type* DeclarationNode::buildType(DeclarationSpecifiersNode::TypeInfo tInfo) const
 {
 	Type* type = NULL;
 
@@ -145,7 +162,7 @@ Type* DeclarationNode::buildType(DeclarationSpecifiersNode::TypeInfo tInfo) cons
 
 	return type;
 }
-
+*/
 std::string DeclarationNode::toString() const
 {
 	std::string s="DeclarationNode: \n" ;

@@ -19,6 +19,8 @@
 #include "TypedefType.h"
 #include "UnionType.h"
 
+#include "SymbolNotFoundException.h"
+
 #include "Declaration.h"
 
 #ifndef Parser_h_included

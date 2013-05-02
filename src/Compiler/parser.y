@@ -822,7 +822,7 @@ compound_statement
 		symbolTable->beginScope(); }*/ statement_list '}' { 
 		debugPrint("'{' statement_list '}' -> compound_statement"); 
 		std::cout << "222222" << std::endl;
-		$$ = new CompoundStatementNode( (StatementListNode*) $3 );
+		$$ = new CompoundStatementNode( (StatementListNode*) $2 );
 
 		symbolTable->endScope();
 	  }
@@ -835,7 +835,7 @@ compound_statement
 		debugPrint("---- Declaration Mode Done  ----");
 		debugPrint("'{' declaration_list '}' -> compound_statement");
 		std::cout << "33333333" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $3 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 );
 
 	  	symbolTable->endScope();
 	  }
@@ -856,7 +856,7 @@ compound_statement
 	  { 
 		debugPrint("'{' declaration_list statement_list '}' -> compound_statement");
 		std::cout << "Took last production in compound statement" << std::endl;
-		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $3 );
+		$$ = new CompoundStatementNode( (DeclarationListNode*) $2 , (StatementListNode*) $4 );
 	  	symbolTable->endScope();
 	  }
 	;
@@ -1561,8 +1561,20 @@ identifier
 	else
 	{
 	
-		$$ =  new IdentifierNode( symbolTable , scanner->matched() );
-	
+		try {
+		
+			$$ =  new IdentifierNode( symbolTable , scanner->matched() );
+		
+		}
+		
+		catch( SymbolNotFoundException* e )
+		{
+		
+			std::cout << e->mesg + " @ " << scanner->getLoc().lnum << ":" << scanner->getLoc().cnum << "\n";
+
+			exit(1);
+
+		}
 	}
 
 	}

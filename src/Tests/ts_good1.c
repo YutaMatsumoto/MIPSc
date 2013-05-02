@@ -10,7 +10,7 @@ int main()
     int j = 0;
     {
         int foo = 50000;
-	//i = i + foo;
+	i = i + foo;
     }
 
     {
@@ -18,9 +18,9 @@ int main()
 	//bar = i + bar;
     }
 
-    printf("%i", foo + bar );  
+    //printf("%i", foo + bar );  
 
-    lolz();
+    //lolz();
 
     //i = bar + 4;
 }

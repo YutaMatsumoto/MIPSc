@@ -150,6 +150,7 @@ class Scanner: public ScannerBase
 		Parser* parser;
 
 		ScannerDebug debug;
+	public:
 		SymbolLocation location; // current location
 
 };

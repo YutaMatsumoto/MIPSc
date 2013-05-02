@@ -50,6 +50,8 @@
 #include "InitDeclaratorNode.h"
 #include "InitDeclaratorListNode.h"
 #include "DeclaratorNode.h"
+#include "DeclarationNode.h"
+#include "DirectDeclaratorNode.h"
 
 #include "ASTNodes.h"
 
