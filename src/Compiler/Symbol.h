@@ -11,6 +11,8 @@
 #ifndef SYMBOL_H_
 #define SYMBOL_H_
 
+typedef int address;
+
 class Type;
 
 class Symbol
@@ -41,6 +43,8 @@ public:
 	Type* symbolType = 0;
 
 	TACOperandType operandType = NONE;
+
+	address addr = 0x0;
 
 	//For 3AC
 
