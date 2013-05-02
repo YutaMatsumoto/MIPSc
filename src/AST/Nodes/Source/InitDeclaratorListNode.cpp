@@ -7,7 +7,7 @@ InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorListNode* _initDec
 }
 
 
-void InitDeclaratorListNode::add(InitDeclaratorNode* initDecl) 
+InitDeclaratorListNode::InitDeclaratorListNode(InitDeclaratorNode* _initDeclarator) : initDeclarator(_initDeclarator)
 {
 
 	nodeData = toOperations();

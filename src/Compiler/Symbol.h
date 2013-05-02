@@ -13,7 +13,6 @@
 #ifndef SYMBOL_H_
 #define SYMBOL_H_
 
-
 typedef int address;
 
 class Type;

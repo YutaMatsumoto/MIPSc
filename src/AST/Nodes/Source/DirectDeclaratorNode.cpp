@@ -17,7 +17,7 @@ DirectDeclaratorNode::DirectDeclaratorNode()
 
 DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a ) // here vtable  blablabla
 {
-	initData();	
+	initData();
 	dirDeclNode = a;
 }
 

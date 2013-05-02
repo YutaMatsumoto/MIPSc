@@ -7,7 +7,7 @@
 
 #include "DirectDeclaratorNode.h"
 
-string DirectDeclaratorNode::toString()
+std::string DirectDeclaratorNode::toString()
 {
 	if (id) {
 		return id->getId();
