@@ -32,11 +32,11 @@ ASTData* IntegerConstantNode::toOperations()
 
 	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-	Symbol* constant = new Symbol( std::to_string( value ) , *new SymbolLocation() , new BuiltinType<long long int>( Type::LongLong , value ) );
+	Symbol* constant = new Symbol( std::to_string( value ) , *new SymbolLocation() , new BuiltinType<long long int>( Type::LongLong , value ) , Symbol::CONS );
 
 	std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , new BuiltinType<long long int>( Type::LongLong , value ) );
+	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , new BuiltinType<long long int>( Type::LongLong , value ) , Symbol::ITEMP);
 
 	operations->push_back( new AssignOp( temporary , constant , AssignmentOperatorNode::Assign ) );
 

@@ -47,7 +47,7 @@ ASTData* InitDeclaratorNode::toOperations()
 		Symbol* initializerResult = initializerData->result;
 
 		//create a new temporary for our result
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , declaratorResult->symbolType );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , declaratorResult->symbolType , Symbol::ITEMP );
 
 		GetAddressOp* op1 = new GetAddressOp( temporary , declaratorResult );
 

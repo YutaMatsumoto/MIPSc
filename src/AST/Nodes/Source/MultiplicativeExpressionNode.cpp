@@ -56,7 +56,7 @@ ASTData* MultiplicativeExpressionNode::toOperations()
 		Symbol* castExpressionResult = castExpressionData->result;
 
 		//create a new temporary for our result
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , castExpressionResult->symbolType );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , castExpressionResult->symbolType , Symbol::ITEMP );
 
 		//create a new operation to compute the addition
 		MultOp* op = new MultOp( temporary , multiplicativeResult , castExpressionResult , type );

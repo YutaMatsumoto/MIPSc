@@ -112,7 +112,7 @@ ASTData* StatementNode::toOperations()
 	if( jumpStatement )
 	{
 
-		//return jumpStatement->toOperations();
+		return jumpStatement->toOperations();
 
 	}
 

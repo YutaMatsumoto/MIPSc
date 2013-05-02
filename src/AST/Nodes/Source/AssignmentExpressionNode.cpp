@@ -56,7 +56,7 @@ ASTData* AssignmentExpressionNode::toOperations()
 		Symbol* assignmentExpressionResult = assignmentExpressionData->result;
 
 		//create a new temporary for our result
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , unaryResult->symbolType );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , unaryResult->symbolType , Symbol::ITEMP );
 
 		GetAddressOp* op1 = new GetAddressOp( temporary , unaryResult );
 

@@ -11,6 +11,13 @@
 #include <iostream>
 #include <fstream>
 
+bool SymbolTable::isGlobalScope()
+{
+
+	return ( scopeStack.size() > 1 ) ? false : true;
+
+}
+
 SymbolTableInfo SymbolTable::getSymbolInfo(std::string symbolName, bool currentScopeOnly)
 {
 

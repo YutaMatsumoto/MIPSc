@@ -43,6 +43,9 @@ public:
 	//dumps the symbol table to a file
 	void dumpTable( std::string filename );
 
+	//returns true if the program is in global scope
+	bool isGlobalScope();
+
 protected:
 
 	std::list< Scope > scopeStack;

@@ -8,6 +8,7 @@
 #include "PostfixExpressionNode.h"
 
 #include "ArrayType.h"
+#include "CallOp.h"
 
 //Primary Expression
 PostfixExpressionNode::PostfixExpressionNode( PrimaryExpressionNode* _primaryExpression )
@@ -80,6 +81,13 @@ ASTData* PostfixExpressionNode::toOperations()
 	if( type == FunctionCall )
 	{
 		//TODO: Implement function calls
+
+		Symbol* function = postfixExpression->nodeData->result;
+
+		CallOp* op = new CallOp( function );
+
+		data->code->push_back( op );
+
 		return data;
 
 	}

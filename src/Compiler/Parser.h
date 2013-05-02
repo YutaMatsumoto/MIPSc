@@ -38,6 +38,8 @@ class Parser: public ParserBase
 			: scanner(&s), symbolTable(table)
 		{
 
+			decl = new Declaration( table );
+
 			declarationMode = true;
 
 		}
@@ -92,7 +94,7 @@ class Parser: public ParserBase
 
 		Symbol* currentIdentifier;
 
-		Declaration decl;
+		Declaration* decl;
 
 		int token;
 

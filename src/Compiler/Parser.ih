@@ -112,12 +112,12 @@ void Parser::beginLookupSection()
 void Parser::declare()                    
 {
 	std::cout << "implement declare()" << std::endl;
-	auto symbolList = decl.createSymbols();
+	auto symbolList = decl->createSymbols();
 	for ( auto symbol : symbolList ) {
 		symbolTable->insertSymbol( symbol );
 	}
 
-	decl.clear();
+	decl->clear();
 	
 }
 void Parser::determineType()              
@@ -135,17 +135,17 @@ void Parser::addValueToArray()
 void Parser::pushIdentifier()          
 {
 	std::cout << "implement pushIdentifier()" << std::endl;
-	decl.pushIdentifier(scanner->matched());
+	decl->pushIdentifier(scanner->matched());
 }
 void Parser::addStorageSpecifier()
 {
 	std::cout << "implement addStorageSpeficier()" << std::endl;
-	decl.addTypeSpecifier(scanner->matched());
+	decl->addTypeSpecifier(scanner->matched());
 }
 void Parser::addTypeSpecifier()      
 {
 	std::cout << "implement addTypeSpecifier()" << std::endl;
-	decl.addTypeSpecifier(scanner->matched());
+	decl->addTypeSpecifier(scanner->matched());
 }
 void Parser::setConst()              
 {

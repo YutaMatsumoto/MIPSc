@@ -6,6 +6,7 @@
  */
 
 #include "JumpStatementNode.h"
+#include "ReturnOp.h"
 
 JumpStatementNode::JumpStatementNode( ExpressionNode* _expression ) : expression( _expression )
 {
@@ -30,6 +31,15 @@ JumpStatementNode::JumpStatementNode( JumpStatementType _type ) : type( _type )
 ASTData* JumpStatementNode::toOperations()
 {
 	ASTData* data = new ASTData();
+
+	if( type == Return )
+	{
+
+		ReturnOp* op = new ReturnOp();
+
+		data->code->push_back( op );
+
+	}
 
 	return data;
 }

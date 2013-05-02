@@ -56,7 +56,7 @@ ASTData* ShiftExpressionNode::toOperations()
 		Symbol* additiveExpressionResult = additiveExpressionData->result;
 
 		//create a new temporary for our result
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , shiftExpressionResult->symbolType );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , shiftExpressionResult->symbolType , Symbol::ITEMP );
 
 		//create a new operation to compute the addition
 		ShiftOp* op = new ShiftOp( temporary , shiftExpressionResult , additiveExpressionResult , type );

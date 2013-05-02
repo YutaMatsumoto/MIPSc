@@ -31,7 +31,7 @@ public:
 
 		else
 
-			return "ADD " + op1->getId() + " = " + op2->getId() + " - " + op3->getId();
+			return "SUB " + op1->getId() + " = " + op2->getId() + " - " + op3->getId();
 
 	}
 

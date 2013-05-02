@@ -20,18 +20,18 @@ public:
 
 	enum TACOperandType
 	{
-		LOCAL,
-		GLOB,
-		ITEMP,
-		FTEMP,
-		CONS,
-		FCONS,
-		INDR,
-		LABEL,
-		REFAR,
-		VALARG,
-		STRING,
-		NONE
+		LOCAL = 0,
+		GLOB = 1,
+		ITEMP = 2,
+		FTEMP = 3,
+		CONS = 4,
+		FCONS = 5,
+		INDR = 6,
+		LABEL = 7,
+		REFAR = 8,
+		VALARG = 9,
+		STRING = 10,
+		NONE = 11
 	};
 
 	std::string id;
@@ -48,9 +48,9 @@ public:
 	Symbol() 
 	{}
 
-	Symbol(std::string id, SymbolLocation location, Type* symbolType )
+	/*Symbol(std::string id, SymbolLocation location, Type* symbolType )
 		: id(id), location(location), symbolType(symbolType)
-	{}
+	{}*/
 
 	Symbol(std::string id, SymbolLocation location, Type* symbolType , TACOperandType _operandType )
 		: id(id), location(location), symbolType(symbolType), operandType(_operandType)
@@ -79,8 +79,42 @@ public:
 	std::string getTypeAsString()
 	{
 
-		return "";
-		//return symbolType->getTypeAsString();
+		return std::string();
+
+	}
+
+	std::string getTacTypeAsString()
+	{
+
+		switch( operandType )
+		{
+
+		case LOCAL:
+			return std::string("LOCAL");
+		case GLOB:
+			return std::string("GLOB");
+		case ITEMP:
+			return std::string("ITEMP");
+		case FTEMP:
+			return std::string("FTEMP");
+		case CONS:
+			return std::string("CONS");
+		case FCONS:
+			return std::string("FCONS");
+		case INDR:
+			return std::string("INDR");
+		case LABEL:
+			return std::string("LABEL");
+		case REFAR:
+			return std::string("REFAR");
+		case VALARG:
+			return std::string("VALARG");
+		case STRING:
+			return std::string("STRING");
+		default:
+			return std::string("NONE");
+
+		}
 
 	}
 
