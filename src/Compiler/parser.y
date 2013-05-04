@@ -141,7 +141,7 @@
 
 %lsp-needed
 %debug
-//%no-lines
+%no-lines
 
 %%
 

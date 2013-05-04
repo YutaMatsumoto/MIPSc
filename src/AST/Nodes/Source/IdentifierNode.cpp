@@ -55,11 +55,11 @@ ASTData* IdentifierNode::toOperations()
 	GetAddressOp* op1 = new GetAddressOp( temporary , identifier );
 
 	//create a new operation to compute the addition
-	LoadOp* op2 = new LoadOp( temporary , temporary );
+	//LoadOp* op2 = new LoadOp( temporary , temporary );
 
 	operations->push_back( op1 );
 
-	operations->push_back( op2 );
+	//operations->push_back( op2 );
 
 	data->code = operations;
 

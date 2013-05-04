@@ -8,17 +8,20 @@
 // ---------------------------------------------------------------------------
 // Constructors
 
-/*
-DirectDeclaratorNode::DirectDeclaratorNode() 
+
+DirectDeclaratorNode::DirectDeclaratorNode( DeclaratorNode* declaratorNode ) : declNode(declaratorNode)
 {
 	initData();
+
+	nodeData = toOperations();
 }
-*/
+
 
 DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a ) // here vtable  blablabla
 {
 	initData();
 	dirDeclNode = a;
+	nodeData = toOperations();
 }
 
 DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id ) // here vtable  blablabla
@@ -26,6 +29,7 @@ DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id ) // here vtable 
 	initData();
 	this->id = id;
 	kind = Id;
+	nodeData = toOperations();
 }
 
 void DirectDeclaratorNode::initData()
@@ -131,8 +135,28 @@ Symbol* DirectDeclaratorNode::declare(Type* type , SymbolTable* _stab )
 
 ASTData* DirectDeclaratorNode::toOperations()
 {
-	std::cout << "DirectDeclaratorNode::toOperations() : returning empty ASTDATA " << endl;
-	return new ASTData();
+
+	ASTData* data = new ASTData();
+
+	if( id )
+	{
+
+		data->result = id->resolveSymbol();
+
+		data->code = id->nodeData->code;
+
+		return data;
+
+	}
+
+	if( declNode )
+
+		return declNode->nodeData;
+
+	if( dirDeclNode )
+
+		return dirDeclNode->nodeData;
+
 }
 
 std::string getNodeTypeAsString()
@@ -194,4 +218,9 @@ int DirectDeclaratorNode::getKind()
 bool DirectDeclaratorNode::hasIdentifier()
 {
 	return (id!=NULL);
+}
+
+std::string DirectDeclaratorNode::getNodeTypeAsString()
+{
+	return std::string("initializer list node");
 }

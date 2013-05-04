@@ -82,11 +82,15 @@ ASTData* PostfixExpressionNode::toOperations()
 	{
 		//TODO: Implement function calls
 
+		std::vector< Operation* >* operations = data->code;
+
 		Symbol* function = postfixExpression->nodeData->result;
 
 		CallOp* op = new CallOp( function );
 
-		data->code->push_back( op );
+		operations->insert( operations->end() , postfixExpression->nodeData->code->begin() , postfixExpression->nodeData->code->end() );
+
+		operations->push_back( op );
 
 		return data;
 
