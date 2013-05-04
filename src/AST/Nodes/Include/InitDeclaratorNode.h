@@ -16,9 +16,9 @@ public:
 
 	InitDeclaratorNode();
 
-	InitDeclaratorNode(DeclaratorNode* declarationNode);
+	InitDeclaratorNode(DeclaratorNode* declarationNode , SymbolTable* _table);
 
-	InitDeclaratorNode(DeclaratorNode* declarationNode, InitializerNode* initializerNode);
+	InitDeclaratorNode(DeclaratorNode* declarationNode, InitializerNode* initializerNode, SymbolTable* _table);
 
 	std::string toString();
 
@@ -27,6 +27,8 @@ public:
 
 	DeclaratorNode* declarationNode;
 	InitializerNode* initializerNode;
+
+	SymbolTable* table;
 };
 
 #endif // END InitDeclaratorNode_H_GUARD

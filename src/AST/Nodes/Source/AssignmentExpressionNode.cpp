@@ -56,12 +56,12 @@ ASTData* AssignmentExpressionNode::toOperations()
 		Symbol* assignmentExpressionResult = assignmentExpressionData->result;
 
 		//create a new temporary for our result
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , unaryResult->symbolType , Symbol::ITEMP );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , unaryResult->symbolType , unaryResult->operandType );
 
-		GetAddressOp* op1 = new GetAddressOp( temporary , unaryResult );
+		//GetAddressOp* op1 = new GetAddressOp( temporary , unaryResult );
 
 		//create a new operation to compute the addition
-		StoreOp* op2 = new StoreOp( temporary , assignmentExpressionResult );
+		StoreOp* op2 = new StoreOp( unaryResult , assignmentExpressionResult );
 
 		//Add the multiplicative operations to what we will return
 		operations->insert( operations->end() , unaryData->code->begin() , unaryData->code->end() );
@@ -70,7 +70,7 @@ ASTData* AssignmentExpressionNode::toOperations()
 		operations->insert( operations->end() , assignmentExpressionData->code->begin() , assignmentExpressionData->code->end() );
 
 		//Add our 'add' operation to the end of the list
-		operations->push_back( op1 );
+		//operations->push_back( op1 );
 
 		operations->push_back( op2 );
 

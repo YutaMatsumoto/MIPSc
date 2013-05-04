@@ -67,6 +67,8 @@ class Parser: public ParserBase
 
 			std::cerr << "Syntax Error Found around " << location.lnum << ":" << location.cnum << std::endl;
 
+			exit(0);
+
 			// std::cerr << "Syntax Error @: " << location.lnum << ":" << location.cnum << std::endl;
 		}
 		int lex();						// returns the next token from the

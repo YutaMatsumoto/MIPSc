@@ -3,12 +3,12 @@
 #include "IdTracker.h"
 #include "GetAddressOp.h"
 
-InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode) : declarationNode(_declarationNode)
+InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode , SymbolTable* _table) : declarationNode(_declarationNode), table(_table)
 {
 	nodeData = toOperations();
 }
 
-InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode, InitializerNode* _initializerNode) : declarationNode(_declarationNode), initializerNode(_initializerNode)
+InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode, InitializerNode* _initializerNode , SymbolTable* _table) : declarationNode(_declarationNode), initializerNode(_initializerNode), table(_table)
 {
 	nodeData = toOperations();
 
@@ -38,8 +38,10 @@ ASTData* InitDeclaratorNode::toOperations()
 		//get the name of the second parameters temporary
 		Symbol* initializerResult = initializerData->result;
 
+		Symbol::TACOperandType tacType = ( table->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
+
 		//create a new temporary for our result
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , declaratorResult->symbolType , Symbol::ITEMP );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , declaratorResult->symbolType , tacType );
 
 		GetAddressOp* op1 = new GetAddressOp( temporary , declaratorResult );
 

@@ -13,7 +13,7 @@
 #include "GetAddressOp.h"
 #include "IdTracker.h"
 
-IdentifierNode::IdentifierNode( SymbolTable* _table , std::string _id ) : id( _id ), table( _table)
+IdentifierNode::IdentifierNode( SymbolTable* _table , std::string _id , bool _declarationMode ) : id( _id ), table( _table), declarationMode(_declarationMode)
 {
 	nodeData = toOperations();
 }
@@ -49,10 +49,8 @@ ASTData* IdentifierNode::toOperations()
 
 		throw new SymbolNotFoundException( "Symbol '" + id + "' has not been declared" );
 
-	//Symbol::TACOperandType tacType = ( table->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
-
 	//create a new temporary for our result
-	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , identifier->symbolType , Symbol::ITEMP );
+	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , identifier->symbolType , identifier->operandType );
 
 	GetAddressOp* op1 = new GetAddressOp( temporary , identifier );
 
@@ -68,6 +66,7 @@ ASTData* IdentifierNode::toOperations()
 	data->result = temporary;
 
 	return data;
+
 }
 
 std::string IdentifierNode::getNodeTypeAsString()

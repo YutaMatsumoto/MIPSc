@@ -19,7 +19,7 @@ class IdentifierNode : public Node
 
 public:
 
-	IdentifierNode( SymbolTable* _table , std::string _id );
+	IdentifierNode( SymbolTable* _table , std::string _id , bool _declarationMode );
 
 	std::string getId();
 
@@ -34,6 +34,8 @@ protected:
 	std::string id;
 
 	SymbolTable* table;
+
+	bool declarationMode;
 
 };
 

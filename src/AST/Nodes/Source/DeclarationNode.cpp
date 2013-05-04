@@ -1,6 +1,7 @@
 #include "DeclarationNode.h"
 
 #include "TypeInfo.h"
+#include "Symbol.h"
 
 DeclarationNode::DeclarationNode() {}
 
@@ -74,7 +75,7 @@ void DeclarationNode::declare(SymbolTable* stab)
 
 		SymbolTableInfo info;
 
-
+		Symbol::TACOperandType tacType = ( stab->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
 
 		// TODO SymbolLocation
 		// std::cout << "dKind" << dKind << std::endl;
@@ -92,7 +93,7 @@ void DeclarationNode::declare(SymbolTable* stab)
 
 				info.symbol->symbolType = t;
 
-
+				info.symbol->operandType = tacType;
 
 				//s = new Symbol(id, sloc, t);
 				//cout << "declre() : before insertSymbol" << endl;

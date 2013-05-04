@@ -409,15 +409,15 @@ init_declarator_list
 init_declarator
 	: declarator { 
 		debugPrint("declarator -> init_declarator"); 
-		//InitDeclaratorNode* initDecl = new InitDeclaratorNode((DeclaratorNode*) $1 );
+		//InitDeclaratorNode* initDecl = new InitDeclaratorNode((DeclaratorNode*) $1  , symbolTable);
 		/* std::cout << "reduction in init_declarator" << initDecl->toString() << std::endl; */
-		$$ = new InitDeclaratorNode( (DeclaratorNode*) $1 );
+		$$ = new InitDeclaratorNode( (DeclaratorNode*) $1 , symbolTable );
 		}
 	| declarator '=' initializer { 
 		// TODO : initialize here or even before when something reduces to initializer ?
 		/* initializeValue(); */
 		debugPrint("declarator '=' initializer -> init_declarator"); 
-		$$ = (void*)new InitDeclaratorNode((DeclaratorNode*) $1, (InitializerNode*) $3);
+		$$ = (void*)new InitDeclaratorNode((DeclaratorNode*) $1, (InitializerNode*) $3 , symbolTable );
 	  }
 	;
 
@@ -1553,14 +1553,14 @@ identifier
 		Symbol* sym = new Symbol( scanner->matched() , scanner->getLoc() );
 		symbolTable->insertSymbol( sym );
 
-		$$ =  new IdentifierNode( symbolTable , scanner->matched() );
+		$$ =  new IdentifierNode( symbolTable , scanner->matched() , true );
 	}
 	else
 	{
 	
 		try {
 		
-			$$ =  new IdentifierNode( symbolTable , scanner->matched() );
+			$$ =  new IdentifierNode( symbolTable , scanner->matched() , false );
 		
 		}
 		
