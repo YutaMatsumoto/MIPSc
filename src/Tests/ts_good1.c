@@ -9,12 +9,15 @@ return 1;
 
 int i;
 
+!!S
+
 int main()
 {
 
+    int j = 0;
+    
     func(1);
     
-    int j = 0;
     {
         int foo = 50000;
 	i = i + foo;

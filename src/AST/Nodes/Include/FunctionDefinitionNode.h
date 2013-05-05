@@ -11,16 +11,20 @@
 #include "Node.h"
 
 #include "CompoundStatementNode.h"
+#include "DeclaratorNode.h"
 
 class CompoundStatementNode;
+class Declarator;
 
 class FunctionDefinitionNode: public Node {
 
 public:
 
-	FunctionDefinitionNode( CompoundStatementNode* _compoundStatement );
+	FunctionDefinitionNode( CompoundStatementNode* _compoundStatement , DeclaratorNode* declarator );
 
 	CompoundStatementNode* compoundStatement = 0;
+
+	DeclaratorNode* declarator = 0;
 
 	ASTData* toOperations();
 

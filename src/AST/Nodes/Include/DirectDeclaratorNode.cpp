@@ -102,6 +102,8 @@ ASTData* DirectDeclaratorNode::toOperations()
 
 		data->result = id->resolveSymbol();
 
+		data->code = id->nodeData->code;
+
 		return data;
 
 	}

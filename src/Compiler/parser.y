@@ -189,7 +189,7 @@ function_definition
 	  }
 	 {
 
-		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $2 );
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $2 , (DeclaratorNode*) $1 );
 
 	 }
 	| declarator { 
@@ -203,13 +203,13 @@ function_definition
 		debugPrint("----to function definition Production 2----"); 
 		debugPrint("declarator declaration_list compound_statement -> function_definition"); 
 
-		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3 ); // $BUG
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $5 , (DeclaratorNode*) $1 ); // $BUG
 	  }
 	| declaration_specifiers declarator compound_statement { 
 		debugPrint("----to function_definition by production 3----"); 
 	  	debugPrint("declaration_specifiers declarator compound_statement -> function_definition"); 
 
-		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3 );
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3, (DeclaratorNode*) $2 );
 
 	  }
 	| declaration_specifiers declarator {
@@ -222,7 +222,7 @@ function_definition
 		debugPrint("----to function definition production 4----"); 
 	    debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
 	  
-	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 ); // $BUG
+	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 , (DeclaratorNode*) $2 ); // $BUG
 	  }
 	;
 

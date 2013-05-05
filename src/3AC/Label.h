@@ -28,7 +28,7 @@ public:
 	inline std::string to3AC()
 	{
 
-		return name + std::string(": ");
+		return std::string("\n") + name + std::string(": ");
 
 	}
 
