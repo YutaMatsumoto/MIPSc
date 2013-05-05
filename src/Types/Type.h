@@ -95,7 +95,8 @@ public:
 		Pointer,
 		Typedef,
 		Array,
-		Function 
+		Function,
+		NotSet
 	};
 
 	int getType();
@@ -105,6 +106,8 @@ public:
 	virtual std::string toString();
 
 	virtual int sizeInBytes() = 0;
+
+	TypeEnum type = NotSet;
 
 protected:
 
@@ -125,7 +128,7 @@ private:
 
 	std::vector< std::string > typeQualifiers;
 
-	TypeEnum type;
+
 
 };
 

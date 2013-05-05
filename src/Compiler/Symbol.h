@@ -49,8 +49,6 @@ public:
 	address addr = 0x0;
 
 	//For 3AC
-
-
 	TypeQualInfo tQualInfo;
 
 	Symbol() 

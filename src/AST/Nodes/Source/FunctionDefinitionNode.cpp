@@ -25,6 +25,8 @@ ASTData* FunctionDefinitionNode::toOperations()
 
 	operations->insert( operations->end() , compoundStatement->nodeData->code->begin() , compoundStatement->nodeData->code->end() );
 
+	declarator->nodeData->result->operandType = Symbol::LABEL;
+
 	data->code = operations;
 
 	return data;
