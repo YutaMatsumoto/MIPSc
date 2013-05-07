@@ -4,17 +4,16 @@
 
 int dub( int k )
 {
+!!S
 return k * 2;
 }
 
 int i;
 
-!!S
-
 int main()
 {
 
-    int j = 0;
+    int j[50];
     
     dub(1);
     

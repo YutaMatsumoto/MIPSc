@@ -17,20 +17,37 @@ DirectDeclaratorNode::DirectDeclaratorNode( DeclaratorNode* declaratorNode ) : d
 }
 
 
-DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a ) // here vtable  blablabla
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a, DirectDeclaratorNode::DirectDeclaratorKind _kind )
 {
 	initData();
 	dirDeclNode = a;
+	kind = _kind;
 	nodeData = toOperations();
 }
 
-DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id ) // here vtable  blablabla
+DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id )
 {
 	initData();
 	this->id = id;
 	kind = Id;
 	nodeData = toOperations();
 }
+
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a, ParameterTypeListNode* _p )
+{
+	dirDeclNode = a;
+	funcParams = _p;
+	nodeData = toOperations();
+
+}
+
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* _directDeclarator , ConstantExpressionNode* _constantExpression )
+: dirDeclNode( _directDeclarator ) , arraySize( _constantExpression )
+{
+	kind = ArrayWithSize;
+	nodeData = toOperations();
+}
+
 
 void DirectDeclaratorNode::initData()
 {
@@ -153,10 +170,23 @@ ASTData* DirectDeclaratorNode::toOperations()
 
 		return declNode->nodeData;
 
-	if( dirDeclNode )
+	if( dirDeclNode && arraySize )
+	{
 
-		return dirDeclNode->nodeData;
+		data->result = dirDeclNode->nodeData->result;
 
+		return data;
+
+	}
+
+	if( dirDeclNode && funcParams )
+	{
+
+		data->result = dirDeclNode->nodeData->result;
+
+		return data;
+
+	}
 }
 
 std::string getNodeTypeAsString()
@@ -183,31 +213,6 @@ string DirectDeclaratorNode::toString()
 void DirectDeclaratorNode::error(string msg)
 {
 	cerr << "Error : DirectDeclaratorKind : " << msg << endl;
-}
-
-void DirectDeclaratorNode::specifyArray()
-{
-	// TODO check existence of initializer in the upstream
-	kind = Array;
-}
-
-void DirectDeclaratorNode::specifyArray( ConstantExpressionNode* a)
-{
-	arraySize = a;
-	kind = ArrayWithSize;
-}
-
-void DirectDeclaratorNode::specifyFunction( ParameterTypeListNode* a )
-{
-	funcParams = a;
-	// functionDefinition = true; // TODO is this right?
-	kind = FunctionDefinitionWithParam;
-}
-
-void DirectDeclaratorNode::specifyFunctionCall( IdentifierListNode* a )
-{
-	idListNode = a;	
-	kind = FunctionCallWithParam; // TODO TOFIX
 }
 
 int DirectDeclaratorNode::getKind()

@@ -9,6 +9,7 @@
 
 #include "ArrayType.h"
 #include "CallOp.h"
+#include "LoadOp.h"
 
 //Primary Expression
 PostfixExpressionNode::PostfixExpressionNode( PrimaryExpressionNode* _primaryExpression )
@@ -87,6 +88,17 @@ ASTData* PostfixExpressionNode::toOperations()
 		Symbol* function = postfixExpression->nodeData->result;
 
 		CallOp* op = new CallOp( function );
+
+		for( unsigned int i = 0 ; i < postfixExpression->nodeData->code->size() ; i++ )
+		{
+
+			LoadOp* j = dynamic_cast<LoadOp*>( postfixExpression->nodeData->code->at( i ) );
+
+			if( j )
+
+				postfixExpression->nodeData->code->erase(  postfixExpression->nodeData->code->begin() + i );
+
+		}
 
 		operations->insert( operations->end() , postfixExpression->nodeData->code->begin() , postfixExpression->nodeData->code->end() );
 

@@ -490,31 +490,34 @@ direct_declarator
 	| '(' declarator ')' { 
 			debugPrint("'(' declarator ')' -> direct_declarator");
 			
-			$$ = new DirectDeclaratorNode( (DeclaratorNode*) $2 );
+			//$$ = new DirectDeclaratorNode( (DeclaratorNode*) $2 );
 		}
 	| direct_declarator '[' ']' { 
 			debugPrint("direct_declarator '[' ']' -> direct_declarator"); 
-			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
-			ddn->specifyArray();
-			$$ = ddn;
+			//DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
+			//ddn->specifyArray();
+			//$$ = ddn;
 		}
 	| direct_declarator '[' constant_expression ']' { 
 			debugPrint("direct_declarator '[' constant_expression ']' -> direct_declarator"); 
-			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
-			ddn->specifyArray( (ConstantExpressionNode*)$3 );
-			$$ = ddn;
+			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 , (ConstantExpressionNode*) $3 );
+			//DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
+			//ddn->specifyArray( (ConstantExpressionNode*)$3 );
+			//$$ = ddn;
 		}
 	| direct_declarator '(' ')' { 
 			// TODO : function call or structure instantiation ? function definition?
 			debugPrint("direct_declarator '(' ')' -> direct_declarator"); 
 
-			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 );
+			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 , DirectDeclaratorNode::FunctionCall );
 		}
 	| direct_declarator '(' parameter_type_list ')' { 
 			debugPrint("direct_declarator '(' parameter_type_list ')' -> direct_declarator"); 
-			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
-			ddn->specifyFunction( (ParameterTypeListNode*)$3 );
-			$$ = (void*) ddn;
+			//DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
+			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 , (ParameterTypeListNode*) $3 );
+			
+			//ddn->specifyFunction( (ParameterTypeListNode*)$3 );
+			//$$ = (void*) ddn;
 		}
 	| direct_declarator '(' identifier_list ')' { 
 			//
@@ -525,10 +528,10 @@ direct_declarator
 			// function definition with paramters types specified outside of
 			// parentheses
 			debugPrint("direct_declarator '(' identifier_list ')' -> direct_declarator"); 
-			specifyFunctionCall();	// TODO : or structure instantiation ?
-			DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
-			ddn->specifyFunctionCall( (IdentifierListNode*)$3 ); // TODO TOFIX
-			$$ = (void*) ddn;
+			//specifyFunctionCall();	// TODO : or structure instantiation ?
+			//DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
+			//ddn->specifyFunctionCall( (IdentifierListNode*)$3 ); // TODO TOFIX
+			//$$ = (void*) ddn;
 		}
 	;
 
@@ -718,20 +721,36 @@ direct_abstract_declarator
 			(ParameterTypeListNode*) $2
 		);
 		}
-	| direct_abstract_declarator '(' ')' { debugPrint("direct_abstract_declarator '(' ')' -> direct_abstract_declarator"); } {
+	| direct_abstract_declarator function_def_start function_def_end { debugPrint("direct_abstract_declarator '(' ')' -> direct_abstract_declarator"); } {
 		// TODO
 		$$ = (void*) new DirectAbstractDeclaratorNode( 
 			(DirectAbstractDeclaratorNode*) $1,
 			DirectAbstractDeclaratorNode::Normal
 		);
 		}
-	| direct_abstract_declarator '(' parameter_type_list ')' { debugPrint("direct_abstract_declarator '(' parameter_type_list ')' -> direct_abstract_declarator"); } {
+	| direct_abstract_declarator function_def_start parameter_type_list function_def_end { debugPrint("direct_abstract_declarator '(' parameter_type_list ')' -> direct_abstract_declarator"); } {
 		$$ = (void*) new DirectAbstractDeclaratorNode ( 
 			(DirectAbstractDeclaratorNode*) $1,
 			(ParameterTypeListNode*) $3
 		);
 		}
 	;
+
+function_def_start :
+	'('
+	{
+
+		beginDeclarationSection(); symbolTable->beginScope();
+
+	};
+
+function_def_end:
+	')'
+	{
+
+		symbolTable->endScope();
+
+	};
 
 statement
 	: labeled_statement { debugPrint("labeled_statement -> statement"); }

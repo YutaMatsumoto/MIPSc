@@ -42,11 +42,15 @@ public:
 
 	void error(std::string msg);
 
-	DirectDeclaratorNode( DirectDeclaratorNode* a);
+	DirectDeclaratorNode( DirectDeclaratorNode* a, DirectDeclaratorKind _kind);
+
+	DirectDeclaratorNode( DirectDeclaratorNode* a, ParameterTypeListNode* _p );
 
 	DirectDeclaratorNode( IdentifierNode* id );
 
 	DirectDeclaratorNode( DeclaratorNode* declaratorNode );
+
+	DirectDeclaratorNode( DirectDeclaratorNode* _directDeclarator , ConstantExpressionNode* _constantExpression );
 
 	void initData();
 
@@ -68,17 +72,17 @@ public:
 	// direct_declarator symbol
 	bool hasIdentifier();
 	
-	IdentifierNode* id;
-	DeclaratorNode* declNode;		
+	IdentifierNode* id = 0;
+	DeclaratorNode* declNode = 0;
 
 	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 
-	DirectDeclaratorNode* dirDeclNode;
-	IdentifierListNode* idListNode;
-	ConstantExpressionNode* arraySize;
-	ParameterTypeListNode* funcParams;
+	DirectDeclaratorNode* dirDeclNode = 0;
+	IdentifierListNode* idListNode = 0;
+	ConstantExpressionNode* arraySize = 0;
+	ParameterTypeListNode* funcParams = 0;
 
 private:
 
