@@ -356,7 +356,7 @@ type_specifier
 	  }
 	| struct_or_union_specifier {
 		// TODO 
-		//throw ParserError(ParserError::NotImplemented, "Sturuct/Union is not implemented");
+		throw ParserError(ParserError::NotImplemented, "Sturuct/Union is not implemented");
 		debugPrint("struct_or_union_specifier -> type_specifier"); 
 	  }
 	| enum_specifier {
