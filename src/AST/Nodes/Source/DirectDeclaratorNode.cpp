@@ -187,6 +187,15 @@ ASTData* DirectDeclaratorNode::toOperations()
 		return data;
 
 	}
+
+	if( dirDeclNode && kind == FunctionCall )
+	{
+
+		data->result = dirDeclNode->nodeData->result;
+
+		return data;
+
+	}
 }
 
 std::string getNodeTypeAsString()

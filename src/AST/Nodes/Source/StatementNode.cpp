@@ -105,7 +105,7 @@ ASTData* StatementNode::toOperations()
 	if( iterationStatement )
 	{
 
-		//return iterationStatement->toOperations();
+		return iterationStatement->toOperations();
 
 	}
 

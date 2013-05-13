@@ -27,6 +27,8 @@ public:
 
 	Label* after = 0;
 
+	int value = -1;
+
 };
 
 #endif /* ASTDATA_H_ */
