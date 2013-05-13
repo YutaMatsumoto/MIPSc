@@ -21,9 +21,23 @@ PARSER_OBJ = src/Compiler/parse.o
 COMPILER_OBJ = $(LEX_OBJ) $(PARSER_OBJ)
 
 # ----------------------------------------------------------------------------
+# mipsc
 
 DEFAULT : $(OBJS) $(COMPILER_OBJ)
 	$(CC) $(INCLUDEDIRS) $(CCOPTION) $(MAIN) $^ -o $(COMPILER)
+
+# ----------------------------------------------------------------------------
+# Register Allocation Driver
+
+RSRCS = $(shell find src/RegisterAllocation/ -name "*.cpp")
+ROBJS = $(RSRCS:.cpp=.o)
+
+.PHONY : ra
+ra : src/RegisterAllocation/driver.out
+
+src/RegisterAllocation/driver.out : $(ROBJS) src/3AC/IdTracker.o
+	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o src/RegisterAllocation/driver.out
+	
 
 # ---------------------------------------------------------------------
 

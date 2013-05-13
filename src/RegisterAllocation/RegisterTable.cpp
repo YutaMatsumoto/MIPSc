@@ -6,7 +6,7 @@ using namespace std;
 
 RegisterTable::
 RegisterTable(RegisterNumber start, RegisterNumber end, MemoryTable& mTable)
-	: start(start), end(end), mTable(mTable)
+	: start(start), end(end), mTable(mTable), debug(false)
 {
 	registerUse.resize(end-start+1, false);
 	varIds.resize(end-start+1, 0); // TODO 
@@ -59,7 +59,7 @@ RegisterNumber RegisterTable::spill()
 
 	// in the context of op3 = op1 + op2, when spilling for op3, 
 	// do not spill register for op1 or op2 
-	
+
 	// TODO roundrobin instead of using last two
 
 	static RegisterNumber
@@ -90,6 +90,10 @@ RegisterNumber RegisterTable::spill()
 		lastSpilled2 = regIndexToSpill;
 	}
 
+	// Erase vid of the spilled register from the table
+	table.erase( varIds[regIndexToSpill] );	
+		
+
 	return regIndexToNumber( regIndexToSpill );
 }
 
@@ -111,8 +115,29 @@ void RegisterTable::setVarIdOnRegister( RegisterNumber reg, VarId vid )
 
 void RegisterTable::debugPrint(std::string msg)
 {
-	std::cout << "RegisterTable : " << msg << std::endl;
+	if (debug)
+		std::cout << "RegisterTable : " << msg << std::endl;
 }
+
+void RegisterTable::setDebug()
+{
+	debug = true;
+}
+
+std::string RegisterTable::toString()
+{
+	using namespace std;
+	std::ostringstream oss;
+	typedef RTable::iterator MapIterator;
+	for (MapIterator iter = table.begin(); iter != table.end(); iter++) {
+		VarId vid = iter->first;
+		RegisterNumber rNum = iter->second;
+		oss << "Key(" << vid << ")" << " --- " << "Values:(" << rNum << ")" << std::endl;
+	}
+	return oss.str();
+}
+
+
 
 void RegisterTable::assignVidToRegister(RegisterNumber rNumber, VarId vid)
 {
@@ -122,7 +147,7 @@ void RegisterTable::assignVidToRegister(RegisterNumber rNumber, VarId vid)
 	// If the variable is in the table, store it there
 	if (iter!=table.end())
 		table[vid]	= rNumber;
-	
+
 	// Else insert new element
 	else
 		table.insert(std::pair<VarId,RegisterNumber>( vid, rNumber ));
@@ -145,14 +170,15 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 	//
 	rNum = getNextAvailableRegisterNumber();
 	bool available = isValidRegisterNumber(rNum);
+	// Open register exists. Use that register
 	if (available)	{
+		debugPrint(string( "getRegister : new register with open(available) register") );
 
 		size_t regIndex = regNumberToIndex( rNum );
 		registerUse[regIndex] = true;
 		assignVidToRegister(rNum, vid);
-
-		debugPrint(string( "getRegister : new register with open(available) register") );
 	}
+	// No open register exists. Spill
 	else {
 		debugPrint(string( "getRegister : new register with spilled register") );
 		rNum = spill();

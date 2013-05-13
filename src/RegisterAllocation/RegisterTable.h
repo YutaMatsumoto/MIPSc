@@ -43,6 +43,8 @@ private:
 	RegisterNumber end;   // end register number
 
 	MemoryTable& mTable;
+	
+	bool debug;
 
 private:
 
@@ -69,6 +71,10 @@ private:
 	RegisterNumber spill();
 
 public:
+
+	std::string toString();
+
+	void setDebug();
 
 	RegisterTable(RegisterNumber start, RegisterNumber end, MemoryTable& mTable);
 
