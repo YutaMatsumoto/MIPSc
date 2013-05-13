@@ -228,7 +228,16 @@ int main(int argc, char** argv)
 
 	// --------------------------------------------------------------------
 	// run parser
-	int returnFromParser = p.parse();
+	int returnFromParser;
+	try {	
+		returnFromParser = p.parse();
+	} catch (const std::exception& e) {
+		std::cerr<<e.what()<<std::endl;
+		exit(1);
+	} catch (...) {
+		std::cerr<<"Some Exception by p.parse()"<<std::endl;
+		exit(1);
+	}
 
 	ASTData* astData = p.get3AC();
 
