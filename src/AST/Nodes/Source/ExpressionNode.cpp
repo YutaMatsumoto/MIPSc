@@ -9,7 +9,7 @@
 
 ExpressionNode::ExpressionNode( AssignmentExpressionNode* _assignmentExpression ) : assignmentExpression( _assignmentExpression )
 {
-
+	nodeData = toOperations();
 }
 
 ExpressionNode::ExpressionNode(
@@ -17,7 +17,7 @@ ExpressionNode::ExpressionNode(
 		AssignmentExpressionNode* _assignmentExpression
 	) : expression( _expression ), assignmentExpression(_assignmentExpression)
 {
-
+	nodeData = toOperations();
 }
 
 
@@ -27,7 +27,7 @@ ASTData* ExpressionNode::toOperations()
 
 	if( expression == 0 )
 
-		return assignmentExpression->toOperations();
+		return assignmentExpression->nodeData;
 
 	return data;
 }

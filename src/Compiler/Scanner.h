@@ -90,7 +90,7 @@ class Scanner: public ScannerBase
 
 		std::string lastLine();
 
-		SymbolLocation& getLoc() { return location; }
+		SymbolLocation getLoc() { return location; }
 
 		void dumpSymbolTable();
 
@@ -150,6 +150,7 @@ class Scanner: public ScannerBase
 		Parser* parser;
 
 		ScannerDebug debug;
+	public:
 		SymbolLocation location; // current location
 
 };

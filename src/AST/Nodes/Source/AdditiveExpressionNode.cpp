@@ -14,7 +14,7 @@
 
 AdditiveExpressionNode::AdditiveExpressionNode( MultiplicativeExpressionNode* _multiplicativeExpression ) : multiplicativeExpression( _multiplicativeExpression )
 {
-
+	nodeData = toOperations();
 }
 
 AdditiveExpressionNode::AdditiveExpressionNode( AdditiveExpressionNode* _additiveExpression ,
@@ -23,7 +23,7 @@ AdditiveExpressionNode::AdditiveExpressionNode( AdditiveExpressionNode* _additiv
 		)
 	: multiplicativeExpression( _multiplicativeExpression ), additiveExpression( _additiveExpression ), type( _type )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* AdditiveExpressionNode::toOperations()
@@ -32,7 +32,7 @@ ASTData* AdditiveExpressionNode::toOperations()
 	if( additiveExpression == 0 )
 	{
 
-		return multiplicativeExpression->toOperations();
+		return multiplicativeExpression->nodeData;
 
 	}
 
@@ -41,10 +41,10 @@ ASTData* AdditiveExpressionNode::toOperations()
 	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 	//Gets the data for the first parameter
-	ASTData* additiveData = additiveExpression->toOperations();
+	ASTData* additiveData = additiveExpression->nodeData;
 
 	//gets the data for the second parameter
-	ASTData* multiplicativeData = multiplicativeExpression->toOperations();
+	ASTData* multiplicativeData = multiplicativeExpression->nodeData;
 
 	//create a new temporary name
 	std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
@@ -56,7 +56,7 @@ ASTData* AdditiveExpressionNode::toOperations()
 	Symbol* multiplicativeResult = multiplicativeData->result;
 
 	//create a new temporary for our result
-	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , multiplicativeResult->symbolType );
+	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , multiplicativeResult->symbolType , Symbol::ITEMP );
 
 	//create a new operation to compute the addition
 	AddOp* op = new AddOp( temporary , additiveResult , multiplicativeResult , type );

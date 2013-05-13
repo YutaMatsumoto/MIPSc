@@ -7,31 +7,28 @@
 #include "InitializerNode.h"
 #include "Node.h"
 
-#include "ASTNodes.h"
-
 class InitializerNode;
+class DeclaratorNode;
 
+class InitDeclaratorNode : public Node {
 
-class InitDeclaratorNode {
 public:
 
-	InitDeclaratorNode() {}
+	InitDeclaratorNode();
 
-	InitDeclaratorNode(DeclaratorNode* declarationNode) 
-		: declarationNode(declarationNode)
-	{}
+	InitDeclaratorNode(DeclaratorNode* declarationNode , SymbolTable* _table);
 
-	InitDeclaratorNode(DeclaratorNode* declarationNode, InitializerNode* initializerNode) 
-		: declarationNode(declarationNode), initializerNode(initializerNode)
-	{}
+	InitDeclaratorNode(DeclaratorNode* declarationNode, InitializerNode* initializerNode, SymbolTable* _table);
 
-	string toString();
+	std::string toString();
 
 	std::string getNodeTypeAsString();
 	ASTData* toOperations();
 
 	DeclaratorNode* declarationNode;
 	InitializerNode* initializerNode;
+
+	SymbolTable* table;
 };
 
 #endif // END InitDeclaratorNode_H_GUARD

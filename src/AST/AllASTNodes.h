@@ -8,8 +8,6 @@
 #ifndef ALLASTNODES_H_
 #define ALLASTNODES_H_
 
-#include "ASTNodes.h"
-
 #include "DeclarationNode.h"
 #include "DeclarationSpecifiersNode.h"
 #include "StorageClassSpecifierNode.h"
@@ -114,6 +112,8 @@
 #include "InitDeclaratorNode.h"
 #include "InitDeclaratorListNode.h"
 #include "DeclaratorNode.h"
+#include "DeclarationNode.h"
+#include "DirectDeclaratorNode.h"
 
 
 #endif /* ALLASTNODES_H_ */

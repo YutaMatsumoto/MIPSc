@@ -5,9 +5,14 @@
 
 #include "AbstractDeclaratorNode.h"
 #include "ParameterTypeListNode.h"
+#include "ConstantExpressionNode.h"
+#include "DirectAbstractDeclaratorNode.h"
+#include "ParameterTypeListNode.h"
 
 class AbstractDeclaratorNode;
 class ParameterTypeListNode;
+class ConstantExpressionNode;
+class DirectAbstractDeclaratorNode;
 
 class DirectAbstractDeclaratorNode {
 public:
@@ -19,25 +24,25 @@ public:
 	// typedef int ParenType;
 
 	DirectAbstractDeclaratorNode( AbstractDeclaratorNode* ad) // '(' abstract_declarator ')' 
-		: ad(ad), dad(NULL), ce(NULL), ptl(NULL), ptype(None)
+		: ad(ad), dad(0), ce(0), ptl(0), ptype(None)
 	{}
 	DirectAbstractDeclaratorNode( /*ParenType*/ int ptype ) // '[' ']' and '(' ')' 
-		: ad(NULL), dad(NULL), ce(NULL), ptl(NULL), ptype(ptype)
+		: ad(0), dad(0), ce(0), ptl(0), ptype(ptype)
 	{}
 	DirectAbstractDeclaratorNode( ConstantExpressionNode* ce )// '[' constant_expression ']' 
-		: ad(NULL), dad(NULL), ce(ce), ptl(NULL), ptype(None)
+		: ad(0), dad(0), ce(ce), ptl(0), ptype(None)
 	{}
 	DirectAbstractDeclaratorNode( DirectAbstractDeclaratorNode* dad, /*ParenType*/ int  ptype) // direct_abstract_declarator '[' ']'  and '(' ')' 
-		: ad(NULL), dad(dad), ce(NULL), ptl(NULL), ptype(None)
+		: ad(0), dad(dad), ce(0), ptl(0), ptype(None)
 	{}
 	DirectAbstractDeclaratorNode( DirectAbstractDeclaratorNode* dad, ConstantExpressionNode* ce ) // direct_abstract_declarator '[' constant_expression ']' 
-		: ad(NULL), dad(dad), ce(ce), ptl(NULL), ptype(None)
+		: ad(0), dad(dad), ce(ce), ptl(0), ptype(None)
 	{}
 	DirectAbstractDeclaratorNode( ParameterTypeListNode* ptl ) // '(' parameter_type_list ')' 
-		: ad(NULL), dad(NULL), ce(NULL), ptl(ptl), ptype(None)
+		: ad(0), dad(0), ce(0), ptl(ptl), ptype(None)
 	{}
 	DirectAbstractDeclaratorNode( DirectAbstractDeclaratorNode* dad, ParameterTypeListNode* ptl ) // direct_abstract_declarator '(' parameter_type_list ')' 
-		: ad(NULL), dad(dad), ce(NULL), ptl(ptl), ptype(None)
+		: ad(0), dad(dad), ce(0), ptl(ptl), ptype(None)
 	{}
 
 	AbstractDeclaratorNode* ad;

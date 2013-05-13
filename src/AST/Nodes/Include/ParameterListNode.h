@@ -7,6 +7,8 @@
 
 #include "Type.h"
 
+class ParameterDeclarationNode;
+
 class ParameterListNode {
 public:
 

@@ -4,7 +4,6 @@
 #include "Node.h"
 #include "AllASTNodes.h"
 #include "ParserError.h"
-#include "ASTNodes.h"
 
 // $insert baseclass
 #include "Parserbase.h"
@@ -18,6 +17,8 @@
 #include "StructType.h"
 #include "TypedefType.h"
 #include "UnionType.h"
+
+#include "SymbolNotFoundException.h"
 
 #include "Declaration.h"
 
@@ -36,6 +37,8 @@ class Parser: public ParserBase
 			: scanner(&s), symbolTable(table)
 		{
 
+			decl = new Declaration( table );
+
 			declarationMode = true;
 
 		}
@@ -53,11 +56,21 @@ class Parser: public ParserBase
 		void configDebugPrint(
 			std::ostream& os, std::string prefix="", std::string postfix="");
 
-		ASTData* generate3AC();
+		ASTData* get3AC();
 
 
 	private:
-		void error(char const *msg);	// called on (syntax) errors
+		//void error(char const *msg);	// called on (syntax) errors
+		inline void error(char const *msg)
+		{
+			SymbolLocation location = scanner->getLoc();
+
+			std::cerr << "Syntax Error Found around " << location.lnum << ":" << location.cnum << std::endl;
+
+			exit(0);
+
+			// std::cerr << "Syntax Error @: " << location.lnum << ":" << location.cnum << std::endl;
+		}
 		int lex();						// returns the next token from the
 										// lexical scanner. 
 		void print();					// use, e.g., d_token, d_loc
@@ -82,7 +95,7 @@ class Parser: public ParserBase
 
 		Symbol* currentIdentifier;
 
-		Declaration decl;
+		Declaration* decl;
 
 		int token;
 

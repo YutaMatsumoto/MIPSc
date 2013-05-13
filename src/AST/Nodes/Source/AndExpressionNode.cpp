@@ -9,7 +9,7 @@
 
 AndExpressionNode::AndExpressionNode( EqualityExpressionNode* _equalityExpression ) : equalityExpression( _equalityExpression )
 {
-
+	nodeData = toOperations();
 }
 
 AndExpressionNode::AndExpressionNode( AndExpressionNode* _andExpression ,
@@ -17,7 +17,7 @@ AndExpressionNode::AndExpressionNode( AndExpressionNode* _andExpression ,
 		)
 	: equalityExpression( _equalityExpression ), andExpression( _andExpression )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* AndExpressionNode::toOperations()
@@ -26,7 +26,7 @@ ASTData* AndExpressionNode::toOperations()
 
 	if( andExpression == 0 )
 
-		return equalityExpression->toOperations();
+		return equalityExpression->nodeData;
 
 	return data;
 }

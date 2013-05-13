@@ -6,7 +6,7 @@
 
 class InitializerNode;
 
-class InitializerListNode {
+class InitializerListNode : public Node {
 public:
 
 	InitializerListNode(InitializerNode* initNode);

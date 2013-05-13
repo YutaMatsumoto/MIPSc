@@ -6,15 +6,20 @@
  */
 
 #include "JumpStatementNode.h"
+#include "ReturnOp.h"
 
 JumpStatementNode::JumpStatementNode( ExpressionNode* _expression ) : expression( _expression )
 {
 	type = Return;
+
+	nodeData = toOperations();
 }
 
 JumpStatementNode::JumpStatementNode( IdentifierNode* _identifier ) : identifier( _identifier )
 {
 	type = Goto;
+
+	nodeData = toOperations();
 }
 
 JumpStatementNode::JumpStatementNode( JumpStatementType _type ) : type( _type )
@@ -26,6 +31,15 @@ JumpStatementNode::JumpStatementNode( JumpStatementType _type ) : type( _type )
 ASTData* JumpStatementNode::toOperations()
 {
 	ASTData* data = new ASTData();
+
+	if( type == Return )
+	{
+
+		ReturnOp* op = new ReturnOp();
+
+		data->code->push_back( op );
+
+	}
 
 	return data;
 }

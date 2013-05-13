@@ -10,15 +10,13 @@
 ArgExpressionListNode::ArgExpressionListNode( AssignmentExpressionNode* _assignmentExpression )
 	: assignmentExpression( _assignmentExpression )
 {
-
-
-
+	nodeData = toOperations();
 }
 
 ArgExpressionListNode::ArgExpressionListNode( ArgExpressionListNode* _argumentExpressionList, AssignmentExpressionNode* _assignmentExpression )
 	: assignmentExpression( _assignmentExpression ), argumentExpressionList( _argumentExpressionList )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* ArgExpressionListNode::toOperations()

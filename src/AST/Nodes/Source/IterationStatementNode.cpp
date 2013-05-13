@@ -10,13 +10,15 @@
 IterationStatementNode::IterationStatementNode( ExpressionNode* _condition , StatementNode* _statement, IterationStatementType _type )
 	: condition( _condition ), statement( _statement ), type( _type )
 {
-
+	nodeData = toOperations();
 }
 
 IterationStatementNode::IterationStatementNode( ExpressionNode* _initialization ,ExpressionNode* _condition ,ExpressionNode* _increment ,StatementNode* _statement )
 	: initialization( _initialization ), condition(_condition), increment(_increment), statement(_statement)
 {
 	type = For;
+
+	nodeData = toOperations();
 }
 
 ASTData* IterationStatementNode::toOperations()

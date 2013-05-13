@@ -11,17 +11,17 @@
 
 ConstantNode::ConstantNode( IntegerConstantNode* _intConstant ) : intConstant( _intConstant )
 {
-
+	nodeData = toOperations();
 }
 
 ConstantNode::ConstantNode( FloatConstantNode* _floatConstant ) : floatConstant( _floatConstant )
 {
-
+	nodeData = toOperations();
 }
 
 ConstantNode::ConstantNode( CharConstantNode* _charConstant ) : charConstant( _charConstant )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* ConstantNode::toOperations()
@@ -29,19 +29,19 @@ ASTData* ConstantNode::toOperations()
 	if( intConstant )
 	{
 
-		return intConstant->toOperations();
+		return intConstant->nodeData;
 
 	}
 	if( floatConstant )
 	{
 
-		return floatConstant->toOperations();
+		return floatConstant->nodeData;
 
 	}
 	if( charConstant )
 	{
 
-		return charConstant->toOperations();
+		return charConstant->nodeData;
 
 	}
 

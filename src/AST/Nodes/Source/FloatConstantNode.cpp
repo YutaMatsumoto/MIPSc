@@ -9,7 +9,7 @@
 
 FloatConstantNode::FloatConstantNode( double _value ) : value( _value )
 {
-
+	nodeData = toOperations();
 }
 
 double FloatConstantNode::getValue()

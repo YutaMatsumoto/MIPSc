@@ -1,12 +1,31 @@
-#include "AllASTNodes.h"
+#include "DeclarationNode.h"
 
-#include "ArrayType.h"
 #include "TypeInfo.h"
-#include "BuiltinType.h"
+#include "Symbol.h"
+
+DeclarationNode::DeclarationNode() {}
+
+// -----------------------------------------------------------------------
+
+DeclarationNode::DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
+	: declSpecifier(declSpecifier)
+{
+	nodeData = toOperations();
+}
+
+DeclarationNode::DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
+	: declSpecifier(declSpecifier), initDeclList(initDeclList)
+{
+	nodeData = toOperations();
+}
 
 ASTData* DeclarationNode::toOperations()
 {
 	ASTData* data = new ASTData();
+
+	if( initDeclList != 0 )
+
+		return initDeclList->nodeData;
 
 	return data;
 }
@@ -32,52 +51,121 @@ void DeclarationNode::declare(SymbolTable* stab)
 		error("declare() : SymbolTable pointer supplied is null.");
 	}
 
-	// Declarations
-	
-	// type (just primitive type info for now)
-	TypeInfo tInfo = declSpecifier->getTypeInfo();	
+	TypeInfo tInfo = declSpecifier->getTypeInfo();
+	// std::cout << "InideDeclList.size() : " << initDeclList->declaratorList.size()<< std::endl; // debug
 
-	// const/volatile
-	TypeQualInfo tQualInfo = declSpecifier->getTypeQualInfo();
+	InitDeclaratorListNode* list = initDeclList;
 
-	// primitive type
-	Type* t = BuiltinType::buildType(tInfo);
+	while( list != 0 ) {
 
-	// Iterate over 
-	for (auto initDecl : initDeclList->toList() ) {
-
-		// Symbol* s;
+		Type* t;
+		Symbol* s;
 		SymbolLocation sloc;
 
-		auto decl = initDecl->declarationNode;
+		// seg fault here since some of these are mutually exlusive pointers
+		auto decl = list->initDeclarator->declarationNode;
 		// auto init = initDecl->initNode;
 		auto dirDecl = decl->dirDeclNode;
-		// auto dirDeclId = dirDecl->id;
+		auto dirDeclId = dirDecl->id;
 		// auto ptr     = decl->ptrNode;
 
-		Symbol* sym = dirDecl->declare(t);
+		int dKind = dirDecl->getKind() ;
 
-		// TODO
-		//
-		// At this point array/function/primitive type inside of sym
-		// might have some unknown value such as 
-		//
-		//	array dimension not specified which must be inferred from
-		//	number of items in initializer
-		//
-		//	Function return type
-		//
-		//	see DirectDeclaratorNode::declare(...)
-		//
+		std::string id;
 
-		sym->setTypeQualInfo(tQualInfo);	
-		stab->insertSymbol(sym);
+		SymbolTableInfo info;
+
+		Symbol::TACOperandType tacType = ( stab->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
+
+		// TODO SymbolLocation
+		// std::cout << "dKind" << dKind << std::endl;
+		switch(dKind) {
+			case DirectDeclaratorNode::None: 
+				//TODO: fix this ish
+				//t = buildType(tInfo);
+				id = dirDeclId->getId();
+
+				info = stab->getSymbolInfo( id , true );
+
+				if( info.symbol == 0 )
+
+					std::cout << "Symbol Lookup was null" << endl;
+
+				info.symbol->symbolType = t;
+
+				info.symbol->operandType = tacType;
+
+				//s = new Symbol(id, sloc, t);
+				//cout << "declre() : before insertSymbol" << endl;
+				//stab->insertSymbol(s);
+				//cout << "declre() : after insertSymbol" << endl;
+				break;
+			case DirectDeclaratorNode::Array: 
+				break;
+			case DirectDeclaratorNode::ArrayWithSize: 
+				break;
+			case DirectDeclaratorNode::FunctionDefinition: 
+				break;
+			case DirectDeclaratorNode::FunctionDefinitionWithParam: 
+				break;
+			// TODO: These two should not reduce to declaration node ?
+			case DirectDeclaratorNode::FunctionCall: 
+				break;
+			case DirectDeclaratorNode::FunctionCallWithParam:
+				break;
+		}
+
+		list = initDeclList->initDeclaratorList;
+
 	}
-
 
 }
 
+/*Type* DeclarationNode::buildType(DeclarationSpecifiersNode::TypeInfo tInfo) const
+{
+	Type* type = NULL;
 
+	bool unsignedSpecified = tInfo.unsignedSpecified;
+	int  integral = tInfo.integral;
+	bool longSpecified = tInfo.longLongSpecified;
+	bool longLongSpecified = tInfo.longLongSpecified;
+
+	if (unsignedSpecified) {
+		if (integral==Char) 
+			type = new BuiltinType<char>(Type::uChar);
+		else if (integral==Short)
+			type = new BuiltinType<short>(Type::uShort);
+		else if (integral==Int)
+			type = new BuiltinType<int>(Type::uInt);
+		else if (longLongSpecified)
+			type = new BuiltinType<unsigned long long>(Type::uLongLong);
+		else if (longSpecified)
+			type = new BuiltinType<unsigned long>(Type::uLong);
+	}
+	else {
+		if (integral==Int) {
+			if (longLongSpecified)
+				type = new BuiltinType<long long>(Type::Long);
+			else if (longSpecified)
+				type = new BuiltinType<long>(Type::Long);
+			else
+				type = new BuiltinType<int>(Type::Int);
+		}
+		else {
+			if (integral==Char)
+				type = new BuiltinType<char>(Type::Char);
+			else if (Short)
+				type = new BuiltinType<short>(Type::Short);
+			else if (integral==Float)
+				type = new BuiltinType<float>(Type::Float);
+			else if (integral==Double)
+				type = new BuiltinType<double>(Type::Double);
+		}
+	}
+
+	return type;
+}
+*/
 std::string DeclarationNode::toString() const
 {
 	std::string s="DeclarationNode: \n" ;

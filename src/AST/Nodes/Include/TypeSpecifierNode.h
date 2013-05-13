@@ -1,18 +1,26 @@
-#ifndef TypeSpecifierNode_H_GUARD
-#define TypeSpecifierNode_H_GUARD
 
-#include "common.h"
-#include "ASTData.h"
+/*
+ * TypeSpecifierNode.h
+ *
+ *  Created on: May 1, 2013
+ *      Author: njordan
+ */
 
-class TypeSpecifierNode {
+#include "Node.h"
+#include <string>
+#include <vector>
+
+#ifndef TYPESPECIFIERNODE_H_
+#define TYPESPECIFIERNODE_H_
+
+class TypeSpecifierNode : public Node {
 
 private:
-	size_t specs_size; 
-	static std::vector<std::string> specs; 
-	// typedef int TypeSpecEnum;
-	// TypeSpecEnum specifier;
+
+	size_t specs_size;
+	static std::vector<std::string> specs;
 	size_t specifier;
-	// std::string specifier;
+
 
 public:
 
@@ -24,8 +32,8 @@ public:
 		Float    = 4,
 		Double   = 5,
 		Long     = 6, IntegralEnd = 6, ModifierStart = 6,
-		Signed   = 7, 
-		Unsigned = 8, 
+		Signed   = 7,
+		Unsigned = 8,
 		Struct   = 9, ModifierEnd = 9,
 		Union    = 10,
 		Enum     = 11,
@@ -33,24 +41,18 @@ public:
 		TypeSpecifierEnd
 	};
 
-public:
-
 	static std::string integralToString(int integral);
 
 	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 
-	TypeSpecifierNode()
-		: specifier(TypeSpecifierEnd)
-	{initData();}
+	TypeSpecifierNode();
 
-	TypeSpecifierNode(const TypeSpecifierNode& o)
-		: specifier(o.specifier)
-	{initData();}
+	TypeSpecifierNode(const TypeSpecifierNode& o);
 
-	TypeSpecifierNode(std::string type) ;
-	
+	TypeSpecifierNode(std::string type);
+
 	TypeSpecifierNode(size_t specifier);
 
 	void initData();
@@ -61,13 +63,7 @@ public:
 
 	std::string toString();
 
-private:
-
-	void error(std::string error) ;
-
+	void error(std::string error);
 };
 
-
-
-#endif // END TypeSpecifierNode_H_GUARD
-
+#endif /* TYPESPECIFIERNODE_H_ */

@@ -13,8 +13,6 @@
 #include <vector>
 #include <string>
 
-#include "ASTNodes.h"
-
 class DeclarationNode;
 
 class DeclarationListNode : public Node

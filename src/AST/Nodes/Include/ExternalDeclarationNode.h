@@ -12,7 +12,6 @@
 #include "Operation.h"
 #include <vector>
 #include <string>
-#include "ASTNodes.h"
 #include "FunctionDefinitionNode.h"
 
 class DeclarationNode;

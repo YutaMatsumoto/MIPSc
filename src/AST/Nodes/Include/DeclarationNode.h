@@ -1,8 +1,7 @@
-// #include "ASTNodes.h"
 
 
-#ifndef DECLARATIONNODE_H_GUARD
-#define DECLARATIONNODE_H_GUARD
+#ifndef DECLARATIONNODE_H_
+#define DECLARATIONNODE_H_
 
 #include "AllASTNodes.h"
 
@@ -10,39 +9,27 @@
 #include "Type.h"
 #include "Node.h"
 
+#include "InitDeclaratorListNode.h"
+#include "Type.h"
 #include "DeclarationSpecifiersNode.h"
 #include "InitDeclaratorListNode.h"
-
 #include "TypeInfo.h"
-
 
 class DeclarationSpecifiersNode;
 class TypeInfo;
 class InitDeclaratorListNode;
 class DirectDeclaratorNode;
 
-// class DeclarationSpecifiersNode::TypeInfo;
-// class Type;
-
-class DeclarationNode : public Node {
+class DeclarationNode : public Node
+{
 public:
 
+	DeclarationNode();
 
-	DeclarationNode() {}	
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier);
 
-	// -----------------------------------------------------------------------
-	
-	DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
-		: declSpecifier(declSpecifier)
-	{}
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList);
 
-	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
-		: declSpecifier(declSpecifier), initDeclList(initDeclList)
-	{}
-
-	// -----------------------------------------------------------------------
-	
-	// TODO
 	virtual ASTData* toOperations();
 
 	virtual std::string getNodeTypeAsString();
@@ -55,22 +42,16 @@ public:
 
 	Type* buildType(TypeInfo tInfo) const;
 
-	// bool isPointer();
 
 private:
-	// Type* buildType(DeclarationSpecifiersNode::TypeInfo tInfo) const;
-	// Type* buildType(DeclarationSpecifiersNode::TypeInfo tInfo) const;
 
-	// Symbol* buildArray(DeclarationSpecifiersNode::TypeInfo tInfo, DirectDeclaratorNode* dd);
 	Symbol* buildArray(TypeInfo tInfo, DirectDeclaratorNode* dd);
 
-private: 
+	//Type* buildType(DeclarationSpecifiersNode::TypeInfo) const;
 
-	// PointerNode* ptrNode;
-	InitDeclaratorListNode* initDeclList;		
-	DeclarationSpecifiersNode* declSpecifier;
+	InitDeclaratorListNode* initDeclList = 0;
+	DeclarationSpecifiersNode* declSpecifier = 0;
 };
 
+#endif /* DECLARATIONNODE_H_ */
 
-
-#endif

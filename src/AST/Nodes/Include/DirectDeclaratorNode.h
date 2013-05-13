@@ -1,3 +1,4 @@
+
 #ifndef DIRECTDECLARATORNODE_H_GURAD
 #define DIRECTDECLARATORNODE_H_GURAD
 
@@ -11,42 +12,47 @@
 #include "DeclaratorNode.h"
 #include "IdentifierListNode.h"
 
-// class DirectDeclaratorNode : public Node {
-class DirectDeclaratorNode {
+#include "Node.h"
+#include "DeclaratorNode.h"
+#include <string>
+
+class IdentifierListNode;
+class ParameterTypeListNode;
+class IdentifierNode;
+class DeclaratorNode;
+class ConstantExpressionNode;
+
+class DirectDeclaratorNode : public Node {
 public:
 
 	enum DirectDeclaratorKind {
-		Id,
 		Array,
 		ArrayWithSize,
 		FunctionDefinition,
 		FunctionDefinitionWithParam,
 		FunctionCall, // TODO
 		FunctionCallWithParam,
-		None
+		None,
+		Id
 	};
 
 	DirectDeclaratorNode();
+
+	std::string toString();
+
+	void error(std::string msg);
 
 	DirectDeclaratorNode( DirectDeclaratorNode* a);
 
 	DirectDeclaratorNode( IdentifierNode* id );
 
-	ASTData* toOperations();
-
-	std::string getNodeTypeAsString();
-
-	string toString();
-
-	void error(string msg);
-
-
+	DirectDeclaratorNode( DeclaratorNode* declaratorNode );
 
 	void initData();
 
-	void specifyArray();
-
 	void specifyArray( ConstantExpressionNode* a);
+
+	void specifyArray();
 
 	void specifyFunction( ParameterTypeListNode* a );
 
@@ -54,7 +60,7 @@ public:
 
 	int getKind();
 
-	Symbol* declare(Type*);
+	Symbol* declare(Type* , SymbolTable* );
 
 	// Type* declare_recurse(Type* t);
 
@@ -64,6 +70,11 @@ public:
 	
 	IdentifierNode* id;
 	DeclaratorNode* declNode;		
+
+	ASTData* toOperations();
+
+	std::string getNodeTypeAsString();
+
 	DirectDeclaratorNode* dirDeclNode;
 	IdentifierListNode* idListNode;
 	ConstantExpressionNode* arraySize;
@@ -71,7 +82,8 @@ public:
 
 private:
 
-	int kind;
+	DirectDeclaratorKind kind;
+
 
 };
 

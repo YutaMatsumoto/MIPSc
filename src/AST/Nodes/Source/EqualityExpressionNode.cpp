@@ -9,7 +9,7 @@
 
 EqualityExpressionNode::EqualityExpressionNode( RelationalExpressionNode* _relationalExpression ) : relationalExpression( _relationalExpression )
 {
-
+	nodeData = toOperations();
 }
 
 EqualityExpressionNode::EqualityExpressionNode( EqualityExpressionNode* _equalityExpression ,
@@ -18,7 +18,7 @@ EqualityExpressionNode::EqualityExpressionNode( EqualityExpressionNode* _equalit
 		)
 	: equalityExpression( _equalityExpression ), relationalExpression( _relationalExpression ), type( _type )
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* EqualityExpressionNode::toOperations()
@@ -27,7 +27,7 @@ ASTData* EqualityExpressionNode::toOperations()
 
 	if( equalityExpression == 0 )
 
-		return relationalExpression->toOperations();
+		return relationalExpression->nodeData;
 
 	return data;
 }

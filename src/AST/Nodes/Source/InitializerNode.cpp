@@ -1,12 +1,22 @@
 #include "InitializerNode.h"
 
+InitializerNode::InitializerNode(AssignmentExpressionNode* _assignmentExpression) : assignmentExpression(_assignmentExpression)
+{
+	nodeData = toOperations();
+}
+
+InitializerNode::InitializerNode(InitializerListNode* _initializerList) : initializerList(_initializerList)
+{
+	nodeData = toOperations();
+}
+
 ASTData* InitializerNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
 	if( assignmentExpression != 0 )
 
-		return assignmentExpression->toOperations();
+		return assignmentExpression->nodeData;
 
 	return data;
 }

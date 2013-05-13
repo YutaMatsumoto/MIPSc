@@ -25,9 +25,9 @@ public:
 	SymbolTableInfo();
 	virtual ~SymbolTableInfo();
 
-	Symbol* symbol;
+	Symbol* symbol = 0;
 
-	Symbol* conflict;
+	Symbol* conflict = 0;
 
 	SymbolStatus status;
 

@@ -9,7 +9,7 @@
 
 ExternalDeclarationNode::ExternalDeclarationNode( FunctionDefinitionNode* _functionDefinition ): functionDefinition(_functionDefinition)
 {
-
+	nodeData = toOperations();
 }
 
 ASTData* ExternalDeclarationNode::toOperations()
@@ -18,11 +18,11 @@ ASTData* ExternalDeclarationNode::toOperations()
 
 	if( declaration )
 
-		return declaration->toOperations();
+		return declaration->nodeData;
 
 	if( functionDefinition )
 
-		return functionDefinition->toOperations();
+		return functionDefinition->nodeData;
 
 	return data;
 }

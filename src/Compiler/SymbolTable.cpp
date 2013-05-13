@@ -10,8 +10,14 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
-
 #include "ArrayType.h"
+
+bool SymbolTable::isGlobalScope()
+{
+
+	return ( scopeStack.size() > 1 ) ? false : true;
+
+}
 
 SymbolTableInfo SymbolTable::getSymbolInfo(std::string symbolName, bool currentScopeOnly)
 {

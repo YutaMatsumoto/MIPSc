@@ -34,7 +34,14 @@ public:
 	DeclarationSpecifiersNode( TypeQualifierNode*tq, DeclarationSpecifiersNode* ds);
 
 	// -----------------------------------------------------------------------
-
+	
+	void debugPrint()
+	{
+		std::cout << "DeclarationSPecifierNode DebugPrint()" << std::endl;
+		std::cout << tSpecs.size() << std::endl;
+		std::cout << sSpecs.size() << std::endl;
+		std::cout << qSpecs.size() << std::endl;
+	}
 
 	void error(std::string msg);
 

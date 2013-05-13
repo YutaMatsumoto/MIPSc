@@ -1,17 +1,17 @@
 
 #include "InitDeclaratorListNode.h"
 
-InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorNode* n)
-	: initDeclaratorList(NULL), initDeclarator(n)
-{}
-
-InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorListNode* a,  InitDeclaratorNode* b)
-	: initDeclaratorList(a), initDeclarator(b)
-{}
-
-void InitDeclaratorListNode::add(InitDeclaratorNode* initDecl) 
+InitDeclaratorListNode::InitDeclaratorListNode( InitDeclaratorListNode* _initDeclaratorList , InitDeclaratorNode* _initDeclarator) : initDeclaratorList(_initDeclaratorList) , initDeclarator(_initDeclarator)
 {
-	// declaratorList.push_back(initDecl);	
+	nodeData = toOperations();
+}
+
+
+InitDeclaratorListNode::InitDeclaratorListNode(InitDeclaratorNode* _initDeclarator) : initDeclarator(_initDeclarator)
+{
+
+	nodeData = toOperations();
+
 }
 
 ASTData* InitDeclaratorListNode::toOperations()
@@ -19,7 +19,7 @@ ASTData* InitDeclaratorListNode::toOperations()
 
 	if( initDeclaratorList == 0 )
 
-		return initDeclarator->toOperations();
+		return initDeclarator->nodeData;
 
 	else
 	{
@@ -29,10 +29,10 @@ ASTData* InitDeclaratorListNode::toOperations()
 		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 		//Gets the data for the first parameter
-		ASTData* initDeclaratorData = initDeclarator->toOperations();
+		ASTData* initDeclaratorData = initDeclarator->nodeData;
 
 		//gets the data for the second parameter
-		ASTData* initDeclaratorListData = initDeclaratorList->toOperations();
+		ASTData* initDeclaratorListData = initDeclaratorList->nodeData;
 
 		//create a new temporary name
 		//std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );

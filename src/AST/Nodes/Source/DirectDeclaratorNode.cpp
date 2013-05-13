@@ -15,9 +15,9 @@ DirectDeclaratorNode::DirectDeclaratorNode()
 }
 */
 
-DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a) // here vtable  blablabla
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a ) // here vtable  blablabla
 {
-	initData();	
+	initData();
 	dirDeclNode = a;
 }
 
@@ -47,7 +47,7 @@ void DirectDeclaratorNode::initData()
 // ---------------------------------------------------------------------------
 // Declarations
 
-Symbol* DirectDeclaratorNode::declare(Type* type)
+Symbol* DirectDeclaratorNode::declare(Type* type , SymbolTable* _stab )
 {
 	// For returning symbol
 	SymbolLocation sloc;
@@ -122,7 +122,9 @@ Symbol* DirectDeclaratorNode::declare(Type* type)
 		std::cerr << "Declration : id not found" << std::endl;
 	}
 
-	return new Symbol(symId, sloc, returnType);
+	Symbol::TACOperandType tacType = ( _stab->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
+
+	return new Symbol(symId, sloc, returnType, tacType );
 }
 
 // ---------------------------------------------------------------------------

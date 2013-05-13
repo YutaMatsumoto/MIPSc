@@ -1,12 +1,17 @@
 #include "InitDeclaratorNode.h"
 #include "StoreOp.h"
-#include "common.h"
-#include "AllASTNodes.h"
+#include "IdTracker.h"
+#include "GetAddressOp.h"
 
-std::string InitDeclaratorNode::toString()
+InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode , SymbolTable* _table) : declarationNode(_declarationNode), table(_table)
 {
-	string s = "InitDeclaratorNode: " + declarationNode->toString();
-	return s;
+	nodeData = toOperations();
+}
+
+InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode, InitializerNode* _initializerNode , SymbolTable* _table) : declarationNode(_declarationNode), initializerNode(_initializerNode), table(_table)
+{
+	nodeData = toOperations();
+
 }
 
 ASTData* InitDeclaratorNode::toOperations()
@@ -19,13 +24,13 @@ ASTData* InitDeclaratorNode::toOperations()
 		std::vector< Operation* >* operations = new std::vector< Operation* >();
 
 		//Gets the data for the first parameter
-		ASTData* declaratorData = declarationNode->toOperations();
+		ASTData* declaratorData = declarationNode->nodeData;
 
 		//gets the data for the second parameter
-		ASTData* initializerData = initializerNode->toOperations();
+		ASTData* initializerData = initializerNode->nodeData;
 
 		//create a new temporary name
-		//std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
+		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
 		//get the name of the first parameters temporary
 		Symbol* declaratorResult = declaratorData->result;
@@ -33,11 +38,15 @@ ASTData* InitDeclaratorNode::toOperations()
 		//get the name of the second parameters temporary
 		Symbol* initializerResult = initializerData->result;
 
+		Symbol::TACOperandType tacType = ( table->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
+
 		//create a new temporary for our result
-		//Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , multiplicativeResult->symbolType );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , declaratorResult->symbolType , tacType );
+
+		GetAddressOp* op1 = new GetAddressOp( temporary , declaratorResult );
 
 		//create a new operation to compute the addition
-		StoreOp* op = new StoreOp( declaratorResult , initializerResult );
+		StoreOp* op2 = new StoreOp( temporary , initializerResult );
 
 		//Add the multiplicative operations to what we will return
 		//operations->insert( operations->end() , multiplicativeData->code->begin() , multiplicativeData->code->end() );
@@ -46,7 +55,9 @@ ASTData* InitDeclaratorNode::toOperations()
 		operations->insert( operations->end() , initializerData->code->begin() , initializerData->code->end() );
 
 		//Add our 'add' operation to the end of the list
-		operations->push_back( op );
+		operations->push_back( op1 );
+
+		operations->push_back( op2 );
 
 		//add the result of this expression to the data
 		//data->result = temporary;

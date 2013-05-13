@@ -3,6 +3,9 @@
 
 #include "AllASTNodes.h"
 
+class SpecifierQualifierListNode;
+class AbstractDeclaratorNode;
+
 class TypeNameNode {
 public:
 
