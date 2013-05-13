@@ -115,7 +115,7 @@ void DeclarationNode::declare(SymbolTable* stab)
 				break;
 		}
 
-		list = initDeclList->initDeclaratorList;
+		list = list->initDeclaratorList;
 
 	}
 
