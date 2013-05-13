@@ -33,11 +33,22 @@ RSRCS = $(shell find src/RegisterAllocation/ -name "*.cpp")
 ROBJS = $(RSRCS:.cpp=.o)
 
 .PHONY : ra
-ra : src/RegisterAllocation/driver.out
 
-src/RegisterAllocation/driver.out : $(ROBJS) src/3AC/IdTracker.o
-	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o src/RegisterAllocation/driver.out
-	
+ra : src/RegisterAllocation/RegAlloc.out
+
+src/RegisterAllocation/RegAlloc.out : drivers/reg_alloc_driver.o $(ROBJS) src/3AC/IdTracker.o
+	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o $@
+
+# ----------------------------------------------------------------------------
+# Mips Code Generator Driver
+MSRCS = $(shell find src/MipsCode/ -name "*.cpp")
+MOBJS = $(MSRCS:.cpp=.o)
+
+.PHONY : mipscode
+mc : src/MipsCode/MipsCode.out
+
+src/MipsCode/MipsCode.out : drivers/mips_code_driver.o $(MOBJS)
+	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o $@
 
 # ---------------------------------------------------------------------
 
