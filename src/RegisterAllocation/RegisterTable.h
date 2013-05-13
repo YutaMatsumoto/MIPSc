@@ -66,7 +66,7 @@ private:
 
 	size_t regNumberToIndex(RegisterNumber reg) const;
 
-	void setVarIdOnRegister( RegisterNumber reg, VarId vid );
+	void updateVarId( RegisterNumber reg, VarId vid );
 
 	RegisterNumber spill();
 

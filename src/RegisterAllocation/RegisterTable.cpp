@@ -93,7 +93,6 @@ RegisterNumber RegisterTable::spill()
 	// Erase vid of the spilled register from the table
 	table.erase( varIds[regIndexToSpill] );	
 		
-
 	return regIndexToNumber( regIndexToSpill );
 }
 
@@ -107,9 +106,10 @@ size_t RegisterTable::regNumberToIndex(RegisterNumber reg) const
 	return reg - start;	
 }
 
-void RegisterTable::setVarIdOnRegister( RegisterNumber reg, VarId vid )
+void RegisterTable::updateVarId( RegisterNumber rNum, VarId vid )
 {
-	size_t index = regNumberToIndex(reg);
+	assignVidToRegister(rNum, vid);
+	size_t index = regNumberToIndex(rNum);
 	varIds[index] = vid;
 }
 
@@ -176,15 +176,15 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 
 		size_t regIndex = regNumberToIndex( rNum );
 		registerUse[regIndex] = true;
-		assignVidToRegister(rNum, vid);
+		// assignVidToRegister(rNum, vid);
 	}
 	// No open register exists. Spill
 	else {
 		debugPrint(string( "getRegister : new register with spilled register") );
 		rNum = spill();
-		assignVidToRegister(rNum, vid);
+		// assignVidToRegister(rNum, vid);
 	}
-	setVarIdOnRegister( rNum , vid );
+	updateVarId( rNum , vid );
 
 	//
 	// Load from memory if the variable is in memory
@@ -193,6 +193,7 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 	if (inMemory) {
 		// load from memory to available register
 		// TODO unmark vid in memory ?
+		// TODO loading should be done outside of RegisterTable ?
 		mTable.load(rNum, vid);
 		debugPrint(string( "getRegister : loading from memory") );
 	}
