@@ -1,5 +1,6 @@
 #include "DescriptorTable.h"
 #include "RegisterInfo.h"
+#include "RegisterAllocationCommon.h"
 #include <iostream>
 #include <string>
 
@@ -9,11 +10,11 @@ DescriptorTable::DescriptorTable()
 
 RegisterInfo DescriptorTable::getFloatRegister(VarId vid)
 {
-	return fTable.getRegister("f"+std::to_string(vid));	
+	return fTable.getRegister("f"+vid.toString());
 }
 
 RegisterInfo DescriptorTable::getIntegerRegister(VarId vid)
 {
-	return iTable.getRegister("i"+std::to_string(vid));	
+	return iTable.getRegister("i"+vid.toString());
 }
 

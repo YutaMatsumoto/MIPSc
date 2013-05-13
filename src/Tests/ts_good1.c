@@ -13,7 +13,7 @@ int i;
 int main()
 {
 
-    int j[50];
+    int k[50 + 10];
     
     dub(1);
     
