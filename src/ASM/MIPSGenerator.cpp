@@ -11,3 +11,15 @@ MIPSGenerator::~MIPSGenerator() {
 	// TODO Auto-generated destructor stub
 }
 
+void MIPSGenerator::generateMIPS()
+{
+
+	for( Operation* i : _3AC )
+	{
+
+
+
+	}
+
+}
+

@@ -17,9 +17,9 @@ ASTData* InitDeclaratorNode::toOperations()
 {
 	ASTData* data = new ASTData();
 
-	Symbol::TACOperandType tacType = ( table->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
+	//Symbol::TACOperandType tacType = ( table->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
 
-	declarationNode->nodeData->result->operandType = tacType;
+	//declarationNode->nodeData->result->operandType = tacType;
 
 	if( initializerNode != 0 )
 	{
