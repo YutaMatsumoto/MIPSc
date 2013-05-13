@@ -78,15 +78,15 @@ ASTData* IterationStatementNode::toOperations()
 
 		int id = IdTracker::getInstance()->getId();
 
-		Label* beginning = new Label( std::string("forbegin") + std::to_string(id) , id );
+		Label* beginning = new Label( std::string("forbegin") , id );
 
 		id = IdTracker::getInstance()->getId();
 
-		Label* end = new Label( std::string("forend") + std::to_string(id) , id );
+		Label* end = new Label( std::string("forend") , id );
 
 		id = IdTracker::getInstance()->getId();
 
-		Label* code = new Label( std::string("forcode") + std::to_string(id) , id );
+		Label* code = new Label( std::string("forcode") , id );
 
 		ASTData* initializationData = initialization->nodeData;
 

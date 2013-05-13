@@ -255,7 +255,7 @@ declaration_list
 		debugPrint("declaration -> declaration_list");
 		$$ = new DeclarationListNode( (DeclarationNode*) $1 );
 		//TODO: I think this goes here
-		beginLookupSection();
+		//beginLookupSection();
 	  }
 	| declaration_list declaration { debugPrint("declaration_list declaration -> declaration_list"); }
 	{

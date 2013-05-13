@@ -4,9 +4,13 @@
 int main()
 {
 
-	int test = 0;
-
 	int arr[ 6 ];
+	
+	int test = 0;
+	
+	int i;
+
+	int j;
 
 	arr[ 0 ] = 5;
 
@@ -20,13 +24,9 @@ int main()
 
 	arr[ 5 ] = 1;
 	
-	int j;
-
-	int k;
-
 	while( test == 0 )
 	{
-		test = 0;
+		test = 1;
 
 		for( j = 0 ; j < 5 ; j = j + 1 )
 		{
@@ -40,14 +40,12 @@ int main()
 
 				arr[ j + 1 ] = k;
 
-				test = 1;
+				test = 0;
 
 			}
 		
 		}
 	}
-
-	int done = 0;
 
 	return 0;
 
