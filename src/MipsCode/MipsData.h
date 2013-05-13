@@ -23,8 +23,10 @@ class DLabel {
 private:
 	std::string	label;
 public:
-	static std::vector<std::string> allLabels; // to check conflicts
+	DLabel();
 	DLabel(const std::string&);
+	bool operator==(const DLabel& o) const; 
+	bool operator<(const DLabel& o) const; 
 	std::string toString();
 };
 

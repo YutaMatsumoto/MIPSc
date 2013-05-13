@@ -6,19 +6,17 @@
 // ---------------------------------------------------------------------------
 
 MemoryTable::MemoryComponent::MemoryComponent()
-	: id(0), byteSize(0)
+	: byteSize(0)
 {}
 
-MemoryTable::MemoryComponent::MemoryComponent(MemoryId id, size_t byteSize)
-	: id(id), byteSize(byteSize)
+MemoryTable::MemoryComponent::MemoryComponent(size_t byteSize)
+	: byteSize(byteSize)
 {}
 
 std::string MemoryTable::MemoryComponent::toString()
 {
 	std::ostringstream oss;
 	oss
-		<< "MemoryAddress=" << id
-		<< " "
 		<< "ByteSize=" << byteSize;
 	return oss.str();
 }
@@ -27,7 +25,7 @@ std::string MemoryTable::MemoryComponent::toString()
 // ---------------------------------------------------------------------------
 
 MemoryTable::MemoryTable()
-	: currentAddress(0), debug(false)
+	: debug(false)
 {}
 
 std::string MemoryTable::toString()
@@ -38,7 +36,7 @@ std::string MemoryTable::toString()
 	for (MapIterator iter = table.begin(); iter != table.end(); iter++) {
 		MemoryComponent mem = iter->second;
 		VarId vid = iter->first;
-		oss << "Key(" << vid << ")" << " --- " << "Values:(" << mem.toString() << ")" << std::endl;
+		oss << "Key(" << vid.toString() << ")" << " --- " << "Values:(" << mem.toString() << ")" << std::endl;
 	}
 	return oss.str();
 }
@@ -56,7 +54,7 @@ void MemoryTable::load(RegisterNumber rNumber, VarId vid )
 	// MTable::iterator iter = table.find(vid);
 	// if (iter!=table.end()) {
 		debugPrint(
-				"Loading vid=" + std::to_string(vid) + 
+				"Loading vid=" + vid.toString() + 
 				" register: "  + std::to_string(rNumber)
 		);
 	// }
@@ -67,13 +65,13 @@ void MemoryTable::store(/*RegisterNumber rNumber,*/ VarId vid )
 {
 	MTable::iterator iter = table.find(vid);
 
-	MemoryComponent mem(currentAddress, 4 );
+	MemoryComponent mem( 4 );
 
 	// If the variable is in the table, store it there
 	if (iter!=table.end()) {
 		table[vid]	= mem; 
 		debugPrint(
-				"Stored vid="+std::to_string(vid) + 
+				"Stored vid="+vid.toString() + 
 				" to existing memory address : " +
 				mem.toString() 
 		);
@@ -83,13 +81,13 @@ void MemoryTable::store(/*RegisterNumber rNumber,*/ VarId vid )
 	else {
 		table.insert(std::pair<VarId,MemoryComponent>( vid, mem ));
 		debugPrint(
-				"Stored vid="+std::to_string(vid) + 
+				"Stored vid="+vid.toString() + 
 				" to new memory address : " + 
 				mem.toString() 
 		);
 	}
 	
-	currentAddress += 4;
+	// currentAddress += 4;
 }
 
 

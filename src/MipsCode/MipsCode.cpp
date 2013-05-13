@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include "MipsData.h"
+#include "MipsError.h"
 
 // ---------------------------------------------------------------------------
 // Manifest
@@ -17,12 +18,25 @@
 // ---------------------------------------------------------------------------
 // MipsCode
 
+
+std::vector<DLabel> MipsCode::allLabels;
+
 MipsCode::MipsCode()
 {}
 
 void MipsCode::
 writeToDataSection(DLabel label, DKind kind, DInit init, Comment com) // write data entry
 {
+	// TODO : check label does not exist 
+	
+	// Error if the label already exists 
+	typedef std::vector<DLabel>::iterator Iter;
+	Iter iter = std::find( allLabels.begin(), allLabels.end(), label) ;
+	if ( iter != MipsCode::allLabels.end() ) {
+		throw MipsError( "Same Label Generated in MIPS" );
+	}
+	allLabels.push_back(label);
+	
 	DKindInit dkindinit(kind, init);
 	dataSection.push_back( Data( label, dkindinit, com ) );
 }
@@ -30,6 +44,16 @@ writeToDataSection(DLabel label, DKind kind, DInit init, Comment com) // write d
 void MipsCode::
 writeToDataSection(DLabel label, DKind kind, Comment com) // write data entry
 {
+	// Error if the label already exists 
+	// TODO : Merge with above code : identical
+	typedef std::vector<DLabel>::iterator Iter;
+	Iter iter = std::find( MipsCode::allLabels.begin(), MipsCode::allLabels.end(), label) ;
+	if ( iter != allLabels.end() ) {
+		throw MipsError( "Same Label Generated in MIPS" );
+	}
+	allLabels.push_back(label);
+
+	// TODO : check label does not exist 
 	dataSection.push_back( Data( label, kind, com ) );
 }
 

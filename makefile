@@ -9,7 +9,7 @@ CCOPTION=-g -Wall -Wno-reorder
 
 # ----------------------------------------------------------------------------
 
-root=$(git rev-parse --show-toplevel)
+root=$(shell git rev-parse --show-toplevel)
 src_dir=$(root)/src
 INCLUDEDIRS = $(shell find src/ -type d -exec echo -I{} \;)
 SRCS  = $(shell find src/ -name "*.cpp")
@@ -20,6 +20,14 @@ LEX_OBJ = src/Compiler/lex.o
 PARSER_OBJ = src/Compiler/parse.o
 COMPILER_OBJ = $(LEX_OBJ) $(PARSER_OBJ)
 
+# Register Allocation Objects
+RSRCS = $(shell find src/RegisterAllocation/ -name "*.cpp")
+ROBJS = $(RSRCS:.cpp=.o)
+
+# Mips Code Generation Objects
+MSRCS = $(shell find src/MipsCode/ -name "*.cpp")
+MOBJS = $(MSRCS:.cpp=.o)
+
 # ----------------------------------------------------------------------------
 # mipsc
 
@@ -29,25 +37,24 @@ DEFAULT : $(OBJS) $(COMPILER_OBJ)
 # ----------------------------------------------------------------------------
 # Register Allocation Driver
 
-RSRCS = $(shell find src/RegisterAllocation/ -name "*.cpp")
-ROBJS = $(RSRCS:.cpp=.o)
+
+RA_DRIVER=$(root)/src/RegisterAllocation/RegAlloc.out
 
 .PHONY : ra
+ra : $(RA_DRIVER)
 
-ra : src/RegisterAllocation/RegAlloc.out
-
-src/RegisterAllocation/RegAlloc.out : drivers/reg_alloc_driver.o $(ROBJS) src/3AC/IdTracker.o
+$(RA_DRIVER) : $(root)/drivers/reg_alloc_driver.o $(ROBJS) $(MOBJS) $(root)/src/3AC/IdTracker.o
 	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o $@
 
 # ----------------------------------------------------------------------------
 # Mips Code Generator Driver
-MSRCS = $(shell find src/MipsCode/ -name "*.cpp")
-MOBJS = $(MSRCS:.cpp=.o)
 
-.PHONY : mipscode
-mc : src/MipsCode/MipsCode.out
+MC_DRIVER=$(root)/src/MipsCode/MipsCode.out
 
-src/MipsCode/MipsCode.out : drivers/mips_code_driver.o $(MOBJS)
+.PHONY : mc
+mc : $(MC_DRIVER)
+
+$(MC_DRIVER) : $(root)/drivers/mips_code_driver.o $(MOBJS)
 	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o $@
 
 # ---------------------------------------------------------------------

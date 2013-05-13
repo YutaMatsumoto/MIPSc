@@ -9,11 +9,11 @@ DescriptorTable::DescriptorTable()
 
 RegisterInfo DescriptorTable::getFloatRegister(VarId vid)
 {
-	return fTable.getRegister(vid);	
+	return fTable.getRegister("f"+std::to_string(vid));	
 }
 
 RegisterInfo DescriptorTable::getIntegerRegister(VarId vid)
 {
-	return iTable.getRegister(vid);	
+	return iTable.getRegister("i"+std::to_string(vid));	
 }
 

@@ -67,6 +67,8 @@ private: // struct and class
 
 private: // data members
 
+	static std::vector<DLabel> allLabels; // check conflicts
+
 	size_t indentLevel = 0;
 
 	std::vector<Data> dataSection;

@@ -5,19 +5,21 @@
 // ---------------------------------------------------------------------------
 // DLabel
 
-std::vector<std::string> DLabel::allLabels;
+DLabel::DLabel()
+{}
 
 DLabel::DLabel(const std::string& label)
 	: label(label)
-{
-	// Error if the label already exists 
-	typedef std::vector<std::string>::iterator Iter;
-	Iter iter = std::find( DLabel::allLabels.begin(), DLabel::allLabels.end(), label) ;
-	if ( iter != allLabels.end() ) {
-		throw MipsError( "Same Label Generated in MIPS" );
-	}
+{}
 
-	allLabels.push_back(label);
+bool DLabel::operator==(const DLabel& o) const
+{
+	return ( label == o.label );
+}
+
+bool DLabel::operator<(const DLabel& o) const
+{
+	return ( label < o.label );
 }
 
 std::string DLabel::toString()

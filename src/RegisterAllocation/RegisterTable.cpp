@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <boost/optional.hpp>
 using namespace std;
 
 RegisterTable::
@@ -9,7 +10,7 @@ RegisterTable(RegisterNumber start, RegisterNumber end, MemoryTable& mTable)
 	: start(start), end(end), mTable(mTable), debug(false)
 {
 	registerUse.resize(end-start+1, false);
-	varIds.resize(end-start+1, 0); // TODO 
+	varIds.resize(end-start+1, VarId() ); // TODO 
 }
 
 RegisterNumber RegisterTable::registerNumberOf(VarId vid) const
@@ -70,7 +71,7 @@ RegisterNumber RegisterTable::spill()
 	// Determine the register to spill
 	// TODO : if the number of registers is less than 3, this fails
 	RegisterNumber regIndexToSpill = registerUse.size();
-	for ( size_t regIndex = 0 ; regIndex < registerUse.size(); regIndex++ ) {
+	for ( int regIndex = 0 ; regIndex < (int)registerUse.size(); regIndex++ ) {
 		if ( regIndex != lastSpilled1 && regIndex != lastSpilled2 ) {
 			regIndexToSpill = regIndex;
 		}
@@ -110,7 +111,7 @@ void RegisterTable::updateVarId( RegisterNumber rNum, VarId vid )
 {
 	assignVidToRegister(rNum, vid);
 	size_t index = regNumberToIndex(rNum);
-	varIds[index] = vid;
+	varIds[index] = vid; // HERE 
 }
 
 void RegisterTable::debugPrint(std::string msg)
@@ -132,7 +133,7 @@ std::string RegisterTable::toString()
 	for (MapIterator iter = table.begin(); iter != table.end(); iter++) {
 		VarId vid = iter->first;
 		RegisterNumber rNum = iter->second;
-		oss << "Key(" << vid << ")" << " --- " << "Values:(" << rNum << ")" << std::endl;
+		oss << "Key(" << vid.toString() << ")" << " --- " << "Values:(" << rNum << ")" << std::endl;
 	}
 	return oss.str();
 }

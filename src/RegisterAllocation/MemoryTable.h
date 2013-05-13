@@ -16,14 +16,14 @@ class MemoryTable {
 	// -----------------------------------------------------------------------
 	struct MemoryComponent {
 		MemoryComponent();
-		MemoryComponent(MemoryId id, size_t byteSize);
+		MemoryComponent(size_t byteSize);
 		std::string toString();
-		MemoryId id;
 		size_t byteSize;	
 	};
 	// -----------------------------------------------------------------------
 
-	MemoryId currentAddress;
+private : // data member
+
 	typedef std::map<VarId, MemoryComponent> MTable;
 	MTable table;
 	bool debug;	

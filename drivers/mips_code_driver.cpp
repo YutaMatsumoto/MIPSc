@@ -1,4 +1,6 @@
 #include "MipsCode.h"
+#include <iostream>
+using namespace std;
 
 int main()
 {
@@ -10,10 +12,13 @@ int main()
 	mCode.writeToDataSection( DLabel("i1"), DKind(DKind::Word), "some comment on i1"); 
 
 	// Error since i1 defined twice
-	// mCode.writeToDataSection( DLabel("i1"), DKind(DKind::Word), "some comment on i1"); 
+	try {
+		mCode.writeToDataSection( DLabel("i1"), DKind(DKind::Word), "some comment on i1"); 
+	} catch (const exception& e) {
+		cout << e.what() << endl;
+	}
 	
 	mCode.writeToDataSection( DLabel("i2"), DKind(DKind::Word), "some comment on i2"); 
-
 	mCode.writeToDataSection( DLabel("c1"), DKind(DKind::Byte), "some comment on c1"); 
 	mCode.writeToDataSection( DLabel("c2"), DKind(DKind::Byte), "some comment on c2"); 
 
@@ -27,10 +32,9 @@ int main()
 	// -----------------------------------------------------------------------
 	// Write Data Sectoin After Text Section
 	mCode.writeToDataSection( DLabel("i3"), DKind(DKind::Word), "some comment on i3"); 
-	
 
 	// -----------------------------------------------------------------------
-	//
+	// Dump
 	mCode.dump();
 
 		

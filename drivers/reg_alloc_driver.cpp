@@ -5,6 +5,7 @@
 #include "DescriptorTable.h"
 #include <vector>
 #include <iostream>
+#include <string>
 using namespace std;
 
 void RegisterTableDriver()
@@ -37,9 +38,9 @@ void RegisterTableDriver()
 		
 	RegisterInfo ri(0,false);
 	// getRegister for each id sequentially
-	for ( int i = 0; i<floatIds.size() ; i++ ) {
-		VarId vid = floatIds[i];
-		cout << "Getting Register for vid = "  << vid << endl;
+	for ( size_t i = 0; i<floatIds.size() ; i++ ) {
+		VarId vid( "f"+std::to_string( floatIds[i] ) );
+		cout << "Getting Register for vid = "  << vid.toString() << endl;
 		ri = fTable.getRegister(vid);
 		cout << ri.toString() << endl; 
 	}
@@ -50,14 +51,14 @@ void RegisterTableDriver()
 	cout << fTable.toString() << endl << endl;
 
 	// getRegister for variable already stored in memory
-	fTable.getRegister(0);
+	// fTable.getRegister(0);
 
 }
 
 
 int main()
 {
-	RegisterTableDriver();
+	// RegisterTableDriver();
 
 	DescriptorTable& dTable = DescriptorTable::getInstance();
 

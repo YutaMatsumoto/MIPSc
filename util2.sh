@@ -99,9 +99,10 @@ function t()
 
 	for c in $( find $test_dir -name "*.c"); do
 		# echo "Executing $mipsc $c >/dev/null 2>&1"
+		echo "Trying $c"
 		$mipsc $c >/dev/null 2>&1
 		if [ $? -ne 0 ]; then
-			echo "$c does not compile"
+			echo -e "\tdoes NOT compile"
 		fi
 	done
 }
@@ -110,11 +111,12 @@ function t()
 function tv()
 {
 	for c in $( find $test_dir -name "*.c"); do
+		echo "Trying $c"
 		$mipsc $c >/dev/null 2>&1
 		if [ $? -ne 0 ]; then
-			echo "$c does not compile"
+			echo -e "\tdoes NOT compile"
 		else
-			echo "$c compiles"
+			echo -e "\tcompiles"
 		fi
 	done
 }
