@@ -14,7 +14,7 @@ class ReturnOp: public Operation {
 
 public:
 
-	inline ReturnOp() : Operation(0,0,0)
+	inline ReturnOp( Operand* returnValue ) : Operation(returnValue,0,0)
 	{
 
 	}
@@ -22,7 +22,7 @@ public:
 	std::string to3AC()
 	{
 
-		return std::string("RETURN");
+		return std::string("RETURN ") + op1->getId();
 
 	}
 

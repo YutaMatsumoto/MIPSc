@@ -8,25 +8,46 @@
 // ---------------------------------------------------------------------------
 // Constructors
 
-/*
-DirectDeclaratorNode::DirectDeclaratorNode() 
+
+DirectDeclaratorNode::DirectDeclaratorNode( DeclaratorNode* declaratorNode ) : declNode(declaratorNode)
 {
 	initData();
-}
-*/
 
-DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a ) // here vtable  blablabla
+	nodeData = toOperations();
+}
+
+
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a, DirectDeclaratorNode::DirectDeclaratorKind _kind )
 {
 	initData();
 	dirDeclNode = a;
+	kind = _kind;
+	nodeData = toOperations();
 }
 
-DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id ) // here vtable  blablabla
+DirectDeclaratorNode::DirectDeclaratorNode( IdentifierNode* id )
 {
 	initData();
 	this->id = id;
 	kind = Id;
+	nodeData = toOperations();
 }
+
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* a, ParameterTypeListNode* _p )
+{
+	dirDeclNode = a;
+	funcParams = _p;
+	nodeData = toOperations();
+
+}
+
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* _directDeclarator , ConstantExpressionNode* _constantExpression )
+: dirDeclNode( _directDeclarator ) , arraySize( _constantExpression )
+{
+	kind = ArrayWithSize;
+	nodeData = toOperations();
+}
+
 
 void DirectDeclaratorNode::initData()
 {
@@ -131,8 +152,50 @@ Symbol* DirectDeclaratorNode::declare(Type* type , SymbolTable* _stab )
 
 ASTData* DirectDeclaratorNode::toOperations()
 {
-	std::cout << "DirectDeclaratorNode::toOperations() : returning empty ASTDATA " << endl;
-	return new ASTData();
+
+	ASTData* data = new ASTData();
+
+	if( id )
+	{
+
+		data->result = id->resolveSymbol();
+
+		data->code = id->nodeData->code;
+
+		return data;
+
+	}
+
+	if( declNode )
+
+		return declNode->nodeData;
+
+	if( dirDeclNode && arraySize )
+	{
+
+		data->result = dirDeclNode->nodeData->result;
+
+		return data;
+
+	}
+
+	if( dirDeclNode && funcParams )
+	{
+
+		data->result = dirDeclNode->nodeData->result;
+
+		return data;
+
+	}
+
+	if( dirDeclNode && kind == FunctionCall )
+	{
+
+		data->result = dirDeclNode->nodeData->result;
+
+		return data;
+
+	}
 }
 
 std::string getNodeTypeAsString()
@@ -161,31 +224,6 @@ void DirectDeclaratorNode::error(string msg)
 	cerr << "Error : DirectDeclaratorKind : " << msg << endl;
 }
 
-void DirectDeclaratorNode::specifyArray()
-{
-	// TODO check existence of initializer in the upstream
-	kind = Array;
-}
-
-void DirectDeclaratorNode::specifyArray( ConstantExpressionNode* a)
-{
-	arraySize = a;
-	kind = ArrayWithSize;
-}
-
-void DirectDeclaratorNode::specifyFunction( ParameterTypeListNode* a )
-{
-	funcParams = a;
-	// functionDefinition = true; // TODO is this right?
-	kind = FunctionDefinitionWithParam;
-}
-
-void DirectDeclaratorNode::specifyFunctionCall( IdentifierListNode* a )
-{
-	idListNode = a;	
-	kind = FunctionCallWithParam; // TODO TOFIX
-}
-
 int DirectDeclaratorNode::getKind()
 {
 	return kind;
@@ -194,4 +232,9 @@ int DirectDeclaratorNode::getKind()
 bool DirectDeclaratorNode::hasIdentifier()
 {
 	return (id!=NULL);
+}
+
+std::string DirectDeclaratorNode::getNodeTypeAsString()
+{
+	return std::string("initializer list node");
 }

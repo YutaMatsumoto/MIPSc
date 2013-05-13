@@ -19,7 +19,7 @@ public:
 	inline Label( std::string _name , unsigned int _id ) : Operation(0,0,0)
 	{
 
-		name = _name + std::to_string( id );
+		name = _name + std::to_string( _id );
 
 		id = _id;
 
@@ -28,7 +28,7 @@ public:
 	inline std::string to3AC()
 	{
 
-		return name + std::string(": ");
+		return std::string("\n") + name + std::string(": ");
 
 	}
 

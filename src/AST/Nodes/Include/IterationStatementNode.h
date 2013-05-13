@@ -20,7 +20,6 @@ class StatementNode;
 
 class IterationStatementNode : public Node
 {
-
 public:
 
 	enum IterationStatementType

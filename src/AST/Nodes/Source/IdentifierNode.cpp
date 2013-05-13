@@ -8,6 +8,7 @@
 #include "IdentifierNode.h"
 #include "SymbolTableInfo.h"
 #include "SymbolNotFoundException.h"
+#include "Type.h"
 
 #include "LoadOp.h"
 #include "GetAddressOp.h"
@@ -52,12 +53,16 @@ ASTData* IdentifierNode::toOperations()
 	//create a new temporary for our result
 	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , identifier->symbolType , identifier->operandType );
 
+	//Symbol* temporary2 = new Symbol( tempName , *new SymbolLocation() , identifier->symbolType , identifier->operandType );
+
 	GetAddressOp* op1 = new GetAddressOp( temporary , identifier );
 
 	//create a new operation to compute the addition
 	LoadOp* op2 = new LoadOp( temporary , temporary );
 
 	operations->push_back( op1 );
+
+	//if( identifier->symbolType->type != Type::Function && identifier->symbolType->type != Type::Array )
 
 	operations->push_back( op2 );
 

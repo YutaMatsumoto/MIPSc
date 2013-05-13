@@ -6,15 +6,30 @@
  */
 
 #include "FunctionDefinitionNode.h"
+#include "IdTracker.h"
 
-FunctionDefinitionNode::FunctionDefinitionNode( CompoundStatementNode* _compoundStatement ) : compoundStatement(_compoundStatement) {
+FunctionDefinitionNode::FunctionDefinitionNode( CompoundStatementNode* _compoundStatement, DeclaratorNode* _declarator ) : compoundStatement(_compoundStatement), declarator(_declarator) {
 	nodeData = toOperations();
 }
 
 ASTData* FunctionDefinitionNode::toOperations()
 {
 
-	return compoundStatement->nodeData;
+	ASTData* data = new ASTData();
+
+	std::vector< Operation* >* operations = new std::vector< Operation* >();
+
+	Label* functionLabel = new Label( declarator->nodeData->result->getId() , IdTracker::getInstance()->getId() );
+
+	operations->push_back( functionLabel );
+
+	operations->insert( operations->end() , compoundStatement->nodeData->code->begin() , compoundStatement->nodeData->code->end() );
+
+	declarator->nodeData->result->operandType = Symbol::LABEL;
+
+	data->code = operations;
+
+	return data;
 
 }
 

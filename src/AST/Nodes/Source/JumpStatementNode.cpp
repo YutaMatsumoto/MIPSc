@@ -35,7 +35,14 @@ ASTData* JumpStatementNode::toOperations()
 	if( type == Return )
 	{
 
-		ReturnOp* op = new ReturnOp();
+		if( expression )
+		{
+
+			data->code->insert( data->code->end() , expression->nodeData->code->begin() , expression->nodeData->code->end() );
+
+		}
+
+		ReturnOp* op = new ReturnOp( expression->nodeData->result );
 
 		data->code->push_back( op );
 

@@ -44,6 +44,8 @@ ASTData* IntegerConstantNode::toOperations()
 
 	data->code = operations;
 
+	data->value = value;
+
 	return data;
 }
 

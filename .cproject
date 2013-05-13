@@ -83,8 +83,11 @@
 							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.1990258188" name="Resource Custom Build Step Output Type"/>
 						</tool>
 					</fileInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.1081972645.862338639" name="DirectDeclaratorNode.cpp" rcbsApplicability="disable" resourcePath="src/AST/Nodes/Include/DirectDeclaratorNode.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.319124077.1386550256">
+						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.319124077.1386550256" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.319124077"/>
+					</fileInfo>
 					<sourceEntries>
-						<entry excluding="ts_good2.c|Drivers|Compiler/util.sh|ts_bad2.c|ts_good1.c|parser.y|ts_bad1.c|Tests|ts_bad3.c|scanner.lex" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="AST/Nodes/Include/DirectDeclaratorNode.cpp|AST/Nodes/Include/TypeSpecifierNode.cpp|ts_good2.c|Drivers|Compiler/util.sh|ts_bad2.c|ts_good1.c|parser.y|ts_bad1.c|Tests|ts_bad3.c|scanner.lex" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -2,9 +2,10 @@
 // for this to work...
 // char greeting[] = "hello world";
 
-int func( int k )
+int dub( int k )
 {
-return 1;
+!!S
+return k * 2;
 }
 
 int i;
@@ -12,9 +13,10 @@ int i;
 int main()
 {
 
-    func(1);
+    int j[50];
     
-    int j = 0;
+    dub(1);
+    
     {
         int foo = 50000;
 	i = i + foo;
