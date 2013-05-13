@@ -22,7 +22,7 @@ public:
 	std::string to3AC()
 	{
 
-		return "LOAD @" + op2->getId() + " into " + op1->getId() + ":" + op1->getTacTypeAsString();
+		return "LOAD " + op1->getId() + " @" + op2->getId() + ":" + op1->getTacTypeAsString();
 
 	}
 

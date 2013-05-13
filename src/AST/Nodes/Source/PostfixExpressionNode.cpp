@@ -79,6 +79,8 @@ ASTData* PostfixExpressionNode::toOperations()
 
 		//Symbol* arrayId = arrayData->result;
 
+		ASTData::removeLoadOps( arrayData->code );
+
 		data->code->insert( data->code->end() , arrayData->code->begin() , arrayData->code->end() );
 
 		//Type* arrayType = new BuiltinType();

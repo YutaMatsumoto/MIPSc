@@ -22,7 +22,7 @@ public:
 	std::string to3AC()
 	{
 
-		return "LOAD ADDR of " + op2->getId() + " into " + op1->getId();
+		return "LOADA " + op1->getId() + " " + op2->getId();
 
 	}
 

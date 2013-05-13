@@ -29,6 +29,8 @@ public:
 
 	int value = -1;
 
+	static void removeLoadOps( std::vector< Operation* >* );
+
 };
 
 #endif /* ASTDATA_H_ */

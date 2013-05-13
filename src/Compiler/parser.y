@@ -498,9 +498,9 @@ direct_declarator
 			//ddn->specifyArray();
 			//$$ = ddn;
 		}
-	| direct_declarator '[' constant_expression ']' { 
+	| direct_declarator '[' constant ']' { 
 			debugPrint("direct_declarator '[' constant_expression ']' -> direct_declarator"); 
-			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 , (ConstantExpressionNode*) $3 );
+			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 , (ConstantNode*) $3 );
 			//DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
 			//ddn->specifyArray( (ConstantExpressionNode*)$3 );
 			//$$ = ddn;

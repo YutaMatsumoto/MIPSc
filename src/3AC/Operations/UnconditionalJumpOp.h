@@ -22,7 +22,7 @@ public:
 	std::string to3AC()
 	{
 
-		return std::string("JUMP TO ") + jumpTo->getName();
+		return std::string("JMP ") + jumpTo->getName();
 
 	}
 

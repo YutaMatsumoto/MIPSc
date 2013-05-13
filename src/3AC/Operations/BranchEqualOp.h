@@ -1,5 +1,5 @@
 /*
- * BranchOp.h
+ * BranchEqualOp.h
  *
  *  Created on: Apr 26, 2013
  *      Author: njordan
@@ -14,7 +14,7 @@ class BranchEqualOp: public Operation {
 
 public:
 
-	inline BranchEqualOp( Label* _branchTo ,Operand* _op1 ) : Operation(_op1,0,0) , branchTo(_branchTo)
+	inline BranchEqualOp( Label* _branchTo ,Operand* _op1, Operand* _op2 ) : Operation(_op1,_op2,0) , branchTo(_branchTo)
 	{
 
 	}
@@ -22,7 +22,7 @@ public:
 	std::string to3AC()
 	{
 
-		return std::string("BRANCH TO ") + branchTo->getName() + std::string(" IF ") + op1->getId() + std::string(" == 0");
+		return std::string("BEQUAL ") + op1->getId() + " " + op2->getId() + branchTo->getName();
 
 	}
 
