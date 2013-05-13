@@ -45,10 +45,10 @@ public:
 		: ad(0), dad(dad), ce(0), ptl(ptl), ptype(None)
 	{}
 
-	AbstractDeclaratorNode* ad;
-	DirectAbstractDeclaratorNode* dad;
-	ConstantExpressionNode* ce;
-	ParameterTypeListNode* ptl;
+	AbstractDeclaratorNode* ad = 0;
+	DirectAbstractDeclaratorNode* dad = 0;
+	ConstantExpressionNode* ce = 0;
+	ParameterTypeListNode* ptl = 0;
 
 	/*ParenType*/ int ptype;
 };

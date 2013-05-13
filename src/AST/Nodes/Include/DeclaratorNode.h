@@ -24,8 +24,8 @@ public:
 
 	std::string toString() const;
 
-	DirectDeclaratorNode* dirDeclNode;
-	PointerNode* ptrNode;
+	DirectDeclaratorNode* dirDeclNode = 0;
+	PointerNode* ptrNode = 0;
 };
 
 #endif // END DeclaratorNode_H_GUARD

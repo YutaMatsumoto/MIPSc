@@ -25,8 +25,8 @@ public:
 	std::string getNodeTypeAsString();
 	ASTData* toOperations();
 
-	DeclaratorNode* declarationNode;
-	InitializerNode* initializerNode;
+	DeclaratorNode* declarationNode = 0;
+	InitializerNode* initializerNode = 0;
 
 	SymbolTable* table;
 };

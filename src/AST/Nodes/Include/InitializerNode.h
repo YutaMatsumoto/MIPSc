@@ -18,8 +18,8 @@ public:
 	std::string getNodeTypeAsString();
 
 private:
-	AssignmentExpressionNode* assignmentExpression;
-	InitializerListNode* initializerList;
+	AssignmentExpressionNode* assignmentExpression = 0;
+	InitializerListNode* initializerList = 0;
 };
 
 
