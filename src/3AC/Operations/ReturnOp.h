@@ -22,7 +22,7 @@ public:
 	std::string to3AC()
 	{
 
-		return std::string("RETURN ") + op1->getId();
+		return std::string("RET ") + op1->getId();
 
 	}
 

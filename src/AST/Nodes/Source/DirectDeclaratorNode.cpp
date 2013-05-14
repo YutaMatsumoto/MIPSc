@@ -48,6 +48,13 @@ DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* _directDeclara
 	nodeData = toOperations();
 }
 
+DirectDeclaratorNode::DirectDeclaratorNode( DirectDeclaratorNode* _directDeclarator , ConstantNode* _constantNode )
+: dirDeclNode( _directDeclarator ), constantNode( _constantNode )
+{
+	kind = ArrayWithSize;
+	nodeData = toOperations();
+}
+
 
 void DirectDeclaratorNode::initData()
 {

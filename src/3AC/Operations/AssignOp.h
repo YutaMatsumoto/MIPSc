@@ -24,7 +24,7 @@ public:
 	std::string to3AC()
 	{
 
-		return "ASSIGN " + op1->getId() + " = " + op2->getId();
+		return "LOADI " + op1->getId() + " " + op2->getId();
 
 	}
 

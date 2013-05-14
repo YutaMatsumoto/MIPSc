@@ -6,7 +6,7 @@
  */
 
 #include "IterationStatementNode.h"
-#include "BranchEqualOp.h"
+#include "BranchZeroOp.h"
 #include "UnconditionalJumpOp.h"
 #include "IdTracker.h"
 
@@ -51,7 +51,7 @@ ASTData* IterationStatementNode::toOperations()
 
 		data->code->insert( data->code->end() , conditionalData->code->begin() , conditionalData->code->end() );
 
-		BranchEqualOp* branch1 = new BranchEqualOp( code , conditionalData->result );
+		BranchZeroOp* branch1 = new BranchZeroOp( code , conditionalData->result );
 
 		data->code->push_back( branch1 );
 
@@ -78,15 +78,15 @@ ASTData* IterationStatementNode::toOperations()
 
 		int id = IdTracker::getInstance()->getId();
 
-		Label* beginning = new Label( std::string("forbegin") + std::to_string(id) , id );
+		Label* beginning = new Label( std::string("forbegin") , id );
 
 		id = IdTracker::getInstance()->getId();
 
-		Label* end = new Label( std::string("forend") + std::to_string(id) , id );
+		Label* end = new Label( std::string("forend") , id );
 
 		id = IdTracker::getInstance()->getId();
 
-		Label* code = new Label( std::string("forcode") + std::to_string(id) , id );
+		Label* code = new Label( std::string("forcode") , id );
 
 		ASTData* initializationData = initialization->nodeData;
 
@@ -107,7 +107,7 @@ ASTData* IterationStatementNode::toOperations()
 
 			data->code->insert( data->code->end() , conditionalData->code->begin() , conditionalData->code->end() );
 
-			BranchEqualOp* branch1 = new BranchEqualOp( code , conditionalData->result );
+			BranchZeroOp* branch1 = new BranchZeroOp( code , conditionalData->result );
 
 			data->code->push_back( branch1 );
 

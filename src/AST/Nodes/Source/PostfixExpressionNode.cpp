@@ -13,7 +13,11 @@
 #include "AddOp.h"
 #include "GetAddressOp.h"
 #include "AdditiveExpressionNode.h"
+#include "MultiplicativeExpressionNode.h"
 #include "IdTracker.h"
+#include "AssignOp.h"
+#include "MultOp.h"
+#include "BuiltinType.h"
 
 //Primary Expression
 PostfixExpressionNode::PostfixExpressionNode( PrimaryExpressionNode* _primaryExpression )
@@ -25,8 +29,8 @@ PostfixExpressionNode::PostfixExpressionNode( PrimaryExpressionNode* _primaryExp
 }
 
 //Array Access
-PostfixExpressionNode::PostfixExpressionNode( PostfixExpressionNode* _postfixExpression , ExpressionNode* arrayExpression )
-	: postfixExpression( _postfixExpression )
+PostfixExpressionNode::PostfixExpressionNode( PostfixExpressionNode* _postfixExpression , ExpressionNode* _arrayExpression )
+	: postfixExpression( _postfixExpression ) , arrayExpression(_arrayExpression)
 {
 	type = ArrayAccess;
 
@@ -73,41 +77,64 @@ ASTData* PostfixExpressionNode::toOperations()
 		//Various errors will be thrown here (eg: accessing a non-array type)
 		ASTData* arrayData = postfixExpression->nodeData;
 
-		Symbol* arrayId = arrayData->result;
+		Symbol* arrayId = arrayData->idResult;
 
-		Type* arrayType = arrayId->symbolType;
+		ASTData::removeLoadOps( arrayData->code );
 
-		ArrayType* array = (ArrayType*) arrayType;
+		data->code->insert( data->code->end() , arrayData->code->begin() , arrayData->code->end() );
+
+		//Type* arrayType = new BuiltinType();
+
+		//ArrayType* array = (ArrayType*) arrayType;
+
+
 
 		//create a new temporary name
 		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , array->elementType , Operand::ITEMP );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
 
 		data->code->insert( data->code->end() , arrayExpression->nodeData->code->begin() , arrayExpression->nodeData->code->end() );
 
 		//create a new temporary name
 		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary2 = new Symbol( tempName , *new SymbolLocation() , array->elementType , Operand::ITEMP );
+		Symbol* temporary2 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
 
 		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary3 = new Symbol( tempName , *new SymbolLocation() , array->elementType , Operand::ITEMP );
+		Symbol* temporary3 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
 
-		GetAddressOp* loadArrAddr = new GetAddressOp( temporary, arrayId );
+		//GetAddressOp* loadArrAddr = new GetAddressOp( temporary, arrayId );
 
-		data->code->push_back( loadArrAddr );
+		//data->code->push_back( loadArrAddr );
 
-		AddOp* add = new AddOp( temporary2 , temporary , arrayExpression->nodeData->result , AdditiveExpressionNode::Add );
+		Symbol* constant = new Symbol( std::to_string( 4 ) , *new SymbolLocation() , new BuiltinType( Type::LongLong ) , Symbol::CONS );
+
+		AssignOp* intSize = new AssignOp( temporary , constant , AssignmentOperatorNode::Assign );
+
+		MultOp* mult = new MultOp( temporary2 , temporary , arrayExpression->nodeData->result , MultiplicativeExpressionNode::Multiply );
+
+		AddOp* add = new AddOp( temporary2 , arrayData->result , temporary2 , AdditiveExpressionNode::Add );
+
+		// TODO Array bounds checking goes here
+
+
+
 
 		LoadOp* load = new LoadOp( temporary3 , temporary2 );
+
+		data->code->push_back(intSize);
+
+		data->code->push_back(mult);
 
 		data->code->push_back(add);
 
 		data->code->push_back(load);
 
 		data->result = temporary3;
+
+		return data;
 
 	}
 

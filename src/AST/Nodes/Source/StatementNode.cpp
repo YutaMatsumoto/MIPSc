@@ -98,7 +98,7 @@ ASTData* StatementNode::toOperations()
 	if( selectionStatement )
 	{
 
-		//return selectionStatement->toOperations();
+		return selectionStatement->toOperations();
 
 	}
 

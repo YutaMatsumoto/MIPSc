@@ -135,11 +135,11 @@ public:
 
 		if( type == AdditiveExpressionNode::Add )
 
-			return "ADD " + op1->getId() + " = " + op2->getId() + " + " + op3->getId();
+			return "ADD " + op1->getId() + " " + op2->getId() + " " + op3->getId();
 
 		else
 
-			return "SUB " + op1->getId() + " = " + op2->getId() + " - " + op3->getId();
+			return "SUB " + op1->getId() + " " + op2->getId() + " " + op3->getId();
 
 	}
 

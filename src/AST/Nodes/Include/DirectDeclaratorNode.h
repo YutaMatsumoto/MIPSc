@@ -21,6 +21,7 @@ class ParameterTypeListNode;
 class IdentifierNode;
 class DeclaratorNode;
 class ConstantExpressionNode;
+class ConstantNode;
 
 class DirectDeclaratorNode : public Node {
 public:
@@ -51,6 +52,9 @@ public:
 	DirectDeclaratorNode( DeclaratorNode* declaratorNode );
 
 	DirectDeclaratorNode( DirectDeclaratorNode* _directDeclarator , ConstantExpressionNode* _constantExpression );
+
+	//improvised array stuff
+	DirectDeclaratorNode( DirectDeclaratorNode* _directDeclarator , ConstantNode* _constantNode );
 
 	void initData();
 
@@ -83,6 +87,9 @@ public:
 	IdentifierListNode* idListNode = 0;
 	ConstantExpressionNode* arraySize = 0;
 	ParameterTypeListNode* funcParams = 0;
+
+	//improvised array declaration
+	ConstantNode* constantNode = 0;
 
 private:
 
