@@ -12,7 +12,7 @@ CCOPTION=-g -Wall -Wno-reorder
 root=$(shell git rev-parse --show-toplevel)
 src_dir=$(root)/src
 INCLUDEDIRS = $(shell find src/ -type d -exec echo -I{} \;)
-SRCS  = $(shell find src/ -name "*.cpp")
+SRCS  = $(shell find src/ -name "*.cpp" -exec readlink -f {} \; )
 OBJS  = $(SRCS:.cpp=.o)
 COMPILER=mipsc
 MAIN = $(shell find src/Compiler -name "main.cc")
@@ -43,7 +43,7 @@ RA_DRIVER=$(root)/src/RegisterAllocation/RegAlloc.out
 .PHONY : ra
 ra : $(RA_DRIVER)
 
-$(RA_DRIVER) : $(root)/drivers/reg_alloc_driver.o $(ROBJS) $(MOBJS) $(root)/src/3AC/IdTracker.o
+$(RA_DRIVER) : $(root)/drivers/reg_alloc_driver.o src/Types/Type.o $(ROBJS) $(MOBJS) $(root)/src/3AC/IdTracker.o
 	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o $@
 
 # ----------------------------------------------------------------------------
@@ -54,10 +54,23 @@ MC_DRIVER=$(root)/src/MipsCode/MipsCode.out
 .PHONY : mc
 mc : $(MC_DRIVER)
 
-$(MC_DRIVER) : $(root)/drivers/mips_code_driver.o $(MOBJS)
+$(MC_DRIVER) : $(root)/drivers/mips_code_driver.o $(MOBJS) $(root)/src/3AC/IdTracker.o src/Types/Type.o src/Types/BuiltinType.o src/RegisterAllocation/MipsVariable.o
 	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o $@
+	# src/3AC/IdTracker.o
 
 # ---------------------------------------------------------------------
+#  AddOp
+
+.PHONY : ao
+
+ao : $(root)/drivers/addop_driver.out
+
+$(root)/drivers/addop_driver.out : $(root)/drivers/addop_driver.o $(MOBJS) $(ROBJS) $(root)/src/3AC/IdTracker.o src/Types/Type.o src/Types/BuiltinType.o src/RegisterAllocation/MipsVariable.o src/3AC/Operation.o
+	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o $@
+
+
+# ---------------------------------------------------------------------
+
 
 # DEPDIR = .deps
 # df = $(DEPDIR)/$(*F)

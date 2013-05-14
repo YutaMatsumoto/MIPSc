@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "MipsData.h"
+#include "MipsVariable.h"
 
 // Should be singleton ?
 
@@ -18,9 +19,11 @@
 class MipsCode {
 public: 
 
-	void writeToDataSection(DLabel, DKind, DInit, Comment); // write data entry
+	// void writeToDataSection(DLabel, DKind, DInit, Comment); // write data entry
+	void writeToDataSection(MipsVariable, DInit, Comment); // write data entry
 	
-	void writeToDataSection(DLabel, DKind, Comment); // write data entry without initialization
+	// void writeToDataSection(DLabel, DKind, Comment); // write data entry without initialization
+	void writeToDataSection(MipsVariable, Comment); // write data entry without initialization
 
 	void writeToTextSection(Code, Comment); // write text entry
 

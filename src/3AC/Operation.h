@@ -22,6 +22,9 @@ public:
 
 	virtual std::string to3AC() = 0;
 
+	// TODO
+	virtual void produceMips();
+
 	std::string getName() const {
 		return name;
 	}

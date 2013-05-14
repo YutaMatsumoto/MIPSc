@@ -16,18 +16,6 @@ class MemoryTable;
 // ---------------------------------------------------------------------------
 
 // TODO
-class Register {
-	VarId id;
-	bool used;	
-	size_t registerIndex;
-
-	// getRegNumber
-	// getRegIndex
-	// isUsed()
-	// getId()
-	
-};
-
 class RegisterTable {
 private:
 

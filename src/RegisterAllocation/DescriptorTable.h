@@ -3,6 +3,7 @@
 
 #include "RegisterTable.h"
 #include "MemoryTable.h"
+#include "MipsVariable.h"
 
 class DescriptorTable
 {
@@ -18,8 +19,10 @@ public:
 	// static void setIntegerTableRange();
 
 	// TODO 
-	RegisterInfo getFloatRegister(VarId vid);
-	RegisterInfo getIntegerRegister(VarId vid);
+	// RegisterInfo getFloatRegister(VarId vid);
+	// RegisterInfo getIntegerRegister(VarId vid);
+	
+	RegisterInfo getRegister(MipsVariable mipsVar);
 
 	static DescriptorTable& getInstance()
 	{

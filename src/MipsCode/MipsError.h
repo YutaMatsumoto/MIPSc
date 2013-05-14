@@ -1,5 +1,5 @@
-#ifndef PARSER_ERROR_H_GUARD
-#define PARSER_ERROR_H_GUARD
+#ifndef MIPS_ERROR_H_GUARD
+#define MIPS_ERROR_H_GUARD
 
 #include <exception>
 #include <string>

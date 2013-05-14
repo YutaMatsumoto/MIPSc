@@ -56,7 +56,7 @@ enum StorageSpecifier
 {
 	Extern,
 	Static,
-	Register,
+	// Register,
 	Auto
 };
 
@@ -105,15 +105,16 @@ public:
 
 	virtual std::string toString();
 
-	virtual int sizeInBytes() = 0;
+	virtual int sizeInBytes();
 
 	TypeEnum type = NotSet;
+
+	Type( TypeEnum );
 
 protected:
 
 	// Type(); // need this?
 
-	Type( TypeEnum );
 
 // ---------------------------------------------------------------------------
 // data member
