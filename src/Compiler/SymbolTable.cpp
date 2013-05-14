@@ -15,8 +15,7 @@
 bool SymbolTable::isGlobalScope()
 {
 
-	return ( scopeStack.size() > 1 ) ? false : true;
-
+	return ( scopeStack.size() == 1) ? true : false;
 }
 
 SymbolTableInfo SymbolTable::getSymbolInfo(std::string symbolName, bool currentScopeOnly)
@@ -95,6 +94,10 @@ void SymbolTable::insertSymbol(Symbol* symbol)
 
 	scopeStack.front().symbolMap.insert(
 			std::pair< std::string , Symbol* >( symbol->getId() , symbol ) );
+
+	//For calculating function stack size
+	functionScope.symbolMap.insert(
+				std::pair< std::string , Symbol* >( symbol->getId() , symbol ) );
 
 }
 
@@ -175,7 +178,7 @@ void SymbolTable::dumpTable( std::string filename )
 
 }
 
-void SymbolTable::beginScope()
+void SymbolTable::beginScope( )
 {
 
 	std::cout << "---- Beginning Scope ----" << std::endl;
@@ -190,38 +193,15 @@ void SymbolTable::endScope()
 {
 	std::cout << "---- Ending Scope ----" << std::endl;
 
-	Scope s;
-
 	scopeStack.pop_front();
 
-}
-
-unsigned int SymbolTable::calculateStackFrameSize()
-{
-
-	unsigned int byteCounter = 0;
-
-	int scopeCounter = 0;
-
-	for( Scope& scope : scopeStack )
+	if( scopeStack.size() == 1 )
 	{
 
-		if( scopeCounter == 0 )
-
-			continue;
-
-		for( auto j : scope.symbolMap )
-		{
-
-			j.second->addr = byteCounter;
-
-			byteCounter += j.second->symbolType->sizeInBytes();
-
-		}
+		//clear the current function scope
+		//functionScope.symbolMap.clear();
 
 	}
-
-	return 1;
 
 }
 

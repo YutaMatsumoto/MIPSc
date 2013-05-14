@@ -9,11 +9,18 @@
 #include "IdTracker.h"
 #include "FunctionType.h"
 #include "BuiltinType.h"
+#include "ArrayType.h"
 #include "DeclarationListNode.h"
+#include "SymbolTableInfo.h"
 
-FunctionDefinitionNode::FunctionDefinitionNode( DeclarationSpecifiersNode* _declarationSpecifiers , CompoundStatementNode* _compoundStatement, DeclaratorNode* _declarator ) : declarationSpecifiers(_declarationSpecifiers ), compoundStatement(_compoundStatement), declarator(_declarator) {
+FunctionDefinitionNode::FunctionDefinitionNode(
+		DeclarationSpecifiersNode* _declarationSpecifiers ,
+		CompoundStatementNode* _compoundStatement,
+		DeclaratorNode* _declarator ,
+		SymbolTable* _table)
+: declarationSpecifiers(_declarationSpecifiers ), compoundStatement(_compoundStatement), declarator(_declarator), functionScope(_table->functionScope) {
 
-	declareFunction();
+	declareFunction( _table );
 
 	nodeData = toOperations();
 
@@ -23,18 +30,22 @@ FunctionDefinitionNode::FunctionDefinitionNode(
 		DeclarationSpecifiersNode* _declarationSpecifiers ,
 		CompoundStatementNode* _compoundStatement,
 		DeclaratorNode* _declarator,
-		DeclarationListNode* _declarationList
-) : declarationSpecifiers(_declarationSpecifiers ), compoundStatement(_compoundStatement), declarator(_declarator),declarationList(_declarationList) {
+		DeclarationListNode* _declarationList,
+		SymbolTable* _table )
+: declarationSpecifiers(_declarationSpecifiers ), compoundStatement(_compoundStatement), declarator(_declarator),declarationList(_declarationList), functionScope(_table->functionScope) {
 
-	declareFunction();
+	declareFunction( _table );
 
 	nodeData = toOperations();
 
 }
 
-FunctionDefinitionNode::FunctionDefinitionNode( CompoundStatementNode* _compoundStatement, DeclaratorNode* _declarator ) : compoundStatement(_compoundStatement), declarator(_declarator) {
+FunctionDefinitionNode::FunctionDefinitionNode( CompoundStatementNode* _compoundStatement,
+		DeclaratorNode* _declarator ,
+		SymbolTable* _table)
+: compoundStatement(_compoundStatement), declarator(_declarator), functionScope(_table->functionScope) {
 
-	declareFunction();
+	declareFunction( _table );
 
 	nodeData = toOperations();
 
@@ -68,32 +79,47 @@ std::string FunctionDefinitionNode::getNodeTypeAsString()
 
 }
 
-void FunctionDefinitionNode::declareFunction()
+void FunctionDefinitionNode::declareFunction( SymbolTable* _table )
 {
 
 	FunctionType* t = new FunctionType();
 
 	t->setReturnType( new BuiltinType( Type::Int ) );
 
-	DeclarationListNode* i = declarationList;
-	/*
-	while( i )
+	calculateSymbolAddresses( _table , t );
+
+	Symbol* functionSymbol = declarator->nodeData->idResult;
+
+	functionSymbol->symbolType = t;
+
+}
+
+void FunctionDefinitionNode::calculateSymbolAddresses( SymbolTable* _table , FunctionType* func )
+{
+
+	unsigned int byteCounter = 0;
+
+	for( auto i : functionScope.symbolMap )
 	{
 
-		InitDeclaratorListNode* j = i->declaration->initDeclList;
+		Symbol* j = i.second;
 
-		while( j )
-		{
+		j->addr = byteCounter;
 
+		BuiltinType* b = dynamic_cast<BuiltinType*>( j->symbolType );
 
+		ArrayType* t = dynamic_cast<ArrayType*>( j->symbolType );
 
+		if( b )
 
-			j = j->initDeclaratorList;
+			byteCounter += b->sizeInBytes();
 
-		}
+		if( t )
 
-		i = i->declarationList;
+			byteCounter += t->sizeInBytes();
 
 	}
-	*/
+
+	func->stackFrameSize = byteCounter;
+
 }

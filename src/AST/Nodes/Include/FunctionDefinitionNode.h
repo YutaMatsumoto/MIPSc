@@ -12,6 +12,7 @@
 
 #include "CompoundStatementNode.h"
 #include "DeclaratorNode.h"
+#include "FunctionType.h"
 
 class CompoundStatementNode;
 class Declarator;
@@ -20,15 +21,21 @@ class FunctionDefinitionNode: public Node {
 
 public:
 
-	FunctionDefinitionNode( CompoundStatementNode* _compoundStatement , DeclaratorNode* declarator );
+	FunctionDefinitionNode( CompoundStatementNode* _compoundStatement , DeclaratorNode* declarator,
+			SymbolTable* _table );
 
-	FunctionDefinitionNode( DeclarationSpecifiersNode* _declarationSpecifiers , CompoundStatementNode* _compoundStatement , DeclaratorNode* declarator );
+	FunctionDefinitionNode( DeclarationSpecifiersNode* _declarationSpecifiers ,
+			CompoundStatementNode* _compoundStatement ,
+			DeclaratorNode* declarator,
+			SymbolTable* _table
+		);
 
 	FunctionDefinitionNode(
 			DeclarationSpecifiersNode* _declarationSpecifiers ,
 			CompoundStatementNode* _compoundStatement,
 			DeclaratorNode* _declarator,
-			DeclarationListNode* _declarationList
+			DeclarationListNode* _declarationList,
+			SymbolTable* _table
 	);
 
 	CompoundStatementNode* compoundStatement = 0;
@@ -39,11 +46,15 @@ public:
 
 	DeclarationListNode* declarationList = 0;
 
+	Scope functionScope;
+
 	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
 
-	void declareFunction();
+	void declareFunction(SymbolTable* _table);
+
+	void calculateSymbolAddresses(SymbolTable* _table, FunctionType* func);
 
 };
 

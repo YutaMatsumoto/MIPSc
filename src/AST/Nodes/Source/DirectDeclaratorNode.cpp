@@ -165,6 +165,8 @@ ASTData* DirectDeclaratorNode::toOperations()
 	if( id )
 	{
 
+		data->idResult = id->nodeData->idResult;
+
 		data->result = id->resolveSymbol();
 
 		data->code = id->nodeData->code;
@@ -199,6 +201,8 @@ ASTData* DirectDeclaratorNode::toOperations()
 
 	if( dirDeclNode && funcParams )
 	{
+
+		data->idResult = dirDeclNode->nodeData->idResult;
 
 		data->result = dirDeclNode->nodeData->result;
 

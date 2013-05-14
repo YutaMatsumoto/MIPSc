@@ -28,6 +28,9 @@ public:
 
 	std::map< TypeName , Type* > typeMap;
 
+	//For a function, this helps calculate the address of each symbol on the stack
+	//unsigned int offsetCounter = 0;
+
 };
 
 #endif /* SCOPE_H_ */

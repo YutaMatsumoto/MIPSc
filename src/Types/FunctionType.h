@@ -35,6 +35,8 @@ public:
 
 	virtual int sizeInBytes();
 
+	unsigned int stackFrameSize = -1;
+
 };
 
 #endif /* FUNCTIONTYPE_H_ */

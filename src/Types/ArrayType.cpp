@@ -7,7 +7,10 @@ int ArrayType::sizeInBytes()
 	for( int i : sizes )
 	{
 
-		total += i * elementType->sizeInBytes();
+		//asuming int, right now elementType->sizeInBytes() returning -1...
+		total += i * 4;
+
+		//total += i * elementType->sizeInBytes();
 
 	}
 

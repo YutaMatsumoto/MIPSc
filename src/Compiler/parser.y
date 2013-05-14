@@ -189,7 +189,7 @@ function_definition
 	  }
 	 {
 
-		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $2 , (DeclaratorNode*) $1 );
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $2 , (DeclaratorNode*) $1, symbolTable );
 
 	 }
 	| declarator { 
@@ -203,27 +203,26 @@ function_definition
 		debugPrint("----to function definition Production 2----"); 
 		debugPrint("declarator declaration_list compound_statement -> function_definition"); 
 
-		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $5 , (DeclaratorNode*) $1 ); // $BUG
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $5 , (DeclaratorNode*) $1, symbolTable); // $BUG
 	  }
 	| declaration_specifiers declarator compound_statement { 
 		debugPrint("----to function_definition by production 3----"); 
 	  	debugPrint("declaration_specifiers declarator compound_statement -> function_definition"); 
 
-		$$ = new FunctionDefinitionNode( (DeclarationSpecifiersNode*) $1 , (CompoundStatementNode*) $3, (DeclaratorNode*) $2 );
+		$$ = new FunctionDefinitionNode( (DeclarationSpecifiersNode*) $1 , (CompoundStatementNode*) $3, (DeclaratorNode*) $2, symbolTable );
 
 	  }
-	| declaration_specifiers declarator {
+	| declaration_specifiers {
 	  
 		beginDeclarationSection();
 		symbolTable->beginScope();
-	  } 
-	  declaration_list compound_statement { 
+	  } declarator declaration_list compound_statement { 
 		debugPrint("----to function definition production 4----"); 
 	     	debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
 	  
-	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 , (DeclaratorNode*) $2 ); // $BUG
+	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 , (DeclaratorNode*) $2, symbolTable ); // $BUG
 
-		symbolTable->endScope();
+		//symbolTable->endScope();
 	  }
 	;
 

@@ -46,11 +46,12 @@ public:
 	//returns true if the program is in global scope
 	bool isGlobalScope();
 
-	unsigned int calculateStackFrameSize();
+	Scope functionScope;
 
 protected:
 
 	std::list< Scope > scopeStack;
+
 };
 
 #endif /* SYMBOLTABLE_H_ */

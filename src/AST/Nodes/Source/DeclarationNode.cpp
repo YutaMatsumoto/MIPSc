@@ -83,6 +83,24 @@ void DeclarationNode::declare(SymbolTable* stab)
 		// TODO SymbolLocation
 		// std::cout << "dKind" << dKind << std::endl;
 		switch(dKind) {
+			case DirectDeclaratorNode::Id:
+
+				id = dirDecl->id->getId();
+
+				info = stab->getSymbolInfo( id , true );
+
+				if( info.symbol == 0 )
+
+					std::cout << "Symbol Lookup was null" << endl;
+
+				//This needs to be dynamic
+				t = new BuiltinType( Type::Int );
+
+				info.symbol->symbolType = t;
+
+				info.symbol->operandType = tacType;
+
+				break;
 			case DirectDeclaratorNode::None: 
 				//TODO: fix this ish
 				//t = buildType(tInfo);
@@ -93,6 +111,9 @@ void DeclarationNode::declare(SymbolTable* stab)
 				if( info.symbol == 0 )
 
 					std::cout << "Symbol Lookup was null" << endl;
+
+				//This needs to be dynamic
+				t = new BuiltinType( Type::Int );
 
 				info.symbol->symbolType = t;
 
