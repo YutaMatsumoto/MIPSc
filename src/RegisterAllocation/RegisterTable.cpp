@@ -74,10 +74,13 @@ RegisterNumber RegisterTable::spill()
 	for ( int regIndex = 0 ; regIndex < (int)registerUse.size(); regIndex++ ) {
 		if ( regIndex != lastSpilled1 && regIndex != lastSpilled2 ) {
 			regIndexToSpill = regIndex;
+			break;
 		}
 	}
 
-	mTable.store( varIds.at( regIndexToSpill ) );
+	debugPrint("Spilling");
+
+	mTable.store( regIndexToNumber( regIndexToSpill), varIds.at( regIndexToSpill ) );
 
 	// Bookkeep the last two spilled registers
 	if      ( lastSpilled1 == endRegisterNumber() && lastSpilled2 == endRegisterNumber() ) {
@@ -155,6 +158,31 @@ void RegisterTable::assignVidToRegister(RegisterNumber rNumber, VarId vid)
 	
 }
 
+RegisterInfo RegisterTable::getRegister()
+// Get register without automatic loading of vid from memory
+{
+	//
+	// Prepare New Register
+	//
+	RegisterNumber rNum = getNextAvailableRegisterNumber();
+	bool available = isValidRegisterNumber(rNum);
+	// Open register exists. Use that register
+	if (available)	{
+		debugPrint(string( "getRegister : new register with open(available) register") );
+
+		size_t regIndex = regNumberToIndex( rNum );
+		registerUse[regIndex] = true;
+	}
+	// No open register exists. Spill
+	else {
+		debugPrint(string( "getRegister : new register with spilled register") );
+		rNum = spill();
+	}
+	// updateVarId( rNum , vid ); // Possible BUG by hiding this function? 
+
+	return RegisterInfo(Register(rNum) , New);
+}
+
 RegisterInfo RegisterTable::getRegister(VarId vid)
 {
 
@@ -189,14 +217,15 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 	// Load from memory if the variable is in memory
 	//
 	// this should be taultology in our scheme
-	bool inMemory = mTable.isInMemory( vid ); 
-	if (inMemory) {
+	// bool inMemory = mTable.isInMemory( vid ); 
+	// if (inMemory) {
+		// std::cout << "inMemory" << std::endl;
 		// load from memory to available register
 		// TODO unmark vid in memory ?
 		// TODO loading should be done outside of RegisterTable ?
-		mTable.load(rNum, vid);
 		debugPrint(string( "getRegister : loading from memory") );
-	}
+		mTable.load(rNum, vid);
+	// }
 
 	return RegisterInfo(Register(rNum) , New);
 }

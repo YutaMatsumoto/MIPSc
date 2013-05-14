@@ -7,6 +7,7 @@
 #include "MipsData.h"
 #include "MipsError.h"
 
+
 // ---------------------------------------------------------------------------
 // Manifest
 //
@@ -34,7 +35,8 @@ writeToDataSection(MipsVariable mipsVar, Comment com) // write data entry withou
 	typedef std::vector<DLabel>::iterator Iter;
 	Iter iter = std::find( allLabels.begin(), allLabels.end(), label) ;
 	if ( iter != MipsCode::allLabels.end() ) {
-		throw MipsError( "Same Label Generated in MIPS" );
+		// throw MipsError( "Same Label Generated in MIPS" );
+		std::cout << "MipsWarn( Same Label Generated in MIPS ) " << std::endl;
 	}
 	allLabels.push_back(label);
 

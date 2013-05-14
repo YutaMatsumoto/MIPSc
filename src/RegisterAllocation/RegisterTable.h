@@ -70,7 +70,13 @@ public:
 	// Return register number for VarId supplied
 	//
 	// Spills some register if register not available
+	//
+	// Load vid to register
 	RegisterInfo getRegister(VarId vid);
+
+	// Does not load vid
+	RegisterInfo getRegister();
+
 };
 
 #endif

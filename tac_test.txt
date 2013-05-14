@@ -1,17 +1,2 @@
-LOAD LOLZ into t10
-t14 = 7
-t12 = 6
-t11 = 5
-t13 = t11 + t12
-t15 = t13 + t14
-t16 = t15
-LOAD LOLZ into t5
-t7 = 4
-t6 = 2
-t8 = t6 + t7
-t9 = t8
-LOAD LOLZ into t0
-LOAD LOLZ into t2
-LOAD LOLZ into t1
-t3 = t1 + t2
-t4 = t3
+
+f3_23: 

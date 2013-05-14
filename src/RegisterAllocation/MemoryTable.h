@@ -42,7 +42,7 @@ public:
 
 	void load(RegisterNumber rNumber, VarId vid );
 
-	void store(/*RegisterNumber rNumber,*/ VarId vid );
+	void store(RegisterNumber rNumber, VarId vid );
 
 };
 

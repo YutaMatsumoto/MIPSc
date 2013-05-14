@@ -22,7 +22,12 @@ public:
 	// RegisterInfo getFloatRegister(VarId vid);
 	// RegisterInfo getIntegerRegister(VarId vid);
 	
-	RegisterInfo getRegister(MipsVariable mipsVar);
+	void setDebug();
+
+	// RegisterInfo getRegister(MipsVariable mipsVar);
+
+	// Does not load vid
+	RegisterInfo getRegister(MipsVariable mipsVar, bool Deep=1);
 
 	static DescriptorTable& getInstance()
 	{

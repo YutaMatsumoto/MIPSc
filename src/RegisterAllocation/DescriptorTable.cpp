@@ -12,20 +12,39 @@ DescriptorTable::DescriptorTable()
 
 class Register;
 
-RegisterInfo DescriptorTable::getRegister(MipsVariable mipsVar)
+RegisterInfo DescriptorTable::getRegister(MipsVariable mipsVar, bool Deep)
 {
 
 	MipsVariable::RegisterType rType = mipsVar.registerType();
 
 	DLabel label = mipsVar.toDLabel();
 
-	if (rType == MipsVariable::Float ) 
-		return fTable.getRegister(label);
-	else if (rType == MipsVariable::Integer ) 
-		return iTable.getRegister(label);
-	else {
-		throw "DescriptorTable::getRegister()";
+	// Load vid 
+	if ( Deep ) {
+		if (rType == MipsVariable::Float ) 
+			return fTable.getRegister(label);
+		else if (rType == MipsVariable::Integer ) 
+			return iTable.getRegister(label);
+		else {
+			throw "DescriptorTable::getRegister()";
+		}
 	}
+	// Do not load vid
+	else {
+		if (rType == MipsVariable::Float ) 
+			return fTable.getRegister();
+		else if (rType == MipsVariable::Integer ) 
+			return iTable.getRegister();
+		else {
+			throw "DescriptorTable::getRegister()";
+		}
+	}
+}	
+
+void DescriptorTable::setDebug()
+{
+	fTable.setDebug();
+	iTable.setDebug();
 }
 
 /*

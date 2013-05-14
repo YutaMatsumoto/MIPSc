@@ -2,6 +2,8 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include "MipsCode.h"
+using namespace std;
 
 // ---------------------------------------------------------------------------
 
@@ -51,6 +53,12 @@ bool MemoryTable::isInMemory(VarId vid)
 
 void MemoryTable::load(RegisterNumber rNumber, VarId vid )
 {
+	MipsCode::getInstance().writeToTextSection(
+		"lw $"+ std::to_string(rNumber) +"," + vid.toString()
+		, 
+		" from MemoryTable::load()"
+	);
+
 	// MTable::iterator iter = table.find(vid);
 	// if (iter!=table.end()) {
 		debugPrint(
@@ -60,12 +68,18 @@ void MemoryTable::load(RegisterNumber rNumber, VarId vid )
 	// }
 }
 
-void MemoryTable::store(/*RegisterNumber rNumber,*/ VarId vid )
+void MemoryTable::store(RegisterNumber rNumber, VarId vid )
 // TODO size is not 4 for everything
 {
 	MTable::iterator iter = table.find(vid);
 
 	MemoryComponent mem( 4 );
+
+	MipsCode::getInstance().writeToTextSection( 
+		string("sw")+" "+"$"+to_string( rNumber )+","+vid.toString()
+		, 
+		"Super Hacksh Store inside of MemoryTable::store. Not using Type Info"
+	);
 
 	// If the variable is in the table, store it there
 	if (iter!=table.end()) {
