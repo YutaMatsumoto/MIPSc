@@ -215,7 +215,7 @@ function_definition
 	| declaration_specifiers declarator {
 	  
 		beginDeclarationSection();
-		beginScope();
+		symbolTable->beginScope();
 	  } 
 	  declaration_list compound_statement { 
 		debugPrint("----to function definition production 4----"); 
@@ -223,7 +223,7 @@ function_definition
 	  
 	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 , (DeclaratorNode*) $2 ); // $BUG
 
-		endScope();
+		symbolTable->endScope();
 	  }
 	;
 

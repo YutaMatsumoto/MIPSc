@@ -76,13 +76,24 @@ void FunctionDefinitionNode::declareFunction()
 	t->setReturnType( new BuiltinType( Type::Int ) );
 
 	DeclarationListNode* i = declarationList;
-
+	/*
 	while( i )
 	{
 
+		InitDeclaratorListNode* j = i->declaration->initDeclList;
+
+		while( j )
+		{
+
+
+
+
+			j = j->initDeclaratorList;
+
+		}
 
 		i = i->declarationList;
 
 	}
-
+	*/
 }
