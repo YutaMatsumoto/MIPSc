@@ -116,11 +116,11 @@ Symbol* DirectDeclaratorNode::declare(Type* type , SymbolTable* _stab )
 			}
 			// Function Declaration with paremeter types and identifiers inside of parentheses
 			// TODO function return type
-			else if (funcParams) {
+			/*else if (funcParams) {
 				for (auto type : funcParams->typeList() ) {
 					( (FunctionType*)returnType	)->addOperand(type);
 				}
-			}
+			}*/
 			break;
 		}
 		ddn = ddn->dirDeclNode;

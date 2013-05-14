@@ -17,21 +17,11 @@ public:
 		: Type(Function)
 	{}
 
-	void setReturnType(Type* rtype)
-	{
-		this->returnType = rtype;
-	}
-
-	void addOperand(Type* type)
-	{
-		operands.push_back(type);
-	}
-
 	virtual ~FunctionType();
 
-	std::vector< Type* > operands;
+	std::vector< Symbol* > parameters;
 
-	Type* returnType;
+	Symbol* returnSymbol = 0;
 
 	virtual int sizeInBytes();
 

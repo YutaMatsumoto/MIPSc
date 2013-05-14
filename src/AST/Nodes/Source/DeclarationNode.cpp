@@ -10,15 +10,23 @@ DeclarationNode::DeclarationNode() {}
 
 // -----------------------------------------------------------------------
 
-DeclarationNode::DeclarationNode(DeclarationSpecifiersNode* declSpecifier)
+DeclarationNode::DeclarationNode(DeclarationSpecifiersNode* declSpecifier , SymbolTable* _table)
 	: declSpecifier(declSpecifier)
 {
+
+	declare(_table);
+
 	nodeData = toOperations();
 }
 
-DeclarationNode::DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList)
+DeclarationNode::DeclarationNode(DeclarationSpecifiersNode* declSpecifier,
+		InitDeclaratorListNode* initDeclList,
+		SymbolTable* _table
+	)
 	: declSpecifier(declSpecifier), initDeclList(initDeclList)
 {
+	declare(_table);
+
 	nodeData = toOperations();
 }
 
@@ -81,8 +89,9 @@ void DeclarationNode::declare(SymbolTable* stab)
 		Symbol::TACOperandType tacType = ( stab->isGlobalScope() ) ? Symbol::GLOB : Symbol::LOCAL;
 
 		// TODO SymbolLocation
-		// std::cout << "dKind" << dKind << std::endl;
+
 		switch(dKind) {
+
 			case DirectDeclaratorNode::Id:
 
 				id = dirDecl->id->getId();

@@ -84,11 +84,26 @@ void FunctionDefinitionNode::declareFunction( SymbolTable* _table )
 
 	FunctionType* t = new FunctionType();
 
-	t->setReturnType( new BuiltinType( Type::Int ) );
+	std::string tempName("retVal");
+
+	BuiltinType* returnType = new BuiltinType( Type::Int );
+
+	Symbol* returnValue;
+
+	returnValue = _table->getSymbolInfo( tempName , false ).symbol;
+
+	//t->setReturnType( new BuiltinType( Type::Int ) );
+
+	if( !returnValue )
+
+		returnValue = new Symbol( std::string("retVal"),  *new SymbolLocation() , returnType , Symbol::LOCAL );
+
+	t->returnSymbol = returnValue;
 
 	calculateSymbolAddresses( _table , t );
 
-	Symbol* functionSymbol = declarator->nodeData->idResult;
+	//Symbol* functionSymbol = declarator->nodeData->result;
+	Symbol* functionSymbol = declarator->nodeData->result;
 
 	functionSymbol->symbolType = t;
 
@@ -99,12 +114,32 @@ void FunctionDefinitionNode::calculateSymbolAddresses( SymbolTable* _table , Fun
 
 	unsigned int byteCounter = 0;
 
+	Symbol* j = func->returnSymbol;
+
+	j->addr = byteCounter;
+
+	BuiltinType* b = dynamic_cast<BuiltinType*>( j->symbolType );
+
+	ArrayType* t = dynamic_cast<ArrayType*>( j->symbolType );
+
+	if( b )
+
+		byteCounter += b->sizeInBytes();
+
+	if( t )
+
+		byteCounter += t->sizeInBytes();
+
 	for( auto i : functionScope.symbolMap )
 	{
 
 		Symbol* j = i.second;
 
 		j->addr = byteCounter;
+
+		if( j->operandType == Symbol::VALARG || j->operandType == Symbol::REFARG )
+
+			func->parameters.push_back( j );
 
 		BuiltinType* b = dynamic_cast<BuiltinType*>( j->symbolType );
 

@@ -233,7 +233,7 @@ declaration
 			throw ParserError(ParserError::SemanticError, "Declaration must be done on top of a block"); 
 		}
 		debugPrint("declaration_specifiers ';' -> declaration"); 
-		DeclarationNode* declNode = new DeclarationNode(  (DeclarationSpecifiersNode*) $1 );
+		DeclarationNode* declNode = new DeclarationNode(  (DeclarationSpecifiersNode*) $1 , symbolTable );
 		//declNode->declare(symbolTable);
 		$$ = (void*) declNode;
 		}
@@ -242,8 +242,8 @@ declaration
 			throw ParserError(ParserError::SemanticError, "Declaration must be done on top of a block"); 
 		}
 		debugPrint("declaration_specifiers init_declarator_list ';' -> declaration"); 
-		DeclarationNode* n = new DeclarationNode(  (DeclarationSpecifiersNode*) $1, (InitDeclaratorListNode*) $2);
-		n->declare(symbolTable);
+		DeclarationNode* n = new DeclarationNode(  (DeclarationSpecifiersNode*) $1, (InitDeclaratorListNode*) $2 , symbolTable );
+		//n->declare(symbolTable);
 		$$ = (void*) n;
 		/* std::cout << n->toString() << std::endl; */
 		}
@@ -589,16 +589,16 @@ parameter_list
 parameter_declaration
 	: declaration_specifiers declarator { debugPrint("declaration_specifiers declarator -> parameter_declaration"); } {
 		$$ = (void*) new
-		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1, (DeclaratorNode*)$2);	
+		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1, (DeclaratorNode*)$2, symbolTable);	
 		}
 	| declaration_specifiers { debugPrint("declaration_specifiers -> parameter_declaration"); } {
 		$$ = (void*) new 
-		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1);	
+		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1, symbolTable);	
 		}
 	| declaration_specifiers abstract_declarator { debugPrint("declaration_specifiers abstract_declarator -> parameter_declaration"); } {
 		// TODO what's this?
 		$$ = (void*) new
-		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1, (AbstractDeclaratorNode*)$2);	
+		ParameterDeclarationNode((DeclarationSpecifiersNode*)$1, (AbstractDeclaratorNode*)$2, symbolTable);	
 		}
 	;
 
@@ -986,7 +986,7 @@ jump_statement
 	: GOTO identifier ';' { debugPrint("GOTO identifier ';' -> jump_statement"); }
 	{
 
-		$$ = (void*) new JumpStatementNode( (IdentifierNode*) $2 );
+		$$ = (void*) new JumpStatementNode( (IdentifierNode*) $2 , symbolTable );
 
 	}
 	| CONTINUE ';' { debugPrint("CONTINUE ';' -> jump_statement"); }
@@ -1010,7 +1010,7 @@ jump_statement
 	| RETURN expression ';' { debugPrint("RETURN expression ';' -> jump_statement"); }
 	{
 
-		$$ = (void*) new JumpStatementNode( (ExpressionNode*) $2 );
+		$$ = (void*) new JumpStatementNode( (ExpressionNode*) $2 , symbolTable );
 
 	}
 	;

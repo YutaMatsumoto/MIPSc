@@ -32,7 +32,7 @@ public:
 		FCONS = 5,
 		INDR = 6,
 		LABEL = 7,
-		REFAR = 8,
+		REFARG = 8,
 		VALARG = 9,
 		STRING = 10,
 		NONE = 11
@@ -135,8 +135,8 @@ public:
 			return std::string("INDR");
 		case LABEL:
 			return std::string("LABEL");
-		case REFAR:
-			return std::string("REFAR");
+		case REFARG:
+			return std::string("REFARG");
 		case VALARG:
 			return std::string("VALARG");
 		case STRING:

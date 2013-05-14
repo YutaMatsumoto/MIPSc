@@ -6,16 +6,17 @@
  */
 
 #include "JumpStatementNode.h"
+#include "StoreOp.h"
 #include "ReturnOp.h"
 
-JumpStatementNode::JumpStatementNode( ExpressionNode* _expression ) : expression( _expression )
+JumpStatementNode::JumpStatementNode( ExpressionNode* _expression , SymbolTable* _stab ) : expression( _expression ),stab(_stab)
 {
 	type = Return;
 
 	nodeData = toOperations();
 }
 
-JumpStatementNode::JumpStatementNode( IdentifierNode* _identifier ) : identifier( _identifier )
+JumpStatementNode::JumpStatementNode( IdentifierNode* _identifier , SymbolTable* _stab ) : identifier( _identifier ),stab(_stab)
 {
 	type = Goto;
 
@@ -42,7 +43,17 @@ ASTData* JumpStatementNode::toOperations()
 
 		}
 
-		ReturnOp* op = new ReturnOp( expression->nodeData->result );
+		Symbol* retVal = new Symbol( std::string("retVal"),  *new SymbolLocation() , 0 , Symbol::LOCAL );
+
+		//FunctionType* funcType = dynamic_cast<FunctionType*>(info.symbol->symbolType);
+
+		//GetAddressOp* getAddr = new GetAddressOp( temporary , funcType->returnSymbol );
+
+		StoreOp* writeToReturn = new StoreOp( retVal ,  expression->nodeData->result );
+
+		data->code->push_back( writeToReturn );
+
+		ReturnOp* op = new ReturnOp();
 
 		data->code->push_back( op );
 
