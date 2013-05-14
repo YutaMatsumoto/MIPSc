@@ -80,6 +80,17 @@ public:
 		return symbolType;
 	}
 
+	int getUniqueId()
+	{
+
+		std::string unique = id;
+
+		unique.erase(0);
+
+		return atoi( unique.c_str() );
+
+	}
+
 	std::string getValueAsString()
 	{
 		//return symbolType->getType()->

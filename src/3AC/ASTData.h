@@ -27,6 +27,12 @@ public:
 
 	Label* after = 0;
 
+	//the 'result' points to temporaries, in the event
+	// we need to get someting like an array data this can
+	// point to an array
+	Symbol* idResult = 0;
+
+	//This is how we get the array size for a declaration
 	int value = -1;
 
 	static void removeLoadOps( std::vector< Operation* >* );

@@ -77,7 +77,7 @@ ASTData* PostfixExpressionNode::toOperations()
 		//Various errors will be thrown here (eg: accessing a non-array type)
 		ASTData* arrayData = postfixExpression->nodeData;
 
-		//Symbol* arrayId = arrayData->result;
+		Symbol* arrayId = arrayData->idResult;
 
 		ASTData::removeLoadOps( arrayData->code );
 
@@ -86,6 +86,8 @@ ASTData* PostfixExpressionNode::toOperations()
 		//Type* arrayType = new BuiltinType();
 
 		//ArrayType* array = (ArrayType*) arrayType;
+
+
 
 		//create a new temporary name
 		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
@@ -114,6 +116,11 @@ ASTData* PostfixExpressionNode::toOperations()
 		MultOp* mult = new MultOp( temporary2 , temporary , arrayExpression->nodeData->result , MultiplicativeExpressionNode::Multiply );
 
 		AddOp* add = new AddOp( temporary2 , arrayData->result , temporary2 , AdditiveExpressionNode::Add );
+
+		// TODO Array bounds checking goes here
+
+
+
 
 		LoadOp* load = new LoadOp( temporary3 , temporary2 );
 
