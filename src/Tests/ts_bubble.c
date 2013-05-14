@@ -24,6 +24,8 @@ int main()
 
 	arr[ 5 ] = 1;
 	
+	!!S
+
 	while( test == 0 )
 	{
 		test = 1;

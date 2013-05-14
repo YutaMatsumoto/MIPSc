@@ -26,7 +26,6 @@ public:
 
 	virtual std::string toString();
 
-
 	virtual int sizeInBytes();
 };
 

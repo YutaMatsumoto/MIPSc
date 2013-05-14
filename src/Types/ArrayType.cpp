@@ -1,15 +1,18 @@
 #include "ArrayType.h"
 
 int ArrayType::sizeInBytes()
-/*
 {
-	return array.size() * getElementType()->sizeInBytes();
-}
-*/
-{
-	// return size->getSize()*elementType->sizeInBytes();
-	cerr << "sizeInBytes() called but not implemented" << endl;
-	return -1;
+	int total = 0;
+
+	for( int i : sizes )
+	{
+
+		total += i * elementType->sizeInBytes();
+
+	}
+
+	return total;
+
 }
 
 std::string ArrayType::getTypeAsString()

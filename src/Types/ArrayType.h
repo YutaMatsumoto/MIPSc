@@ -14,13 +14,13 @@ public:
 	// 	: size(size), elementType(elementType), Type(Type::Array)
 	// {}
 
-	ArrayType(ConstantExpressionNode* size, Type* elementType)
+	ArrayType(int size, Type* elementType)
 		: elementType(elementType), Type(Type::Array)
 	{
 		sizes.push_back(size);
 	}
 
-	void addDimension(ConstantExpressionNode* s)
+	void addDimension(int s)
 	{
 		sizes.push_back(s);			
 	}
@@ -40,12 +40,10 @@ public:
 	// sizes of arrays
 	// [0]    : size of the outermost array
 	// [last] : size of the innermost dimension
-	vector<ConstantExpressionNode*> sizes;
+	vector<int> sizes;
 
-	Type* elementType; 
+	Type* elementType;
 
-	// TODO delete this
-	ConstantExpressionNode* size;
 };
 
 #endif /* ARRAYTYPE_H_ */

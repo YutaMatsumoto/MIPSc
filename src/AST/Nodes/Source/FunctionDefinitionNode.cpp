@@ -57,4 +57,6 @@ void FunctionDefinitionNode::declareFunction()
 
 	FunctionType* t = new FunctionType();
 
+	int i = 5 + 6;
+
 }
