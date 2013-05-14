@@ -163,7 +163,7 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 	RegisterNumber rNum = registerNumberOf(vid);	
 	if ( isValidRegisterNumber(rNum) ) {
 		debugPrint(string( "getRegister : using existing register") );
-		return RegisterInfo(rNum, NotNew);		
+		return RegisterInfo(Register(rNum), NotNew);		
 	}
 
 	//
@@ -177,20 +177,19 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 
 		size_t regIndex = regNumberToIndex( rNum );
 		registerUse[regIndex] = true;
-		// assignVidToRegister(rNum, vid);
 	}
 	// No open register exists. Spill
 	else {
 		debugPrint(string( "getRegister : new register with spilled register") );
 		rNum = spill();
-		// assignVidToRegister(rNum, vid);
 	}
 	updateVarId( rNum , vid );
 
 	//
 	// Load from memory if the variable is in memory
 	//
-	bool inMemory = mTable.isInMemory( vid );
+	// this should be taultology in our scheme
+	bool inMemory = mTable.isInMemory( vid ); 
 	if (inMemory) {
 		// load from memory to available register
 		// TODO unmark vid in memory ?
@@ -199,6 +198,6 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 		debugPrint(string( "getRegister : loading from memory") );
 	}
 
-	return RegisterInfo(rNum , New);
+	return RegisterInfo(Register(rNum) , New);
 }
 

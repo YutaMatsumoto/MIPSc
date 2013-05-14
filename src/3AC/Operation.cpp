@@ -7,6 +7,11 @@
 
 #include "Operation.h"
 
+void Operation::produceMips()
+{
+	std::cout << "HACK" << std::endl;
+}
+
 Operation::Operation( Operand* _op1 , Operand* _op2 , Operand* _op3 ) : op1(_op1), op2(_op2), op3(_op3) {
 	// TODO Auto-generated constructor stub
 

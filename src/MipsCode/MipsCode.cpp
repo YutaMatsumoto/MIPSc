@@ -23,12 +23,13 @@ std::vector<DLabel> MipsCode::allLabels;
 
 MipsCode::MipsCode()
 {}
-
 void MipsCode::
-writeToDataSection(DLabel label, DKind kind, DInit init, Comment com) // write data entry
+writeToDataSection(MipsVariable mipsVar, Comment com) // write data entry without initialization
 {
-	// TODO : check label does not exist 
-	
+	DLabel label = mipsVar.toDLabel();
+	DKind kind = mipsVar.toDKind();
+
+	// TODO Check if lable is not duplicate Label
 	// Error if the label already exists 
 	typedef std::vector<DLabel>::iterator Iter;
 	Iter iter = std::find( allLabels.begin(), allLabels.end(), label) ;
@@ -36,11 +37,21 @@ writeToDataSection(DLabel label, DKind kind, DInit init, Comment com) // write d
 		throw MipsError( "Same Label Generated in MIPS" );
 	}
 	allLabels.push_back(label);
-	
+
+	dataSection.push_back( Data( label, kind , com ));
+}
+
+/*
+void MipsCode::
+writeToDataSection(DLabel label, DKind kind, DInit init, Comment com) // write data entry
+{
+	// TODO : check label does not exist 
 	DKindInit dkindinit(kind, init);
 	dataSection.push_back( Data( label, dkindinit, com ) );
 }
+*/
 
+/*
 void MipsCode::
 writeToDataSection(DLabel label, DKind kind, Comment com) // write data entry
 {
@@ -56,6 +67,7 @@ writeToDataSection(DLabel label, DKind kind, Comment com) // write data entry
 	// TODO : check label does not exist 
 	dataSection.push_back( Data( label, kind, com ) );
 }
+*/
 
 void MipsCode::
 writeToTextSection(Code code, Comment com) // write text entry

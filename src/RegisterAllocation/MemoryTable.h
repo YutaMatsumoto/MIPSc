@@ -11,7 +11,7 @@
 class MemoryTable {
 
 	// MemoryId is sddress(size_t) for now, but label might be better
-	typedef size_t MemoryId;
+	// typedef size_t MemoryId;
 
 	// -----------------------------------------------------------------------
 	struct MemoryComponent {

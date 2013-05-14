@@ -1,31 +1,29 @@
 #ifndef REGISTER_INFO_H_GUARD
 #define REGISTER_INFO_H_GUARD
+#include "Register.h"
+
+class Register;
 
 class RegisterInfo {
 
 public:
 
-	RegisterInfo(RegisterNumber regIndex, bool New)
-		: regIndex(regIndex), New(New)
-	{}
+	RegisterInfo(Register reg, bool New);
 
-	void setNew() { New = true; }
-	void setRegisterNumber(RegisterNumber num) { regIndex = num; }
-	bool getNew() { return New; }
-	RegisterNumber getRegisterNumber () { return regIndex; } // TODO index/number
+	// TODO Make these private
+	// void setNew() { New = true; }
+	// void setRegisterNumber(RegisterNumber num) { regIndex = num; }
+	
+	// TODO rename to isNew
+	bool isNew();
 
-	std::string toString()
-	{
-		std::ostringstream oss;
-		oss << "RegisterInfo : " 
-			<< "(New=" << getNew() << ")" 
-			<< " "
-			<< "(regNum=" << getRegisterNumber() << ")"
-			<< std::endl;
-		return oss.str();
-	}
+	RegisterNumber getRegisterNumber();
 
-	RegisterNumber regIndex; // TODO Index BUG ?
+	Register& getRegister();
+
+	std::string toString();
+
+	Register r;
 	bool New;
 };
 

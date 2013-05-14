@@ -21,16 +21,24 @@
 	// this->columnNumber = columnNumber;
 // }
 
+/*
 std::string Type::getTypeAsString()
 {
 	return "Naked Type";
 }
+*/
+
+int Type::sizeInBytes()
+{
+	return -1000;
+}
+
+
 std::string Type::toString()
 {
 	return getTypeAsString();
 }
 
-/*
 std::string Type::getTypeAsString()
 {
 	switch( getType() )
@@ -197,7 +205,6 @@ std::string Type::getTypeAsString()
 	return "";
 
 }
-*/
 
 /*
 std::string Type::toString()

@@ -58,9 +58,9 @@ void RegisterTableDriver()
 
 int main()
 {
-	// RegisterTableDriver();
+	RegisterTableDriver();
 
-	DescriptorTable& dTable = DescriptorTable::getInstance();
+	// DescriptorTable& dTable = DescriptorTable::getInstance();
 
 	
 }
