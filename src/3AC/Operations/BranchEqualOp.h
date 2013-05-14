@@ -19,6 +19,13 @@ public:
 
 	}
 
+	virtual void produceMips()
+	{
+		// beq $s, $t, offset 
+		unsigned int op1Id = op1->getUniqueId();
+		unsigned int op2Id = op2->getUniqueId();
+	}
+
 	std::string to3AC()
 	{
 

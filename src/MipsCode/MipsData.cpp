@@ -1,12 +1,22 @@
 #include <algorithm>
 #include "MipsData.h"
 #include "MipsError.h"
+#include <iostream>
+#include <string>
+
 
 // ---------------------------------------------------------------------------
 // DLabel
 
+void Warn(std::string msg)
+{
+	std::cout << "Warning: " << msg << std::endl;
+}
+
 DLabel::DLabel()
-{}
+{
+	Warn("DLabel : Empty Label Created");	
+}
 
 DLabel::DLabel(const std::string& label)
 	: label(label)

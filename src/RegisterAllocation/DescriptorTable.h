@@ -5,6 +5,8 @@
 #include "MemoryTable.h"
 #include "MipsVariable.h"
 
+#include <string>
+
 class DescriptorTable
 {
 private:
@@ -13,27 +15,18 @@ private:
 	RegisterTable iTable;
 
 public:
-
-	// TODO
-	// static void setFloatTableRange();
-	// static void setIntegerTableRange();
-
-	// TODO 
-	// RegisterInfo getFloatRegister(VarId vid);
-	// RegisterInfo getIntegerRegister(VarId vid);
 	
 	void setDebug();
-
-	// RegisterInfo getRegister(MipsVariable mipsVar);
 
 	// Does not load vid
 	RegisterInfo getRegister(MipsVariable mipsVar, bool Deep=1);
 
-	static DescriptorTable& getInstance()
-	{
-		static DescriptorTable instance;
-		return instance;
-	}
+	// TODO : imcomplete
+	void load(Register r, MipsVariable mipsVar, Comment com=std::string(""));
+
+	void store(Register r, MipsVariable mipsVar, Comment com=std::string(""));
+
+	static DescriptorTable& getInstance();
 
 private:
 	DescriptorTable();

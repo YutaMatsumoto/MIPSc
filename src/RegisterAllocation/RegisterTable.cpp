@@ -3,6 +3,9 @@
 #include <iostream>
 #include <string>
 #include <boost/optional.hpp>
+
+#include "MipsCode.h"
+
 using namespace std;
 
 RegisterTable::
@@ -57,6 +60,7 @@ RegisterNumber RegisterTable::endRegisterNumber() const
 
 RegisterNumber RegisterTable::spill()
 {
+	MipsCode::getInstance().writeToTextSection("# Spilling Register ","");
 
 	// in the context of op3 = op1 + op2, when spilling for op3, 
 	// do not spill register for op1 or op2 
@@ -80,7 +84,10 @@ RegisterNumber RegisterTable::spill()
 
 	debugPrint("Spilling");
 
-	mTable.store( regIndexToNumber( regIndexToSpill), varIds.at( regIndexToSpill ) );
+	VarId vid = varIds.at( regIndexToSpill );
+	std::cout << "Spilling register to memory of <" + vid.toString() + ">" << std::endl;
+	mTable.store( regIndexToNumber( regIndexToSpill), vid );
+	// mTable.store( regIndexToNumber( regIndexToSpill), varIds.at( regIndexToSpill ) );
 
 	// Bookkeep the last two spilled registers
 	if      ( lastSpilled1 == endRegisterNumber() && lastSpilled2 == endRegisterNumber() ) {
@@ -96,7 +103,7 @@ RegisterNumber RegisterTable::spill()
 
 	// Erase vid of the spilled register from the table
 	table.erase( varIds[regIndexToSpill] );	
-		
+
 	return regIndexToNumber( regIndexToSpill );
 }
 
@@ -178,7 +185,10 @@ RegisterInfo RegisterTable::getRegister()
 		debugPrint(string( "getRegister : new register with spilled register") );
 		rNum = spill();
 	}
-	// updateVarId( rNum , vid ); // Possible BUG by hiding this function? 
+
+	// -----------------------------------------------------------------------------
+	//	TODO : HERE // updateVarId( rNum , vid ); // Possible BUG by hiding this function? 
+	// -----------------------------------------------------------------------------
 
 	return RegisterInfo(Register(rNum) , New);
 }
@@ -202,7 +212,6 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 	// Open register exists. Use that register
 	if (available)	{
 		debugPrint(string( "getRegister : new register with open(available) register") );
-
 		size_t regIndex = regNumberToIndex( rNum );
 		registerUse[regIndex] = true;
 	}
@@ -223,8 +232,8 @@ RegisterInfo RegisterTable::getRegister(VarId vid)
 		// load from memory to available register
 		// TODO unmark vid in memory ?
 		// TODO loading should be done outside of RegisterTable ?
-		debugPrint(string( "getRegister : loading from memory") );
-		mTable.load(rNum, vid);
+		// debugPrint(string( "getRegister : loading from memory") );
+		// mTable.load(rNum, vid);
 	// }
 
 	return RegisterInfo(Register(rNum) , New);

@@ -1,15 +1,16 @@
 #include "Symbol.h"
-#include "AddOp.h"
 #include "MipsCode.h"
 #include "BuiltinType.h"
 #include "SymbolLocation.h"
 #include "MipsCode.h"
 #include "DescriptorTable.h"
 
-int main()
-{
+#include "AddOp.h"
+#include "AssignOp.h"
 
-	Symbol* o1 = new Symbol( std::string( "t1" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP);
+void addop()
+{
+	Symbol* o1 = new Symbol( std::string( "t1000" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP);
 	Symbol* o2 = new Symbol( std::string( "t2" ) , *new SymbolLocation() , new Type( Type::Int ) , Symbol::ITEMP);
 	Symbol* o3 = new Symbol( std::string( "t3" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP );
 	Symbol* o4 = new Symbol( std::string( "t4" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP);
@@ -24,9 +25,9 @@ int main()
 
 	DescriptorTable::getInstance().setDebug();
 
-	AddOp addOp(o3, o2, o1, AdditiveExpressionNode::Add );
+	AddOp addOp(o3, o2, o1, AdditiveExpressionNode::Subtract );
 	AddOp addOp2(o6, o5, o4, AdditiveExpressionNode::Add );
-	AddOp addOp3(o9, o8, o7, AdditiveExpressionNode::Add );
+	AddOp addOp3(o9, o8, o7, AdditiveExpressionNode::Subtract );
 	AddOp addOp4(o12, o11, o10, AdditiveExpressionNode::Add );
 
 	addOp.produceMips();
@@ -35,5 +36,30 @@ int main()
 	addOp4.produceMips();
 
 	MipsCode::getInstance().dump();
-
+	MipsCode::getInstance().clear();
 }
+
+// Load Immediate
+void assignop()
+{
+	// Symbol* dest =
+
+	Symbol* dst = new Symbol( std::string( "t1" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP);
+	Symbol* src = new Symbol( std::string( "2" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP);
+
+	AssignOp aop(dst, src, AssignmentOperatorNode::Assign);
+
+	aop.produceMips();
+
+	MipsCode::getInstance().dump();
+
+	MipsCode::getInstance().clear();
+}
+
+int main()
+{
+	addop();
+	assignop();
+}
+
+

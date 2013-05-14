@@ -24,7 +24,7 @@ public:
 
 	bool typeEqual(const MipsVariable &o);
 
-	DLabel toDLabel(); // based on id and DKind
+	DLabel toDLabel(); // based on type and id like "char1"
 
 	DKind toDKind(); // and then toString() 
 

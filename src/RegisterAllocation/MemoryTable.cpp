@@ -52,6 +52,9 @@ bool MemoryTable::isInMemory(VarId vid)
 }
 
 void MemoryTable::load(RegisterNumber rNumber, VarId vid )
+// TODO : multiplex loading operatoin
+// TODO : multiplex register expresion on float/int
+//        !! RegisterNumber should be Register which can be stringified
 {
 	MipsCode::getInstance().writeToTextSection(
 		"lw $"+ std::to_string(rNumber) +"," + vid.toString()

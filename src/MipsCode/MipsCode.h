@@ -23,11 +23,13 @@ public:
 	void writeToDataSection(MipsVariable, DInit, Comment); // write data entry
 	
 	// void writeToDataSection(DLabel, DKind, Comment); // write data entry without initialization
-	void writeToDataSection(MipsVariable, Comment); // write data entry without initialization
+	void writeToDataSection(MipsVariable, Comment=std::string("") ); // write data entry without initialization
 
-	void writeToTextSection(Code, Comment); // write text entry
+	void writeToTextSection(Code, Comment=std::string("") ); // write text entry
 
 	void dump(); // Dump MIPS code
+
+	void clear(); // clear all the code; be careful
 
 	static MipsCode& getInstance()
 	{
