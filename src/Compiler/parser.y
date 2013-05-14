@@ -209,7 +209,7 @@ function_definition
 		debugPrint("----to function_definition by production 3----"); 
 	  	debugPrint("declaration_specifiers declarator compound_statement -> function_definition"); 
 
-		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3, (DeclaratorNode*) $2 );
+		$$ = new FunctionDefinitionNode( (DeclarationSpecifiersNode*) $1 , (CompoundStatementNode*) $3, (DeclaratorNode*) $2 );
 
 	  }
 	| declaration_specifiers declarator {

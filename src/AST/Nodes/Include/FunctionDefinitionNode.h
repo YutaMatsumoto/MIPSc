@@ -22,13 +22,19 @@ public:
 
 	FunctionDefinitionNode( CompoundStatementNode* _compoundStatement , DeclaratorNode* declarator );
 
+	FunctionDefinitionNode( DeclarationSpecifiersNode* _declarationSpecifiers , CompoundStatementNode* _compoundStatement , DeclaratorNode* declarator );
+
 	CompoundStatementNode* compoundStatement = 0;
 
 	DeclaratorNode* declarator = 0;
 
+	DeclarationSpecifiersNode* declarationSpecifiers = 0;
+
 	ASTData* toOperations();
 
 	std::string getNodeTypeAsString();
+
+	void declareFunction();
 
 };
 

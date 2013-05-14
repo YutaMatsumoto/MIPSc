@@ -2,6 +2,9 @@
 
 #include "TypeInfo.h"
 #include "Symbol.h"
+#include "ArrayType.h"
+#include "BuiltinType.h"
+#include "FunctionType.h"
 
 DeclarationNode::DeclarationNode() {}
 
@@ -58,8 +61,8 @@ void DeclarationNode::declare(SymbolTable* stab)
 
 	while( list != 0 ) {
 
-		Type* t;
-		Symbol* s;
+		Type* t = 0;
+		Symbol* s = 0;
 		SymbolLocation sloc;
 
 		// seg fault here since some of these are mutually exlusive pointers
@@ -69,7 +72,7 @@ void DeclarationNode::declare(SymbolTable* stab)
 		auto dirDeclId = dirDecl->id;
 		// auto ptr     = decl->ptrNode;
 
-		int dKind = dirDecl->getKind() ;
+		int dKind = dirDecl->getKind();
 
 		std::string id;
 
@@ -103,8 +106,40 @@ void DeclarationNode::declare(SymbolTable* stab)
 			case DirectDeclaratorNode::Array: 
 				break;
 			case DirectDeclaratorNode::ArrayWithSize: 
+
+				id = dirDecl->dirDeclNode->id->getId();
+
+				info = stab->getSymbolInfo( id , true );
+
+				if( info.symbol == 0 )
+
+					std::cout << "Symbol Lookup was null" << endl;
+
+				// TODO Asuming int for now
+				t = new ArrayType( decl->nodeData->value , new BuiltinType( Type::Int ) );
+
+				info.symbol->symbolType = t;
+
+				info.symbol->operandType = tacType;
+
 				break;
 			case DirectDeclaratorNode::FunctionDefinition: 
+
+				id = dirDecl->dirDeclNode->id->getId();
+
+				info = stab->getSymbolInfo( id , true );
+
+				if( info.symbol == 0 )
+
+					std::cout << "Symbol Lookup was null" << endl;
+
+				// TODO Asuming int for now
+				t = new FunctionType();
+
+				info.symbol->symbolType = t;
+
+				info.symbol->operandType = tacType;
+
 				break;
 			case DirectDeclaratorNode::FunctionDefinitionWithParam: 
 				break;

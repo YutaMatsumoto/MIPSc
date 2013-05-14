@@ -46,6 +46,8 @@ public:
 	//returns true if the program is in global scope
 	bool isGlobalScope();
 
+	unsigned int calculateStackFrameSize();
+
 protected:
 
 	std::list< Scope > scopeStack;

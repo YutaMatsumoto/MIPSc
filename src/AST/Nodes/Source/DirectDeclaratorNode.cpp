@@ -95,9 +95,9 @@ Symbol* DirectDeclaratorNode::declare(Type* type , SymbolTable* _stab )
 		// Array
 		if (ddn->kind == Array || ddn->kind == ArrayWithSize) {
 			if (!returnType) 
-				returnType = new ArrayType(arraySize, type);
+				returnType = new ArrayType(this->nodeData->value, type);
 			else
-				( (ArrayType*) returnType )->addDimension(arraySize);
+				( (ArrayType*) returnType )->addDimension(this->nodeData->value);
 		}
 		// Function Definition
 		// TODO
@@ -181,6 +181,17 @@ ASTData* DirectDeclaratorNode::toOperations()
 	{
 
 		data->result = dirDeclNode->nodeData->result;
+
+		return data;
+
+	}
+
+	if( dirDeclNode && constantNode )
+	{
+
+		data->result = dirDeclNode->nodeData->result;
+
+		data->value = constantNode->nodeData->value;
 
 		return data;
 

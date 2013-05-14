@@ -196,3 +196,32 @@ void SymbolTable::endScope()
 
 }
 
+unsigned int SymbolTable::calculateStackFrameSize()
+{
+
+	unsigned int byteCounter = 0;
+
+	int scopeCounter = 0;
+
+	for( Scope& scope : scopeStack )
+	{
+
+		if( scopeCounter == 0 )
+
+			continue;
+
+		for( auto j : scope.symbolMap )
+		{
+
+			j.second->addr = byteCounter;
+
+			byteCounter += j.second->symbolType->sizeInBytes();
+
+		}
+
+	}
+
+	return 1;
+
+}
+

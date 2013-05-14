@@ -13,7 +13,7 @@
 #ifndef SYMBOL_H_
 #define SYMBOL_H_
 
-typedef int address;
+typedef unsigned int address;
 
 class Type;
 
@@ -85,7 +85,7 @@ public:
 
 		std::string unique = id;
 
-		unique.erase(0);
+		unique.erase(0,1);
 
 		return atoi( unique.c_str() );
 

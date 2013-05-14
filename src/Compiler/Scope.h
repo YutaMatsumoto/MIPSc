@@ -19,7 +19,9 @@ typedef std::string TypeName;
 
 class Scope {
 public:
+
 	Scope();
+
 	virtual ~Scope();
 
 	std::map< SymbolName , Symbol* > symbolMap;

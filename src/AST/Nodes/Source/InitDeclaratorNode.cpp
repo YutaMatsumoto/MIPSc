@@ -68,6 +68,8 @@ ASTData* InitDeclaratorNode::toOperations()
 
 	}
 
+	data->value = declarationNode->nodeData->value;
+
 	return data;
 }
 

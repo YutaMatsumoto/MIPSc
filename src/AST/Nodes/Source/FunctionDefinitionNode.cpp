@@ -8,8 +8,20 @@
 #include "FunctionDefinitionNode.h"
 #include "IdTracker.h"
 
-FunctionDefinitionNode::FunctionDefinitionNode( CompoundStatementNode* _compoundStatement, DeclaratorNode* _declarator ) : compoundStatement(_compoundStatement), declarator(_declarator) {
+FunctionDefinitionNode::FunctionDefinitionNode( DeclarationSpecifiersNode* _declarationSpecifiers , CompoundStatementNode* _compoundStatement, DeclaratorNode* _declarator ) : declarationSpecifiers(_declarationSpecifiers ), compoundStatement(_compoundStatement), declarator(_declarator) {
+
+	declareFunction();
+
 	nodeData = toOperations();
+
+}
+
+FunctionDefinitionNode::FunctionDefinitionNode( CompoundStatementNode* _compoundStatement, DeclaratorNode* _declarator ) : compoundStatement(_compoundStatement), declarator(_declarator) {
+
+	declareFunction();
+
+	nodeData = toOperations();
+
 }
 
 ASTData* FunctionDefinitionNode::toOperations()
@@ -37,5 +49,12 @@ std::string FunctionDefinitionNode::getNodeTypeAsString()
 {
 
 	return std::string( "function definition" );
+
+}
+
+void FunctionDefinitionNode::declareFunction()
+{
+
+	FunctionType* t = new FunctionType();
 
 }
