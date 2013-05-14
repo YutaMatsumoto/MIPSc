@@ -8,6 +8,7 @@
 #include "PostfixExpressionNode.h"
 
 #include "ArrayType.h"
+#include "FunctionType.h"
 #include "CallOp.h"
 #include "LoadOp.h"
 #include "AddOp.h"
@@ -18,6 +19,7 @@
 #include "AssignOp.h"
 #include "MultOp.h"
 #include "BuiltinType.h"
+#include "RestoreStackOp.h"
 
 //Primary Expression
 PostfixExpressionNode::PostfixExpressionNode( PrimaryExpressionNode* _primaryExpression )
@@ -146,6 +148,8 @@ ASTData* PostfixExpressionNode::toOperations()
 
 		Symbol* function = postfixExpression->nodeData->result;
 
+		FunctionType* funcType = dynamic_cast<FunctionType*>(function->symbolType);
+
 		CallOp* op = new CallOp( function );
 
 		for( unsigned int i = 0 ; i < postfixExpression->nodeData->code->size() ; i++ )
@@ -162,6 +166,26 @@ ASTData* PostfixExpressionNode::toOperations()
 		operations->insert( operations->end() , postfixExpression->nodeData->code->begin() , postfixExpression->nodeData->code->end() );
 
 		operations->push_back( op );
+
+		//create a new temporary name
+		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
+
+		//create a new temporary for our result
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , funcType->returnSymbol->symbolType , Symbol::ITEMP );
+
+		GetAddressOp* getAddr = new GetAddressOp( temporary , funcType->returnSymbol );
+
+		operations->push_back( getAddr );
+
+		LoadOp* load = new LoadOp( temporary , temporary );
+
+		operations->push_back( load );
+
+		RestoreStackOp* restore = new RestoreStackOp(postfixExpression->nodeData->idResult);
+
+		operations->push_back( restore );
+
+		data->result = temporary;
 
 		return data;
 

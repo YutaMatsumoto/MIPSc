@@ -4,7 +4,6 @@
 
 int dub( int k )
 {
-!!S
 return k * 2;
 }
 
@@ -13,10 +12,14 @@ int i;
 int main()
 {
 
-    int k[50 + 10];
+    int k[50];
     
-    dub(1);
+    int j;
+
+    j = dub(4);
     
+    k[ 3 ] = 0x02;
+
     {
         int foo = 50000;
 	i = i + foo;

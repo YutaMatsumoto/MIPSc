@@ -1,0 +1,42 @@
+
+main34: 
+# 
+LOADA t11 j
+LOADA t12 dub
+CALL @t12
+LOADA t14 retVal
+LOAD t14 @t14:ITEMP
+RESTORE_STACK FROM dub
+STORE @t11 t14:LOCAL
+# 
+LOADA t16 k
+LOADI t17 3
+LOADI t18 4
+MULT t19 t18 t17
+ADD t19 t16 t19
+LOADI t21 5
+STORE @t20 t21:ITEMP
+# i = i + foo;
+LOADI t24 50000
+LOADA t25 foo
+STORE @t25 t24:NONE
+# int foo = 50000;
+LOADA t26 i
+LOADA t28 foo
+LOAD t28 @t28:LOCAL
+LOADA t27 i
+LOAD t27 @t27:GLOB
+ADD t29 t27 t28
+STORE @t26 t29:GLOB
+# //bar = i + bar;
+LOADI t32 1
+LOADA t33 bar
+STORE @t33 t32:NONE
+
+dub5: 
+LOADA t2 k
+LOAD t2 @t2:NONE
+LOADI t3 2
+MULT t4 t2 t3
+STORE @retVal t4:LOCAL
+RET

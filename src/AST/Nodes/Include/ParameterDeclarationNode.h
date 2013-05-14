@@ -12,19 +12,14 @@ class DeclarationSpecifiersNode;
 class TypeInfo;
 
 
-class ParameterDeclarationNode {
+class ParameterDeclarationNode : public Node {
 public:
-	ParameterDeclarationNode( DeclarationSpecifiersNode* ds,  DeclaratorNode* d)
-		: ds(ds), d(d), ad(NULL)
-	{}
-
-	ParameterDeclarationNode( DeclarationSpecifiersNode* ds )
-		: ds(ds), d(NULL), ad(NULL)
-	{}
-
-	ParameterDeclarationNode( DeclarationSpecifiersNode* ds, AbstractDeclaratorNode* ad)
-		: ds(ds), d(NULL), ad(ad)
-	{}
+	ParameterDeclarationNode( DeclarationSpecifiersNode* ds,  DeclaratorNode* d,
+			SymbolTable* stab);
+	ParameterDeclarationNode( DeclarationSpecifiersNode* ds ,
+			SymbolTable* stab);
+	ParameterDeclarationNode( DeclarationSpecifiersNode* ds, AbstractDeclaratorNode* ad,
+			SymbolTable* stab);
 
 	// -----------------------------------------------------------------------
 
@@ -33,9 +28,15 @@ public:
 
 	// -----------------------------------------------------------------------
 
-	DeclarationSpecifiersNode* ds;  
-	DeclaratorNode* d;
-	AbstractDeclaratorNode* ad;
+	ASTData* toOperations();
+
+	std::string getNodeTypeAsString();
+
+	void declare(SymbolTable* stab);
+
+	DeclarationSpecifiersNode* ds = 0;
+	DeclaratorNode* d = 0;
+	AbstractDeclaratorNode* ad = 0;
 };
 
 #endif // END ParameterDeclarationNode_H_GUARD

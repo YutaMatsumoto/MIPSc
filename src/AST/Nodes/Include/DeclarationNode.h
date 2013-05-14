@@ -26,9 +26,11 @@ public:
 
 	DeclarationNode();
 
-	DeclarationNode(DeclarationSpecifiersNode* declSpecifier);
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier,
+			SymbolTable* _table);
 
-	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList);
+	DeclarationNode(DeclarationSpecifiersNode* declSpecifier, InitDeclaratorListNode* initDeclList,
+			SymbolTable* _table);
 
 	virtual ASTData* toOperations();
 

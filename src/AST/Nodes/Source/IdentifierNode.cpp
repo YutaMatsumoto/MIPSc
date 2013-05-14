@@ -70,6 +70,8 @@ ASTData* IdentifierNode::toOperations()
 
 	data->result = temporary;
 
+	data->idResult = identifier;
+
 	return data;
 
 }

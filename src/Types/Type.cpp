@@ -169,7 +169,7 @@ std::string Type::getTypeAsString()
 		case Function:
 		{
 			std::string functionType = "";
-
+/*
 			functionType += ( (FunctionType*) this )->returnType->getTypeAsString();
 
 			functionType += " (";
@@ -182,7 +182,7 @@ std::string Type::getTypeAsString()
 			}
 
 			functionType += ")";
-
+*/
 			return functionType;
 
 			break;

@@ -26,15 +26,15 @@ public:
 
 		if( type == MultiplicativeExpressionNode::Multiply )
 
-			return op1->getId() + " = " + op2->getId() + " * " + op3->getId();
+			return std::string("MULT ") + op1->getId() + " " + op2->getId() + " " + op3->getId();
 
 		if( type == MultiplicativeExpressionNode::Divide )
 
-			return op1->getId() + " = " + op2->getId() + " / " + op3->getId();
+			return std::string("MULT ") + op1->getId() + " " + op2->getId() + " " + op3->getId();
 
 		else
 
-			return op1->getId() + " = " + op2->getId() + " % " + op3->getId();
+			return std::string("MULT ") + op1->getId() + " " + op2->getId() + " " + op3->getId();
 
 	}
 

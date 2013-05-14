@@ -19,7 +19,7 @@ int BuiltinType::sizeInBytes()
 // type
 {
 	// return sizeof(Data);
-	return -1;
+	return 4;
 }
 
 

@@ -116,11 +116,11 @@ Symbol* DirectDeclaratorNode::declare(Type* type , SymbolTable* _stab )
 			}
 			// Function Declaration with paremeter types and identifiers inside of parentheses
 			// TODO function return type
-			else if (funcParams) {
+			/*else if (funcParams) {
 				for (auto type : funcParams->typeList() ) {
 					( (FunctionType*)returnType	)->addOperand(type);
 				}
-			}
+			}*/
 			break;
 		}
 		ddn = ddn->dirDeclNode;
@@ -165,6 +165,8 @@ ASTData* DirectDeclaratorNode::toOperations()
 	if( id )
 	{
 
+		data->idResult = id->nodeData->idResult;
+
 		data->result = id->resolveSymbol();
 
 		data->code = id->nodeData->code;
@@ -199,6 +201,8 @@ ASTData* DirectDeclaratorNode::toOperations()
 
 	if( dirDeclNode && funcParams )
 	{
+
+		data->idResult = dirDeclNode->nodeData->idResult;
 
 		data->result = dirDeclNode->nodeData->result;
 

@@ -29,8 +29,8 @@ public:
 		Return
 	};
 
-	JumpStatementNode( ExpressionNode* _expression );
-	JumpStatementNode( IdentifierNode* _identifier );
+	JumpStatementNode( ExpressionNode* _expression, SymbolTable* _stab );
+	JumpStatementNode( IdentifierNode* _identifier, SymbolTable* _stab );
 	JumpStatementNode( JumpStatementType _type );
 	ASTData* toOperations();
 	std::string getNodeTypeAsString();
@@ -38,6 +38,7 @@ public:
 	IdentifierNode* identifier = 0;
 	ExpressionNode* expression = 0;
 	JumpStatementType type;
+	SymbolTable* stab = 0;
 
 };
 
