@@ -24,11 +24,20 @@ public:
 
 	FunctionDefinitionNode( DeclarationSpecifiersNode* _declarationSpecifiers , CompoundStatementNode* _compoundStatement , DeclaratorNode* declarator );
 
+	FunctionDefinitionNode(
+			DeclarationSpecifiersNode* _declarationSpecifiers ,
+			CompoundStatementNode* _compoundStatement,
+			DeclaratorNode* _declarator,
+			DeclarationListNode* _declarationList
+	);
+
 	CompoundStatementNode* compoundStatement = 0;
 
 	DeclaratorNode* declarator = 0;
 
 	DeclarationSpecifiersNode* declarationSpecifiers = 0;
+
+	DeclarationListNode* declarationList = 0;
 
 	ASTData* toOperations();
 

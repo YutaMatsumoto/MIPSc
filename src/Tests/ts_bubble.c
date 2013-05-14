@@ -1,9 +1,9 @@
 
 
 
-int main()
+int main(int argc)
 {
-
+	
 	int arr[ 6 ];
 	
 	int test = 0;
@@ -11,6 +11,8 @@ int main()
 	int i;
 
 	int j;
+	
+	!!S
 
 	arr[ 0 ] = 5;
 

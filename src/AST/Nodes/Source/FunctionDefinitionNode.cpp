@@ -7,8 +7,24 @@
 
 #include "FunctionDefinitionNode.h"
 #include "IdTracker.h"
+#include "FunctionType.h"
+#include "BuiltinType.h"
+#include "DeclarationListNode.h"
 
 FunctionDefinitionNode::FunctionDefinitionNode( DeclarationSpecifiersNode* _declarationSpecifiers , CompoundStatementNode* _compoundStatement, DeclaratorNode* _declarator ) : declarationSpecifiers(_declarationSpecifiers ), compoundStatement(_compoundStatement), declarator(_declarator) {
+
+	declareFunction();
+
+	nodeData = toOperations();
+
+}
+
+FunctionDefinitionNode::FunctionDefinitionNode(
+		DeclarationSpecifiersNode* _declarationSpecifiers ,
+		CompoundStatementNode* _compoundStatement,
+		DeclaratorNode* _declarator,
+		DeclarationListNode* _declarationList
+) : declarationSpecifiers(_declarationSpecifiers ), compoundStatement(_compoundStatement), declarator(_declarator),declarationList(_declarationList) {
 
 	declareFunction();
 
@@ -57,6 +73,16 @@ void FunctionDefinitionNode::declareFunction()
 
 	FunctionType* t = new FunctionType();
 
-	int i = 5 + 6;
+	t->setReturnType( new BuiltinType( Type::Int ) );
+
+	DeclarationListNode* i = declarationList;
+
+	while( i )
+	{
+
+
+		i = i->declarationList;
+
+	}
 
 }

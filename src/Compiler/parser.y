@@ -213,16 +213,17 @@ function_definition
 
 	  }
 	| declaration_specifiers declarator {
-		// declaration mode start
+	  
+		beginDeclarationSection();
+		beginScope();
 	  } 
-	  declaration_list {
-		// declaration mode end
-	  }
-	  compound_statement { 
+	  declaration_list compound_statement { 
 		debugPrint("----to function definition production 4----"); 
-	    debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
+	     	debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
 	  
 	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 , (DeclaratorNode*) $2 ); // $BUG
+
+		endScope();
 	  }
 	;
 

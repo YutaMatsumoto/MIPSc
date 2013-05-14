@@ -39,9 +39,9 @@ public:
 		// op1->operandType // TACOperandType enum
 
 		// ID
-		unsigned int op1Id = op1->getId();
-		unsigned int op2Id = op2->getId();
-		unsigned int op3Id = op3->getId();
+		unsigned int op1Id = op1->getUniqueId();
+		unsigned int op2Id = op2->getUniqueId();
+		unsigned int op3Id = op3->getUniqueId();
 
 		// Type
 		Type* typeOfOp1 = op1->getType();
