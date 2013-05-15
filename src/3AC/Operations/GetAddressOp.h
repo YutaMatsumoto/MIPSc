@@ -22,6 +22,17 @@ public:
 
 	}
 
+	std::vector< std::string > toMIPS()
+	{
+
+		std::vector< std::string > ops;
+
+
+
+		ops.push_back( std::string("la ") +  );
+
+	}
+
 	virtual void produceMips()
 	{
 

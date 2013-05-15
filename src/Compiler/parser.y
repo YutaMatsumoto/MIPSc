@@ -192,37 +192,34 @@ function_definition
 		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $2 , (DeclaratorNode*) $1, symbolTable );
 
 	 }
-	| declarator { 
-	  	// declaration mdoe start 
-	  }
-	  declaration_list {
-		// declaration mode	end
-	  }
+	| declarator  declaration_list 
 	  compound_statement { 
 		// declaration mode end
 		debugPrint("----to function definition Production 2----"); 
 		debugPrint("declarator declaration_list compound_statement -> function_definition"); 
 
-		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $5 , (DeclaratorNode*) $1, symbolTable); // $BUG
+		$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $3 , (DeclaratorNode*) $1, symbolTable); // $BUG
 	  }
 	| declaration_specifiers declarator compound_statement { 
 		debugPrint("----to function_definition by production 3----"); 
 	  	debugPrint("declaration_specifiers declarator compound_statement -> function_definition"); 
 
 		$$ = new FunctionDefinitionNode( (DeclarationSpecifiersNode*) $1 , (CompoundStatementNode*) $3, (DeclaratorNode*) $2, symbolTable );
+	
+		symbolTable->endScope();
+	  
+	  	symbolTable->clearFunctionScope();
 
 	  }
-	| declaration_specifiers {
-	  
-		beginDeclarationSection();
-		symbolTable->beginScope();
-	  } declarator declaration_list compound_statement { 
+	| declaration_specifiers declarator declaration_list compound_statement { 
 		debugPrint("----to function definition production 4----"); 
 	     	debugPrint("declaration_specifiers declarator declaration_list compound_statement -> function_definition"); 
 	  
 	  	$$ = new FunctionDefinitionNode( (CompoundStatementNode*) $4 , (DeclaratorNode*) $2, symbolTable ); // $BUG
 
-		//symbolTable->endScope();
+		symbolTable->endScope();
+	  
+	  	symbolTable->clearFunctionScope();
 	  }
 	;
 
@@ -511,7 +508,7 @@ direct_declarator
 
 			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 , DirectDeclaratorNode::FunctionCall );
 		}
-	| direct_declarator '(' parameter_type_list ')' { 
+	| direct_declarator '('{ beginDeclarationSection(); symbolTable->beginScope(); }  parameter_type_list ')' { 
 			debugPrint("direct_declarator '(' parameter_type_list ')' -> direct_declarator"); 
 			//DirectDeclaratorNode* ddn = new DirectDeclaratorNode( (DirectDeclaratorNode*)$1 );
 			$$ = new DirectDeclaratorNode( (DirectDeclaratorNode*) $1 , (ParameterTypeListNode*) $3 );

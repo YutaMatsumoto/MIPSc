@@ -9,6 +9,7 @@
 #define FUNCTIONTYPE_H_
 
 #include "Type.h"
+#include "Scope.h"
 
 class FunctionType: public Type {
 public:
@@ -26,6 +27,10 @@ public:
 	virtual int sizeInBytes();
 
 	unsigned int stackFrameSize = -1;
+
+	int labelId = -1;
+
+	Scope functionScope;
 
 };
 

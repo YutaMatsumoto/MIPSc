@@ -195,13 +195,12 @@ void SymbolTable::endScope()
 
 	scopeStack.pop_front();
 
-	if( scopeStack.size() == 1 )
-	{
+}
 
-		//clear the current function scope
-		//functionScope.symbolMap.clear();
+void SymbolTable::clearFunctionScope()
+{
 
-	}
+	functionScope.symbolMap.clear();
 
 }
 

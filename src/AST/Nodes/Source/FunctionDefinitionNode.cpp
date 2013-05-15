@@ -12,6 +12,7 @@
 #include "ArrayType.h"
 #include "DeclarationListNode.h"
 #include "SymbolTableInfo.h"
+#include "MIPSGenerator.h"
 
 FunctionDefinitionNode::FunctionDefinitionNode(
 		DeclarationSpecifiersNode* _declarationSpecifiers ,
@@ -58,7 +59,13 @@ ASTData* FunctionDefinitionNode::toOperations()
 
 	std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-	Label* functionLabel = new Label( declarator->nodeData->result->getId() , IdTracker::getInstance()->getId() );
+	int id = IdTracker::getInstance()->getId();
+
+	FunctionType* func = dynamic_cast<FunctionType*>( declarator->nodeData->result->symbolType );
+
+	func->labelId = id;
+
+	Label* functionLabel = new Label( declarator->nodeData->result->getId() , id );
 
 	operations->push_back( functionLabel );
 
@@ -84,7 +91,12 @@ void FunctionDefinitionNode::declareFunction( SymbolTable* _table )
 
 	FunctionType* t = new FunctionType();
 
-	std::string tempName("retVal");
+	//Symbol* functionSymbol = declarator->nodeData->result;
+	Symbol* functionSymbol = declarator->nodeData->result;
+
+	std::string tempName("_retVal");
+
+	tempName = functionSymbol->getId() + tempName;
 
 	BuiltinType* returnType = new BuiltinType( Type::Int );
 
@@ -96,16 +108,19 @@ void FunctionDefinitionNode::declareFunction( SymbolTable* _table )
 
 	if( !returnValue )
 
-		returnValue = new Symbol( std::string("retVal"),  *new SymbolLocation() , returnType , Symbol::LOCAL );
+		returnValue = new Symbol( tempName ,  *new SymbolLocation() , returnType , Symbol::LOCAL );
 
 	t->returnSymbol = returnValue;
 
+	t->functionScope = functionScope;
+
 	calculateSymbolAddresses( _table , t );
 
-	//Symbol* functionSymbol = declarator->nodeData->result;
-	Symbol* functionSymbol = declarator->nodeData->result;
-
 	functionSymbol->symbolType = t;
+
+	MIPSGenerator& m = MIPSGenerator::getInstance();
+
+	m.addFunction( functionSymbol );
 
 }
 

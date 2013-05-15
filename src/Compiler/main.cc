@@ -7,6 +7,7 @@
 #include <cstring>
 #include "Parser.h"
 #include "SymbolTable.h"
+#include "MIPSGenerator.h"
 
 // Globals
 const int endOfFile=0;
@@ -247,7 +248,7 @@ int main(int argc, char** argv)
 
 	std::vector< Operation* >* tac = astData->code;
 
-	system("clear");
+	//system("clear");
 
 	for( unsigned int i = 0 ; i < tac->size() ; i++ )
 	{
@@ -258,7 +259,9 @@ int main(int argc, char** argv)
 
 	}
 
-	for( unsigned int i = 0 ; i < tac->size() ; i++ )
+	of.close();
+
+	/*for( unsigned int i = 0 ; i < tac->size() ; i++ )
 	{
 
 		tac->at( i )->produceMips();
@@ -267,7 +270,18 @@ int main(int argc, char** argv)
 
 	MipsCode& code = MipsCode::getInstance();
 
-	code.dump( std::string("mips_test.txt") );
+	code.dump( std::string("mips_test.txt") );*/
+
+	MIPSGenerator& m = MIPSGenerator::getInstance();
+
+	m.setTAC(tac);
+
+	m.generateMIPS();
+
+	of.open( "mips_test_stack.txt");
+
+	m.writeMIPS(of);
+
 
 	/*
 	*/

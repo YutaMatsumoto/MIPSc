@@ -19,10 +19,7 @@ class MIPSGenerator
 
 public:
 
-	inline MIPSGenerator( std::vector< Operation* >& __3AC ) : _3AC( __3AC )
-	{
-
-	}
+	void addFunction( Symbol* func );
 
 	virtual ~MIPSGenerator();
 
@@ -30,11 +27,29 @@ public:
 
 	void writeMIPS( std::ostream& );
 
+	void setTAC( std::vector< Operation* >* _tac );
+
+	static MIPSGenerator& getInstance()
+	{
+
+		static MIPSGenerator instance;
+		return instance;
+
+	}
+
 protected:
 
-	std::vector< Operation* > _3AC;
+	std::vector< std::string > mipsText;
 
-	std::vector< std::string > mips;
+	std::vector< std::string > mipsData;
+
+	std::vector< Symbol* > functions;
+
+	std::vector< Operation* >* tac = 0;
+
+	Symbol* currentFunction = 0;
+
+	MIPSGenerator();
 
 };
 

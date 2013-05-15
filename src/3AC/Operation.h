@@ -28,6 +28,8 @@ public:
 	// TODO
 	virtual void produceMips();
 
+	virtual std::vector< std::string > toMIPS();
+
 	std::string getName() const {
 		return name;
 	}
