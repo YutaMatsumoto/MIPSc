@@ -25,7 +25,7 @@ std::vector<DLabel> MipsCode::allLabels;
 MipsCode::MipsCode()
 {}
 void MipsCode::
-writeToDataSection(MipsVariable mipsVar, Comment com) // write data entry without initialization
+writeToDataSection(MipsVariable mipsVar, MipsComment com) // write data entry without initialization
 {
 	DLabel label = mipsVar.toDLabel();
 	DKind kind = mipsVar.toDKind();
@@ -72,7 +72,7 @@ writeToDataSection(DLabel label, DKind kind, Comment com) // write data entry
 */
 
 void MipsCode::
-writeToTextSection(Code code, Comment com) // write text entry
+writeToTextSection(Code code, MipsComment com) // write text entry
 {
 	textSection.push_back(Text(code, com));
 }
@@ -125,11 +125,11 @@ void MipsCode::dump() // Dump MIPS code
 // ---------------------------------------------------------------------------
 // Data
 
-MipsCode::Data::Data(DLabel label, DKind kind, Comment com)
+MipsCode::Data::Data(DLabel label, DKind kind, MipsComment com)
 	: label(label), kind(kind), com(com)
 {}
 
-MipsCode::Data::Data(DLabel label, DKindInit kindInit, Comment com)
+MipsCode::Data::Data(DLabel label, DKindInit kindInit, MipsComment com)
 	: label(label), kind(kindInit.getKind()), init(kindInit.getInit()), com(com)
 {}
 
@@ -146,7 +146,7 @@ std::string MipsCode::Data::toString()
 
 // ---------------------------------------------------------------------------
 // Text
-MipsCode::Text::Text(Code code, Comment com)
+MipsCode::Text::Text(Code code, MipsComment com)
 	: code(code), com(com)
 {}
 

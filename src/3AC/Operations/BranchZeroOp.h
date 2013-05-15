@@ -68,7 +68,6 @@ public:
 
 		MipsCode::getInstance().writeToTextSection(
 				"beqz " + r1str + "," + r2str + ", " + branchTo->getName(),
-				,
 				""
 		);
 

@@ -19,7 +19,7 @@ DescriptorTable& DescriptorTable::getInstance()
 	return instance;
 }
 
-void DescriptorTable::load(Register r, MipsVariable mipsVar, Comment com)
+void DescriptorTable::load(Register r, MipsVariable mipsVar, MipsComment com)
 // TODO : multiplex load operation
 {
 	MipsCode& mCode = MipsCode::getInstance(); 
@@ -27,7 +27,7 @@ void DescriptorTable::load(Register r, MipsVariable mipsVar, Comment com)
 	throw "Descripter::load() : incomplete";
 }
 
-void DescriptorTable::store(Register r, MipsVariable mipsVar, Comment com)
+void DescriptorTable::store(Register r, MipsVariable mipsVar, MipsComment com)
 // TODO : multiplex store operation on type (making map from type to store opration)
 {
 	MipsCode& mCode = MipsCode::getInstance(); 
