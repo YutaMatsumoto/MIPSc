@@ -252,9 +252,11 @@ int main(int argc, char** argv)
 	for( unsigned int i = 0 ; i < tac->size() ; i++ )
 	{
 
+		Operation* j = tac->at( i );
+
 		tac->at( i )->produceMips();
 
-		of << tac->at( i )->to3AC() << std::endl;
+		of << j->to3AC() << std::endl;
 
 	}
 	/*

@@ -10,6 +10,8 @@
 
 #include "Operation.h"
 
+#include "BuiltinType.h"
+
 #include <boost/format.hpp>
 #include "AssignmentOperatorNode.h"
 
@@ -38,6 +40,10 @@ public:
 
 		// Type
 		Type* typeOfOp1 = op1->getType();
+
+		if(!typeOfOp1)
+
+			typeOfOp1 = new BuiltinType( Type::Int );
 
 		// ID and Type
 		MipsVariable opResult( typeOfOp1, op1Id );
