@@ -93,21 +93,21 @@ void brancheq_op()
 
 // class BranchZeroOp;
 
-// void branchzero_op()
-// {
-// 	Symbol* s1= new Symbol( std::string( "t1" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP);
-// 	std::string labelstring = "A";
-// 	unsigned int id = 1;
-// 	Label* label = new Label(labelstring, id);
+void branchzero_op()
+{
+	Symbol* s1= new Symbol( std::string( "t1" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP);
+	std::string labelstring = "A";
+	unsigned int id = 1;
+	Label* label = new Label(labelstring, id);
 
-// 	BranchZeroOp beop( label, s1 );
+	BranchZeroOp beop( label, s1 );
 
-// 	beop.produceMips();
+	beop.produceMips();
 
-// 	MipsCode::getInstance().dump();
+	MipsCode::getInstance().dump();
 
-// 	MipsCode::getInstance().clear();
-// }
+	MipsCode::getInstance().clear();
+}
 
 
 void conditional_store_op()
@@ -229,7 +229,8 @@ int main()
 	// addop();
 	// assignop();
 	// brancheq_op();	
-	// branchzero_op();
+	
+	branchzero_op(); // DOES NOT COMPILE
 
 	// conditional_store_op();
 	// get_addres_op();
@@ -237,6 +238,6 @@ int main()
 	// load_op();
 	// store_op();
 	// unconditional_jump_op();
-	label_op();
+	// label_op();
 	
 }
