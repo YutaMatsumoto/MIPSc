@@ -5,8 +5,8 @@
  *      Author: njordan
  */
 
-#ifndef BRANCHOP_H_
-#define BRANCHOP_H_
+#ifndef BRANCHZEROOP_H_
+#define BRANCHZEROOP_H_
 
 #include "Operation.h"
 #include "Label.h"

@@ -8,7 +8,7 @@
 
 #include "AddOp.h"
 #include "AssignOp.h"
-#include "/tmp/mips-tmp/src/3AC/Operations/BranchEqualOp.h"
+#include "BranchEqualOp.h"
 #include "BranchZeroOp.h"
 // #include "CallOp.h"
 #include "ConditionalStoreOp.h"
