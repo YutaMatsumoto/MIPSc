@@ -140,7 +140,7 @@ public:
 
 		if( type == AdditiveExpressionNode::Add )
 
-			return "ADD " + op1->getId() + " " + op2->getId() + " " + op3->getId();
+			return "ADD " + op1->getId() + ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
 
 		else
 

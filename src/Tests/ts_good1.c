@@ -18,7 +18,7 @@ int main()
 
     j = dub(4);
     
-    k[ 3 ] = 0x02;
+    k[ 3 ] = 5;
 
     {
         int foo = 50000;

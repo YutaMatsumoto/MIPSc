@@ -46,7 +46,7 @@ public:
 			break;
 		}
 
-		return "SET " + op1->getId() + " TO 1 IF " + op2->getId() + compareType + op3->getId();
+		return "SET " + op1->getId() + ":" + op1->getTacTypeAsString() + " TO 1 IF " + op2->getId() + ":" + op2->getTacTypeAsString() + compareType + op3->getId() + ":" + op3->getTacTypeAsString();
 
 	}
 

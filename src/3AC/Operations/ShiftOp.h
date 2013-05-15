@@ -25,11 +25,11 @@ public:
 	{
 		if( type == ShiftExpressionNode::Left )
 
-			return op1->getId() + " = " + op2->getId() + " << " + op3->getId();
+			return op1->getId()+ ":" + op1->getTacTypeAsString() + " = " + op2->getId()+ ":" + op2->getTacTypeAsString() + " << " + op3->getId()+ ":" + op3->getTacTypeAsString();
 
 		else
 
-			return op1->getId() + " = " + op2->getId() + " >> " + op3->getId();
+			return op1->getId()+ ":" + op1->getTacTypeAsString() + " = " + op2->getId()+ ":" + op2->getTacTypeAsString() + " >> " + op3->getId()+ ":" + op3->getTacTypeAsString();
 
 	}
 
