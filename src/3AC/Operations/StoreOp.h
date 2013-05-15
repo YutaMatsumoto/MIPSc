@@ -25,6 +25,8 @@ public:
 		MipsCode& mCode = MipsCode::getInstance();
 		DescriptorTable& dTable = DescriptorTable::getInstance();
 
+		mCode.writeToTextSection( "# >>>>>>>>>>>>>>> StoreOp Text Start", "" );
+
 		// ID
 		unsigned int op1Id = op1->getUniqueId();
 		unsigned int op2Id = op2->getUniqueId();
@@ -86,6 +88,7 @@ public:
 				""
 		);	
 
+		mCode.writeToTextSection( "# <<<<<<<<<<<<<<< StoreOp ", "" );
 	}
 
 	std::string to3AC()

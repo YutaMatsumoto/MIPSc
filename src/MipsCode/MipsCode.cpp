@@ -37,7 +37,7 @@ void MipsCode::dump(std::string filename)
 		}
 
 		// Divider
-		oss << "--------------------------------------------" << endl;	
+		oss << "# --------------------------------------------" << endl;	
 
 		// Text Section
 		oss << ".text" << endl;

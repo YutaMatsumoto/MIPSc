@@ -7,8 +7,11 @@ void AddOp::produceMips()
 // the same type to the parent class or some other method
 //
 
+
 	DescriptorTable& dTable = DescriptorTable::getInstance();
 	MipsCode& mCode = MipsCode::getInstance();
+
+	mCode.writeToTextSection( "# >>>>>>>>>>>>>>> AddOp Text Start", "" );
 
 	// op1->operandType // TACOperandType enum
 
@@ -170,5 +173,7 @@ void AddOp::produceMips()
 			"AddOp " 
 	);
 	dTable.store(r1.getRegister(), opResult, " AddOp: loading result to memory");
+
+	mCode.writeToTextSection( "# <<<<<<<<<<<<<<< AddOp End ", "" );
 
 }

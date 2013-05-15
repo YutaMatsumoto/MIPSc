@@ -23,6 +23,9 @@ public:
 	virtual void produceMips()
 	{
 
+		MipsCode& mCode = MipsCode::getInstance();
+		mCode.writeToTextSection( "# >>>>>>>>>>>>>>> UnconditionalJump", "" );
+
 		/*
 		unsigned int op1Id = 1;
 		// Type* typeOfOp1 = op1->getType();
@@ -40,6 +43,7 @@ public:
 			"j " + jumpTo->getName(), "Unconditional Jump"
 		);
 
+		mCode.writeToTextSection( "# <<<<<<<<<<<<<<< UnconditionalJump", "" );
 	}
 
 	std::string to3AC()

@@ -32,6 +32,8 @@ public:
 		DescriptorTable& dTable = DescriptorTable::getInstance();
 		MipsCode& mCode = MipsCode::getInstance();
 
+		mCode.writeToTextSection( "# <<<<<<<<<<<<<<< MultOp Text Start", "" );
+
 		// op1->operandType // TACOperandType enum
 
 		// ID
@@ -203,6 +205,8 @@ public:
 				"MultOp " 
 		);
 		dTable.store(r1.getRegister(), opResult, " MultOp: loading result to memory");
+
+		mCode.writeToTextSection( "# >>>>>>>>>>>>>>> MultOp ", "" );
 	}
 
 	std::string to3AC()
