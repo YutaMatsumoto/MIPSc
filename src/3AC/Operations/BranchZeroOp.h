@@ -77,7 +77,7 @@ public:
 	std::string to3AC()
 	{
 
-		return std::string("BZERO ") + op1->getId() + " " + branchTo->getName();
+		return std::string("BZERO ") + op1->getId() + ":" + op1->getTacTypeAsString() + " " + branchTo->getName();
 
 	}
 

@@ -76,7 +76,7 @@ public:
 	std::string to3AC()
 	{
 
-		return std::string("BEQUAL ") + op1->getId() + " " + op2->getId() + branchTo->getName();
+		return std::string("BEQUAL ") + op1->getId() + ":" + op1->getTacTypeAsString() + " " + op2->getId() + ":" + op2->getTacTypeAsString() + " " + branchTo->getName();
 
 	}
 

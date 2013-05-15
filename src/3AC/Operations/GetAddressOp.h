@@ -71,7 +71,7 @@ public:
 	std::string to3AC()
 	{
 
-		return "LOADA " + op1->getId() + " " + op2->getId();
+		return "LOADA " + op1->getId() + ":" + op1->getTacTypeAsString() + " " + op2->getId() + ":" + op2->getTacTypeAsString();
 
 	}
 

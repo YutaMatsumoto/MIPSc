@@ -155,6 +155,8 @@ void FunctionDefinitionNode::calculateSymbolAddresses( SymbolTable* _table , Fun
 
 	}
 
-	func->stackFrameSize = byteCounter;
+	unsigned int spillSize = 16 * 4;
+
+	func->stackFrameSize = byteCounter + spillSize;
 
 }
