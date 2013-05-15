@@ -247,8 +247,12 @@ int main(int argc, char** argv)
 
 	std::vector< Operation* >* tac = astData->code;
 
+	system("clear");
+
 	for( unsigned int i = 0 ; i < tac->size() ; i++ )
 	{
+
+		tac->at( i )->produceMips();
 
 		of << tac->at( i )->to3AC() << std::endl;
 
@@ -261,6 +265,8 @@ int main(int argc, char** argv)
 	
 	// Run scanner
 	// scanner.run();	
+
+
 	t.close();
 	l.close();
 	s.close();	

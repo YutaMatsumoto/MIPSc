@@ -131,7 +131,7 @@ ASTData* PostfixExpressionNode::toOperations()
 		//data->code->push_back( loadArrAddr );
 
 		//Bounds checking...
-		Symbol* arrSize = new Symbol( std::to_string( size ) , *new SymbolLocation() , new BuiltinType( Type::LongLong ) , Symbol::CONS );
+		Symbol* arrSize = new Symbol( std::to_string( size ) , *new SymbolLocation() , new BuiltinType( Type::Int ) , Symbol::CONS );
 
 		AssignOp* loadArrSize = new AssignOp( temporary4 , arrSize , AssignmentOperatorNode::Assign );
 
@@ -140,7 +140,7 @@ ASTData* PostfixExpressionNode::toOperations()
 		BranchZeroOp* outOfBoundsJump = new BranchZeroOp( new Label( std::string("oob") , 0 ), temporary5  );
 
 		///////////////////////////////////////////////////////////////////////
-		Symbol* constant = new Symbol( std::to_string( 4 ) , *new SymbolLocation() , new BuiltinType( Type::LongLong ) , Symbol::CONS );
+		Symbol* constant = new Symbol( std::to_string( 4 ) , *new SymbolLocation() , new BuiltinType( Type::Int ) , Symbol::CONS );
 
 		AssignOp* intSize = new AssignOp( temporary , constant , AssignmentOperatorNode::Assign );
 

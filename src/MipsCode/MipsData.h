@@ -38,7 +38,7 @@ public:
 		// Data, Text, 
 		Word, Ascii, Asciiz, Byte, Align, Half, Space, Double, Float, Extern, Kdata,
 		// ktext,
-		Global,
+		Global,Label
 		// set, // eqv, // macro, // endmacro, // include,
 	};
 	DKind(DKindType);

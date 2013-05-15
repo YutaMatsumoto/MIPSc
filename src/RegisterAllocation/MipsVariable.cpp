@@ -65,6 +65,9 @@ MipsVariable::RegisterType MipsVariable::registerType()
 			case Type::Long:
 				return Integer;
 				break;
+			case Type::Function:
+				return Integer;
+				break;
 			case Type::LongLong:
 				throw "MipsVariable::registerType()";
 				break;
@@ -113,6 +116,9 @@ DKind MipsVariable::toDKind()
 				break;
 			case Type::Long:
 				return DKind(DKind::Word);
+				break;
+			case Type::Function:
+				return DKind(DKind::Label);
 				break;
 			case Type::LongLong:
 				throw "MipsVariable::toDKind() : LongLong " ;
