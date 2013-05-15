@@ -16,6 +16,8 @@
 #include "MipsCode.h"
 #include "DescriptorTable.h"
 
+#include <boost/format.hpp>
+
 class AddOp: public Operation {
 
 public:
@@ -140,11 +142,15 @@ public:
 
 		if( type == AdditiveExpressionNode::Add )
 
-			return "ADD " + op1->getId() + ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
+			return ( boost::format( "%-15s%-15s%-15s%-15s" ) % std::string( "ADD ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString()) % (op3->getId()+ ":" + op3->getTacTypeAsString())).str();
+
+			//return "ADD " + op1->getId() + ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
 
 		else
 
-			return "SUB " + op1->getId() + " " + op2->getId() + " " + op3->getId();
+
+			return ( boost::format( "%-15s%-15s%-15s%-15s" ) % std::string( "SUB ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString()) % (op3->getId()+ ":" + op3->getTacTypeAsString())).str();
+			//return "SUB " + op1->getId() + " " + op2->getId() + " " + op3->getId();
 
 	}
 

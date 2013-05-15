@@ -35,7 +35,7 @@ public:
 	//This is how we get the array size for a declaration
 	int value = -1;
 
-	static void removeLoadOps( std::vector< Operation* >* );
+	static void removeLoadOps( ASTData* data  );
 
 };
 

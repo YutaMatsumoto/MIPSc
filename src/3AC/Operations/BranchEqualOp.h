@@ -10,6 +10,7 @@
 
 #include "Operation.h"
 
+#include <boost/format.hpp>
 class BranchEqualOp: public Operation {
 
 public:

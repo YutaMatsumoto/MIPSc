@@ -10,6 +10,8 @@
 
 #include "Operation.h"
 
+#include <boost/format.hpp>
+
 class BranchZeroOp: public Operation {
 
 public:
@@ -22,7 +24,9 @@ public:
 	std::string to3AC()
 	{
 
-		return std::string("BZERO ") + op1->getId() + ":" + op1->getTacTypeAsString() + " " + branchTo->getName();
+		//return std::string("BZERO ") + op1->getId() + ":" + op1->getTacTypeAsString() + " " + branchTo->getName();
+
+		return ( boost::format( "%-15s%-15s%-15s" ) % std::string( "BZERO ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % branchTo->getName() ).str();
 
 	}
 

@@ -34,10 +34,17 @@ int main()
 
 		for( j = 0 ; j < 5 ; j = j + 1 )
 		{
-		
-			if( arr[ j ] > arr[ j + 1 ] )
-			{
+			int k;
 			
+			k = arr[ j ];
+
+			i = arr[ j + 1 ];		
+
+			if( k < i )
+			{
+				
+				int x;
+
 				k = arr[ j ];
 
 				arr[ j ] = arr[ j + 1 ];

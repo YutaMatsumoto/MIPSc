@@ -11,6 +11,7 @@
 #include "Operation.h"
 #include "MultiplicativeExpressionNode.h"
 
+#include <boost/format.hpp>
 class MultOp: public Operation {
 
 public:
@@ -26,15 +27,17 @@ public:
 
 		if( type == MultiplicativeExpressionNode::Multiply )
 
-			return std::string("MULT ") + op1->getId()+ ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
+			return ( boost::format( "%-15s%-15s%-15s%-15s" ) % std::string( "MUL ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString()) % (op3->getId()+ ":" + op3->getTacTypeAsString())).str();
+			//return std::string("MULT ") + op1->getId()+ ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
 
 		if( type == MultiplicativeExpressionNode::Divide )
 
-			return std::string("MULT ") + op1->getId()+ ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
+			return ( boost::format( "%-15s%-15s%-15s%-15s" ) % std::string( "DIV ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString()) % (op3->getId()+ ":" + op3->getTacTypeAsString())).str();
+			//return std::string("MULT ") + op1->getId()+ ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
 
-		else
+		//else
 
-			return std::string("MULT ") + op1->getId()+ ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
+			//return std::string("MULT ") + op1->getId()+ ":" + op1->getTacTypeAsString() + " " + op2->getId()+ ":" + op2->getTacTypeAsString() + " " + op3->getId()+ ":" + op3->getTacTypeAsString();
 
 	}
 

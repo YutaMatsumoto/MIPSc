@@ -10,6 +10,7 @@
 
 #include "Operation.h"
 
+#include <boost/format.hpp>
 #include "AssignmentOperatorNode.h"
 
 class AssignOp: public Operation {
@@ -24,7 +25,8 @@ public:
 	std::string to3AC()
 	{
 
-		return "LOADI " + op1->getId() + ":" + op1->getTacTypeAsString() + " " + op2->getId() + ":" + op2->getTacTypeAsString();
+		return ( boost::format( "%-15s%-15s%-15s" ) % std::string( "LOADI ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString())).str();
+		//return "LOADI " + op1->getId() + ":" + op1->getTacTypeAsString() + " " + op2->getId() + ":" + op2->getTacTypeAsString();
 
 	}
 

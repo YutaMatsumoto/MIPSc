@@ -41,15 +41,17 @@ public:
 		return op3;
 	}
 
+	Operand* op1 = 0;
+
+	Operand* op2 = 0;
+
+	Operand* op3 = 0;
+
 protected:
 
 	std::string name;
 
-	Operand* op1;
 
-	Operand* op2;
-
-	Operand* op3;
 
 	Operation( Operand* , Operand* , Operand* );
 

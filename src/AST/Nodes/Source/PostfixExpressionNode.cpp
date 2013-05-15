@@ -20,6 +20,8 @@
 #include "MultOp.h"
 #include "BuiltinType.h"
 #include "RestoreStackOp.h"
+#include "BranchZeroOp.h"
+#include "ConditionalStoreOp.h"
 
 //Primary Expression
 PostfixExpressionNode::PostfixExpressionNode( PrimaryExpressionNode* _primaryExpression )
@@ -70,7 +72,7 @@ ASTData* PostfixExpressionNode::toOperations()
 
 	//std::vector< Operation* >* operations = new std::vector< Operation* >();
 
-	if( type ==  PrimaryExpression )
+	if( type == PrimaryExpression )
 
 		return primaryExpression->nodeData;
 
@@ -81,7 +83,11 @@ ASTData* PostfixExpressionNode::toOperations()
 
 		Symbol* arrayId = arrayData->idResult;
 
-		ASTData::removeLoadOps( arrayData->code );
+		ArrayType* arrType = dynamic_cast<ArrayType*>( arrayId->symbolType );
+
+		int size = arrType->sizes.at(0);
+
+		ASTData::removeLoadOps( arrayData );
 
 		data->code->insert( data->code->end() , arrayData->code->begin() , arrayData->code->end() );
 
@@ -107,24 +113,52 @@ ASTData* PostfixExpressionNode::toOperations()
 
 		Symbol* temporary3 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
 
+		//create a new temporary name
+		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
+
+		Symbol* temporary4 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
+
+		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
+
+		Symbol* temporary5 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
+
+		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
+
+		Symbol* temporary6 = new Symbol( tempName , *new SymbolLocation() , 0 , arrayId->operandType );
+
 		//GetAddressOp* loadArrAddr = new GetAddressOp( temporary, arrayId );
 
 		//data->code->push_back( loadArrAddr );
 
+		//Bounds checking...
+		Symbol* arrSize = new Symbol( std::to_string( size ) , *new SymbolLocation() , new BuiltinType( Type::LongLong ) , Symbol::CONS );
+
+		AssignOp* loadArrSize = new AssignOp( temporary4 , arrSize , AssignmentOperatorNode::Assign );
+
+		ConditionalStoreOp* check = new ConditionalStoreOp( temporary5 , arrayExpression->nodeData->result , temporary4 , RelationalExpressionNode::Greater );
+
+		BranchZeroOp* outOfBoundsJump = new BranchZeroOp( new Label( std::string("oob") , 0 ), temporary5  );
+
+		///////////////////////////////////////////////////////////////////////
 		Symbol* constant = new Symbol( std::to_string( 4 ) , *new SymbolLocation() , new BuiltinType( Type::LongLong ) , Symbol::CONS );
 
 		AssignOp* intSize = new AssignOp( temporary , constant , AssignmentOperatorNode::Assign );
 
 		MultOp* mult = new MultOp( temporary2 , temporary , arrayExpression->nodeData->result , MultiplicativeExpressionNode::Multiply );
 
-		AddOp* add = new AddOp( temporary2 , arrayData->result , temporary2 , AdditiveExpressionNode::Add );
+		AddOp* add = new AddOp( temporary6 , arrayData->result , temporary2 , AdditiveExpressionNode::Add );
 
-		// TODO Array bounds checking goes here
+		//LoadOp* load = new LoadOp( temporary3 , temporary6 );
 
+		//bounds checking ops
 
+		data->code->push_back(loadArrSize);
 
+		data->code->push_back(check);
 
-		LoadOp* load = new LoadOp( temporary3 , temporary2 );
+		data->code->push_back(outOfBoundsJump);
+
+		//////
 
 		data->code->push_back(intSize);
 
@@ -132,9 +166,9 @@ ASTData* PostfixExpressionNode::toOperations()
 
 		data->code->push_back(add);
 
-		data->code->push_back(load);
+		//data->code->push_back(load);
 
-		data->result = temporary3;
+		data->result = temporary6;
 
 		return data;
 
@@ -146,7 +180,7 @@ ASTData* PostfixExpressionNode::toOperations()
 
 		std::vector< Operation* >* operations = data->code;
 
-		Symbol* function = postfixExpression->nodeData->result;
+		Symbol* function = postfixExpression->nodeData->idResult;
 
 		FunctionType* funcType = dynamic_cast<FunctionType*>(function->symbolType);
 
@@ -171,13 +205,18 @@ ASTData* PostfixExpressionNode::toOperations()
 		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
 		//create a new temporary for our result
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , funcType->returnSymbol->symbolType , Symbol::ITEMP );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , funcType->returnSymbol->symbolType , Symbol::LOCAL );
+
+		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
+
+		//create a new temporary for our result
+		Symbol* temporary2 = new Symbol( tempName , *new SymbolLocation() , funcType->returnSymbol->symbolType , Symbol::ITEMP );
 
 		GetAddressOp* getAddr = new GetAddressOp( temporary , funcType->returnSymbol );
 
 		operations->push_back( getAddr );
 
-		LoadOp* load = new LoadOp( temporary , temporary );
+		LoadOp* load = new LoadOp( temporary2 , temporary );
 
 		operations->push_back( load );
 
@@ -185,7 +224,7 @@ ASTData* PostfixExpressionNode::toOperations()
 
 		operations->push_back( restore );
 
-		data->result = temporary;
+		data->result = temporary2;
 
 		return data;
 

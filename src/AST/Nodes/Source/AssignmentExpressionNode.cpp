@@ -44,7 +44,7 @@ ASTData* AssignmentExpressionNode::toOperations()
 		ASTData* unaryData = unaryExpression->nodeData;
 
 		//remove incorrect load ops from identifier node
-		ASTData::removeLoadOps( unaryData->code );
+		//ASTData::removeLoadOps( unaryData );
 
 		//gets the data for the second parameter
 		ASTData* assignmentExpressionData = assignmentExpression->nodeData;

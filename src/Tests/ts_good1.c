@@ -4,6 +4,7 @@
 
 int dub( int k )
 {
+!!S
 return k * 2;
 }
 

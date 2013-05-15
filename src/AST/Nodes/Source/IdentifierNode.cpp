@@ -50,15 +50,21 @@ ASTData* IdentifierNode::toOperations()
 
 		throw new SymbolNotFoundException( "Symbol '" + id + "' has not been declared" );
 
+	if( identifier->operandType == Symbol::NONE )
+
+		identifier->operandType = Symbol::LOCAL;
+
 	//create a new temporary for our result
 	Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , identifier->symbolType , identifier->operandType );
 
-	//Symbol* temporary2 = new Symbol( tempName , *new SymbolLocation() , identifier->symbolType , identifier->operandType );
+	tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
+
+	Symbol* temporary2 = new Symbol( tempName , *new SymbolLocation() , identifier->symbolType , Symbol::ITEMP );
 
 	GetAddressOp* op1 = new GetAddressOp( temporary , identifier );
 
 	//create a new operation to compute the addition
-	LoadOp* op2 = new LoadOp( temporary , temporary );
+	LoadOp* op2 = new LoadOp( temporary2 , temporary );
 
 	operations->push_back( op1 );
 
@@ -68,7 +74,7 @@ ASTData* IdentifierNode::toOperations()
 
 	data->code = operations;
 
-	data->result = temporary;
+	data->result = temporary2;
 
 	data->idResult = identifier;
 

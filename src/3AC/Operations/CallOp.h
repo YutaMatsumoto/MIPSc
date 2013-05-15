@@ -10,6 +10,7 @@
 
 #include "Operation.h"
 
+#include <boost/format.hpp>
 class CallOp: public Operation {
 
 public:
@@ -22,7 +23,9 @@ public:
 	std::string to3AC()
 	{
 
-		return std::string("CALL @") + op1->getId() + ":" + op1->getTacTypeAsString();
+		//return std::string("CALL @") + op1->getId() + ":" + op1->getTacTypeAsString();
+
+		return ( boost::format( "%-15s%-15s" ) % std::string( "CALL") % (op1->getId() + ":" + op1->getTacTypeAsString()) ).str();
 
 	}
 

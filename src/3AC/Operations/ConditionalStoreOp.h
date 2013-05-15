@@ -13,6 +13,7 @@
 
 #include "AdditiveExpressionNode.h"
 
+#include <boost/format.hpp>
 class ConditionalStoreOp: public Operation {
 
 
@@ -33,20 +34,22 @@ public:
 		switch(type)
 		{
 		case RelationalExpressionNode::Greater:
-			compareType = " > ";
+			return ( boost::format( "%-15s%-15s%-15s" ) % std::string( "SETGT ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString())).str();
 			break;
 		case RelationalExpressionNode::Less:
-			compareType = " < ";
+			return ( boost::format( "%-15s%-15s%-15s" ) % std::string( "SETLT ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString())).str();
 			break;
 		case RelationalExpressionNode::GreaterEqual:
-			compareType = " >= ";
+			return ( boost::format( "%-15s%-15s%-15s" ) % std::string( "SETGE ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString())).str();
 			break;
 		case RelationalExpressionNode::LessEqual:
-			compareType = " <= ";
+			return ( boost::format( "%-15s%-15s%-15s" ) % std::string( "SETLE ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString())).str();
 			break;
 		}
 
-		return "SET " + op1->getId() + ":" + op1->getTacTypeAsString() + " TO 1 IF " + op2->getId() + ":" + op2->getTacTypeAsString() + compareType + op3->getId() + ":" + op3->getTacTypeAsString();
+
+		//return ( boost::format( "%-15s%-15s%-15s" ) % std::string( "SET0GT ") % (op1->getId() + ":" + op1->getTacTypeAsString()) % (op2->getId()+ ":" + op2->getTacTypeAsString())).str();
+		//return "SET " + op1->getId() + ":" + op1->getTacTypeAsString() + " TO 1 IF " + op2->getId() + ":" + op2->getTacTypeAsString() + compareType + op3->getId() + ":" + op3->getTacTypeAsString();
 
 	}
 
