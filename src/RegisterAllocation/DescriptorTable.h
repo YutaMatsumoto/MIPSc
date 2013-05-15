@@ -22,9 +22,9 @@ public:
 	RegisterInfo getRegister(MipsVariable mipsVar, bool Deep=1);
 
 	// TODO : imcomplete
-	void load(Register r, MipsVariable mipsVar, Comment com=std::string(""));
+	void load(Register r, MipsVariable mipsVar, MipsComment com=std::string(""));
 
-	void store(Register r, MipsVariable mipsVar, Comment com=std::string(""));
+	void store(Register r, MipsVariable mipsVar, MipsComment com=std::string(""));
 
 	static DescriptorTable& getInstance();
 

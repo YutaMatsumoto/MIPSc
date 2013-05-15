@@ -14,7 +14,7 @@
 // class DLabel;
 // class DKind;
 typedef std::string DInit;
-typedef std::string Comment;
+typedef std::string MipsComment;
 typedef std::string Code;
 
 // ---------------------------------------------------------------------------

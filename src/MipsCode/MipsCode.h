@@ -19,17 +19,17 @@
 class MipsCode {
 public: 
 
-	// void writeToDataSection(DLabel, DKind, DInit, Comment); // write data entry
-	void writeToDataSection(MipsVariable, DInit, Comment); // write data entry
+	// void writeToDataSection(DLabel, DKind, DInit, MipsComment); // write data entry
+	void writeToDataSection(MipsVariable, DInit, MipsComment); // write data entry
 	
-	// void writeToDataSection(DLabel, DKind, Comment); // write data entry without initialization
-	void writeToDataSection(MipsVariable, Comment=std::string("") ); // write data entry without initialization
+	// void writeToDataSection(DLabel, DKind, MipsComment); // write data entry without initialization
+	void writeToDataSection(MipsVariable, MipsComment=std::string("") ); // write data entry without initialization
 
-	void writeToTextSection(Code, Comment=std::string("") ); // write text entry
+	void writeToTextSection(Code, MipsComment=std::string("") ); // write text entry
 
 	void dump(); // Dump MIPS code
 
-	void clear(); // clear all the code; be careful
+	void clear(); 
 
 	static MipsCode& getInstance()
 	{
@@ -49,9 +49,9 @@ private: // struct and class
 	class Text {
 	private:
 		Code code;
-		Comment com;
+		MipsComment com;
 	public:	
-		Text(Code code, Comment com);
+		Text(Code code, MipsComment com);
 		std::string toString();
 	};
 
@@ -63,10 +63,10 @@ private: // struct and class
 		DLabel label;	
 		DKind  kind;
 		DInit  init;
-		Comment com;
+		MipsComment com;
 	public:
-		Data(DLabel, DKind, Comment);
-		Data(DLabel, DKindInit, Comment);
+		Data(DLabel, DKind, MipsComment);
+		Data(DLabel, DKindInit, MipsComment);
 		std::string toString();
 	};
 
