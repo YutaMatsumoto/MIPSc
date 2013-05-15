@@ -79,5 +79,8 @@ std::string BuiltinType::getTypeAsString()
 
 std::string BuiltinType::toString()
 {
-	return getTypeAsString();
+	Type* t = dynamic_cast<Type*>(this);
+	return t->getTypeAsString();
+
+	// return getTypeAsString();
 }

@@ -68,10 +68,10 @@ writeToDataSection(MipsVariable mipsVar, MipsComment com) // write data entry wi
 	if ( iter != MipsCode::allLabels.end() ) {
 		// throw MipsError( "Same Label Generated in MIPS" );
 		std::cout << "MipsWarn( Same Label Generated in MIPS ) " << std::endl;
+	} else {
+		allLabels.push_back(label);
+		dataSection.push_back( Data( label, kind , com ));
 	}
-	allLabels.push_back(label);
-
-	dataSection.push_back( Data( label, kind , com ));
 }
 
 /*
