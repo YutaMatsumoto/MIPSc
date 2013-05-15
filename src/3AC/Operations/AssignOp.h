@@ -29,7 +29,7 @@ public:
 		MipsCode& mCode = MipsCode::getInstance();
 
 		// Header
-		mCode.writeToTextSection( ">>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start", "" );
+		mCode.writeToTextSection( "# >>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start", "" );
 
 		// op1->operandType // TACOperandType enum
 

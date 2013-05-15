@@ -29,6 +29,10 @@ public:
 
 	void dump(); // Dump MIPS code
 
+	void dump(std::string filename);
+
+	void dump(std::ofstream filename);
+
 	void clear(); 
 
 	static MipsCode& getInstance()
