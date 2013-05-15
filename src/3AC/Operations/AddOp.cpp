@@ -53,13 +53,13 @@ void AddOp::produceMips()
 	}
 	if ( r2.isNew() ) {
 		mCode.writeToTextSection(
-				"lw "+ r2.getRegister().toString()+" "+ opArg2.toDLabel().toString(),
+				"lw "+ r2.getRegister().toString()+","+ opArg2.toDLabel().toString(),
 				"Loading data for register of first argument"
 		);	
 	}
 	if ( r3.isNew() ) {
 		mCode.writeToTextSection(
-				"lw "+ r3.getRegister().toString()+" "+ opArg3.toDLabel().toString(), 
+				"lw "+ r3.getRegister().toString()+","+ opArg3.toDLabel().toString(), 
 				"Loading data for register of second argument"
 		);	
 	}
