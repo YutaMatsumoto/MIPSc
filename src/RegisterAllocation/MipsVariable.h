@@ -16,7 +16,9 @@ typedef unsigned int MipsVariableId;
 class MipsVariable {
 public:
 
-	MipsVariable(Type* type, MipsVariableId id);
+	MipsVariable(Type* type, MipsVariableId id); 
+
+	MipsVariable(std::string labelName, Type* type, MipsVariableId id);
 
 	enum RegisterType { Float, Integer, None };
 
@@ -37,6 +39,8 @@ private:
 	Type* type; // to know type and .datapseudo and operation
 
 	MipsVariableId id; // IdTracker return
+
+	std::string labelName; // hack to create specified label
 
 	// ? DKind::byteSize(); 
 	//		to mask bits in char/... 

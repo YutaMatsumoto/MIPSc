@@ -54,6 +54,7 @@ RegisterInfo DescriptorTable::getRegister(MipsVariable mipsVar, bool Deep)
 			throw "DescriptorTable::getRegister()";
 		}
 	}
+
 	// Do not load vid
 	else {
 		if (rType == MipsVariable::Float ) 
@@ -64,6 +65,7 @@ RegisterInfo DescriptorTable::getRegister(MipsVariable mipsVar, bool Deep)
 			throw "DescriptorTable::getRegister()";
 		}
 	}
+
 }	
 
 void DescriptorTable::setDebug()

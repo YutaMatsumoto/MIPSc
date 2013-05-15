@@ -23,6 +23,7 @@ public:
 
 	virtual void produceMips()
 	{
+
 		DescriptorTable& dTable = DescriptorTable::getInstance();
 		MipsCode& mCode = MipsCode::getInstance();
 
@@ -43,7 +44,6 @@ public:
 		// reserve the memory
 		mCode.writeToDataSection( opResult, "" );
 
-
 		// immediate value in string as it is
 		std::string immediateValue = op2->getId();
 
@@ -57,9 +57,9 @@ public:
 					"Loading data for register of first argument"
 			);	
 		}
-	      	
-		// Footer
-		mCode.writeToTextSection( "<<<<<<<<<<<<<<< AssignOp/LoadImmediate Text End", "" );
+     	
+		// footer
+		mCode.writeToTextSection( "<<<<<<<<<<<<<<< assignop/loadimmediate text end", "" );
 	}
 
 	std::string to3AC()

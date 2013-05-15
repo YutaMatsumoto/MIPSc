@@ -25,6 +25,15 @@ public:
 
 	}
 
+	virtual void produceMips()
+	{
+
+		MipsCode::getInstance().writeToTextSection(
+			getName()+":", "from Label Operation"
+		);
+
+	}
+
 	inline std::string to3AC()
 	{
 
