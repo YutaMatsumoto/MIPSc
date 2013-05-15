@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "MipsData.h"
 #include "MipsError.h"
+#include <fstream>
 
 
 // ---------------------------------------------------------------------------
@@ -18,6 +19,35 @@
 
 // ---------------------------------------------------------------------------
 // MipsCode
+
+void MipsCode::dump(std::string filename)
+// see dump()
+{
+	using namespace std;
+	std::ofstream ofs(filename);
+	if (!ofs) {
+		std::cerr << filename << " cannot be opened." << std::endl;
+	}
+	else {
+		std::ostringstream oss;
+		oss << ".data" << endl;
+		for (auto dataEntry : dataSection ) {
+			oss << dataEntry.toString() << endl;
+		}
+
+		// Divider
+		oss << "--------------------------------------------" << endl;	
+
+		// Text Section
+		oss << ".text" << endl;
+		for (size_t index = 0; index < textSection.size(); index++) {
+			oss << textSection[index].toString() << endl;
+		}
+		ofs << oss.str();
+	}
+	ofs.close();
+}
+
 
 
 std::vector<DLabel> MipsCode::allLabels;

@@ -22,6 +22,8 @@
 #include "StoreOp.h"
 #include "UnconditionalJumpOp.h"
 
+std::string dumpfilename = "dump.s";
+
 void addop()
 {
 	Symbol* o1 = new Symbol( std::string( "t1000" ) , *new SymbolLocation() , new Type( Type::Int) , Symbol::ITEMP);
@@ -49,7 +51,7 @@ void addop()
 	addOp3.produceMips();
 	addOp4.produceMips();
 
-	MipsCode::getInstance().dump();
+	MipsCode::getInstance().dump(dumpfilename);
 	MipsCode::getInstance().clear();
 }
 
@@ -226,18 +228,18 @@ void label_op()
 int main()
 {
 
-	// addop();
-	// assignop();
-	// brancheq_op();	
+	addop();
+	assignop();
+	brancheq_op();	
 	
 	branchzero_op(); // DOES NOT COMPILE
 
-	// conditional_store_op();
-	// get_addres_op();
-	// mult_op();
-	// load_op();
-	// store_op();
-	// unconditional_jump_op();
-	// label_op();
+	conditional_store_op();
+	get_addres_op();
+	mult_op();
+	load_op();
+	store_op();
+	unconditional_jump_op();
+	label_op();
 	
 }
