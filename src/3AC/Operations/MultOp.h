@@ -44,6 +44,15 @@ public:
 		Type* typeOfOp2 = op2->getType();
 		Type* typeOfOp3 = op3->getType();
 
+		if( !typeOfOp1 )
+			typeOfOp1 = new BuiltinType( Type::Int );
+
+		if( !typeOfOp2 )
+			typeOfOp2 = new BuiltinType( Type::Int );
+
+		if( !typeOfOp3 )
+			typeOfOp3 = new BuiltinType( Type::Int );
+
 		// ID and Type
 		MipsVariable opResult( typeOfOp1, op1Id );
 		MipsVariable opArg2( typeOfOp2, op2Id );

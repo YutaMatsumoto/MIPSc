@@ -9,6 +9,7 @@
 #include "SymbolTableInfo.h"
 #include "SymbolNotFoundException.h"
 #include "Type.h"
+#include "BuiltinType.h"
 
 #include "LoadOp.h"
 #include "GetAddressOp.h"

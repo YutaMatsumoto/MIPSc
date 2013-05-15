@@ -2,6 +2,7 @@
 #include "StoreOp.h"
 #include "IdTracker.h"
 #include "GetAddressOp.h"
+#include "BuiltinType.h"
 
 InitDeclaratorNode::InitDeclaratorNode(DeclaratorNode* _declarationNode , SymbolTable* _table) : declarationNode(_declarationNode), table(_table)
 {
@@ -42,7 +43,7 @@ ASTData* InitDeclaratorNode::toOperations()
 		Symbol* initializerResult = initializerData->result;
 
 		//create a new temporary for our result
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , declaratorResult->symbolType , declarationNode->nodeData->result->operandType );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , new BuiltinType( Type::Int ) , declarationNode->nodeData->result->operandType );
 
 		GetAddressOp* op1 = new GetAddressOp( temporary , declaratorResult );
 

@@ -8,6 +8,8 @@
 #include "JumpStatementNode.h"
 #include "StoreOp.h"
 #include "ReturnOp.h"
+#include "BuiltinType.h"
+
 
 JumpStatementNode::JumpStatementNode( ExpressionNode* _expression , SymbolTable* _stab ) : expression( _expression ),stab(_stab)
 {
@@ -43,7 +45,7 @@ ASTData* JumpStatementNode::toOperations()
 
 		}
 
-		Symbol* retVal = new Symbol( std::string("retVal"),  *new SymbolLocation() , 0 , Symbol::LOCAL );
+		Symbol* retVal = new Symbol( std::string("retVal"),  *new SymbolLocation() , new BuiltinType( Type::Int ) , Symbol::LOCAL );
 
 		//FunctionType* funcType = dynamic_cast<FunctionType*>(info.symbol->symbolType);
 

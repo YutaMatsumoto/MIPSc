@@ -100,31 +100,31 @@ ASTData* PostfixExpressionNode::toOperations()
 		//create a new temporary name
 		std::string tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
+		Symbol* temporary = new Symbol( tempName , *new SymbolLocation() , new BuiltinType( Type::Int ) , Operand::ITEMP );
 
 		data->code->insert( data->code->end() , arrayExpression->nodeData->code->begin() , arrayExpression->nodeData->code->end() );
 
 		//create a new temporary name
 		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary2 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
+		Symbol* temporary2 = new Symbol( tempName , *new SymbolLocation() , new BuiltinType( Type::Int ) , Operand::ITEMP );
 
 		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary3 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
+		Symbol* temporary3 = new Symbol( tempName , *new SymbolLocation() , new BuiltinType( Type::Int ) , Operand::ITEMP );
 
 		//create a new temporary name
 		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary4 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
+		Symbol* temporary4 = new Symbol( tempName , *new SymbolLocation() , new BuiltinType( Type::Int ) , Operand::ITEMP );
 
 		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary5 = new Symbol( tempName , *new SymbolLocation() , 0 , Operand::ITEMP );
+		Symbol* temporary5 = new Symbol( tempName , *new SymbolLocation() , new BuiltinType( Type::Int ) , Operand::ITEMP );
 
 		tempName = std::string("t") + std::to_string( IdTracker::getInstance()->getId() );
 
-		Symbol* temporary6 = new Symbol( tempName , *new SymbolLocation() , 0 , arrayId->operandType );
+		Symbol* temporary6 = new Symbol( tempName , *new SymbolLocation() , new BuiltinType( Type::Int ) , arrayId->operandType );
 
 		//GetAddressOp* loadArrAddr = new GetAddressOp( temporary, arrayId );
 
