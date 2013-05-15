@@ -63,12 +63,12 @@ private: // struct and class
 	// Data Section Entry
 
 	class Data {
-	private:
+	public:
 		DLabel label;	
 		DKind  kind;
 		DInit  init;
 		MipsComment com;
-	public:
+
 		Data(DLabel, DKind, MipsComment);
 		Data(DLabel, DKindInit, MipsComment);
 		std::string toString();

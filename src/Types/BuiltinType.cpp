@@ -74,7 +74,7 @@ Type* BuiltinType::buildType(TypeInfo tInfo)
 
 std::string BuiltinType::getTypeAsString()
 {
-	return "Builtin todo";
+	return "t";
 }
 
 std::string BuiltinType::toString()

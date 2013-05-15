@@ -32,7 +32,8 @@ void MipsCode::dump(std::string filename)
 		std::ostringstream oss;
 		oss << ".data" << endl;
 		for (auto dataEntry : dataSection ) {
-			oss << dataEntry.toString() << endl;
+			if( dataEntry.kind.kind != DKind::Label )
+				oss << dataEntry.toString() << endl;
 		}
 
 		// Divider

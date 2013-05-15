@@ -254,11 +254,21 @@ int main(int argc, char** argv)
 
 		Operation* j = tac->at( i );
 
-		tac->at( i )->produceMips();
-
 		of << j->to3AC() << std::endl;
 
 	}
+
+	for( unsigned int i = 0 ; i < tac->size() ; i++ )
+	{
+
+		tac->at( i )->produceMips();
+
+	}
+
+	MipsCode& code = MipsCode::getInstance();
+
+	code.dump( std::string("mips_test.txt") );
+
 	/*
 	*/
 

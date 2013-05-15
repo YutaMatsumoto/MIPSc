@@ -36,14 +36,12 @@ class DKind {
 public:
 	enum DKindType {
 		// Data, Text, 
-		Word, Ascii, Asciiz, Byte, Align, Half, Space, Double, Float, Extern, Kdata,
-		// ktext,
-		Global,Label
+		Word, Ascii, Asciiz, Byte, Align, Half, Space, Double, Float, Extern, Kdata, Global,Label
 		// set, // eqv, // macro, // endmacro, // include,
 	};
 	DKind(DKindType);
 	std::string toString();
-private:
+
 	DKindType kind;	
 };
 

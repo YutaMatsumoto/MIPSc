@@ -1,0 +1,268 @@
+.data
+Builtin todo18: .word # 
+Builtin todo0: .word # 
+Builtin todo19: .word # 
+t18: .word # 
+Builtin todo23: .word # 
+Builtin todo0: .word # 
+Builtin todo24: .word # 
+t23: .word # 
+Builtin todo19: .word # 
+t24: .word # 
+array of Builtin todo27: .word # 
+array of Builtin todo0: .word # 
+Builtin todo28: .word # 
+Builtin todo32: .word # 
+Builtin todo33: .word # 
+Builtin todo28: .word # 
+Builtin todo32: .word # 
+Builtin todo33: .word # 
+Builtin todo29: .word # 
+Builtin todo30: .word # AddResult
+Builtin todo29: .word # AddArgument1
+Builtin todo28: .word # AddArgument2
+Builtin todo34: .word # AddResult
+array of Builtin todo27: .word # AddArgument1
+Builtin todo30: .word # AddArgument2
+Builtin todo35: .word # 
+Builtin todo34: .word # 
+t35: .word # 
+Builtin todo39: .word # 
+Builtin todo40: .word # 
+Builtin todo0: .word # 
+Builtin todo40: .word # 
+t39: .word # 
+Builtin todo41: .word # 
+Builtin todo0: .word # 
+Builtin todo42: .word # 
+t41: .word # 
+Builtin todo45: .word # 
+Builtin todo0: .word # 
+Builtin todo46: .word # 
+t45: .word # 
+Builtin todo43: .word # 
+Builtin todo0: .word # 
+Builtin todo44: .word # 
+t43: .word # 
+Builtin todo47: .word # AddResult
+Builtin todo44: .word # AddArgument1
+Builtin todo46: .word # AddArgument2
+Builtin todo42: .word # 
+t47: .word # 
+Builtin todo51: .word # 
+Builtin todo52: .word # 
+Builtin todo0: .word # 
+Builtin todo52: .word # 
+t51: .word # 
+Builtin todo4: .word # 
+Builtin todo0: .word # 
+Builtin todo5: .word # 
+t4: .word # 
+Builtin todo6: .word # 
+Builtin todo7: .word # AddResult
+Builtin todo5: .word # AddArgument1
+Builtin todo6: .word # AddArgument2
+Builtin todo0: .word # 
+t7: .word # 
+--------------------------------------------
+.text
+main53: # from Label Operation
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+lw $8 Builtin todo18 # Loading data for register of first argument
+la $8,Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+la $11,t18 # 
+lw $10,($11) # 
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+lw $12 20 # Loading data for register of first argument
+la $12,0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+lw $14 Builtin todo23 # Loading data for register of first argument
+la $14,Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# Spilling Register  # 
+sw $8,Builtin todo18 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $8,t23 # 
+lw $15,($8) # 
+# Spilling Register  # 
+sw $9,Builtin todo0 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $9,t24 # 
+sw $10,($9) # 
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+# Spilling Register  # 
+sw $10,Builtin todo19 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $8,t23 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $10 array of Builtin todo27 # Loading data for register of first argument
+la $10,array of Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# >>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start # 
+# Spilling Register  # 
+sw $9,t24 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+li $9 3 # Loading data for register of first argument
+<<<<<<<<<<<<<<< assignop/loadimmediate text end # 
+# >>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start # 
+# Spilling Register  # 
+sw $10,array of Builtin todo27 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+li $10 50 # Loading data for register of first argument
+<<<<<<<<<<<<<<< assignop/loadimmediate text end # 
+# >>>>>>>>>>>>>>> ConditionalStore Start  # 
+# Spilling Register  # 
+sw $8,array of Builtin todo0 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+sgt $8,$9,$10 # 
+# <<<<<<<<<<<<<<< ConditionalStore END # 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> BranchZero Start # 
+beqz $8, oob0 # 
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< BranchEqualOp END # 
+# >>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start # 
+# Spilling Register  # 
+sw $9,Builtin todo28 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+li $9 4 # Loading data for register of first argument
+<<<<<<<<<<<<<<< assignop/loadimmediate text end # 
+# Spilling Register  # 
+sw $10,Builtin todo32 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $8,Builtin todo33 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $8,Builtin todo28 # Loading data for register of second argument
+mul $10,$9,$8 # MultOp 
+sw $10,Builtin todo30 #  MultOp: loading result to memory
+# Spilling Register  # 
+sw $9,Builtin todo29 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $10,Builtin todo30 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $8,Builtin todo28 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $10 array of Builtin todo27 # Loading data for register of first argument
+lw $8 Builtin todo30 # Loading data for register of second argument
+add $9,$10,$8 # AddOp 
+sw $9,Builtin todo34 #  AddOp: loading result to memory
+# >>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start # 
+# Spilling Register  # 
+sw $9,Builtin todo34 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+li $9 5 # Loading data for register of first argument
+<<<<<<<<<<<<<<< assignop/loadimmediate text end # 
+# Spilling Register  # 
+sw $10,array of Builtin todo27 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $8,Builtin todo30 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $8,t35 # 
+sw $10,($8) # 
+# >>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start # 
+# Spilling Register  # 
+sw $9,Builtin todo35 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+li $9 50000 # Loading data for register of first argument
+<<<<<<<<<<<<<<< assignop/loadimmediate text end # 
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+# Spilling Register  # 
+sw $10,Builtin todo34 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $8,t35 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $10 Builtin todo40 # Loading data for register of first argument
+la $10,Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# Spilling Register  # 
+sw $9,Builtin todo39 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $9,t39 # 
+sw $10,($9) # 
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+# Spilling Register  # 
+sw $10,Builtin todo40 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $10 Builtin todo41 # Loading data for register of first argument
+la $10,Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# Spilling Register  # 
+sw $8,Builtin todo0 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $9,t39 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $9,t41 # 
+lw $8,($9) # 
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+# Spilling Register  # 
+sw $10,Builtin todo41 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $8,Builtin todo42 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $10 Builtin todo45 # Loading data for register of first argument
+la $10,Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# Spilling Register  # 
+sw $9,t41 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $10,Builtin todo45 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $10,t45 # 
+lw $9,($10) # 
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+# Spilling Register  # 
+sw $8,Builtin todo0 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $9,Builtin todo46 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $8 Builtin todo43 # Loading data for register of first argument
+la $8,Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# Spilling Register  # 
+sw $10,t45 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $8,Builtin todo43 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $8,t43 # 
+lw $10,($8) # 
+# Spilling Register  # 
+sw $9,Builtin todo0 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $10,Builtin todo44 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $10 Builtin todo46 # Loading data for register of second argument
+add $9,$10,$10 # AddOp 
+sw $9,Builtin todo47 #  AddOp: loading result to memory
+# Spilling Register  # 
+sw $8,t43 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $9,Builtin todo47 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $9,t47 # 
+sw $8,($9) # 
+# >>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start # 
+# Spilling Register  # 
+sw $10,Builtin todo46 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+li $10 1 # Loading data for register of first argument
+<<<<<<<<<<<<<<< assignop/loadimmediate text end # 
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+# Spilling Register  # 
+sw $8,Builtin todo42 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $9,t47 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $8 Builtin todo52 # Loading data for register of first argument
+la $8,Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# Spilling Register  # 
+sw $10,Builtin todo51 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $10,t51 # 
+sw $8,($10) # 
+dub8: # from Label Operation
+# >>>>>>>>>>>>>>> GetAddressOp Start  # 
+# Spilling Register  # 
+sw $8,Builtin todo52 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $8 Builtin todo4 # Loading data for register of first argument
+la $8,Builtin todo0 # 
+# <<<<<<<<<<<<<<< GetAddressOp END # 
+# Spilling Register  # 
+sw $9,Builtin todo0 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $10,t51 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $10,t4 # 
+lw $9,($10) # 
+# >>>>>>>>>>>>>>> AssignOp/LoadImmediate Text Start # 
+# Spilling Register  # 
+sw $8,Builtin todo4 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+li $8 2 # Loading data for register of first argument
+<<<<<<<<<<<<<<< assignop/loadimmediate text end # 
+# Spilling Register  # 
+sw $9,Builtin todo5 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $10,t4 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+lw $10,Builtin todo5 # Loading data for register of first argument
+mul $9,$10,$8 # MultOp 
+sw $9,Builtin todo7 #  MultOp: loading result to memory
+# Spilling Register  # 
+sw $8,Builtin todo6 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+# Spilling Register  # 
+sw $9,Builtin todo7 # Super Hacksh Store inside of MemoryTable::store. Not using Type Info
+la $9,t7 # 
+sw $8,($9) # 
