@@ -5,8 +5,8 @@
  *      Author: njordan
  */
 
-#ifndef ADDOP_H_
-#define ADDOP_H_
+#ifndef SHIFTOP_H_
+#define SHIFTOP_H_
 
 #include "Operation.h"
 #include "ShiftExpressionNode.h"

@@ -3,6 +3,7 @@
 #include "RegisterAllocationCommon.h"
 #include "Register.h"
 #include "MipsVariable.h"
+#include "MipsCode.h"
 #include <iostream>
 #include <string>
 
@@ -11,6 +12,30 @@ DescriptorTable::DescriptorTable()
 {}
 
 class Register;
+
+DescriptorTable& DescriptorTable::getInstance()
+{
+	static DescriptorTable instance;
+	return instance;
+}
+
+void DescriptorTable::load(Register r, MipsVariable mipsVar, Comment com)
+// TODO : multiplex load operation
+{
+	MipsCode& mCode = MipsCode::getInstance(); 
+	mCode.writeToTextSection( "lw " + r.toString() + "," + mipsVar.toDLabel().toString() );
+	throw "Descripter::load() : incomplete";
+}
+
+void DescriptorTable::store(Register r, MipsVariable mipsVar, Comment com)
+// TODO : multiplex store operation on type (making map from type to store opration)
+{
+	MipsCode& mCode = MipsCode::getInstance(); 
+	mCode.writeToTextSection( 
+		"sw " + r.toString() + "," + mipsVar.toDLabel().toString(),
+		com
+	);
+}
 
 RegisterInfo DescriptorTable::getRegister(MipsVariable mipsVar, bool Deep)
 {
@@ -29,6 +54,7 @@ RegisterInfo DescriptorTable::getRegister(MipsVariable mipsVar, bool Deep)
 			throw "DescriptorTable::getRegister()";
 		}
 	}
+
 	// Do not load vid
 	else {
 		if (rType == MipsVariable::Float ) 
@@ -39,6 +65,7 @@ RegisterInfo DescriptorTable::getRegister(MipsVariable mipsVar, bool Deep)
 			throw "DescriptorTable::getRegister()";
 		}
 	}
+
 }	
 
 void DescriptorTable::setDebug()

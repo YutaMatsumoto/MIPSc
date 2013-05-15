@@ -8,6 +8,9 @@
 #ifndef OPERATION_H_
 #define OPERATION_H_
 
+#include "DescriptorTable.h"
+#include "MipsCode.h"
+
 #include <string>
 #include "Symbol.h"
 

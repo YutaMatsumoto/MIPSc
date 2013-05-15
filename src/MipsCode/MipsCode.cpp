@@ -14,7 +14,7 @@
 //		MipsCode
 //		MipsCode::Data
 //		MipsCode::Text
-//
+//		MipsCode::Misc
 
 // ---------------------------------------------------------------------------
 // MipsCode
@@ -157,3 +157,13 @@ std::string MipsCode::Text::toString()
 	return oss.str();
 }
 
+// ---------------------------------------------------------------------------
+// Misc
+
+void MipsCode::clear()
+{
+	indentLevel = 0;
+	allLabels  .clear();
+	dataSection.clear();
+	textSection.clear();
+}

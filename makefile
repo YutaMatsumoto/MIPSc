@@ -28,6 +28,10 @@ ROBJS = $(RSRCS:.cpp=.o)
 MSRCS = $(shell find src/MipsCode/ -name "*.cpp")
 MOBJS = $(MSRCS:.cpp=.o)
 
+# 3AC
+TACSRCS = $(shell find src/3AC -name "*.cpp" -exec readlink -f {} \; )
+TACOBJS = $(TACSRCS:.cpp=.o)
+
 # ----------------------------------------------------------------------------
 # mipsc
 
@@ -36,7 +40,6 @@ DEFAULT : $(OBJS) $(COMPILER_OBJ)
 
 # ----------------------------------------------------------------------------
 # Register Allocation Driver
-
 
 RA_DRIVER=$(root)/src/RegisterAllocation/RegAlloc.out
 
@@ -65,12 +68,10 @@ $(MC_DRIVER) : $(root)/drivers/mips_code_driver.o $(MOBJS) $(root)/src/3AC/IdTra
 
 ao : $(root)/drivers/addop_driver.out
 
-$(root)/drivers/addop_driver.out : $(root)/drivers/addop_driver.o $(MOBJS) $(ROBJS) $(root)/src/3AC/IdTracker.o src/Types/Type.o src/Types/BuiltinType.o src/RegisterAllocation/MipsVariable.o src/3AC/Operation.o
+$(root)/drivers/addop_driver.out : $(root)/drivers/addop_driver.o $(TACOBJS) $(MOBJS) $(ROBJS) src/Types/Type.o src/Types/BuiltinType.o  
 	$(CC) $(INCLUDEDIRS) $(CCOPTION) $^ -o $@
 
-
 # ---------------------------------------------------------------------
-
 
 # DEPDIR = .deps
 # df = $(DEPDIR)/$(*F)
@@ -136,3 +137,4 @@ cleanAll :
 
 tags : $(shell find -name "*.ih" -or -name "*.h" -or -name "*.cc" -or -name "*.cpp")
 	ctags -R .
+
